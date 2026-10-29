@@ -18,6 +18,8 @@ class ModelRoutesTest(unittest.TestCase):
         with patch.dict(os.environ, {'STELLIS_RUNTIME_PROFILE': 'direct'}):
             self.assertEqual(runtime_profile.model_id('summary'), 'nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B')
             self.assertEqual(runtime_profile.model_id('answers'), 'nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B')
+            self.assertEqual(runtime_profile.model_id('care'), 'nvidia/nemotron-3-super-120b-a12b')
+            self.assertEqual(runtime_profile.model_id('review'), 'nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B')
             self.assertEqual(runtime_profile.model_id('research'), 'nvidia/nemotron-3-super-120b-a12b')
             # A choice saved in Settings still wins.
             model_routes.save({'summary': 'nvidia/Nemotron-3_5-Lightning'})
@@ -40,8 +42,10 @@ class ModelRoutesTest(unittest.TestCase):
             self.assertEqual(model_routes.choices(), {})
     def test_cloud_defaults_use_super_not_ultra_and_offer_the_nemotron_models(self):
         with patch.dict(os.environ, {'STELLIS_RUNTIME_PROFILE':'cloud'}):
-            for role in ('agent', 'report', 'care', 'review'):
+            for role in ('agent', 'report', 'research', 'care'):
                 self.assertEqual(runtime_profile.model_id(role), 'nvidia/nemotron-3-super-120b-a12b')
+            for role in ('review', 'summary', 'answers'):
+                self.assertEqual(runtime_profile.model_id(role), 'nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B')
             self.assertEqual(runtime_profile.model_id('naming'), 'nvidia/Nemotron-3_5-Lightning')
             offered = [model for model, _ in runtime_profile.RECOMMENDED]
             self.assertEqual(offered[0], 'nvidia/nemotron-3-super-120b-a12b')

@@ -109,14 +109,13 @@ def model_id(role: str = "transcript") -> str:
         return model_routes.choices()["agent"]
     if role == "naming" and not local_inference():
         return "nvidia/Nemotron-3_5-Lightning"
-    if role == "review" and not local_inference():
+    if role in {"agent","report","care"} and not local_inference():
+        # Super grounded research answers best; Ultra stays selectable. Care review stays here: on the
+        # same records Nano 30B dropped a medicine and failed its own source checks (2026-10-29 trial).
         return "nvidia/nemotron-3-super-120b-a12b"
-    if role in {"care","agent","report"} and not local_inference():
-        # Super grounded research answers best in docs/evidence/221/research; Ultra stays selectable.
-        return "nvidia/nemotron-3-super-120b-a12b"
-    # Summaries and answers from the person's own records run on the lighter model; only questions that
-    # search public sources need the largest one (owner, 2026-10-29).
-    if role in {"summary", "answers"} and not local_inference():
+    # Summaries, answers from the person's own records and the answer check run on the lighter model;
+    # only questions that search public sources need the largest one (owner, 2026-10-29).
+    if role in {"summary", "answers", "review"} and not local_inference():
         return "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B"
     if role == "research" and not local_inference():
         return "nvidia/nemotron-3-super-120b-a12b"

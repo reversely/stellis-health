@@ -56,7 +56,7 @@ def test_execution_choice_is_validated_separately_from_profile():
 def test_managed_gateway_receives_default_role_model_without_claiming_local_sandbox():
  os.environ.update(STELLIS_RUNTIME_PROFILE='cloud',STELLIS_AGENT_BACKEND='gateway',STELLIS_ACCOUNT_ID='1',STELLIS_AGENT_GATEWAY_ACCOUNT_ID='1',STELLIS_AGENT_GATEWAY_URL='https://agents.example',STELLIS_AGENT_GATEWAY_TOKEN='gateway-secret')
  def handle(req):
-  assert req.headers['x-openclaw-model']=='nebius/nvidia/nemotron-3-super-120b-a12b'
+  assert req.headers['x-openclaw-model']=='nebius/nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B'
   assert req.headers['authorization']=='Bearer gateway-secret';assert b'gateway-secret' not in req.content
   return httpx.Response(200,json={'status':'completed','output':[{'type':'message','role':'assistant','content':[{'type':'output_text','text':'A response'}]}]})
  client=httpx.AsyncClient(transport=httpx.MockTransport(handle))
