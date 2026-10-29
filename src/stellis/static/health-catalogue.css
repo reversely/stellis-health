@@ -7,7 +7,8 @@
   overflow: hidden;
 }
 .health-catalogue[open] { display: flex; flex-direction: column; }
-.catalogue-content { min-height: 0; overflow-y: auto; flex: 1 1 auto; padding-inline: .2rem; }
+/* The list scrolls under a hairline, so a row cut at its top reads as the list's edge, not as sliding under the search. */
+.catalogue-content { min-height: 0; overflow-y: auto; flex: 1 1 auto; padding-inline: .2rem; border-top: 1px solid var(--line); }
 .health-catalogue > h2, .health-catalogue > label, .health-catalogue > .dialog-actions { flex-shrink: 0; }
 .health-catalogue label { display: grid; gap: .4rem; margin-block: .8rem; }
 .health-catalogue input:not([type=checkbox]), .health-catalogue textarea, .health-catalogue select {

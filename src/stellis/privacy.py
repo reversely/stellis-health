@@ -321,6 +321,16 @@ def _cache_path(request: httpx.Request) -> "Path | None":
     return (Path(shared) if shared else Path(storage.base_dir()) / "demo-model-cache") / key[:2] / f"{key}.json"
 
 
+def replayable(url: str, body: dict) -> bool:
+    """Whether the demo would replay a stored reply for this model request, so it costs nothing.
+
+    A repeat within the retry window goes to the model (see ``_cached``), so it is not replayable.
+    """
+    path = _cache_path(httpx.Request("POST", url, json=body))
+    return (path is not None and path.is_file()
+            and time.monotonic() - _served.get(str(path), -_RETRY_SECONDS) >= _RETRY_SECONDS)
+
+
 def _cached(path: "Path | None", request: httpx.Request) -> httpx.Response | None:
     if path is None or not path.is_file():
         return None

@@ -126,3 +126,43 @@ class DemoModelCacheTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class DemoAllowanceTest(unittest.TestCase):
+    """A demo visitor over the daily allowance still gets replies the demo already holds."""
+
+    def setUp(self) -> None:
+        privacy._served.clear()
+        self.temp = tempfile.TemporaryDirectory()
+        self.env = patch.dict(os.environ, {"STELLIS_DATA_DIR": self.temp.name, "NEBIUS_API_KEY": "test-key"})
+        self.env.start()
+
+    def tearDown(self) -> None:
+        self.env.stop()
+        self.temp.cleanup()
+
+    def test_a_stored_reply_is_served_over_the_allowance_and_a_new_request_is_refused(self) -> None:
+        from stellis import agent_gateway, token_quota
+
+        inner = _AsyncCounting()
+        real = privacy.AsyncTransport
+
+        def counted() -> privacy.AsyncTransport:
+            transport = real()
+            transport.inner = inner
+            return transport
+
+        def ask(prompt: str) -> str:
+            return asyncio.run(agent_gateway.turn(prompt, "allowance", model_role="summary"))[0]
+
+        with storage.demo_workspace(Path(self.temp.name, "demo")), patch.object(privacy, "AsyncTransport", counted):
+            self.assertEqual(ask("Summarize the report."), "reply 1")
+            privacy._served.clear()  # Another visitor: each account has its own process.
+            with patch.object(token_quota, "exceeded", return_value=token_quota.MESSAGE):
+                self.assertEqual(ask("Summarize the report."), "reply 1")
+                # The same visitor asking again at once is a retry, which would reach the model.
+                with self.assertRaisesRegex(agent_gateway.GatewayError, "allowance"):
+                    ask("Summarize the report.")
+                with self.assertRaisesRegex(agent_gateway.GatewayError, "allowance"):
+                    ask("A question the demo has not seen.")
+        self.assertEqual(inner.calls, 1)

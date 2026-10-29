@@ -91,9 +91,10 @@ async def _turn(prompt: str, session_id: str, *, instructions: str | None = None
     Closing this request cancels the gateway run, including on task cancellation.
     No retries occur here: callers own durable jobs and answer-format retries.
     """
-    if message := token_quota.exceeded():
-        raise GatewayError(message)
     from stellis import storage
+    # The direct path checks the allowance once it knows the request: a demo reply already stored costs nothing.
+    if not (runtime_profile.direct() or storage.in_demo()) and (message := token_quota.exceeded()):
+        raise GatewayError(message)
     if runtime_profile.direct() or storage.in_demo():
         return await _direct_turn(prompt, session_id, instructions=instructions,response_format=response_format,model_role=model_role) if instructions or response_format or model_role!="agent" else await _direct_turn(prompt, session_id)
     endpoint, token = _settings()
@@ -146,11 +147,13 @@ async def _direct_turn(prompt: str, session_id: str, *, instructions: str | None
     body = {"model": runtime_profile.model_id(model_role), "messages": ([{"role":"system","content":instructions}] if instructions else []) + [{"role": "user", "content": prompt}],
             **request_options(model_role)}
     if response_format:body["response_format"]=response_format
+    url = runtime_profile.inference_url() + "/chat/completions"
+    if (message := token_quota.exceeded()) and not privacy.replayable(url, body):
+        raise GatewayError(message)
     try:
         async with asyncio.timeout(150):
             async with httpx.AsyncClient(transport=privacy.AsyncTransport(), timeout=150, follow_redirects=False, trust_env=False) as client:
-                response = await client.post(runtime_profile.inference_url() + "/chat/completions",
-                                             headers={"Authorization": "Bearer " + key}, json=body)
+                response = await client.post(url, headers={"Authorization": "Bearer " + key}, json=body)
         if response.status_code == 429:
             raise GatewayError(f"{provider} rate limit reached. Try again later.")
         if response.status_code != 200:
