@@ -1,0 +1,3314 @@
+{
+  "version": 3,
+  "source_url": "https://medlineplus.gov/healthtopics.html",
+  "attribution": "Health categories adapted from MedlinePlus Health Topics, U.S. National Library of Medicine.",
+  "capabilities": {
+    "sources": {
+      "requirements": []
+    },
+    "notes": {
+      "requirements": []
+    },
+    "chat": {
+      "requirements": [
+        "selected_text"
+      ]
+    },
+    "search": {
+      "requirements": [
+        "selected_text"
+      ]
+    },
+    "timeline": {
+      "requirements": [
+        "dated_records"
+      ]
+    },
+    "care_schedule": {
+      "requirements": [
+        "linked_events"
+      ]
+    },
+    "trends": {
+      "requirements": [
+        "measurements"
+      ]
+    },
+    "check_ins": {
+      "requirements": [
+        "user_enabled"
+      ]
+    },
+    "intervention_history": {
+      "requirements": [
+        "treatment_records"
+      ]
+    },
+    "progression": {
+      "requirements": [
+        "registered_journey"
+      ]
+    },
+    "specialized_assessments": {
+      "requirements": [
+        "registered_validated_assessment"
+      ]
+    }
+  },
+  "collections": [
+    {
+      "collection_id": "fitness",
+      "display_name": "Fitness",
+      "group": "Everyday Health",
+      "description": "Exercise, physical activity, training and general mobility",
+      "primary_scope": "Exercise and activity goals",
+      "inclusion_criteria": [
+        "Exercise and activity goals"
+      ],
+      "overlap_rules": [
+        "Prioritize the user-selected primary care context",
+        "Retain links to records in other relevant notebooks",
+        "Historical conditions alone do not activate a notebook"
+      ],
+      "clinical_concepts": [
+        "fitness",
+        "exercise",
+        "training",
+        "mobility",
+        "strength"
+      ]
+    },
+    {
+      "collection_id": "nutrition",
+      "display_name": "Nutrition",
+      "group": "Everyday Health",
+      "description": "Diet, weight management and nutritional support",
+      "primary_scope": "Diet and nutrition goals",
+      "inclusion_criteria": [
+        "Diet and nutrition goals"
+      ],
+      "overlap_rules": [
+        "Prioritize the user-selected primary care context",
+        "Retain links to records in other relevant notebooks",
+        "Historical conditions alone do not activate a notebook"
+      ],
+      "clinical_concepts": [
+        "nutrition",
+        "diet",
+        "dietitian",
+        "weight management"
+      ]
+    },
+    {
+      "collection_id": "sleep",
+      "display_name": "Sleep",
+      "group": "Everyday Health",
+      "description": "Sleep patterns, sleep disorders and treatment",
+      "primary_scope": "Sleep quality and sleep-related care",
+      "inclusion_criteria": [
+        "Sleep quality and sleep-related care"
+      ],
+      "overlap_rules": [
+        "Prioritize the user-selected primary care context",
+        "Retain links to records in other relevant notebooks",
+        "Historical conditions alone do not activate a notebook"
+      ],
+      "clinical_concepts": [
+        "sleep",
+        "insomnia",
+        "sleep apnea"
+      ]
+    },
+    {
+      "collection_id": "mental-health",
+      "display_name": "Mental Health",
+      "group": "Everyday Health",
+      "description": "Emotional wellbeing and mental health care",
+      "primary_scope": "Mental health support and ongoing treatment",
+      "inclusion_criteria": [
+        "Mental health support and ongoing treatment"
+      ],
+      "overlap_rules": [
+        "Prioritize the user-selected primary care context",
+        "Retain links to records in other relevant notebooks",
+        "Historical conditions alone do not activate a notebook"
+      ],
+      "clinical_concepts": [
+        "mental health",
+        "anxiety",
+        "depression",
+        "therapy"
+      ]
+    },
+    {
+      "collection_id": "preventive-care",
+      "display_name": "Preventive Care",
+      "group": "Everyday Health",
+      "description": "Screening, vaccination and routine preventive care",
+      "primary_scope": "Prevention and routine health maintenance",
+      "inclusion_criteria": [
+        "Prevention and routine health maintenance"
+      ],
+      "overlap_rules": [
+        "Prioritize the user-selected primary care context",
+        "Retain links to records in other relevant notebooks",
+        "Historical conditions alone do not activate a notebook"
+      ],
+      "clinical_concepts": [
+        "screening",
+        "vaccination",
+        "preventive",
+        "checkup"
+      ]
+    },
+    {
+      "collection_id": "reproductive-health",
+      "display_name": "Reproductive Health",
+      "group": "Reproductive and Life-Stage Health",
+      "description": "Menstrual health, fertility, contraception and menopause",
+      "primary_scope": "Reproductive care outside an active pregnancy",
+      "inclusion_criteria": [
+        "Reproductive care outside an active pregnancy"
+      ],
+      "overlap_rules": [
+        "Prioritize the user-selected primary care context",
+        "Retain links to records in other relevant notebooks",
+        "Historical conditions alone do not activate a notebook"
+      ],
+      "clinical_concepts": [
+        "menstrual",
+        "fertility",
+        "ivf",
+        "egg freezing",
+        "menopause",
+        "contraception"
+      ]
+    },
+    {
+      "collection_id": "pregnancy-postpartum",
+      "display_name": "Pregnancy & Postpartum",
+      "group": "Reproductive and Life-Stage Health",
+      "description": "Prenatal care, childbirth and postpartum recovery",
+      "primary_scope": "An active pregnancy or postpartum care context",
+      "inclusion_criteria": [
+        "An active pregnancy or postpartum care context"
+      ],
+      "overlap_rules": [
+        "Prioritize the user-selected primary care context",
+        "Retain links to records in other relevant notebooks",
+        "Historical conditions alone do not activate a notebook"
+      ],
+      "clinical_concepts": [
+        "pregnancy",
+        "pregnant",
+        "prenatal",
+        "childbirth",
+        "postpartum"
+      ]
+    },
+    {
+      "collection_id": "sexual-health",
+      "display_name": "Sexual Health",
+      "group": "Reproductive and Life-Stage Health",
+      "description": "Sexual wellbeing and sexual health care",
+      "primary_scope": "Sexual health concerns and prevention",
+      "inclusion_criteria": [
+        "Sexual health concerns and prevention"
+      ],
+      "overlap_rules": [
+        "Prioritize the user-selected primary care context",
+        "Retain links to records in other relevant notebooks",
+        "Historical conditions alone do not activate a notebook"
+      ],
+      "clinical_concepts": [
+        "sexual health",
+        "sexual wellbeing",
+        "sti"
+      ]
+    },
+    {
+      "collection_id": "heart-circulation",
+      "display_name": "Heart & Circulation",
+      "group": "Clinical Domains",
+      "description": "Heart conditions, blood pressure and circulation",
+      "primary_scope": "Cardiovascular care and monitoring",
+      "inclusion_criteria": [
+        "Cardiovascular care and monitoring"
+      ],
+      "overlap_rules": [
+        "Prioritize the user-selected primary care context",
+        "Retain links to records in other relevant notebooks",
+        "Historical conditions alone do not activate a notebook"
+      ],
+      "clinical_concepts": [
+        "heart",
+        "cardiac",
+        "cardiology",
+        "blood pressure",
+        "hypertension",
+        "circulation"
+      ]
+    },
+    {
+      "collection_id": "blood-health",
+      "display_name": "Blood Health",
+      "group": "Clinical Domains",
+      "description": "Blood cells, clotting, bleeding and blood disorders",
+      "primary_scope": "Haematology and blood-related care",
+      "inclusion_criteria": [
+        "Haematology and blood-related care"
+      ],
+      "overlap_rules": [
+        "Prioritize the user-selected primary care context",
+        "Retain links to records in other relevant notebooks",
+        "Historical conditions alone do not activate a notebook"
+      ],
+      "clinical_concepts": [
+        "anemia",
+        "anaemia",
+        "iron deficiency",
+        "ferritin",
+        "clotting",
+        "hematology",
+        "haematology"
+      ]
+    },
+    {
+      "collection_id": "bones-joints-muscles",
+      "display_name": "Bones, Joints & Muscles",
+      "group": "Clinical Domains",
+      "description": "Bone, joint and muscle health",
+      "primary_scope": "Musculoskeletal assessment and ongoing management",
+      "inclusion_criteria": [
+        "Musculoskeletal assessment and ongoing management"
+      ],
+      "overlap_rules": [
+        "Prioritize the user-selected primary care context",
+        "Retain links to records in other relevant notebooks",
+        "Historical conditions alone do not activate a notebook"
+      ],
+      "clinical_concepts": [
+        "bone",
+        "joint",
+        "muscle",
+        "arthritis",
+        "osteoporosis"
+      ]
+    },
+    {
+      "collection_id": "neurology-cognitive-health",
+      "display_name": "Neurology & Cognitive Health",
+      "group": "Clinical Domains",
+      "description": "Neurological conditions, cognition and neurological investigations",
+      "primary_scope": "Neurological care including neurodegenerative conditions",
+      "inclusion_criteria": [
+        "Neurological care including neurodegenerative conditions"
+      ],
+      "overlap_rules": [
+        "Prioritize the user-selected primary care context",
+        "Retain links to records in other relevant notebooks",
+        "Historical conditions alone do not activate a notebook"
+      ],
+      "clinical_concepts": [
+        "neurology",
+        "neurological",
+        "migraine",
+        "cognitive",
+        "dementia",
+        "neuropathy",
+        "seizure"
+      ]
+    },
+    {
+      "collection_id": "digestive-health",
+      "display_name": "Digestive Health",
+      "group": "Clinical Domains",
+      "description": "Digestive conditions and gastrointestinal care",
+      "primary_scope": "Digestive assessment treatment and monitoring",
+      "inclusion_criteria": [
+        "Digestive assessment treatment and monitoring"
+      ],
+      "overlap_rules": [
+        "Prioritize the user-selected primary care context",
+        "Retain links to records in other relevant notebooks",
+        "Historical conditions alone do not activate a notebook"
+      ],
+      "clinical_concepts": [
+        "digestive",
+        "gastrointestinal",
+        "ibs",
+        "crohn",
+        "colitis",
+        "reflux"
+      ]
+    },
+    {
+      "collection_id": "ears-nose-throat",
+      "display_name": "Ears, Nose & Throat",
+      "group": "Clinical Domains",
+      "description": "Hearing, ear, nose, sinus and throat care",
+      "primary_scope": "Ear nose and throat assessment and management",
+      "inclusion_criteria": [
+        "Ear nose and throat assessment and management"
+      ],
+      "overlap_rules": [
+        "Prioritize the user-selected primary care context",
+        "Retain links to records in other relevant notebooks",
+        "Historical conditions alone do not activate a notebook"
+      ],
+      "clinical_concepts": [
+        "hearing",
+        "ear",
+        "sinus",
+        "throat",
+        "tinnitus"
+      ]
+    },
+    {
+      "collection_id": "hormonal-metabolic-health",
+      "display_name": "Hormonal & Metabolic Health",
+      "group": "Clinical Domains",
+      "description": "Hormone, metabolic and endocrine care",
+      "primary_scope": "Diabetes thyroid and metabolic management",
+      "inclusion_criteria": [
+        "Diabetes thyroid and metabolic management"
+      ],
+      "overlap_rules": [
+        "Prioritize the user-selected primary care context",
+        "Retain links to records in other relevant notebooks",
+        "Historical conditions alone do not activate a notebook"
+      ],
+      "clinical_concepts": [
+        "diabetes",
+        "thyroid",
+        "endocrine",
+        "hormonal",
+        "metabolic",
+        "blood sugar"
+      ]
+    },
+    {
+      "collection_id": "eyes-vision",
+      "display_name": "Eyes & Vision",
+      "group": "Clinical Domains",
+      "description": "Eye conditions, vision and eye care",
+      "primary_scope": "Vision support and ophthalmic care",
+      "inclusion_criteria": [
+        "Vision support and ophthalmic care"
+      ],
+      "overlap_rules": [
+        "Prioritize the user-selected primary care context",
+        "Retain links to records in other relevant notebooks",
+        "Historical conditions alone do not activate a notebook"
+      ],
+      "clinical_concepts": [
+        "eye",
+        "vision",
+        "glaucoma",
+        "cataract",
+        "ophthalmology"
+      ]
+    },
+    {
+      "collection_id": "immune-health",
+      "display_name": "Immune Health",
+      "group": "Clinical Domains",
+      "description": "Immune disorders, allergy and autoimmune care",
+      "primary_scope": "Immune system assessment and management",
+      "inclusion_criteria": [
+        "Immune system assessment and management"
+      ],
+      "overlap_rules": [
+        "Prioritize the user-selected primary care context",
+        "Retain links to records in other relevant notebooks",
+        "Historical conditions alone do not activate a notebook"
+      ],
+      "clinical_concepts": [
+        "immune",
+        "autoimmune",
+        "allergy",
+        "lupus",
+        "immunology"
+      ]
+    },
+    {
+      "collection_id": "kidney-urinary-health",
+      "display_name": "Kidney & Urinary Health",
+      "group": "Clinical Domains",
+      "description": "Kidney, bladder and urinary care",
+      "primary_scope": "Renal and urinary assessment and management",
+      "inclusion_criteria": [
+        "Renal and urinary assessment and management"
+      ],
+      "overlap_rules": [
+        "Prioritize the user-selected primary care context",
+        "Retain links to records in other relevant notebooks",
+        "Historical conditions alone do not activate a notebook"
+      ],
+      "clinical_concepts": [
+        "kidney",
+        "renal",
+        "bladder",
+        "urinary",
+        "dialysis"
+      ]
+    },
+    {
+      "collection_id": "lungs-breathing",
+      "display_name": "Lungs & Breathing",
+      "group": "Clinical Domains",
+      "description": "Lung conditions and respiratory support",
+      "primary_scope": "Respiratory assessment treatment and monitoring",
+      "inclusion_criteria": [
+        "Respiratory assessment treatment and monitoring"
+      ],
+      "overlap_rules": [
+        "Prioritize the user-selected primary care context",
+        "Retain links to records in other relevant notebooks",
+        "Historical conditions alone do not activate a notebook"
+      ],
+      "clinical_concepts": [
+        "lung",
+        "breathing",
+        "asthma",
+        "copd",
+        "respiratory"
+      ]
+    },
+    {
+      "collection_id": "mouth-dental-health",
+      "display_name": "Mouth & Dental Health",
+      "group": "Clinical Domains",
+      "description": "Teeth, gums, oral health and dental care",
+      "primary_scope": "Oral assessment and dental treatment",
+      "inclusion_criteria": [
+        "Oral assessment and dental treatment"
+      ],
+      "overlap_rules": [
+        "Prioritize the user-selected primary care context",
+        "Retain links to records in other relevant notebooks",
+        "Historical conditions alone do not activate a notebook"
+      ],
+      "clinical_concepts": [
+        "dental",
+        "teeth",
+        "gum",
+        "oral health",
+        "dentist"
+      ]
+    },
+    {
+      "collection_id": "skin-hair-nails",
+      "display_name": "Skin, Hair & Nails",
+      "group": "Clinical Domains",
+      "description": "Skin, hair and nail conditions",
+      "primary_scope": "Dermatology and related ongoing care",
+      "inclusion_criteria": [
+        "Dermatology and related ongoing care"
+      ],
+      "overlap_rules": [
+        "Prioritize the user-selected primary care context",
+        "Retain links to records in other relevant notebooks",
+        "Historical conditions alone do not activate a notebook"
+      ],
+      "clinical_concepts": [
+        "skin",
+        "dermatology",
+        "eczema",
+        "psoriasis",
+        "hair",
+        "nail"
+      ]
+    },
+    {
+      "collection_id": "cancer-care",
+      "display_name": "Cancer Care",
+      "group": "Specialized and Cross-System Care",
+      "description": "Cancer investigation, treatment, surveillance and survivorship",
+      "primary_scope": "The primary cancer care journey including treatment effects",
+      "inclusion_criteria": [
+        "The primary cancer care journey including treatment effects"
+      ],
+      "overlap_rules": [
+        "Prioritize the user-selected primary care context",
+        "Retain links to records in other relevant notebooks",
+        "Historical conditions alone do not activate a notebook"
+      ],
+      "clinical_concepts": [
+        "cancer",
+        "chemotherapy",
+        "oncology",
+        "survivorship",
+        "radiotherapy"
+      ]
+    },
+    {
+      "collection_id": "surgery-recovery",
+      "display_name": "Surgery & Recovery",
+      "group": "Specialized and Cross-System Care",
+      "description": "Surgical care, procedures and postoperative recovery",
+      "primary_scope": "A surgical episode and related follow-up",
+      "inclusion_criteria": [
+        "A surgical episode and related follow-up"
+      ],
+      "overlap_rules": [
+        "Prioritize the user-selected primary care context",
+        "Retain links to records in other relevant notebooks",
+        "Historical conditions alone do not activate a notebook"
+      ],
+      "clinical_concepts": [
+        "surgery",
+        "surgical",
+        "postoperative",
+        "operation"
+      ]
+    },
+    {
+      "collection_id": "infections-infectious-diseases",
+      "display_name": "Infections & Infectious Diseases",
+      "group": "Specialized and Cross-System Care",
+      "description": "Infection assessment, treatment and ongoing infectious disease care",
+      "primary_scope": "Infectious disease management and follow-up",
+      "inclusion_criteria": [
+        "Infectious disease management and follow-up"
+      ],
+      "overlap_rules": [
+        "Prioritize the user-selected primary care context",
+        "Retain links to records in other relevant notebooks",
+        "Historical conditions alone do not activate a notebook"
+      ],
+      "clinical_concepts": [
+        "infection",
+        "infectious",
+        "hiv",
+        "hepatitis",
+        "tuberculosis"
+      ]
+    },
+    {
+      "collection_id": "chronic-illness-complex-care",
+      "display_name": "Chronic Illness & Complex Care",
+      "group": "Specialized and Cross-System Care",
+      "description": "Coordinated care for interacting long-term conditions",
+      "primary_scope": "Multisystem illness and coordinated care across services",
+      "inclusion_criteria": [
+        "Multisystem illness and coordinated care across services"
+      ],
+      "overlap_rules": [
+        "Prioritize the user-selected primary care context",
+        "Retain links to records in other relevant notebooks",
+        "Historical conditions alone do not activate a notebook"
+      ],
+      "clinical_concepts": [
+        "chronic illness",
+        "complex care",
+        "multisystem",
+        "long covid",
+        "multiple conditions"
+      ]
+    },
+    {
+      "collection_id": "pain-management",
+      "display_name": "Pain Management",
+      "group": "Specialized and Cross-System Care",
+      "description": "Ongoing pain assessment, treatment and monitoring",
+      "primary_scope": "A care context centred on managing persistent pain",
+      "inclusion_criteria": [
+        "A care context centred on managing persistent pain"
+      ],
+      "overlap_rules": [
+        "Prioritize the user-selected primary care context",
+        "Retain links to records in other relevant notebooks",
+        "Historical conditions alone do not activate a notebook"
+      ],
+      "clinical_concepts": [
+        "pain management",
+        "chronic pain",
+        "persistent pain"
+      ]
+    },
+    {
+      "collection_id": "disability-rehabilitation",
+      "display_name": "Disability & Rehabilitation",
+      "group": "Specialized and Cross-System Care",
+      "description": "Functional support, adaptive care and rehabilitation",
+      "primary_scope": "Long-term function adaptation and rehabilitation",
+      "inclusion_criteria": [
+        "Long-term function adaptation and rehabilitation"
+      ],
+      "overlap_rules": [
+        "Prioritize the user-selected primary care context",
+        "Retain links to records in other relevant notebooks",
+        "Historical conditions alone do not activate a notebook"
+      ],
+      "clinical_concepts": [
+        "disability",
+        "rehabilitation",
+        "adaptive",
+        "functional support"
+      ]
+    },
+    {
+      "collection_id": "genetic-developmental-health",
+      "display_name": "Genetic & Developmental Health",
+      "group": "Specialized and Cross-System Care",
+      "description": "Genetic, congenital, hereditary and developmental conditions",
+      "primary_scope": "Genetic evaluation and developmental support",
+      "inclusion_criteria": [
+        "Genetic evaluation and developmental support"
+      ],
+      "overlap_rules": [
+        "Prioritize the user-selected primary care context",
+        "Retain links to records in other relevant notebooks",
+        "Historical conditions alone do not activate a notebook"
+      ],
+      "clinical_concepts": [
+        "genetic",
+        "congenital",
+        "hereditary",
+        "developmental"
+      ]
+    },
+    {
+      "collection_id": "substance-use-recovery",
+      "display_name": "Substance Use & Recovery",
+      "group": "Specialized and Cross-System Care",
+      "description": "Substance-related health treatment and recovery",
+      "primary_scope": "Support and treatment for substance use",
+      "inclusion_criteria": [
+        "Support and treatment for substance use"
+      ],
+      "overlap_rules": [
+        "Prioritize the user-selected primary care context",
+        "Retain links to records in other relevant notebooks",
+        "Historical conditions alone do not activate a notebook"
+      ],
+      "clinical_concepts": [
+        "substance use",
+        "addiction",
+        "sobriety",
+        "alcohol recovery"
+      ]
+    },
+    {
+      "collection_id": "injuries-trauma",
+      "display_name": "Injuries & Trauma",
+      "group": "Specialized and Cross-System Care",
+      "description": "Injuries, traumatic events, acute treatment and follow-up",
+      "primary_scope": "An injury episode and its recovery",
+      "inclusion_criteria": [
+        "An injury episode and its recovery"
+      ],
+      "overlap_rules": [
+        "Prioritize the user-selected primary care context",
+        "Retain links to records in other relevant notebooks",
+        "Historical conditions alone do not activate a notebook"
+      ],
+      "clinical_concepts": [
+        "injury",
+        "injuries",
+        "trauma",
+        "concussion",
+        "fracture"
+      ]
+    },
+    {
+      "collection_id": "environmental-occupational-health",
+      "display_name": "Environmental & Occupational Health",
+      "group": "Specialized and Cross-System Care",
+      "description": "Exposures, occupational illness and workplace health",
+      "primary_scope": "Health concerns related to work or environmental exposures",
+      "inclusion_criteria": [
+        "Health concerns related to work or environmental exposures"
+      ],
+      "overlap_rules": [
+        "Prioritize the user-selected primary care context",
+        "Retain links to records in other relevant notebooks",
+        "Historical conditions alone do not activate a notebook"
+      ],
+      "clinical_concepts": [
+        "exposure",
+        "occupational",
+        "workplace",
+        "environmental",
+        "asbestos"
+      ]
+    },
+    {
+      "collection_id": "transplant-donation",
+      "display_name": "Transplant & Donation",
+      "group": "Specialized and Cross-System Care",
+      "description": "Donor evaluation, transplantation and post-transplant follow-up",
+      "primary_scope": "A donation or transplant care journey",
+      "inclusion_criteria": [
+        "A donation or transplant care journey"
+      ],
+      "overlap_rules": [
+        "Prioritize the user-selected primary care context",
+        "Retain links to records in other relevant notebooks",
+        "Historical conditions alone do not activate a notebook"
+      ],
+      "clinical_concepts": [
+        "transplant",
+        "donation",
+        "donor"
+      ]
+    }
+  ],
+  "templates": [
+    {
+      "template_id": "fitness--fitness",
+      "collection_id": "fitness",
+      "display_name": "Fitness",
+      "description": "Exercise, physical activity, training and general mobility",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns fitness"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "fitness",
+        "exercise",
+        "training",
+        "mobility",
+        "strength"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "fitness--mobility",
+      "collection_id": "fitness",
+      "display_name": "Mobility",
+      "description": "Care and records for mobility",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns mobility"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "mobility"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "fitness--strength-training",
+      "collection_id": "fitness",
+      "display_name": "Strength Training",
+      "description": "Care and records for strength training",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns strength training"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "strength training"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "fitness--physical-therapy",
+      "collection_id": "fitness",
+      "display_name": "Physical Therapy",
+      "description": "Care and records for physical therapy",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns physical therapy"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "physical therapy"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "nutrition--nutrition",
+      "collection_id": "nutrition",
+      "display_name": "Nutrition",
+      "description": "Diet, weight management and nutritional support",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns nutrition"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "nutrition",
+        "diet",
+        "dietitian",
+        "weight management"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "nutrition--weight-management",
+      "collection_id": "nutrition",
+      "display_name": "Weight Management",
+      "description": "Care and records for weight management",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns weight management"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "weight management"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "nutrition--nutritional-support",
+      "collection_id": "nutrition",
+      "display_name": "Nutritional Support",
+      "description": "Care and records for nutritional support",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns nutritional support"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "nutritional support"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "sleep--sleep",
+      "collection_id": "sleep",
+      "display_name": "Sleep",
+      "description": "Sleep patterns, sleep disorders and treatment",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns sleep"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "sleep",
+        "insomnia",
+        "sleep apnea"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "sleep--sleep-apnea-care",
+      "collection_id": "sleep",
+      "display_name": "Sleep Apnea Care",
+      "description": "Care and records for sleep apnea care",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns sleep apnea care"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "sleep apnea care"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "mental-health--mental-health",
+      "collection_id": "mental-health",
+      "display_name": "Mental Health",
+      "description": "Emotional wellbeing and mental health care",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns mental health"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "mental health",
+        "anxiety",
+        "depression",
+        "therapy"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "mental-health--emotional-wellbeing",
+      "collection_id": "mental-health",
+      "display_name": "Emotional Wellbeing",
+      "description": "Care and records for emotional wellbeing",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns emotional wellbeing"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "emotional wellbeing"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "preventive-care--preventive-care",
+      "collection_id": "preventive-care",
+      "display_name": "Preventive Care",
+      "description": "Screening, vaccination and routine preventive care",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns preventive care"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "preventive care",
+        "screening",
+        "vaccination",
+        "preventive",
+        "checkup"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "preventive-care--screening",
+      "collection_id": "preventive-care",
+      "display_name": "Screening",
+      "description": "Care and records for screening",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns screening"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "screening"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "preventive-care--vaccinations",
+      "collection_id": "preventive-care",
+      "display_name": "Vaccinations",
+      "description": "Care and records for vaccinations",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns vaccinations"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "vaccinations"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "reproductive-health--menstrual-health",
+      "collection_id": "reproductive-health",
+      "display_name": "Menstrual Health",
+      "description": "Menstrual health, fertility, contraception and menopause",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns menstrual health"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "menstrual health",
+        "menstrual",
+        "fertility",
+        "ivf",
+        "egg freezing",
+        "menopause",
+        "contraception"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "reproductive-health--fertility",
+      "collection_id": "reproductive-health",
+      "display_name": "Fertility",
+      "description": "Care and records for fertility",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns fertility"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "fertility",
+        "infertility",
+        "trying to conceive"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "reproductive-health--ivf",
+      "collection_id": "reproductive-health",
+      "display_name": "IVF",
+      "description": "Care and records for IVF",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns ivf"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "ivf"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "reproductive-health--egg-freezing",
+      "collection_id": "reproductive-health",
+      "display_name": "Egg Freezing",
+      "description": "Care and records for egg freezing",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns egg freezing"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "egg freezing"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "reproductive-health--menopause",
+      "collection_id": "reproductive-health",
+      "display_name": "Menopause",
+      "description": "Care and records for menopause",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns menopause"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "menopause",
+        "perimenopause"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "reproductive-health--contraception",
+      "collection_id": "reproductive-health",
+      "display_name": "Contraception",
+      "description": "Care and records for contraception",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns contraception"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "contraception"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "pregnancy-postpartum--pregnancy",
+      "collection_id": "pregnancy-postpartum",
+      "display_name": "Pregnancy",
+      "description": "Prenatal care, childbirth and postpartum recovery",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns pregnancy"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "pregnancy",
+        "pregnant",
+        "prenatal",
+        "childbirth",
+        "postpartum"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "pregnancy-postpartum--birth-preparation",
+      "collection_id": "pregnancy-postpartum",
+      "display_name": "Birth Preparation",
+      "description": "Care and records for birth preparation",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns birth preparation"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "birth preparation"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "pregnancy-postpartum--postpartum-recovery",
+      "collection_id": "pregnancy-postpartum",
+      "display_name": "Postpartum Recovery",
+      "description": "Care and records for postpartum recovery",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns postpartum recovery"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "postpartum recovery",
+        "postpartum"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "sexual-health--sexual-health",
+      "collection_id": "sexual-health",
+      "display_name": "Sexual Health",
+      "description": "Sexual wellbeing and sexual health care",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns sexual health"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "sexual health",
+        "sexual wellbeing",
+        "sti"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "heart-circulation--heart-care",
+      "collection_id": "heart-circulation",
+      "display_name": "Heart Care",
+      "description": "Heart conditions, blood pressure and circulation",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns heart care"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "heart care",
+        "heart",
+        "cardiac",
+        "cardiology",
+        "blood pressure",
+        "hypertension",
+        "circulation"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "heart-circulation--blood-pressure",
+      "collection_id": "heart-circulation",
+      "display_name": "Blood Pressure",
+      "description": "Care and records for blood pressure",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns blood pressure"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "blood pressure",
+        "high blood pressure",
+        "low blood pressure",
+        "hypertension"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "heart-circulation--circulation",
+      "collection_id": "heart-circulation",
+      "display_name": "Circulation",
+      "description": "Care and records for circulation",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns circulation"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "circulation"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "blood-health--blood-health",
+      "collection_id": "blood-health",
+      "display_name": "Bloodwork",
+      "description": "Blood tests and what they show over time, including iron, anemia, clotting and blood disorders",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns blood health"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "blood health",
+        "anemia",
+        "anaemia",
+        "iron deficiency",
+        "ferritin",
+        "clotting",
+        "hematology",
+        "haematology",
+        "blood test",
+        "blood tests",
+        "blood work",
+        "bloodwork",
+        "anemia management",
+        "low iron",
+        "low ferritin"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "blood-health--clotting-bleeding",
+      "collection_id": "blood-health",
+      "display_name": "Clotting & Bleeding",
+      "description": "Care and records for clotting & bleeding",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns clotting & bleeding"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "clotting & bleeding"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "bones-joints-muscles--bone-health",
+      "collection_id": "bones-joints-muscles",
+      "display_name": "Bone Health",
+      "description": "Bone, joint and muscle health",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns bone health"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "bone health",
+        "bone",
+        "joint",
+        "muscle",
+        "arthritis",
+        "osteoporosis"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "bones-joints-muscles--joint-care",
+      "collection_id": "bones-joints-muscles",
+      "display_name": "Joint Care",
+      "description": "Care and records for joint care",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns joint care"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "joint care",
+        "arthritis",
+        "osteoarthritis",
+        "rheumatoid arthritis",
+        "psoriatic arthritis",
+        "gout",
+        "joint pain"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "bones-joints-muscles--muscle-health",
+      "collection_id": "bones-joints-muscles",
+      "display_name": "Muscle Health",
+      "description": "Care and records for muscle health",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns muscle health"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "muscle health"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "neurology-cognitive-health--neurological-care",
+      "collection_id": "neurology-cognitive-health",
+      "display_name": "Neurological Care",
+      "description": "Neurological conditions, cognition and neurological investigations",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns neurological care"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "neurological care",
+        "neurology",
+        "neurological",
+        "migraine",
+        "cognitive",
+        "dementia",
+        "neuropathy",
+        "seizure"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "neurology-cognitive-health--migraine-management",
+      "collection_id": "neurology-cognitive-health",
+      "display_name": "Migraine Management",
+      "description": "Care and records for migraine management",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns migraine management"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "migraine management",
+        "migraine"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "neurology-cognitive-health--cognitive-health",
+      "collection_id": "neurology-cognitive-health",
+      "display_name": "Cognitive Health",
+      "description": "Care and records for cognitive health",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns cognitive health"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "cognitive health"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "digestive-health--digestive-health",
+      "collection_id": "digestive-health",
+      "display_name": "Digestive Health",
+      "description": "Digestive conditions and gastrointestinal care",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns digestive health"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "digestive health",
+        "digestive",
+        "gastrointestinal",
+        "ibs",
+        "crohn",
+        "colitis",
+        "reflux"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "digestive-health--bowel-health",
+      "collection_id": "digestive-health",
+      "display_name": "Bowel Health",
+      "description": "Care and records for bowel health",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns bowel health"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "bowel health"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "digestive-health--liver-care",
+      "collection_id": "digestive-health",
+      "display_name": "Liver Care",
+      "description": "Care and records for liver care",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns liver care"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "liver care"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "ears-nose-throat--hearing-care",
+      "collection_id": "ears-nose-throat",
+      "display_name": "Hearing Care",
+      "description": "Hearing, ear, nose, sinus and throat care",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns hearing care"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "hearing care",
+        "hearing",
+        "ear",
+        "sinus",
+        "throat",
+        "tinnitus"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "ears-nose-throat--sinus-care",
+      "collection_id": "ears-nose-throat",
+      "display_name": "Sinus Care",
+      "description": "Care and records for sinus care",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns sinus care"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "sinus care"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "ears-nose-throat--throat-care",
+      "collection_id": "ears-nose-throat",
+      "display_name": "Throat Care",
+      "description": "Care and records for throat care",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns throat care"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "throat care"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "hormonal-metabolic-health--diabetes-management",
+      "collection_id": "hormonal-metabolic-health",
+      "display_name": "Diabetes Management",
+      "description": "Hormone, metabolic and endocrine care",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns diabetes management"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "diabetes management",
+        "diabetes",
+        "thyroid",
+        "endocrine",
+        "hormonal",
+        "metabolic",
+        "blood sugar"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "hormonal-metabolic-health--thyroid-care",
+      "collection_id": "hormonal-metabolic-health",
+      "display_name": "Thyroid Care",
+      "description": "Care and records for thyroid care",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns thyroid care"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "thyroid care",
+        "thyroid",
+        "hypothyroidism",
+        "hyperthyroidism",
+        "thyroid diseases",
+        "hashimoto",
+        "graves"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "hormonal-metabolic-health--hormonal-health",
+      "collection_id": "hormonal-metabolic-health",
+      "display_name": "Hormonal Health",
+      "description": "Care and records for hormonal health",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns hormonal health"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "hormonal health"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "eyes-vision--eye-care",
+      "collection_id": "eyes-vision",
+      "display_name": "Eye Care",
+      "description": "Eye conditions, vision and eye care",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns eye care"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "eye care",
+        "eye",
+        "vision",
+        "glaucoma",
+        "cataract",
+        "ophthalmology"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "eyes-vision--vision-support",
+      "collection_id": "eyes-vision",
+      "display_name": "Vision Support",
+      "description": "Care and records for vision support",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns vision support"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "vision support"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "immune-health--immune-health",
+      "collection_id": "immune-health",
+      "display_name": "Immune Health",
+      "description": "Immune disorders, allergy and autoimmune care",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns immune health"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "immune health",
+        "immune",
+        "autoimmune",
+        "allergy",
+        "lupus",
+        "immunology"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "immune-health--allergy-management",
+      "collection_id": "immune-health",
+      "display_name": "Allergy Management",
+      "description": "Care and records for allergy management",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns allergy management"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "allergy management",
+        "allergy",
+        "allergies",
+        "food allergy",
+        "hay fever"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "immune-health--autoimmune-care",
+      "collection_id": "immune-health",
+      "display_name": "Autoimmune Care",
+      "description": "Care and records for autoimmune care",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns autoimmune care"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "autoimmune care"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "kidney-urinary-health--kidney-care",
+      "collection_id": "kidney-urinary-health",
+      "display_name": "Kidney Care",
+      "description": "Kidney, bladder and urinary care",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns kidney care"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "kidney care",
+        "kidney",
+        "renal",
+        "bladder",
+        "urinary",
+        "dialysis"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "kidney-urinary-health--urinary-health",
+      "collection_id": "kidney-urinary-health",
+      "display_name": "Urinary Health",
+      "description": "Care and records for urinary health",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns urinary health"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "urinary health"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "kidney-urinary-health--dialysis",
+      "collection_id": "kidney-urinary-health",
+      "display_name": "Dialysis",
+      "description": "Care and records for dialysis",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns dialysis"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "dialysis"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "lungs-breathing--lung-care",
+      "collection_id": "lungs-breathing",
+      "display_name": "Lung Care",
+      "description": "Lung conditions and respiratory support",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns lung care"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "lung care",
+        "lung",
+        "breathing",
+        "asthma",
+        "copd",
+        "respiratory"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "lungs-breathing--asthma-management",
+      "collection_id": "lungs-breathing",
+      "display_name": "Asthma Management",
+      "description": "Care and records for asthma management",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns asthma management"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "asthma management",
+        "asthma"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "lungs-breathing--breathing-support",
+      "collection_id": "lungs-breathing",
+      "display_name": "Breathing Support",
+      "description": "Care and records for breathing support",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns breathing support"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "breathing support"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "mouth-dental-health--dental-care",
+      "collection_id": "mouth-dental-health",
+      "display_name": "Dental Care",
+      "description": "Teeth, gums, oral health and dental care",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns dental care"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "dental care",
+        "dental",
+        "teeth",
+        "gum",
+        "oral health",
+        "dentist"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "mouth-dental-health--oral-health",
+      "collection_id": "mouth-dental-health",
+      "display_name": "Oral Health",
+      "description": "Care and records for oral health",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns oral health"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "oral health"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "skin-hair-nails--skin-care",
+      "collection_id": "skin-hair-nails",
+      "display_name": "Skin Care",
+      "description": "Skin, hair and nail conditions",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns skin care"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "skin care",
+        "skin",
+        "dermatology",
+        "eczema",
+        "psoriasis",
+        "hair",
+        "nail"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "skin-hair-nails--hair-scalp",
+      "collection_id": "skin-hair-nails",
+      "display_name": "Hair & Scalp",
+      "description": "Care and records for hair & scalp",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns hair & scalp"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "hair & scalp"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "skin-hair-nails--nail-care",
+      "collection_id": "skin-hair-nails",
+      "display_name": "Nail Care",
+      "description": "Care and records for nail care",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns nail care"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "nail care"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "cancer-care--cancer-treatment",
+      "collection_id": "cancer-care",
+      "display_name": "Cancer Treatment",
+      "description": "Cancer investigation, treatment, surveillance and survivorship",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns cancer treatment"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "cancer treatment",
+        "cancer",
+        "chemotherapy",
+        "oncology",
+        "survivorship",
+        "radiotherapy"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "cancer-care--cancer-surveillance",
+      "collection_id": "cancer-care",
+      "display_name": "Cancer Surveillance",
+      "description": "Care and records for cancer surveillance",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns cancer surveillance"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "cancer surveillance"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "cancer-care--survivorship",
+      "collection_id": "cancer-care",
+      "display_name": "Survivorship",
+      "description": "Care and records for survivorship",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns survivorship"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "survivorship"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "surgery-recovery--surgery",
+      "collection_id": "surgery-recovery",
+      "display_name": "Surgery",
+      "description": "Surgical care, procedures and postoperative recovery",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns surgery"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "surgery",
+        "surgical",
+        "postoperative",
+        "operation"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "surgery-recovery--postoperative-recovery",
+      "collection_id": "surgery-recovery",
+      "display_name": "Postoperative Recovery",
+      "description": "Care and records for postoperative recovery",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns postoperative recovery"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "postoperative recovery"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "infections-infectious-diseases--infection-care",
+      "collection_id": "infections-infectious-diseases",
+      "display_name": "Infection Care",
+      "description": "Infection assessment, treatment and ongoing infectious disease care",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns infection care"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "infection care",
+        "infection",
+        "infectious",
+        "hiv",
+        "hepatitis",
+        "tuberculosis"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "infections-infectious-diseases--infectious-disease-management",
+      "collection_id": "infections-infectious-diseases",
+      "display_name": "Infectious Disease Management",
+      "description": "Care and records for infectious disease management",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns infectious disease management"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "infectious disease management"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "chronic-illness-complex-care--chronic-illness-management",
+      "collection_id": "chronic-illness-complex-care",
+      "display_name": "Chronic Illness Management",
+      "description": "Coordinated care for interacting long-term conditions",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns chronic illness management"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "chronic illness management",
+        "chronic illness",
+        "complex care",
+        "multisystem",
+        "long covid",
+        "multiple conditions"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "chronic-illness-complex-care--complex-care",
+      "collection_id": "chronic-illness-complex-care",
+      "display_name": "Complex Care",
+      "description": "Care and records for complex care",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns complex care"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "complex care"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "pain-management--pain-management",
+      "collection_id": "pain-management",
+      "display_name": "Pain Management",
+      "description": "Ongoing pain assessment, treatment and monitoring",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns pain management"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "pain management",
+        "chronic pain",
+        "persistent pain"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "pain-management--pain-monitoring",
+      "collection_id": "pain-management",
+      "display_name": "Pain Monitoring",
+      "description": "Care and records for pain monitoring",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns pain monitoring"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "pain monitoring"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "disability-rehabilitation--rehabilitation",
+      "collection_id": "disability-rehabilitation",
+      "display_name": "Rehabilitation",
+      "description": "Functional support, adaptive care and rehabilitation",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns rehabilitation"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "rehabilitation",
+        "disability",
+        "adaptive",
+        "functional support"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "disability-rehabilitation--adaptive-care",
+      "collection_id": "disability-rehabilitation",
+      "display_name": "Adaptive Care",
+      "description": "Care and records for adaptive care",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns adaptive care"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "adaptive care"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "disability-rehabilitation--functional-support",
+      "collection_id": "disability-rehabilitation",
+      "display_name": "Functional Support",
+      "description": "Care and records for functional support",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns functional support"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "functional support"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "genetic-developmental-health--genetic-care",
+      "collection_id": "genetic-developmental-health",
+      "display_name": "Genetic Care",
+      "description": "Genetic, congenital, hereditary and developmental conditions",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns genetic care"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "genetic care",
+        "genetic",
+        "congenital",
+        "hereditary",
+        "developmental"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "genetic-developmental-health--developmental-support",
+      "collection_id": "genetic-developmental-health",
+      "display_name": "Developmental Support",
+      "description": "Care and records for developmental support",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns developmental support"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "developmental support"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "substance-use-recovery--substance-use-care",
+      "collection_id": "substance-use-recovery",
+      "display_name": "Substance Use Care",
+      "description": "Substance-related health treatment and recovery",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns substance use care"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "substance use care",
+        "substance use",
+        "addiction",
+        "sobriety",
+        "alcohol recovery"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "substance-use-recovery--recovery-support",
+      "collection_id": "substance-use-recovery",
+      "display_name": "Recovery Support",
+      "description": "Care and records for recovery support",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns recovery support"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "recovery support"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "injuries-trauma--injury-recovery",
+      "collection_id": "injuries-trauma",
+      "display_name": "Injury Recovery",
+      "description": "Injuries, traumatic events, acute treatment and follow-up",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns injury recovery"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "injury recovery",
+        "injury",
+        "injuries",
+        "trauma",
+        "concussion",
+        "fracture"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "injuries-trauma--concussion-recovery",
+      "collection_id": "injuries-trauma",
+      "display_name": "Concussion Recovery",
+      "description": "Care and records for concussion recovery",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns concussion recovery"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "concussion recovery"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "environmental-occupational-health--exposure-follow-up",
+      "collection_id": "environmental-occupational-health",
+      "display_name": "Exposure Follow-up",
+      "description": "Exposures, occupational illness and workplace health",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns exposure follow-up"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "exposure follow-up",
+        "exposure",
+        "occupational",
+        "workplace",
+        "environmental",
+        "asbestos"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "environmental-occupational-health--occupational-health",
+      "collection_id": "environmental-occupational-health",
+      "display_name": "Occupational Health",
+      "description": "Care and records for occupational health",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns occupational health"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "occupational health"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "transplant-donation--transplant-care",
+      "collection_id": "transplant-donation",
+      "display_name": "Transplant Care",
+      "description": "Donor evaluation, transplantation and post-transplant follow-up",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns transplant care"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "transplant care",
+        "transplant",
+        "donation",
+        "donor"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    },
+    {
+      "template_id": "transplant-donation--organ-donation",
+      "collection_id": "transplant-donation",
+      "display_name": "Organ Donation",
+      "description": "Care and records for organ donation",
+      "inclusion_rules": [
+        "An explicit interest or active care context concerns organ donation"
+      ],
+      "exclusion_rules": [
+        "Historical mention without current interest or care",
+        "Negated unconfirmed or family-only conditions"
+      ],
+      "clinical_concepts": [
+        "organ donation"
+      ],
+      "supported_features": [
+        "sources",
+        "notes",
+        "chat",
+        "search",
+        "timeline",
+        "care_schedule",
+        "trends",
+        "check_ins",
+        "intervention_history"
+      ],
+      "catalogue_version": 3
+    }
+  ],
+  "template_aliases": {
+    "reproductive-health--reproductive-health": "reproductive-health--menstrual-health",
+    "pregnancy-postpartum--pregnancy-postpartum": "pregnancy-postpartum--pregnancy",
+    "heart-circulation--heart-circulation": "heart-circulation--heart-care",
+    "bones-joints-muscles--bones-joints-muscles": "bones-joints-muscles--bone-health",
+    "neurology-cognitive-health--neurology-cognitive-health": "neurology-cognitive-health--neurological-care",
+    "ears-nose-throat--ears-nose-throat": "ears-nose-throat--hearing-care",
+    "hormonal-metabolic-health--hormonal-metabolic-health": "hormonal-metabolic-health--diabetes-management",
+    "eyes-vision--eyes-vision": "eyes-vision--eye-care",
+    "kidney-urinary-health--kidney-urinary-health": "kidney-urinary-health--kidney-care",
+    "lungs-breathing--lungs-breathing": "lungs-breathing--lung-care",
+    "mouth-dental-health--mouth-dental-health": "mouth-dental-health--dental-care",
+    "skin-hair-nails--skin-hair-nails": "skin-hair-nails--skin-care",
+    "cancer-care--cancer-care": "cancer-care--cancer-treatment",
+    "surgery-recovery--surgery-recovery": "surgery-recovery--surgery",
+    "infections-infectious-diseases--infections-infectious-diseases": "infections-infectious-diseases--infection-care",
+    "chronic-illness-complex-care--chronic-illness-complex-care": "chronic-illness-complex-care--chronic-illness-management",
+    "disability-rehabilitation--disability-rehabilitation": "disability-rehabilitation--rehabilitation",
+    "genetic-developmental-health--genetic-developmental-health": "genetic-developmental-health--genetic-care",
+    "substance-use-recovery--substance-use-recovery": "substance-use-recovery--substance-use-care",
+    "injuries-trauma--injuries-trauma": "injuries-trauma--injury-recovery",
+    "environmental-occupational-health--environmental-occupational-health": "environmental-occupational-health--exposure-follow-up",
+    "transplant-donation--transplant-donation": "transplant-donation--transplant-care",
+    "blood-health--anemia-management": "blood-health--blood-health"
+  }
+}

@@ -1,0 +1,20 @@
+.env
+.private/
+data/
+.DS_Store
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+node_modules/
+docs/progress/
+
+# Local worktrees and OCR verification artifacts.
+/.agents/worktrees/
+/.agents/ocr-runtime/
+
+/.agents/catalogue-runtime/
+
+# Demo content fetched from Hugging Face (scripts/fetch_demo.py).
+/.demo/
+/src/stellis/static/maya

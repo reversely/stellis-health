@@ -1,0 +1,7 @@
+/* A current-day figure names its cycle without implying a known duration. */
+.health-date-figure { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; margin: 0; padding: var(--space-5) var(--space-4); border-radius: var(--radius-panel); background: var(--date-figure-fill,var(--raised)); color: var(--date-figure-ink,var(--ink)); text-align: center; font-variant-numeric: tabular-nums; }
+.health-date-label { font-size: 16px; line-height: 1.4; font-weight: 600; }
+.health-date-number { font: 300 88px/1 var(--font-heading); margin-block: var(--space-1); }
+.health-date-context { font-size: 16px; line-height: 1.5; }
+.health-date-figure figcaption { font-size: 14px; line-height: 1.5; margin-top: var(--space-2); color: var(--ink); }
+@media(max-width:640px) { .health-date-number { font-size: 72px; } }

@@ -1,0 +1,62 @@
+@import url('/static/theme.css');
+@font-face { font-family:Inter; src:url('/static/fonts/inter-v20-latin.woff2'); font-weight:100 900; }
+@font-face { font-family:Piazzolla; src:url('/static/fonts/piazzolla-v42-latin-300.woff2'); font-weight:300; }
+html, body { margin:0; background:var(--field); color:var(--ink); }
+/* The body fills its frame, so its right edge lines up with Log vital signs above it (#258). */
+.measurements-body { max-width:none; padding:0 0 var(--space-6); --mantine-color-text:var(--ink); --mantine-color-dimmed:var(--muted); }
+.measure-heading { margin-bottom:var(--space-6); }
+.measure-heading h2 { font-size:32px; }
+.measurements-body h3 { font-size:24px; }
+.preview-card { min-width:0; background:var(--surface); border-color:var(--line); border-radius:var(--radius-panel); }
+.preview-value { font-size:38px; font-weight:600; line-height:1.15; letter-spacing:-.02em; }
+.preview-meta { color:var(--muted); font-size:14px; }
+.preview-empty-row { min-height:44px; padding-block:var(--space-2); border-bottom:1px solid var(--line); }
+.preview-grid { min-height:270px; }
+.preview-table-tools > * { min-width:0; }
+.preview-table-tools :is(input,button) { min-height:44px; }
+.preview-grid .mantine-Table-table { font-size:13px; }
+.measurements-body input { font-size:16px; }
+.measurements-body a { color:var(--ink); text-underline-offset:3px; font-size:14px; }
+.measurements-body button { cursor:pointer; }
+.measure-camera { padding:var(--space-6); border:1px solid var(--line); border-radius:var(--radius-panel); background:var(--surface); margin-bottom:var(--space-6); display:grid; gap:var(--space-3); }
+.measure-camera button:not([data-variant]) { background:var(--ink); color:var(--surface); min-height:44px; }
+.mantine-SegmentedControl-label { min-height:32px; display:flex; align-items:center; }
+.preview-table-control { color:var(--ink); }
+.preview-table-control[aria-pressed='true'] { background:var(--block-fill); color:var(--block-ink); }
+.table-view-glyph { display:inline-block; width:20px; height:20px; background:currentColor; mask:url('/static/table-view.svg') center/contain no-repeat; }
+.preview-reading-tooltip { border:0 !important; box-shadow:var(--overlay-shadow); color:var(--media-ink); }
+.preview-reading-tooltip .hover { border:0 !important; }
+.preview-tooltip-content { max-width:min(280px, 45vw); white-space:normal; overflow-wrap:anywhere; display:grid; gap:var(--space-2); padding:var(--space-3) var(--space-4); color:var(--media-ink); background:var(--media-surface); border-radius:var(--radius-control); min-width:120px; }
+.preview-tooltip-reading { display:flex; gap:var(--space-2); align-items:center; }
+.preview-tooltip-marker, .preview-range-key { display:inline-block; width:8px; height:8px; background:var(--data-series); border-radius:50%; }
+.preview-range-key { width:14px; opacity:.25; border-radius:var(--radius-small); }
+@media(max-width:600px) { .measure-heading { align-items:flex-start; } .measure-heading .mantine-SegmentedControl-label { font-size:13px; } .measure-camera { padding:var(--space-4); } }
+.preview-meta, .preview-grid .mantine-Table-table, .measurements-body a { font-size: var(--text-body); }
+.preview-card .mantine-Text-root:not(.preview-value) { font-size: var(--text-body); }
+.widget-paper .mantine-Input-input { color: var(--ink); background: var(--input); border-color: var(--line); }
+.widget-paper .mantine-Table-th, .widget-paper .mantine-Table-td { color: var(--ink); border-color: var(--line); }
+.widget-paper .mantine-Table-thead { background: var(--surface); }
+.widget-paper .mantine-Table-tr:hover { background: var(--raised); }
+.widget-paper .mantine-Button-root[data-variant='subtle'] { color: var(--ink); }
+
+.measurements-body .mantine-Select-input { min-height:var(--control-height); }
+/* Follow the app surface even while the provider's theme update is pending. */
+.measurements-body, .measure-heading h2, .measurements-body .mantine-InputWrapper-label { color:var(--ink); }
+/* No pure black (owner, 2026-10-27): Mantine's own black and grey defaults take the app's ink roles. */
+:root, .measurements-body { --mantine-color-black: var(--ink); }
+.measurements-body .mantine-SegmentedControl-root { background: var(--raised); }
+.measurements-body .mantine-SegmentedControl-indicator { background: var(--block-fill); box-shadow: none; }
+.measurements-body .mantine-SegmentedControl-label { color: var(--muted); }
+.measurements-body .mantine-SegmentedControl-label[data-active] { color: var(--block-ink); background: var(--block-fill); border-radius: var(--mantine-radius-sm); }
+.measurements-body .mantine-SegmentedControl-label:hover:not([data-active]) { color: var(--ink); }
+/* Dates stay whole, and each row's source reads as the app's own link, not a raw underline (#258). */
+.preview-card .mantine-Table-td:first-child { white-space:nowrap; }
+[data-measure-source] { color:var(--ink); font-weight:600; text-decoration:none; }
+@media (hover:hover) and (pointer:fine) { [data-measure-source]:hover { text-decoration:underline; } }
+/* An expanded chart takes the full row (bridge.js); the plot is pressable, so it shows a pointer. */
+.preview-card.is-expanded { grid-column:1 / -1; }
+.preview-plot { cursor:pointer; user-select:none; }
+.preview-expand-control { color:var(--ink); }
+.preview-expand-control[aria-pressed='true'] { background:var(--block-fill); color:var(--block-ink); }
+.expand-view-glyph { display:inline-block; width:20px; height:20px; background:currentColor; mask:url('/static/expand-view.svg') center/contain no-repeat; }
+.preview-source { font-size:var(--text-body); }

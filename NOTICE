@@ -1,0 +1,54 @@
+Stellis Health, a fork of Stellis
+Licensed under the Apache License, Version 2.0 (see LICENSE).
+
+Stellis Health downloads or calls the following third-party components. They are not
+part of this repository and keep their own licences.
+
+Speech models, downloaded on first start
+- Whisper "small.en" in ggml format, from whisper.cpp (MIT).
+  https://github.com/ggml-org/whisper.cpp
+- Pyannote segmentation 3.0, ONNX export distributed by sherpa-onnx (MIT).
+  https://huggingface.co/pyannote/segmentation-3.0
+- NVIDIA NeMo TitaNet small speaker model, ONNX export distributed by
+  sherpa-onnx. Licensed under Creative Commons Attribution 4.0 International
+  (CC BY 4.0). https://creativecommons.org/licenses/by/4.0/
+
+OCR tools, installed in the hosted image
+- Tesseract OCR and English language data (Apache License 2.0).
+  https://github.com/tesseract-ocr/tesseract
+  https://github.com/tesseract-ocr/tessdata_fast
+- Leptonica image processing library (BSD 2-Clause).
+  https://github.com/DanBloomberg/leptonica
+  The image retains package copyright files in /usr/share/doc.
+
+Native tools, installed by uv as Python packages
+- FFmpeg, from the imageio-ffmpeg package (BSD 2-Clause wrapper). The FFmpeg
+  executable it carries is built with GPL components and is licensed under the
+  GNU General Public License version 3 (https://ffmpeg.org/legal.html).
+  Stellis runs FFmpeg as a separate program and does not link it.
+- whisper.cpp, through the pywhispercpp package (MIT).
+
+Libraries
+- sherpa-onnx (Apache License 2.0).
+- PyMuPDF and MuPDF, which read PDF text (GNU Affero General Public License
+  version 3, or a commercial licence from Artifex).
+- Python and JavaScript dependencies listed in pyproject.toml, uv.lock,
+  package.json, and package-lock.json, under their own licences.
+- Inter and Piazzolla fonts (SIL Open Font License 1.1), bundled with their
+  licence files in src/stellis/static/fonts.
+- vitallens 0.4.8 by Rouast Labs (MIT), vendored with its licence and face
+  detection model in src/stellis/static/vendor/vitallens. Its browser build
+  bundles TensorFlow.js (Apache License 2.0). Stellis Health runs only its
+  local POS and CHROM methods, in the browser, and never calls the VitalLens
+  API.
+
+Test fixture
+- tests/fixtures/jfk.wav is the speech sample distributed with whisper.cpp (MIT).
+
+Condition lookup metadata
+- src/stellis/condition_terms.json contains a title-based subset of English
+  condition names, aliases and page URLs from the MedlinePlus.gov health-topic
+  XML generated October 24, 2026, U.S. National Library of Medicine.
+  https://medlineplus.gov/xml.html
+  Rebuild with scripts/vendor_condition_terms.py and the source ZIP named in
+  the JSON. Only metadata is retained; third-party linked articles are not bundled.

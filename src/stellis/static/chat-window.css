@@ -1,0 +1,43 @@
+/* Conversation chrome and behavior are distinct from ordinary data widgets. */
+.stellis-chat-window { min-width:0; display:flex; flex-direction:column; background:var(--widget-fill); color:var(--widget-ink); border:1px solid var(--widget-line); border-radius:var(--radius-dialog); box-shadow:var(--overlay-shadow); overflow:hidden; }
+.stellis-chat-window[hidden],.chat-window-placeholder[hidden],.chat-window-launcher[hidden] { display:none!important; }
+.chat-window-head { display:flex; align-items:center; gap:var(--space-3); flex:none; padding:var(--space-4); border-bottom:1px solid var(--line); }
+.chat-window-controls { display:flex; align-items:center; gap:var(--space-1); margin-left:auto; }
+/* The title is never cut (#258): it keeps its full width on one line, and when the window is too narrow
+   for it and every control, the controls wrap to a row of their own. A narrow window drops the avatar. */
+.stellis-chat-window { container-type:inline-size; }
+.chat-window-head { flex-wrap:wrap; }
+.chat-window-head > :is(h2,h3), .chat-window-head > :has(> :is(h2,h3)) { flex-shrink:0; }
+.chat-window-head :is(h2,h3) { white-space:nowrap; overflow-wrap:normal; word-break:normal; }
+@container (max-width: 400px) { .chat-window-head .agent-avatar { display:none; } }
+.chat-window-control { display:inline-flex; justify-content:center; align-items:center; min-width:var(--control-height); min-height:var(--control-height); border:0; border-radius:var(--radius-control); background:transparent; color:inherit; cursor:pointer; padding:var(--space-2); }
+.chat-window-control .icon { width:20px; height:20px; }
+.chat-window-control:hover { background:var(--raised); }
+.chat-window-control:focus-visible { outline:var(--focus-width) solid var(--focus); outline-offset:calc(-1 * var(--focus-offset)); }
+.stellis-chat-window[data-chat-mode='floating'] { position:fixed; z-index:42; right:var(--space-6); bottom:var(--space-6); width:480px; height:640px; min-width:360px; min-height:400px; max-width:calc(100vw - var(--space-6)); max-height:calc(var(--chat-viewport-height,100dvh) - var(--space-6)); resize:both; }
+.stellis-chat-window[data-chat-mode='floating']>.chat-window-head { cursor:move; touch-action:none; }
+.stellis-chat-window[data-chat-mode='expanded'] { position:fixed; z-index:44; inset:var(--space-4); width:auto; height:auto; max-height:none; }
+.chat-window-launcher { position:fixed; z-index:43; right:var(--space-6); bottom:var(--space-6); display:inline-flex; align-items:center; min-height:var(--control-height); padding:var(--space-3) var(--space-5); background:var(--action-fill); color:var(--action-ink); border:1px solid var(--action-fill); border-radius:var(--radius-pill); font:600 var(--text-body)/1.4 var(--font-body); box-shadow:var(--overlay-shadow); cursor:pointer; }
+.chat-window-placeholder { padding:var(--space-4); border:1px dashed var(--line); border-radius:var(--radius-panel); }
+@media(max-width:1000px) {
+ .chat-window-launcher { bottom:calc(88px + var(--demo-sheet,0px) + env(safe-area-inset-bottom)); right:var(--space-4); }
+ .stellis-chat-window:is([data-chat-mode='floating'],[data-chat-mode='expanded']) { bottom:calc(var(--chat-navigation-height,72px) + var(--demo-sheet,0px) + var(--space-3)); max-height:calc(var(--chat-viewport-height,100dvh) - var(--chat-navigation-height,72px) - var(--demo-sheet,0px) - var(--space-6)); }
+}
+@media(max-width:760px) {
+ /* A docked demo tour (--demo-sheet) sits above the bottom bar; the chat ends above it too (#258). */
+ .stellis-chat-window:is([data-chat-mode='docked'],[data-chat-mode='floating'],[data-chat-mode='expanded']) { position:fixed; z-index:44; inset:calc(var(--chat-viewport-top,0px) + var(--space-3)) var(--space-3) auto; width:auto; min-width:0; min-height:0; height:calc(var(--chat-viewport-height,100dvh) - var(--chat-navigation-height,72px) - var(--demo-sheet,0px) - var(--space-6)); max-height:none; resize:none; }
+ .chat-window-head { padding:var(--space-3); gap:var(--space-2); }
+ .chat-window-head .agent-avatar { display:none; }
+ .chat-window-controls { gap:0; }
+}
+.stellis-chat-window [hidden] { display:none!important; }
+/* The floating Ask Stellis button never hides the end of the page: the last row can scroll above it
+   (and above the phone navigation it sits on). */
+body:has(> .chat-window-launcher:not([hidden])) main { padding-bottom: calc(var(--control-height) + var(--space-6) * 2); }
+@media (max-width:1000px) { body:has(> .chat-window-launcher:not([hidden])) main { padding-bottom: calc(88px + var(--control-height) + var(--space-6) + env(safe-area-inset-bottom)); } }
+
+@media (max-width:760px) {
+ #document-view .document-head > .chat-window-launcher { position:static; grid-column:1 / -1; justify-self:start; box-shadow:none; }
+}
+/* On a phone a moved chat and an expanded one both cover the screen, so only Expand is offered. */
+@media (max-width:760px) { .chat-window-controls .chat-window-control[aria-label='Open chat window'] { display:none; } }

@@ -1,0 +1,146 @@
+{
+ "samples": 875,
+ "rate_hz": 125,
+ "tensors": {
+  "conv.kernel": {
+   "offset": 0,
+   "shape": [
+    5,
+    32
+   ]
+  },
+  "conv.bias": {
+   "offset": 160,
+   "shape": [
+    32
+   ]
+  },
+  "l0.forward.kernel": {
+   "offset": 192,
+   "shape": [
+    32,
+    256
+   ]
+  },
+  "l0.forward.recurrent": {
+   "offset": 8384,
+   "shape": [
+    64,
+    256
+   ]
+  },
+  "l0.forward.bias": {
+   "offset": 24768,
+   "shape": [
+    256
+   ]
+  },
+  "l0.backward.kernel": {
+   "offset": 25024,
+   "shape": [
+    32,
+    256
+   ]
+  },
+  "l0.backward.recurrent": {
+   "offset": 33216,
+   "shape": [
+    64,
+    256
+   ]
+  },
+  "l0.backward.bias": {
+   "offset": 49600,
+   "shape": [
+    256
+   ]
+  },
+  "l1.forward.kernel": {
+   "offset": 49856,
+   "shape": [
+    128,
+    256
+   ]
+  },
+  "l1.forward.recurrent": {
+   "offset": 82624,
+   "shape": [
+    64,
+    256
+   ]
+  },
+  "l1.forward.bias": {
+   "offset": 99008,
+   "shape": [
+    256
+   ]
+  },
+  "l1.backward.kernel": {
+   "offset": 99264,
+   "shape": [
+    128,
+    256
+   ]
+  },
+  "l1.backward.recurrent": {
+   "offset": 132032,
+   "shape": [
+    64,
+    256
+   ]
+  },
+  "l1.backward.bias": {
+   "offset": 148416,
+   "shape": [
+    256
+   ]
+  },
+  "l2.forward.kernel": {
+   "offset": 148672,
+   "shape": [
+    128,
+    128
+   ]
+  },
+  "l2.forward.recurrent": {
+   "offset": 165056,
+   "shape": [
+    32,
+    128
+   ]
+  },
+  "l2.forward.bias": {
+   "offset": 169152,
+   "shape": [
+    128
+   ]
+  },
+  "l2.backward.kernel": {
+   "offset": 169280,
+   "shape": [
+    128,
+    128
+   ]
+  },
+  "l2.backward.recurrent": {
+   "offset": 185664,
+   "shape": [
+    32,
+    128
+   ]
+  },
+  "l2.backward.bias": {
+   "offset": 189760,
+   "shape": [
+    128
+   ]
+  },
+  "head": {
+   "offset": 189888,
+   "shape": [
+    65,
+    2
+   ]
+  }
+ }
+}

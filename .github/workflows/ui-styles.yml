@@ -1,0 +1,18 @@
+name: UI style roles
+on:
+  push:
+    paths:
+      - 'src/stellis/static/*.css'
+      - 'scripts/audit_ui_styles.py'
+      - '.github/workflows/ui-styles.yml'
+  pull_request:
+    paths:
+      - 'src/stellis/static/*.css'
+      - 'scripts/audit_ui_styles.py'
+      - '.github/workflows/ui-styles.yml'
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 scripts/audit_ui_styles.py

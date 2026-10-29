@@ -1,0 +1,121 @@
+/* Joined logging: tiles to choose up to ten items, then one review list. Selected
+   tiles and choices are colour blocks with inverted ink in both themes. */
+.log-sheet { width: min(760px, calc(100vw - 24px)); }
+.log-sheet[open] { display: flex; flex-direction: column; gap: var(--space-4); }
+.log-sheet .drawer-head { flex: 0 0 auto; }
+.log-body { display: grid; gap: var(--space-5); min-height: 0; overflow-y: auto; padding-bottom: var(--space-2); }
+.log-footer { display: flex; justify-content: flex-end; gap: var(--space-2); flex: 0 0 auto; padding-top: var(--space-4); border-top: 1px solid var(--line-soft); }
+.log-status { margin: 0; color: var(--muted); font-size: var(--text-small); }
+.log-status:empty { display: none; }
+.log-count { margin: 0; color: var(--muted); font-size: var(--text-small); }
+.log-empty { margin: 0; color: var(--muted); }
+.log-search { min-height: var(--control-height); font-size: 16px; }
+.log-groups { display: grid; gap: var(--space-5); }
+.log-group h3 { margin: 0 0 var(--space-3); font-size: var(--text-small); font-weight: 650; color: var(--muted); }
+.log-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: var(--space-2); }
+.log-tile {
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: var(--space-3);
+  min-height: 64px; padding: var(--space-3); border: 1px solid var(--line); border-radius: var(--radius-control);
+  background: var(--surface); color: var(--ink); font: inherit; text-align: left; cursor: pointer;
+  transition: background-color 160ms cubic-bezier(0.22, 1, 0.36, 1), color 160ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.log-tile-icon { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--raised); color: var(--ink); flex: none; }
+.log-tile-icon .icon { width: 18px; height: 18px; }
+.log-tile-text { display: grid; gap: 2px; min-width: 0; }
+.log-tile-text strong { font-size: 15px; font-weight: 600; overflow-wrap: anywhere; }
+.log-tile-state { color: var(--muted); font-size: 13px; overflow-wrap: anywhere; }
+.log-tile-check { visibility: hidden; }
+.log-tile-check .icon { width: 18px; height: 18px; }
+.log-tile[aria-pressed='true'] { border-color: var(--block-fill); background: var(--block-fill); color: var(--block-ink); }
+.log-tile[aria-pressed='true'] .log-tile-state { color: var(--block-muted); }
+.log-tile[aria-pressed='true'] .log-tile-icon { background: var(--block-ink); color: var(--block-fill); }
+.log-tile[aria-pressed='true'] .log-tile-check { visibility: visible; }
+.log-tile:focus-visible, .log-choice:focus-visible { outline: var(--focus-width) solid var(--focus); outline-offset: var(--focus-offset); }
+@media (hover: hover) and (pointer: fine) { .log-tile:not([aria-pressed='true']):hover { background: var(--raised); } }
+.log-tile:active { scale: .97; transition: scale 120ms cubic-bezier(0.22, 1, 0.36, 1); }
+
+.log-when { display: grid; gap: var(--space-2); margin: 0; padding: 0; border: 0; min-width: 0; }
+.log-when legend { padding: 0; margin-bottom: var(--space-2); font-weight: 650; }
+.log-when-controls { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+.log-when-controls input { min-height: var(--control-height); font-size: 16px; }
+.log-when-day { margin: 0; color: var(--muted); font-size: var(--text-small); }
+.log-when-note { margin: 0; color: var(--muted); font-size: var(--text-body); line-height: 1.5; }
+.log-choices { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.log-choice {
+  min-height: var(--control-height); padding: var(--space-2) var(--space-4); border: 1px solid var(--line);
+  border-radius: var(--radius-pill); background: var(--surface); color: var(--ink); font: inherit; font-weight: 600; cursor: pointer;
+}
+.log-choice[aria-pressed='true'] { border-color: var(--block-fill); background: var(--block-fill); color: var(--block-ink); }
+@media (hover: hover) and (pointer: fine) { .log-choice:not([aria-pressed='true']):hover { background: var(--raised); } }
+
+.log-rows { display: grid; margin: 0; padding: 0; list-style: none; }
+.log-row {
+  display: grid; grid-template-columns: minmax(160px, 1fr) minmax(0, 1.4fr) auto; align-items: center;
+  gap: var(--space-2) var(--space-4); padding: var(--space-4) 0; border-top: 1px solid var(--line-soft);
+}
+.log-row:has(> input[type='checkbox']) { grid-template-columns: auto minmax(160px, 1fr) minmax(0, 1.4fr); }
+.log-row-label { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; column-gap: var(--space-3); min-width: 0; }
+.log-row-label > .log-tile-icon { grid-row: 1 / 3; }
+.log-row-label strong { overflow-wrap: anywhere; }
+.log-row-detail { grid-column: 2; color: var(--muted); font-size: 13px; }
+.log-row-control { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); min-width: 0; }
+.log-number input { width: 7em; min-height: var(--control-height); font-size: 16px; }
+.log-unit, .log-number-separator { color: var(--muted); }
+.log-done { font-weight: 600; }
+.log-row-evidence, .log-row-error { grid-column: 1 / -1; margin: 0; font-size: var(--text-body); line-height: 1.5; }
+.log-row-evidence { color: var(--muted); }
+.log-row-error { color: var(--failure); }
+.log-row-error:empty { display: none; }
+
+.log-toast {
+  position: fixed; left: 50%; bottom: var(--space-6); z-index: 20; translate: -50% 0;
+  display: flex; align-items: center; gap: var(--space-4); max-width: calc(100vw - 32px); box-sizing: border-box;
+  padding: var(--space-2) var(--space-2) var(--space-2) var(--space-4); border-radius: var(--radius-control);
+  background: var(--block-fill); color: var(--block-ink); box-shadow: var(--overlay-shadow);
+  animation: log-toast-in 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.log-toast-action {
+  min-height: var(--control-height); padding: var(--space-2) var(--space-4); border: 1px solid var(--block-ink);
+  border-radius: var(--radius-control); background: transparent; color: var(--block-ink); font: inherit; font-weight: 650; cursor: pointer;
+}
+.log-toast-action:focus-visible { outline: var(--focus-width) solid var(--block-ink); outline-offset: var(--focus-offset); }
+@keyframes log-toast-in { from { opacity: 0; translate: -50% 8px; } }
+@media (prefers-reduced-motion: reduce) {
+  .log-toast { animation-name: log-toast-fade; }
+  .log-tile:active { scale: none; }
+}
+@keyframes log-toast-fade { from { opacity: 0; } }
+
+@media (max-width: 600px) {
+  /* A bottom sheet on phones, with the footer always reachable. */
+  dialog.log-sheet { width: 100vw; max-width: 100vw; max-height: 92dvh; margin: auto 0 0; border-width: 1px 0 0; border-radius: var(--radius-dialog) var(--radius-dialog) 0 0; padding: var(--space-4); }
+  .log-tiles { grid-template-columns: minmax(0, 1fr); }
+  .log-row { grid-template-columns: minmax(0, 1fr) auto; }
+  .log-row:has(> input[type='checkbox']) { grid-template-columns: auto minmax(0, 1fr); }
+  .log-row-control { grid-column: 1 / -1; grid-row: 2; }
+  .log-footer .coach-button { flex: 1; justify-content: center; }
+  .log-toast { bottom: calc(var(--space-6) + 64px); }
+}
+
+/* Inline review inside the call panel: the same rows and choices, sized to the panel. */
+.log-inline { display: grid; gap: var(--space-3); padding: var(--space-3) 0; border-top: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft); }
+.log-inline h3 { margin: 0; font-size: 15px; font-weight: 650; }
+.log-inline .log-body { gap: var(--space-3); overflow: visible; padding: 0; }
+.log-inline .log-row, .log-inline .log-row:has(> input[type='checkbox']) { grid-template-columns: auto minmax(0, 1fr); padding: var(--space-2) 0; }
+.log-inline .log-row-control { grid-column: 1 / -1; }
+/* A dose that is only a tick sits beside its name; a time or amount field still takes the full row. */
+.log-inline .log-row:has(.log-tick):not(:has(.log-row-control :is(input, select))),
+.log-row:has(.log-tick):not(:has(.log-row-control :is(input, select))) { grid-template-columns: minmax(0, 1fr) auto; }
+.log-inline .log-row:has(.log-tick):not(:has(.log-row-control :is(input, select))) .log-row-control,
+.log-row:has(.log-tick):not(:has(.log-row-control :is(input, select))) .log-row-control { grid-column: 2; grid-row: 1; }
+.log-inline .log-when-controls input[type='time'] { display: none; }
+.log-inline .log-footer { justify-content: flex-start; padding-top: 0; border-top: 0; }
+.log-row-detail, .log-row-evidence, .log-row-error { font-size: var(--text-body); line-height: 1.5; }
+
+.log-dose-time { display: grid; gap: var(--space-1); font-size: var(--text-body); }
+.log-dose-time input { min-height: var(--control-height); padding: var(--space-2); background: var(--input); color: var(--ink); border: 1px solid var(--line); border-radius: var(--radius-control); font: inherit; }
+/* A dose is one tick: filled when taken, an empty ring otherwise. */
+.log-tick { display: grid; place-items: center; width: var(--control-height); height: var(--control-height); min-height: 0; padding: 0; border: 1.5px solid var(--data-series); border-radius: 50%; background: transparent; color: transparent; cursor: pointer; }
+.log-tick[aria-pressed='true'] { background: var(--data-series); color: var(--media-ink); }
+.log-tick .icon { width: 20px; height: 20px; }
+.log-tick:focus-visible { outline: var(--focus-width) solid var(--focus); outline-offset: var(--focus-offset); }

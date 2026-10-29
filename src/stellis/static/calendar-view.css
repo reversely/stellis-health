@@ -1,0 +1,24 @@
+/* Shared calendar geometry and states. Domain adapters provide event colours. */
+.calendar-month { min-width: 0; }
+.calendar-month-header { display: flex; align-items: center; gap: var(--space-1); margin-bottom: var(--space-4); }
+.calendar-month-header h4 { margin: 0 auto 0 0; font-size: 17px; font-weight: 600; }
+.calendar-month-navigation { width: 44px; height: 44px; padding: 0; flex: none; }
+.calendar-month-grid { display: grid; gap: var(--space-compact); }
+.calendar-month-week { display: grid; grid-template-columns: repeat(7,minmax(0,1fr)); gap: var(--space-compact); }
+.calendar-month-weekday { color: var(--muted); text-align: center; font-size: 12px; line-height: 24px; }
+.calendar-month-cell { min-width: 0; }
+.calendar-month-day { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; width: 100%; min-height: 48px; padding: var(--space-1) 0; border: 0; border-radius: var(--radius-panel); background: transparent; color: var(--ink); font: inherit; font-size: 14px; cursor: pointer; font-variant-numeric: tabular-nums; }
+.calendar-month-day.has-events { background: color-mix(in oklch,var(--calendar-event-color) 13%,var(--surface)); color: var(--calendar-event-color); font-weight: 600; }
+.calendar-month-day[aria-current='date'] { outline: var(--focus-width) solid var(--ink); outline-offset: -2px; }
+.calendar-month-day.is-outside-month, .calendar-month-day.is-future { color: var(--muted); }
+.calendar-month-day[aria-disabled='true'] { cursor: default; }
+.calendar-month-day:focus-visible, .calendar-month-navigation:focus-visible { outline: var(--focus-width) solid var(--focus); outline-offset: var(--focus-offset); }
+.calendar-month-markers { display: flex; flex-wrap: wrap; justify-content: center; gap: 3px; max-width: 90%; }
+.calendar-month-markers > span { width: 4px; height: 4px; border-radius: 50%; }
+.calendar-month-legend { display: flex; flex-wrap: wrap; gap: var(--space-3) var(--space-5); margin-top: var(--space-4); }
+.calendar-month-key { display: inline-flex; align-items: center; gap: var(--space-2); color: var(--muted); font-size: 12px; min-height: 24px; }
+.calendar-month-key > span { width: 9px; height: 9px; border-radius: 50%; }
+@media(hover:hover) and (pointer:fine) { .calendar-month-day:not([aria-disabled='true'],.has-events):hover { background: var(--raised); } }
+@media(max-width:640px) { .calendar-month-grid,.calendar-month-week { gap: 3px; } }
+
+.calendar-month-cell[aria-selected='true'] .calendar-month-day { box-shadow: inset 0 0 0 2px var(--focus); }

@@ -1,0 +1,33 @@
+name: Tests
+# Every change to main runs the full suite; the result is the change-management record.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  # A release runs the suite before it deploys (deploy.yml).
+  workflow_call:
+jobs:
+  tests:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: System tools the OCR tests use
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq tesseract-ocr tesseract-ocr-eng
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.11.32"
+      - name: Demo content the tests read (reversely/stellis-health-demo at DEMO_REVISION)
+        run: python3 scripts/fetch_demo.py
+      - name: Locked dependencies
+        run: uv sync --locked && uv pip install pytest
+      - name: Suite
+        run: PYTHONPATH=src uv run --no-sync python -m pytest -q tests --ignore=tests/browser -p no:warnings
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - name: Notes editor packages the browser tests load
+        run: npm ci --no-audit --no-fund
+      - name: Browser script suite
+        run: node --test tests/*.cjs

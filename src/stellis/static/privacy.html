@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en" data-zdr="off">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Privacy | Stellis Health</title>
+<script>try { document.documentElement.dataset.theme = localStorage.getItem('stellis-theme') === 'dark' ? 'dark' : 'light'; } catch {}</script>
+<link rel="stylesheet" href="/static/app.css"><link rel="stylesheet" href="/static/theme.css"><link rel="stylesheet" href="/static/accuracy.css"><link rel="stylesheet" href="/static/privacy.css">
+</head>
+<body class="accuracy-page">
+<main class="accuracy">
+<a class="accuracy-back" href="/">Back to Stellis Health</a>
+<h1>Privacy</h1>
+<p class="accuracy-lead">Stellis Health keeps your health records encrypted with a key that only your password or your recovery key unlocks. This page states what Stellis collects, where it is stored, who processes it and what you can change. Effective October 27, 2026.</p>
+<p class="privacy-status">Stellis Health is an early test version. Use it to try Stellis with sample or test records until this page says otherwise.</p>
+<nav aria-label="On this page"><ul>
+<li><a href="#collect">What Stellis collects</a></li>
+<li><a href="#storage">Storage and encryption</a></li>
+<li><a href="#processors">Services that process your data</a></li>
+<li><a href="#never">What Stellis never does</a></li>
+<li><a href="#choices">Your choices</a></li>
+<li><a href="#retention">How long data is kept</a></li>
+<li><a href="#changes">Changes</a></li>
+</ul></nav>
+
+<section id="collect" aria-labelledby="collect-title">
+<h2 id="collect-title">What Stellis collects</h2>
+<ul>
+<li><strong>Account:</strong> your username, and the name and email in your profile if you add them. Stellis stores a one-way check of your password, never the password itself.</li>
+<li><strong>Health records you add:</strong> reports and photos you upload, recordings and their transcripts, notes, readings, medicines, care plans, goals and conversations with Stellis.</li>
+<li><strong>Connected calendars:</strong> if you connect Google or Microsoft Calendar, the sign-in tokens needed to read your events.</li>
+<li><strong>Usage counts:</strong> how many AI tokens your account uses each day, to apply the daily limit.</li>
+<li><strong>Server logs:</strong> the time, your IP address, the page or action requested without its search terms, and the result code. Logs never contain your records or messages.</li>
+<li><strong>Debugging data, only if you choose it:</strong> "Keep my data for debugging" at sign-up keeps call audio and replies with your records.</li>
+</ul>
+</section>
+
+<section id="storage" aria-labelledby="storage-title">
+<h2 id="storage-title">Storage and encryption</h2>
+<ul>
+<li>Your records are stored on a Stellis server in a Nebius AI Cloud data centre in the United States (region us-north1).</li>
+<li>Your records are encrypted with AES-256. The key is locked twice: once with your password and once with a recovery key shown to you once at sign-up. Stellis never stores your password, your recovery key or the unlocked key, so Stellis cannot read your stored records.</li>
+<li>While you are signed in, the server unlocks your records in memory to run Stellis for you. It locks them again when you sign out, after 30 minutes without activity, or when the server restarts.</li>
+<li>Every saved version is checked when it is opened. A changed or damaged file is refused, and your browser warns you if it is ever shown an older version than it last opened.</li>
+<li>Nebius also encrypts the server's disk.</li>
+<li>If you forget your password, your recovery key sets a new one. Without either, nobody can recover your records, including Stellis.</li>
+<li>Connections to Stellis use HTTPS. The server accepts only web and administrator connections, and its administrators sign in with keys.</li>
+</ul>
+</section>
+
+<section id="processors" aria-labelledby="processors-title">
+<h2 id="processors-title">Services that process your data</h2>
+<h3>Nebius AI Cloud</h3>
+<p>Nebius runs the server that stores your encrypted records.</p>
+<h3>Nebius Token Factory</h3>
+<p>Answers, summaries, filing and care changes use the Nemotron models on Nebius Token Factory. Stellis sends only the records a task needs. Before sending, it replaces names, email addresses, phone numbers, record and health card numbers and birth dates with placeholders, and puts them back in the reply. Dates of tests and their results are sent as they are, because answers depend on them.</p>
+<p class="privacy-zdr-on">Zero data retention is on for Stellis's Token Factory account, so Nebius does not keep requests or replies. Nebius states that it does not use them to train models.</p>
+<p class="privacy-zdr-off">Nebius states that it does not use requests or replies to train models. Zero data retention is not yet confirmed for Stellis's Token Factory account, so Nebius may keep requests and replies in Finland to speed up later answers.</p>
+<h3>Public medical search</h3>
+<p>When an answer needs outside sources, Stellis searches MedlinePlus and PubMed first and uses Tavily when a key is available and they return too few results. Searches use general medical terms only. A check before sending refuses any search that still holds names, numbers or other personal details.</p>
+<h3>Calendars</h3>
+<p>If you connect a calendar, Stellis reads your events from Google or Microsoft. It does not send them your records.</p>
+<h3>Speech</h3>
+<p>Transcription and the call voice run on the Stellis server. Recordings are not sent to another company.</p>
+</section>
+
+<section id="never" aria-labelledby="never-title">
+<h2 id="never-title">What Stellis never does</h2>
+<ul>
+<li>Stellis does not sell your data or share it for advertising.</li>
+<li>Stellis does not use your records to train AI models.</li>
+<li>Stellis does not show advertising.</li>
+</ul>
+</section>
+
+<section id="choices" aria-labelledby="choices-title">
+<h2 id="choices-title">Your choices</h2>
+<ul>
+<li><strong>Export:</strong> download your notebooks as Markdown or as a Stellis archive from each notebook's menu.</li>
+<li><strong>Delete items:</strong> deleted items wait in Recently Deleted for 30 days, then are removed.</li>
+<li><strong>Delete your account:</strong> Settings deletes your account and destroys your encryption key straight away, so every stored version becomes unreadable and is removed.</li>
+<li><strong>Password:</strong> changing your password in Settings re-encrypts your key without changing your records. Forgot password on the sign-in page uses your recovery key.</li>
+<li><strong>Calendars:</strong> disconnect a calendar in Settings at any time.</li>
+</ul>
+</section>
+
+<section id="retention" aria-labelledby="retention-title">
+<h2 id="retention-title">How long data is kept</h2>
+<ul>
+<li>Records stay until you delete them or your account.</li>
+<li>Stellis keeps your latest encrypted version and the one before it.</li>
+<li>Server logs rotate at 30 MB, so they keep only recent requests.</li>
+</ul>
+</section>
+
+<section id="changes" aria-labelledby="changes-title">
+<h2 id="changes-title">Changes</h2>
+<p>Stellis updates this page when its practices change and changes the effective date above.</p>
+</section>
+</main>
+</body>
+</html>

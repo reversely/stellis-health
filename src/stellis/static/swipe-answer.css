@@ -1,0 +1,24 @@
+/* Swipe to answer (swipe-answer.js): one control for every incoming Stellis call. The track is the
+   grip; the light handle carries the phone; the hint fades as the handle travels. */
+.swipe-answer {
+  position: relative; display: flex; align-items: center; box-sizing: border-box;
+  width: 100%; height: 60px; padding: 4px; border-radius: var(--radius-pill);
+  background: color-mix(in oklch, var(--brand-mauve) 82%, black); color: var(--paper-action-ink);
+  touch-action: none; user-select: none; -webkit-user-select: none; cursor: grab;
+}
+.swipe-answer.is-dragging { cursor: grabbing; }
+.swipe-answer.is-disabled { opacity: .6; cursor: default; }
+.swipe-answer-hint {
+  position: absolute; inset: 0; display: grid; place-items: center; padding-left: 56px;
+  font-size: var(--text-body); font-weight: 600; pointer-events: none;
+}
+:root .swipe-answer-handle {
+  position: relative; z-index: 1; display: grid; place-items: center; flex: none;
+  width: 52px; height: 52px; min-height: 52px; padding: 0; border: 0; border-radius: 50%;
+  background: var(--widget-fill); color: var(--widget-ink); cursor: inherit;
+  transition: translate 260ms var(--ease-enter, cubic-bezier(.22, 1, .36, 1));
+}
+.swipe-answer.is-dragging .swipe-answer-handle { transition: none; }
+.swipe-answer-handle .icon { width: 22px; height: 22px; }
+:root .swipe-answer-handle:focus-visible { outline: var(--focus-width) solid var(--paper-action-ink); outline-offset: var(--focus-offset); }
+@media (prefers-reduced-motion: reduce) { :root .swipe-answer-handle { transition: none; } }

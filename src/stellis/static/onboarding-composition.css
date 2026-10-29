@@ -1,0 +1,276 @@
+/* Welcome and setup share the app's atmospheric rail palette. Keep the
+   conversation in one paper surface, with quiet editable details beside it. */
+.onboarding-page:not(.onboarding-review) { position: relative; background: var(--field); }
+.onboarding-page:not(.onboarding-review)::before {
+  content: ''; display: block; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse at 12% 30%, color-mix(in srgb, var(--brand-teal) 45%, transparent), transparent 65%),
+    radial-gradient(ellipse at 78% 80%, color-mix(in srgb, var(--brand-slate) 35%, transparent), transparent 70%);
+}
+#onboarding-atmosphere {
+  position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0;
+  pointer-events: none; opacity: .5; --rail-blur: .8;
+}
+html[data-theme='light'] #onboarding-atmosphere { opacity: .12; }
+.onboarding-review #onboarding-atmosphere { display: none; }
+.setup-header, #setup-main, #setup-error { position: relative; z-index: 1; }
+.onboarding-page:not(.onboarding-review) .setup-header { backdrop-filter: none; }
+.onboarding-page #setup-main { max-width: 1184px; }
+.setup-welcome {
+  display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  align-items: center; align-content: center; gap: var(--space-12);
+  min-height: calc(100svh - 220px); padding: var(--space-12) 0; text-align: left;
+}
+.welcome-intro { max-width: 540px; }
+.welcome-intro h1 { font-size: clamp(40px, 4.5vw, 64px); max-width: 12ch; margin-bottom: var(--space-6); }
+.welcome-intro p { max-width: 36ch; margin: 0 0 var(--space-5); font-size: var(--text-body); color: var(--ink); }
+.welcome-intro .welcome-lead { font-size: 20px; line-height: 1.6; }
+.setup-welcome .primary { margin-top: var(--space-3); min-height: 48px; }
+.welcome-features { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-7) var(--space-5); }
+.welcome-feature { display: flex; align-items: center; gap: var(--space-3); min-height: 44px; font-size: var(--text-body); color: var(--ink); }
+.welcome-feature .icon { width: 24px; height: 24px; color: inherit; }
+
+.profile-call-head h1 { font-size: clamp(28px, 3vw, 36px); margin: 0; }
+
+.profile-conversation-head { display: none; }
+
+@media(max-width:760px) {
+  .setup-welcome { grid-template-columns: minmax(0, 1fr); gap: var(--space-10); min-height: 0; padding: var(--space-6) 0; }
+  .welcome-intro h1 { max-width: 14ch; }
+  .welcome-features { gap: var(--space-4) var(--space-3); }
+  .welcome-feature { gap: var(--space-2); font-size: var(--text-small); }
+
+}
+@media(prefers-reduced-motion:reduce) { #onboarding-atmosphere { display: none; } }
+
+/* Meet Stellis references: three honest phases, a guided introduction and
+   notebook primer, then the actual call → records → approval workflow. */
+.onboarding-page .setup-header { display: grid; grid-template-columns: auto minmax(0,1fr) auto; gap: var(--space-4); height: auto; min-height: 88px; max-width: 1184px; }
+/* The theme button keeps its column before the progress pills arrive, so it never jumps across (#258). */
+.setup-header #setup-theme { grid-column: 3; grid-row: 1; }
+.setup-phases { display: flex; justify-content: end; gap: var(--space-2); list-style: none; margin: 0; padding: 0; }
+.setup-phase { display: flex; align-items: center; gap: var(--space-2); padding: var(--space-2) var(--space-3); border-radius: var(--radius-pill); background: var(--surface); color: var(--muted); font-size: var(--text-small); font-weight: 600; }
+.setup-phase-number { display: grid; place-items: center; flex: none; width: 24px; height: 24px; border-radius: var(--radius-pill); background: var(--raised); color: var(--ink); }
+.setup-phase[aria-current] { background: var(--brand-mauve); color: var(--paper-action-ink); }
+.setup-phase[data-complete] .setup-phase-number { background: var(--brand-aqua); color: var(--rail-surface); }
+.setup-substeps { display: flex; flex-wrap: wrap; gap: var(--space-5); list-style: none; padding: 0; margin: 0 0 var(--space-6); color: var(--muted); font-size: var(--text-small); }
+.setup-substeps [aria-current] { color: var(--ink); font-weight: 650; }
+.onboarding-page #setup-main { padding-top: var(--space-7); }
+.onboarding-page .setup-welcome.setup-meet { display: block; min-height: 0; padding: var(--space-8); border-radius: var(--radius-dialog); text-align: left; }
+.meet-head { display: flex; align-items: center; gap: var(--space-5); margin-bottom: var(--space-7); }
+.meet-head .agent-avatar { flex: none; }
+.meet-head h1 { margin: 0 0 var(--space-2); font-size: clamp(30px,3.5vw,44px); }
+.meet-head p { margin: 0; max-width: 65ch; font-size: var(--text-body); }
+.meet-stage { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: var(--space-8); align-items: center; padding: var(--space-7); min-height: 340px; border-radius: var(--radius-dialog); background: var(--widget-raised); }
+.meet-stage-copy > .icon { width: 40px; height: 40px; color: inherit; margin-bottom: var(--space-5); }
+.meet-stage h2 { font-size: clamp(30px,3vw,40px); }
+.meet-stage-copy p { font-size: 20px; line-height: 1.5; max-width: 25ch; margin: 0; color: var(--ink); }
+.meet-preview, .meet-example-book { padding: var(--space-5); border: 1px solid var(--line-soft); border-radius: var(--radius-control); background: var(--widget-fill); }
+.meet-preview-row { display: flex; align-items: start; gap: var(--space-3); padding: var(--space-4) 0; }
+.meet-preview-row + .meet-preview-row { border-top: 1px solid var(--line-soft); }
+.meet-preview-row .icon { flex: none; color: inherit; }
+.meet-preview-row p { margin: var(--space-1) 0 0; font-size: var(--text-body); }
+.meet-footer { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); margin-top: var(--space-6); padding-top: var(--space-5); border-top: 1px solid var(--line-soft); }
+.meet-footer .meet-example-label { margin: 0 0 0 auto; font-size: var(--text-small); }
+.meet-notebooks { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: var(--space-7); align-items: start; }
+.meet-library-example { --ink: var(--rail-ink); --muted: var(--rail-muted); padding: var(--space-6); border-radius: var(--radius-control); background: var(--rail-surface); color: var(--ink); }
+.meet-library-example p { color: var(--ink); }
+.meet-library-example p:last-child { color: var(--muted); font-size: var(--text-body); }
+.setup-record-layout { display: grid; grid-template-columns: minmax(0,2fr) minmax(240px,1fr); gap: var(--space-6); align-items: start; margin-top: var(--space-5); }
+/* The drop zone and the note beside it share a top edge. */
+.setup-record-layout .setup-drop { margin-top: 0; }
+.setup-record-help { padding: var(--space-5); border-radius: var(--radius-control); }
+.setup-record-help p:last-child { margin-bottom: 0; }
+.setup-advanced { margin-top: var(--space-6); }
+.setup-advanced > summary { cursor: pointer; }
+.profile-call-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); }
+
+@media(max-width:760px) {
+  .onboarding-page .setup-header { grid-template-columns: minmax(0,1fr) auto; }
+  .setup-header .setup-phases { grid-column: 1 / -1; grid-row: 2; display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); }
+  .setup-header #setup-theme { grid-column: 2; grid-row: 1; }
+  .setup-phase { gap: var(--space-1); padding: var(--space-2); font-size: var(--text-caption); line-height: 1.3; }
+  .setup-phase-number { width: 20px; height: 20px; }
+  .onboarding-page .setup-welcome.setup-meet { padding: var(--space-5); }
+  .meet-head { align-items: start; gap: var(--space-3); }
+  .meet-head .agent-avatar { width: 44px!important; height: 44px!important; }
+  .meet-stage, .meet-notebooks, .setup-record-layout { grid-template-columns: minmax(0,1fr); }
+  .meet-stage { padding: var(--space-4); gap: var(--space-6); }
+  .meet-gallery { grid-template-columns: 24px minmax(0,1fr) 24px; gap: var(--space-1); }
+  .onboarding-page .meet-gallery-arrow { width: 24px; }
+  .meet-footer .meet-example-label { margin-left: 0; flex-basis: 100%; }
+  .setup-substeps { gap: var(--space-3); }
+  .profile-call-head { align-items: start; flex-wrap: wrap; }
+
+}
+.profile-about { box-sizing:border-box; width:min(440px,calc(100vw - 32px)); max-height:calc(100dvh - 32px); overflow:auto; padding:var(--space-6); border:1px solid var(--line); border-radius:var(--radius-dialog); background:var(--widget-fill); color:var(--widget-ink); }
+.profile-about::backdrop { background:color-mix(in srgb,var(--rail-surface) 55%,transparent); backdrop-filter:blur(12px); }
+.profile-about h2 { font-size:28px; margin:0 var(--space-8) var(--space-5) 0; }
+.profile-about-close { position:absolute; top:var(--space-2); right:var(--space-2); display:grid; place-items:center; width:44px; height:44px; padding:0; border:0; background:transparent; color:inherit; }
+.profile-about-cues { list-style:none; margin:0; padding:0; display:grid; gap:var(--space-4); }
+.profile-about-cues li { display:flex; align-items:center; gap:var(--space-3); font-size:var(--text-body); }
+.profile-about-cues .icon { flex:none; }
+.profile-about .setup-actions { margin-top:var(--space-6); gap:var(--space-3); }
+@media(max-width:420px) { .profile-about { padding:var(--space-5); } .profile-about .setup-actions { display:grid; grid-template-columns:1fr; } }
+
+/* One gallery; Continue leaves it from whichever slide is showing. */
+.meet-gallery { display: grid; grid-template-columns: 32px minmax(0,1fr) 32px; align-items: center; gap: var(--space-2); }
+.meet-gallery-viewport { overflow: hidden; border-radius: var(--radius-dialog); }
+/* Small grey arrows beside the slides; quiet until pointed at or focused. */
+.onboarding-page .meet-gallery-arrow { display: grid; place-items: center; width: 32px; height: 44px; min-height: 44px; padding: 0; border: 0; border-radius: var(--radius-pill); background: transparent; color: var(--muted); cursor: pointer; transition: color 160ms var(--ease-enter), background-color 160ms var(--ease-enter); }
+.onboarding-page .meet-gallery-arrow:hover, .onboarding-page .meet-gallery-arrow:focus-visible { color: var(--ink); background: var(--widget-raised); }
+.meet-gallery-arrow .icon { width: 20px; height: 20px; }
+/* The glide has no overshoot; a CSS transition retargets from the live position if interrupted. */
+.meet-gallery-track { display: grid; grid-template-columns: repeat(3,100%); transform: translateX(calc(var(--gallery-index) * -100%)); transition: transform 420ms var(--ease-enter); will-change: transform; }
+.meet-gallery-track .meet-stage { min-width: 0; height: 100%; }
+/* The main action stays on screen; a soft edge fade replaces the hard divider. */
+.meet-footer { position: sticky; bottom: 0; z-index: 2; background: var(--widget-fill, inherit); padding-bottom: var(--space-4); border-top: 0; }
+.meet-footer::before { content: ''; position: absolute; left: 0; right: 0; bottom: 100%; height: var(--space-6); background: linear-gradient(to bottom, transparent, var(--widget-fill, transparent)); pointer-events: none; }
+@media(prefers-reduced-motion:reduce) { .meet-gallery-track { transition: none; } }
+
+.profile-chat-skip { margin-left:auto; background:transparent; color:inherit; border-color:transparent; padding:var(--space-2); font-size:var(--text-small); }
+
+.profile-chat-decision { padding:var(--space-4); margin:var(--space-4) 0; border:1px solid var(--line); border-radius:var(--radius-control); color:var(--ink); background:var(--raised); }
+.profile-chat-decision p { margin:0 0 var(--space-3); font-size:var(--text-body); white-space:pre-wrap; overflow-wrap:anywhere; }
+.profile-chat-decision button + button { margin-left:var(--space-2); }
+.onboarding-page .widget-paper .icon { color:inherit; }
+
+/* Entry actions retain the native call anatomy and matched control sizes. */
+.call-entry-actions { display:flex; justify-content:center; flex-wrap:wrap; gap:var(--space-3); margin-top:var(--space-5); }
+.call-entry-actions:not(:has(> button:not([hidden]))) { display:none; }
+.onboarding-page .call-entry-actions > button { display:inline-flex; justify-content:center; align-items:center; gap:var(--space-2); min-width:160px; min-height:48px; margin:0; padding:var(--space-3) var(--space-5); border-radius:var(--radius-pill); }
+.onboarding-page .call-entry-actions > .call-start { background:var(--call-ink); color:var(--call-bg); }
+.onboarding-page .call-entry-actions > .call-text { background:transparent; color:var(--call-ink); border:1px solid currentColor; }
+.call-entry-actions .icon { width:20px; height:20px; flex:none; color:inherit; }
+
+@media(max-width:420px) { .call-entry-actions { width:100%; } .onboarding-page .call-entry-actions > button { width:100%; } }
+
+/* The finish actions under the saved notebooks. */
+.meet-preview .dashboard-book-grid { grid-template-columns:minmax(0,1fr); gap:var(--space-3); }
+.meet-preview .dashboard-book { padding:var(--space-4); }
+.meet-preview .trend-plot { --chart-series:var(--widget-series); --chart-band:var(--source-selection); margin-top:var(--space-4); }
+.meet-preview select { width:100%; }
+.meet-notebook-primer > p { margin:0 0 var(--space-5); }
+
+.call-live-transcript { width:100%; max-height:180px; overflow:auto; padding:var(--space-3) 0; color:var(--call-ink); text-align:left; }
+.call-live-transcript:empty { display:none; }
+.call-live-transcript .profile-message { margin:0 0 var(--space-3); font-size:var(--text-body); line-height:1.5; }
+.call-live-transcript strong { font-size:var(--text-body); }
+
+.profile-about:not([open]) { display:none; }
+html[data-theme='light'] .onboarding-page #setup-theme { color:var(--widget-ink); }
+.call-live-transcript { --ink:var(--call-ink); --muted:var(--call-muted); }
+.call-live-transcript .profile-message, .call-live-transcript .profile-message strong { color:var(--call-ink); }
+.profile-chat-decision { display:flex; flex-wrap:wrap; align-items:center; gap:var(--space-2); }
+.profile-chat-decision p { flex-basis:100%; margin:0 0 var(--space-2); }
+.profile-chat-decision button + button { margin-left:0; }
+
+/* Category tiles: the owner's canvas colours, a light glyph on each fill. */
+.meet-tile { display: inline-grid; place-items: center; width: 64px; height: 64px; margin-bottom: var(--space-5); border-radius: var(--radius-tile); color: var(--category-ink); }
+.onboarding-page .widget-paper .meet-tile .icon { width: 30px; height: 30px; color: var(--category-ink); }
+.meet-tile.is-understand { background: var(--category-understand); }
+.meet-tile.is-monitor { background: var(--category-monitor); }
+.meet-tile.is-improve { background: var(--category-improve); }
+.meet-tile.is-small { width: 40px; height: 40px; margin: 0; border-radius: var(--radius-control); }
+.onboarding-page .widget-paper .meet-tile.is-small .icon { width: 20px; height: 20px; }
+.meet-stage { padding: var(--space-6) var(--space-7); }
+.meet-stage-copy p { font-weight: 550; }
+.meet-preview { display: grid; gap: var(--space-3); align-content: start; min-width: 0; }
+.meet-preview > * { min-width: 0; }
+.meet-preview-label { margin: 0; color: var(--muted); font-size: var(--text-body); }
+/* Understand: the Ask box is the paper composer, with its one border and 16px text. */
+.meet-ask { display: flex; align-items: center; gap: var(--space-3); min-height: var(--control-height); padding: var(--space-2) var(--space-4); border: 1px solid var(--widget-line); border-radius: var(--radius-control); background: var(--widget-fill); color: var(--widget-ink); font-size: var(--text-body); line-height: 1.5; }
+.meet-ask > span { flex: 1; min-width: 0; }
+.meet-ask .icon { flex: none; width: 20px; height: 20px; }
+.meet-answer { margin: 0; font-size: var(--text-body); line-height: 1.5; }
+.meet-cite { justify-self: start; display: inline-flex; align-items: center; min-height: 32px; padding: 0 var(--space-3); border-radius: var(--radius-pill); background: var(--block-fill); color: var(--block-ink); font-size: var(--text-small); font-weight: 600; }
+.meet-rows { margin: 0; padding: 0; list-style: none; }
+.meet-rows li { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 0 var(--space-3); padding: var(--space-3) 0; border-top: 1px solid var(--line-soft); font-size: var(--text-body); }
+.meet-rows li:first-child { border-top: 0; }
+.meet-row-value { text-align: right; }
+.meet-row-source { grid-column: 1 / -1; color: var(--muted); }
+.meet-row-source:empty { display: none; }
+/* Monitor: the camera frame uses the shared media roles. */
+.meet-camera { display: grid; justify-items: center; gap: var(--space-1); padding: var(--space-3) var(--space-4); border-radius: var(--radius-control); background: var(--media-stage); color: var(--media-ink); font-size: var(--text-body); }
+.meet-camera ellipse { fill: none; stroke: var(--media-pass); stroke-width: 2; stroke-dasharray: 6 6; }
+.meet-preview .trend-plot { --chart-series: var(--widget-series); --chart-band: var(--source-selection); }
+/* Direct selection: small dots with 44px targets, and the pause control. */
+.meet-gallery-controls { display: flex; justify-content: space-between; align-items: center; gap: var(--space-3); margin-top: var(--space-3); }
+.meet-gallery-dots { display: flex; }
+.onboarding-page .meet-gallery-dot { display: grid; place-items: center; width: 44px; height: 44px; min-height: 44px; padding: 0; border: 0; background: transparent; cursor: pointer; }
+.meet-gallery-dot::before { content: ''; width: 10px; height: 10px; border-radius: var(--radius-pill); background: var(--line); transition: background-color 160ms var(--ease-enter); }
+.meet-gallery-dot[aria-pressed='true']::before { background: var(--brand-mauve); }
+.onboarding-page .meet-rotation { display: grid; place-items: center; width: 44px; height: 44px; min-height: 44px; padding: 0; border: 0; border-radius: var(--radius-pill); background: transparent; color: var(--muted); }
+.onboarding-page .meet-rotation:hover { color: var(--ink); background: var(--widget-raised); }
+.meet-rotation .icon { width: 20px; height: 20px; }
+/* What a notebook is: Stellis speaks beside the heading, so the footer never covers it. */
+.meet-head.is-primer { display: grid; grid-template-columns: minmax(0,3fr) minmax(260px,2fr); align-items: start; gap: var(--space-6); }
+.meet-say { display: flex; align-items: flex-start; gap: var(--space-3); padding: var(--space-4); border-radius: var(--radius-control); background: var(--widget-raised); }
+.meet-say .agent-avatar { flex: none; }
+.meet-say p { margin: 0; font-size: var(--text-body); line-height: 1.5; }
+.meet-primer { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: var(--space-7); align-items: start; }
+.meet-primer h2 { margin: 0 0 var(--space-4); font-size: 27px; }
+.meet-primer-parts ul { margin: 0; padding: 0; list-style: none; }
+.meet-primer-parts li { display: flex; gap: var(--space-3); padding: var(--space-4) 0; border-top: 1px solid var(--line-soft); font-size: var(--text-body); }
+.meet-primer-parts li:first-child { border-top: 0; padding-top: 0; }
+.meet-primer-parts li .icon { flex: none; width: 20px; height: 20px; margin-top: 2px; }
+.meet-primer-parts li div { display: grid; }
+.meet-primer-parts li span { color: var(--muted); }
+.meet-caption { margin: var(--space-3) 0 0; color: var(--muted); font-size: var(--text-body); line-height: 1.5; }
+.meet-footer .meet-example-label { font-size: var(--text-body); color: var(--muted); }
+/* Finish screen. */
+@media (max-width: 860px) {
+  .meet-head.is-primer, .meet-primer { grid-template-columns: minmax(0,1fr); }
+}
+/* Call entry: an incoming call from Stellis, answered by swiping or by typing instead. */
+.profile-ringing { display: flex; align-items: center; gap: var(--space-4); margin: 0 calc(var(--control-height) + var(--space-2)) var(--space-5) 0; }
+.profile-ringing-face { position: relative; display: grid; place-items: center; flex: none; width: 88px; height: 88px; }
+.profile-ringing-ring { position: absolute; inset: 0; border: 2px solid var(--brand-aqua); border-radius: var(--radius-pill); }
+.profile-ringing h2 { margin: 0; }
+.profile-ringing-kind { margin: 0 0 var(--space-1); color: var(--muted); font-size: var(--text-body); }
+.profile-about-actions { display: grid; gap: var(--space-3); margin-top: var(--space-6); }
+.onboarding-page .profile-about-actions > .quiet { display: inline-flex; justify-content: center; align-items: center; gap: var(--space-2); min-height: var(--control-height); }
+
+/* Meet Stellis fits one screen (#227 owner correction): a compact heading with Privacy beside it,
+   slides sized to their content, and an ordinary footer whose two buttons share one box. */
+.onboarding-page .setup-welcome.setup-meet { padding: var(--space-4) var(--space-6); }
+.meet-head:not(.is-primer) { display: grid; grid-template-columns: auto minmax(0, 1fr) minmax(300px, 46%); align-items: center; gap: var(--space-4) var(--space-5); margin-bottom: var(--space-4); }
+.meet-head h1 { font-size: clamp(28px, 3vw, 36px); margin-bottom: var(--space-1); }
+.meet-privacy { padding: var(--space-3) var(--space-4); border-radius: var(--radius-panel); background: var(--widget-raised); color: var(--widget-ink); }
+.meet-privacy h2 { margin: 0 0 var(--space-2); font: 650 var(--text-body)/1.4 var(--font-body); }
+.meet-privacy ul { display: grid; gap: var(--space-2); margin: 0; padding: 0; list-style: none; }
+.meet-privacy li { display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: var(--space-2); font-size: 14px; line-height: 1.45; }
+.meet-privacy .icon { width: 18px; height: 18px; margin-top: 1px; color: var(--category-understand); }
+.meet-stage { min-height: 0; padding: var(--space-4) var(--space-6); gap: var(--space-6); }
+.meet-stage h2 { font-size: clamp(26px, 2.4vw, 32px); margin: 0 0 var(--space-2); }
+.meet-stage-copy p { font-size: 18px; }
+.meet-stage-copy .meet-tile { width: 48px; height: 48px; margin-bottom: var(--space-3); }
+.onboarding-page .widget-paper .meet-stage-copy .meet-tile .icon { width: 24px; height: 24px; }
+.meet-preview { padding: var(--space-4); gap: var(--space-2); }
+.meet-rows li { padding: var(--space-2) 0; }
+.meet-preview .trend-plot { margin-top: var(--space-1); }
+.meet-footer .meet-gallery-controls { margin: 0 auto; }
+.meet-footer .meet-example-label { flex: 0 1 34ch; margin: 0; text-align: right; }
+body.onboarding-welcome #setup-main { padding-top: var(--space-5); padding-bottom: var(--space-5); }
+.meet-footer { position: static; margin-top: var(--space-2); padding: 0; }
+.meet-footer::before { content: none; }
+.setup-welcome .meet-footer > button { box-sizing: border-box; height: var(--control-height); min-height: var(--control-height); margin: 0; padding: 0 var(--space-5); border-width: 1px; border-style: solid; line-height: 1; }
+.setup-welcome .meet-footer > button.primary { border-color: transparent; }
+@media (max-width: 900px) {
+  .meet-head:not(.is-primer) { grid-template-columns: auto minmax(0, 1fr); }
+  .meet-privacy { grid-column: 1 / -1; }
+}
+/* The notebooks primer fits the same screen: compact rows and sample cards. */
+.meet-head.is-primer { margin-bottom: var(--space-4); }
+.meet-primer { gap: var(--space-6); }
+.meet-primer-parts h2 { margin: 0 0 var(--space-2); }
+.meet-primer-parts li { padding-block: var(--space-2); }
+.meet-notebook-primer .dashboard-book-grid { gap: var(--space-2); }
+.meet-notebook-primer .dashboard-book { padding: var(--space-3) var(--space-4); }
+.meet-notebook-primer .dashboard-book small { margin-top: var(--space-1); }
+
+/* Phones: once the questions show, the call is a compact header above them (#238). Its transcript
+   lives in the card's Transcript tab, so the first question is in view without scrolling past the call. */
+@media (max-width: 760px) {
+
+}
+

@@ -1,0 +1,62 @@
+{
+ "description": "Shared cases for todos.plain_markdown and todos.markdown_inline_text. A JS twin reads the same file.",
+ "plain_markdown": [
+  {
+   "name": "task id and bookmark and columns",
+   "input": "- [ ] call ^tabc123\n<bookmark url=\"https://a.example\">Site</bookmark>\n<bookmark url=\"https://b.example\"></bookmark>\n<columns>\n<column>\nleft\n</column>\n<column>\nright\n</column>\n</columns>\n",
+   "expected": "- [ ] call\n[Site](https://a.example)\nhttps://b.example\nleft\n\nright\n"
+  },
+  {
+   "name": "fenced code is untouched",
+   "input": "```\n- [ ] keep ^tabc123\n```\n",
+   "expected": "```\n- [ ] keep ^tabc123\n```\n"
+  },
+  {
+   "name": "id needs exactly six characters",
+   "input": "a ^tabc1234\nplain",
+   "expected": "a ^tabc1234\nplain"
+  }
+ ],
+ "inline_text": [
+  {
+   "name": "plain",
+   "input": "Ship the draft",
+   "expected": "Ship the draft"
+  },
+  {
+   "name": "emphasis and strike",
+   "input": "**Bold** and *italic* and __strong__ and _em_ and ~~gone~~",
+   "expected": "Bold and italic and strong and em and gone"
+  },
+  {
+   "name": "snake_case is not emphasis",
+   "input": "rename snake_case_name today",
+   "expected": "rename snake_case_name today"
+  },
+  {
+   "name": "link and image keep text",
+   "input": "See [the plan](https://a.example/x) ![Shared screen](stellis-image:12345678-1234-1234-1234-123456789abc)",
+   "expected": "See the plan Shared screen"
+  },
+  {
+   "name": "code span keeps marks literal",
+   "input": "run `a*b*c` now",
+   "expected": "run a*b*c now"
+  },
+  {
+   "name": "escapes read back",
+   "input": "snake\\_case and \\*star\\* and \\`tick\\`",
+   "expected": "snake_case and *star* and `tick`"
+  },
+  {
+   "name": "task id suffix and spacing",
+   "input": "  call   Avery ^tabc123 ",
+   "expected": "call Avery"
+  },
+  {
+   "name": "bookmark",
+   "input": "<bookmark url=\"https://a.example\">Site</bookmark>",
+   "expected": "Site"
+  }
+ ]
+}

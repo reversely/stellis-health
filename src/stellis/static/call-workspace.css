@@ -1,0 +1,64 @@
+.home-care-layout.has-active-call { display: grid; grid-template-columns: minmax(0, 1fr) minmax(360px, 400px); gap: var(--space-5); align-items: start; }
+.home-call-workspace { min-width: 0; position: sticky; top: var(--space-5); }
+.home-call-workspace .coach-call.is-embedded { position: static; width: 100%; max-height: min(820px, calc(100dvh - 48px)); box-sizing: border-box; }
+.has-active-call .home-care-board { grid-template-columns: minmax(180px, .75fr) minmax(0, 1.25fr); }
+.has-active-call .home-context-ring { max-width: 160px; }
+.has-active-call .home-care-aside { grid-column: 1 / -1; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.has-active-call .home-care-calendar { grid-column: 1 / -1; }
+.home-care-week { grid-template-columns: repeat(7, minmax(44px, 1fr)); gap: 0; overflow-x: auto; }
+.home-goal-draft { margin-top: var(--space-5); padding-top: var(--space-4); border-top: 1px solid var(--line); }
+.coach-call-log > li > p, .coach-call-heard, .coach-call-source p, .coach-call-source blockquote { font-size: var(--text-body); }
+.coach-call-source { padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+.coach-call-source summary { min-height: var(--control-height); cursor: pointer; }
+.coach-call-source blockquote { white-space: pre-wrap; margin-inline: 0; }
+.coach-call-source .coach-button { border: 1px solid var(--line); }
+.coach-call-date { padding-inline: var(--space-4); font-size: var(--text-body); }
+.coach-call-log > li.is-action, .coach-call-log > li.is-review { max-width: 100%; }
+.call-history { width: min(720px, calc(100vw - 32px)); }
+.call-history-body { overflow-y: auto; max-height: 70dvh; font-size: var(--text-body); }
+.call-history-row { border-bottom: 1px solid var(--line); padding-block: var(--space-3); }
+.call-history-row .coach-button { text-align: left; white-space: normal; border: 1px solid var(--line); }
+.call-history-log { list-style: none; padding: 0; display: grid; gap: var(--space-3); }
+.call-history-log li { padding: var(--space-3); border-radius: var(--radius-message); background: var(--raised); color: var(--ink); }
+.call-history-log li.is-person { margin-left: var(--space-7); background: var(--block-fill); color: var(--block-ink); }
+.call-history-log p { font-size: var(--text-body); line-height: 1.5; margin-bottom: 0; }
+@media (max-width: 1200px) {
+ .home-care-layout.has-active-call { display: flex; flex-direction: column; }
+ .home-call-workspace { order: -1; position: static; width: 100%; }
+ .home-care-content { width: 100%; min-width: 0; }
+ .home-call-workspace .coach-call.is-embedded { max-height: min(680px, calc(100dvh - 120px)); }
+}
+@media (max-width: 760px) {
+ .has-active-call .home-care-board, .has-active-call .home-care-aside { grid-template-columns: minmax(0, 1fr); }
+ .home-call-workspace .coach-call.is-embedded { max-height: calc(100dvh - 160px); }
+}
+.report-conversation.has-active-call { display: grid; grid-template-rows: auto auto minmax(0, 1fr); }
+.report-conversation.has-active-call > :is(.report-messages, .report-chat-footer, .chat-new-messages) { display: none; }
+.report-conversation.has-active-call .report-call-host { min-height: 0; display: grid; overflow: hidden; }
+.report-conversation.has-active-call .coach-call.is-embedded { position: static; height: 100%; max-height: 100%; min-height: 0; width: 100%; }
+.report-conversation.has-active-call .coach-call-face { display: none; }
+.report-conversation.has-active-call:has(.coach-call.is-minimised) { grid-template-rows: auto auto auto minmax(0, 1fr); }
+.report-conversation.has-active-call:has(.coach-call.is-minimised) > .report-messages { display: block; }
+.report-conversation.has-active-call .coach-call.is-embedded.is-minimised { height: auto; }
+.coach-call-log > .is-action blockquote { font-size: var(--text-body); line-height: 1.5; margin-inline: 0; }
+#document-view .report-conversation.has-active-call .report-call-host .coach-call.is-embedded { height: 100%; max-height: 100%; }
+#document-view .report-conversation.has-active-call .report-call-host .coach-call.is-embedded.is-minimised { height: auto; }
+
+.report-conversation.has-active-call .chat-source-context { max-height: 30dvh; overflow: auto; }
+.home-context-actions { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.home-context-actions .coach-button { border: 1px solid var(--line); }
+.home-call-workspace { top: calc(var(--control-height) + var(--space-6)); scroll-margin-top: calc(var(--control-height) + var(--space-6)); }
+.has-active-call .home-care-board { grid-template-columns: minmax(0, 1fr); align-items: start; }
+.has-active-call .home-context { display: grid; grid-template-columns: 128px minmax(0, 1fr); align-items: center; gap: var(--space-3); padding: var(--space-4); }
+.has-active-call .home-context-picker, .has-active-call .home-context-title, .has-active-call .home-context-phase { grid-column: 2; margin: 0; }
+.has-active-call .home-context-ring { grid-column: 1; grid-row: 1 / span 3; width: 100%; max-width: 128px; margin: 0; }
+.has-active-call .home-context-dates, .has-active-call .home-context > .home-source, .has-active-call .home-context-actions { grid-column: 1 / -1; }
+.has-active-call .home-context-dates { margin: 0; }
+.has-active-call .home-today-row { align-items: center; }
+#document-view .report-explanation { top: calc(var(--control-height) + var(--space-6)); }
+@media (max-width: 760px) {
+ .home-call-workspace { top: auto; }
+ .has-active-call .home-context { grid-template-columns: 100px minmax(0, 1fr); }
+}
+.coach-agenda-title { font-size: var(--text-body); }
+.report-call-host .coach-call.is-embedded .coach-call-head { padding-inline: var(--space-4); }

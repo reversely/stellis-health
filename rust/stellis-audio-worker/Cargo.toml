@@ -1,0 +1,15 @@
+[package]
+name = "stellis-audio-worker"
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
+
+[features]
+native-capture = ["dep:cpal"]
+
+[dependencies]
+cpal = { version = "=0.18.1", optional = true, features = ["pulseaudio", "pipewire"] }
+base64 = "0.22"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sherpa-onnx = { version = "=2.0.1", default-features = false, features = ["static"] }

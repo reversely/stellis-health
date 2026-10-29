@@ -1,0 +1,197 @@
+/* Health timeline page, and the rail layout it shares with the Records,
+   Health summary and Trends pages. */
+body.timeline-page .heading,
+body.records-page .heading,
+body.summary-page .heading,
+body.trends-page .heading {
+  display: none;
+}
+.timeline-view[hidden] {
+  display: none;
+}
+.timeline-view {
+  display: grid;
+  gap: var(--space-4);
+  min-width: 0;
+  max-width: 820px;
+}
+.timeline-page .home-rail .rail-pin,
+.records-page .home-rail .rail-pin,
+.summary-page .home-rail .rail-pin,
+.trends-page .home-rail .rail-pin {
+  min-height: var(--control-height);
+}
+@media (min-width: 1001px) {
+  .timeline-page #timeline-view,
+  .records-page #records-view,
+  .summary-page #summary-view,
+  .trends-page #trends-view {
+    grid-column: 2;
+    grid-row: 1;
+    margin: 0;
+    padding: var(--space-7) var(--space-8) var(--space-12);
+  }
+}
+@media (max-width: 1000px) {
+  .timeline-page main,
+  .records-page main,
+  .summary-page main,
+  .trends-page main {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-4) !important;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .timeline-page #timeline-view,
+  .records-page #records-view,
+  .summary-page #summary-view,
+  .trends-page #trends-view {
+    order: 1;
+    width: 100%;
+  }
+  .timeline-page .home-rail,
+  .records-page .home-rail,
+  .summary-page .home-rail,
+  .trends-page .home-rail {
+    order: 2;
+    background: var(--rail-surface);
+    padding: var(--space-6);
+    margin-top: var(--space-6);
+  }
+}
+.timeline-head h2 {
+  margin: 0;
+  font:
+    300 30px/1.15 var(--font-heading);
+  letter-spacing: -0.02em;
+}
+.timeline-controls[hidden] {
+  display: none;
+}
+
+.timeline-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+/* The kinds are one segmented control (theme.css), like the other filters in the app. */
+.timeline-filters {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  padding: 3px;
+  border-radius: var(--radius-pill);
+  background: var(--raised);
+}
+.timeline-view .timeline-filter {
+  min-height: 36px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--muted);
+  font: 600 14px var(--font-body);
+}
+.timeline-view .timeline-filter[aria-pressed='true'] {
+  background: var(--block-fill);
+  color: var(--block-ink);
+}
+.timeline-more {
+  justify-self: start;
+  margin-top: var(--space-4);
+}
+.timeline-view button,
+.timeline-view select {
+  min-height: var(--control-height);
+  padding: 0 var(--space-4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+  transition:
+    border-color 120ms,
+    background-color 120ms;
+}
+.timeline-view button[aria-pressed='true'] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+@media (hover: hover) and (pointer: fine) {
+  .timeline-view button:hover,
+  .timeline-view select:hover {
+    border-color: var(--accent);
+  }
+}
+.timeline-view :focus-visible {
+  outline: var(--focus-width) solid var(--focus);
+  outline-offset: var(--focus-offset);
+}
+.timeline-status {
+  margin: 0;
+  color: var(--muted);
+}
+.timeline-years {
+  display: grid;
+  gap: var(--space-5);
+}
+.timeline-year h3 {
+  position: sticky;
+  top: 0;
+  margin: 0 0 var(--space-compact);
+  padding: var(--space-compact) 0;
+  background: var(--field);
+  font-size: 18px;
+  font-variant-numeric: tabular-nums;
+}
+.timeline-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 2px;
+}
+.timeline-entry {
+  display: grid;
+  grid-template-columns: 56px 20px minmax(0, 1fr);
+  align-items: baseline;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-control);
+}
+.timeline-entry[data-kind='fact'] {
+  background: var(--raised);
+}
+.timeline-entry .icon {
+  align-self: center;
+  color: var(--muted);
+}
+.timeline-date {
+  color: var(--muted);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+.timeline-text {
+  display: grid;
+  min-width: 0;
+}
+.timeline-title {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+.timeline-detail {
+  color: var(--muted);
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+/* The timeline's start, before anything has been added. */
+.timeline-start { display: grid; justify-items: start; gap: var(--space-3); margin-top: var(--space-4); color: var(--muted); }
+.timeline-start p { margin: 0; }

@@ -1,0 +1,205 @@
+/* Dashboard previews use the workspace's shared surface and action roles. */
+#health-dashboard { margin-block: var(--space-6) var(--space-10); }
+.dashboard-grid { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: var(--space-8) var(--space-6); }
+.dashboard-section { min-width: 0; }
+.dashboard-overview, .dashboard-measurements, .dashboard-history { grid-column: 1 / -1; }
+.dashboard-section-head { display: flex; justify-content: space-between; align-items: center; gap: var(--space-3); margin-bottom: var(--space-4); }
+.dashboard-section-head h2 { margin: 0; font: 300 27px/1.2 var(--font-heading); }
+.dashboard-section-head :is(a,button), .dashboard-link { display: inline-flex; align-items: center; min-height: var(--control-height); font: inherit; color: var(--ink); }
+.dashboard-section-head button:not(.coach-button) { padding: var(--space-1) var(--space-2); background: transparent; border: 0; }
+.dashboard-body { min-width: 0; }
+.dashboard-summary { max-width: 70ch; line-height: 1.65; margin: 0 0 var(--space-5); }
+.dashboard-empty { color: var(--muted); margin: 0 0 var(--space-2); line-height: 1.5; }
+.dashboard-meta { color: var(--muted); font-size: 14px; }
+.dashboard-fact-groups, .dashboard-book-grid, .dashboard-measure-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: var(--space-4); }
+.dashboard-fact-groups h3, .dashboard-contexts h3 { font: 650 15px/1.4 var(--font-body); margin: 0 0 var(--space-2); }
+.dashboard-fact-groups ul { margin: 0; padding: 0; list-style: none; }
+.dashboard-fact-groups li { margin-block: var(--space-2); }
+.dashboard-fact-groups a { display: inline-block; min-height: 24px; color: var(--ink); overflow-wrap: anywhere; }
+.dashboard-fact-groups small { display: block; color: var(--muted); }
+.dashboard-contexts { margin-top: var(--space-5); padding-top: var(--space-4); border-top: 1px solid var(--line-soft); }
+.dashboard-context { display: block; padding-block: var(--space-3); color: var(--ink); overflow-wrap: anywhere; }
+.dashboard-context small { display: block; margin-top: var(--space-1); color: var(--muted); line-height: 1.5; }
+.dashboard-list { list-style: none; padding: 0; margin: 0; }
+.dashboard-list li { display: grid; gap: var(--space-1); padding-block: var(--space-4); border-bottom: 1px solid var(--line-soft); overflow-wrap: anywhere; }
+.dashboard-list li:first-child { padding-top: 0; }
+.dashboard-list time { color: var(--muted); font-size: 14px; }
+.dashboard-list a { display: inline-flex; align-items: center; min-height: 24px; color: var(--ink); }
+.dashboard-list button { text-align: left; justify-self: start; padding: 0; border: 0; background: transparent; color: var(--ink); }
+.dashboard-notebooks .dashboard-book-grid { grid-template-columns: minmax(0,1fr); }
+.dashboard-book { display: grid; grid-template-columns: 24px minmax(0,1fr); align-items: center; gap: var(--space-2) var(--space-3); padding: var(--space-4) 0; color: var(--ink); border-bottom: 1px solid var(--line-soft); text-decoration: none; overflow-wrap: anywhere; }
+.dashboard-book :is(small,span) { grid-column: 2; color: var(--muted); }
+.dashboard-book small { line-height: 1.45; }
+.dashboard-measure-actions { display: flex; justify-content: space-between; flex-wrap: wrap; gap: var(--space-3); margin-bottom: var(--space-4); }
+.dashboard-measure { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-2); padding: var(--space-4); border: 1px solid var(--line); border-radius: var(--radius-panel); min-width: 0; }
+.dashboard-measure > a:first-child { color: var(--ink); min-height: 24px; font-weight: 650; }
+.dashboard-measure strong { font-size: 22px; font-variant-numeric: tabular-nums; }
+.dashboard-measure time { color: var(--muted); font-size: 14px; }
+.dashboard-measure .dashboard-link { margin-top: auto; }
+.dashboard-sparkline { width: 100%; height: 40px; color: var(--muted); }
+.dashboard-sparkline polyline { stroke: currentColor; stroke-width: 2; fill: none; vector-effect: non-scaling-stroke; }
+.dashboard-dialog { width: min(680px,calc(100vw - 24px)); max-height: calc(100dvh - 24px); padding: var(--space-6); border: 1px solid var(--line); border-radius: var(--radius-dialog); background: var(--surface); color: var(--ink); box-sizing: border-box; }
+.dashboard-dialog::backdrop { background: var(--overlay-dim); }
+.dashboard-dialog fieldset { border: 0; border-top: 1px solid var(--line-soft); padding: var(--space-4) 0; min-width: 0; }
+.dashboard-dialog legend { font-weight: 650; }
+.dashboard-choice { display: flex; align-items: center; gap: var(--space-3); min-height: var(--control-height); padding-block: var(--space-compact); overflow-wrap: anywhere; }
+.dashboard-choice input { flex: 0 0 auto; }
+.dashboard-dialog .dashboard-book-grid { grid-template-columns: minmax(0,1fr); }
+.dashboard-status:empty { display: none; }
+/* The library (check-ins, notebooks, conversations) opens with its own heading row, not a bare rule. */
+.dashboard-tools { margin-top: var(--space-9); }
+.home-main.is-loading :is(#dashboard-tools, #home-more) { display: none; }
+.home-library-title { margin: 0 auto 0 0; color: var(--ink); font: 300 30px/1.15 var(--font-heading); letter-spacing: -.02em; }
+.dashboard-add { display: flex; align-items: center; gap: var(--space-3); }
+.dashboard-add > button { min-height: var(--control-height); }
+.dashboard-add-menu > summary { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); min-height: var(--control-height); padding: 0 var(--space-4); border-radius: var(--action-radius); background: var(--action-fill); color: var(--action-ink); cursor: pointer; list-style: none; font-weight: 650; }
+.dashboard-add-menu > summary::-webkit-details-marker { display: none; }
+.dashboard-add-menu .more-menu-items button { text-align: left; color: var(--ink); background: transparent; border: 0; }
+.dashboard-add-menu .more-menu-items a { min-height: var(--control-height); display: flex; align-items: center; color: var(--ink); padding-inline: var(--space-3); }
+@media (max-width: 760px) {
+  .dashboard-grid { grid-template-columns: minmax(0,1fr); gap: var(--space-7); }
+  .dashboard-fact-groups, .dashboard-book-grid, .dashboard-measure-grid { grid-template-columns: minmax(0,1fr); }
+  .dashboard-section-head { flex-wrap: wrap; }
+  .dashboard-section-head h2 { font-size: 25px; }
+  .dashboard-add { flex-wrap: wrap; justify-content: flex-end; }
+  .dashboard-dialog { padding: var(--space-4); }
+}
+/* Keep the toolbar's action label independent of icon-only menu summaries. */
+:root .home-heading { display: grid; grid-template-columns: minmax(0,1fr) auto 44px; gap: var(--space-3); align-items: center; position: relative; }
+:root .home-heading > h2 { margin: 0; }
+:root .home-heading .dashboard-add-menu > summary { width: auto; height: 44px; padding: 0 var(--space-4); font: 650 16px/1.2 var(--font-body); box-sizing: border-box; }
+:root .home-heading .dashboard-add-menu > summary .icon { width: 20px; height: 20px; }
+.dashboard-book { padding: var(--space-4); border: 1px solid var(--line); border-radius: var(--radius-panel); }
+/* The heading stacks by the width of its own column, which the sidebar and a docked demo tour narrow,
+   not only by the window's (#258). */
+.home-main { container: home-main / inline-size; }
+@container home-main (max-width: 640px) {
+  :root .home-heading { grid-template-columns: minmax(0,1fr) 44px; }
+  .home-heading > h2 { grid-column: 1; grid-row: 1; }
+  .home-heading > .library-more { grid-column: 2; grid-row: 1; }
+  .home-heading > .dashboard-add { grid-column: 1 / -1; grid-row: 2; justify-content: flex-start; }
+}
+@media (max-width: 760px) {
+  :root .home-heading { grid-template-columns: minmax(0,1fr) 44px; }
+  .home-heading > h2 { grid-column: 1; grid-row: 1; }
+  .home-heading > .library-more { grid-column: 2; grid-row: 1; }
+  .home-heading > .dashboard-add { grid-column: 1 / -1; grid-row: 2; justify-content: flex-start; }
+  .home-heading .dashboard-add-menu { position: static; }
+  .home-heading .dashboard-add-menu .more-menu-items { left: 0; right: 0; width: auto; }
+}
+.dashboard-overview.widget-paper { padding: var(--space-6); border: 1px solid var(--line); border-radius: var(--radius-panel); }
+.dashboard-overview .dashboard-meta, .dashboard-overview small, .dashboard-measure time { font-size: var(--text-body); line-height: 1.5; }
+@media(max-width:760px) { .dashboard-overview.widget-paper { padding: var(--space-4); } }
+.dashboard-book small { font-size:var(--text-body); }
+
+/* For you now (#224): the most pressing items across the notebooks, ranked on the server. */
+.home-focus { margin-bottom: var(--space-6); padding: var(--space-6); border-radius: var(--radius-dialog); background: var(--widget-fill); color: var(--widget-ink); }
+.home-focus h2 { margin: 0 0 var(--space-3); }
+.home-focus-action { display: inline-flex; align-items: center; justify-content: center; min-height: var(--control-height); padding: 0 var(--space-4); border: 1px solid var(--secondary-line); border-radius: var(--radius-control); background: var(--secondary-fill); color: var(--secondary-ink); font-weight: 600; text-decoration: none; white-space: nowrap; }
+.home-focus-action:hover { background: var(--secondary-hover); }
+.home-focus-action.is-primary { border-color: var(--action-fill); background: var(--action-fill); color: var(--action-ink); }
+.home-focus-action.is-primary:hover { background: var(--action-hover); }
+.home-focus-action:focus-visible { outline: var(--focus-width) solid var(--focus); outline-offset: var(--focus-offset); }
+@media (max-width: 640px) {
+  .home-focus { padding: var(--space-4); }
+  }
+
+/* Latest results: one white tile per test, a large figure over its trend, flagged tests first. */
+.home-results { margin-bottom: var(--space-6); }
+.home-results-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); margin-bottom: var(--space-3); }
+.home-results-head h2 { margin: 0; }
+.home-result-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 210px), 1fr)); gap: var(--space-4); margin: 0; padding: 0; list-style: none; }
+.home-result { display: flex; min-width: 0; }
+.home-result-card { display: flex; flex: 1; flex-direction: column; gap: var(--space-2); min-width: 0; padding: var(--space-5); border: 1px solid var(--widget-line); border-radius: var(--radius-dialog); background: var(--widget-fill); color: var(--widget-ink); text-decoration: none; transition: border-color 150ms var(--ease-enter, ease-out); }
+.home-result-card:hover { border-color: var(--widget-ink); }
+.home-result-card:focus-visible { outline: var(--focus-width) solid var(--focus); outline-offset: var(--focus-offset); }
+.home-result-head { display: flex; align-items: center; gap: var(--space-3); min-width: 0; font-size: var(--text-body); font-weight: 600; line-height: 1.4; }
+.home-result-name { min-width: 0; overflow-wrap: break-word; hyphens: auto; }
+.home-result-icon { display: grid; flex: none; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--widget-raised); }
+.home-result-icon .icon { width: 20px; height: 20px; color: var(--widget-ink); }
+.home-result.is-alert .home-result-icon { background: var(--block-alert-fill); }
+.home-result.is-alert .home-result-icon .icon { color: var(--block-alert-ink); }
+.home-result-figure { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-1) var(--space-2); margin-top: var(--space-2); }
+.home-result-figure strong { font: 300 44px/1.05 var(--font-heading); font-variant-numeric: tabular-nums; }
+.home-result-unit, .home-result-previous { color: var(--widget-muted); font-size: var(--text-body); }
+.home-result-card .dashboard-sparkline { height: 36px; color: var(--data-series); }
+.home-result-meta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3); margin-top: auto; font-size: var(--text-body); }
+.home-result-status { padding: 2px var(--space-3); border-radius: var(--radius-pill); background: var(--widget-raised); font-weight: 600; }
+.home-result.is-alert .home-result-status { background: var(--block-alert-fill); color: var(--block-alert-ink); }
+@media (max-width: 640px) {
+  .home-result-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3); }
+  .home-result-card { padding: var(--space-4); }
+  .home-result-head { flex-direction: column; align-items: flex-start; gap: var(--space-2); }
+  .home-result-figure strong { font-size: 36px; }
+}
+
+/* Before any records, the same panel leads with Ask Stellis and first steps. */
+.home-focus.is-start { padding: var(--space-8) var(--space-6); }
+.home-focus.is-start > h2 { margin: 0 0 var(--space-2); font: 300 40px/1.15 var(--font-heading); }
+.home-start-intro { margin: 0 0 var(--space-5); color: var(--widget-muted); font-size: var(--text-body); line-height: 1.5; }
+.home-start-ask { margin-bottom: var(--space-6); }
+.home-start-ideas-title { margin: 0 0 var(--space-3); font-size: var(--text-body); font-weight: 650; }
+@media (max-width: 640px) {
+  .home-focus.is-start { padding: var(--space-5) var(--space-4); }
+  .home-focus.is-start > h2 { font-size: 32px; }
+}
+
+/* Call Stellis reads as a call (#227 owner correction): the call screen's purple surface with a
+   round answer handle, the most prominent control in the heading, in both themes. */
+:root .home-heading .call-launch { display: inline-flex; align-items: center; gap: var(--space-3); min-height: 52px; padding: 4px var(--space-5) 4px 4px; border: 0; border-radius: var(--radius-pill); background: var(--call-surface); color: var(--call-ink); font: 650 var(--text-body)/1.2 var(--font-body); box-shadow: var(--call-launch-shadow); cursor: pointer; }
+:root .home-heading .call-launch:hover { background: color-mix(in oklch, var(--call-surface) 88%, white); }
+:root .home-heading .call-launch:focus-visible { outline: var(--focus-width) solid var(--focus); outline-offset: var(--focus-offset); }
+.call-launch-handle { position: relative; display: grid; flex: none; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--call-ink); color: var(--call-start-ink); }
+.call-launch-handle .icon { width: 20px; height: 20px; }
+.call-launch-handle::after { content: ''; position: absolute; inset: -4px; border: 2px solid var(--call-ink); border-radius: 50%; opacity: 0; animation: call-launch-ring 2.4s var(--ease-enter, ease-out) infinite; }
+@keyframes call-launch-ring { 0% { opacity: .55; transform: scale(.9); } 70%, 100% { opacity: 0; transform: scale(1.25); } }
+@media (prefers-reduced-motion: reduce) { .call-launch-handle::after { animation: none; } }
+html[data-theme='dark'] .home-heading .call-launch { background: var(--call-ink); color: var(--call-start-ink); }
+html[data-theme='dark'] .call-launch-handle { background: var(--call-surface); color: var(--call-ink); }
+html[data-theme='dark'] .call-launch-handle::after { border-color: var(--call-surface); }
+#goals-title { scroll-margin-top: calc(var(--control-height) + var(--space-6)); }
+
+/* #232: no raw links. Section actions are outlined buttons; the history switch is a segmented control;
+   list titles are row links in the ink colour, never default underlines. */
+.dashboard-section-head > a { display: inline-flex; align-items: center; min-height: var(--control-height); padding: 0 var(--space-4); border: 1px solid var(--secondary-line); border-radius: var(--action-radius); background: var(--secondary-fill); color: var(--secondary-ink); font-size: var(--text-body); font-weight: 600; text-decoration: none; }
+.dashboard-section-head > a:hover { background: var(--secondary-hover); }
+:is(.dashboard-list li > a, .timeline-title) { display: inline-flex; align-items: center; min-height: var(--control-height); color: var(--ink); font-weight: 600; text-decoration: none; }
+:is(.dashboard-list li > a, .timeline-title):hover { text-decoration: underline; text-underline-offset: 3px; }
+#notebooks-section:has(.notebook-new) #new-notebook { display: none; }
+#settings-view > .back-link { display: none; }
+.list-widget-head h2 > a { display: inline-flex; align-items: center; min-height: var(--control-height); color: inherit; text-decoration: none; }
+/* Check-ins, Notebooks and Recent conversations sit inside the library, one step below its heading. */
+.dashboard-tools h2:not(.home-library-title) { font-size: 24px; }
+
+/* Sections left out of My Health while they have nothing in them (owner, 2026-10-27). */
+#recent-widget[hidden], .dashboard-section[hidden], .notebook-none[hidden] { display: none; }
+.health-milestone-heading.is-empty { justify-content: flex-end; }
+
+/* Health History: entries in one bordered list, each a single row with the date at the right. */
+.dashboard-head-links { display: flex; gap: var(--space-2); }
+.dashboard-history-list { border: 1px solid var(--line-soft); border-radius: var(--radius-panel); }
+.dashboard-history-list li { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); padding: var(--space-3) var(--space-4); }
+.dashboard-history-list li:first-child { padding-top: var(--space-3); }
+.dashboard-history-list li:last-child { border-bottom: 0; }
+.dashboard-history-words { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: var(--space-3); min-width: 0; }
+.dashboard-history-list li > time { flex: none; }
+.dashboard-history-list .dashboard-history-words > a { min-height: 0; color: var(--ink); font-weight: 600; text-decoration: none; }
+.dashboard-history-list .dashboard-history-words > a:hover { text-decoration: underline; text-underline-offset: 3px; }
+/* Timeline and Records: the shared segmented control, the open view filled. */
+.dashboard-history-links { display: inline-flex; justify-self: start; align-self: start; gap: 2px; padding: 3px; margin-bottom: var(--space-4); border-radius: var(--radius-pill); background: var(--raised); }
+.dashboard-history-links a { display: inline-flex; align-items: center; min-height: 36px; padding: 0 var(--space-4); border-radius: var(--radius-pill); color: var(--muted); font: 600 14px var(--font-body); text-decoration: none; }
+.dashboard-history-links a[aria-current] { background: var(--block-fill); color: var(--block-ink); }
+/* A section's actions sit together at the right of its heading, all the same height and type. */
+.dashboard-section-head > h2 { margin-right: auto; }
+.dashboard-section-head > :is(a, button) { min-height: var(--control-height); font: 600 15px var(--font-body); }
+
+
+/* My Health's heading actions share one height and one pill shape in both themes (owner, 2026-10-28):
+   Call Stellis, Record with its menu as one split pill (a divider between the halves), and ⋯ as a circle. */
+:root .home-heading :is(.call-launch, .split-button > .invert-button, .record-more > summary, .library-more > summary) { box-sizing: border-box; height: 48px; min-height: 48px; }
+:root .home-heading .call-launch { padding: 4px var(--space-5) 4px 4px; }
+:root .home-heading .call-launch-handle { width: 40px; height: 40px; }
+:root .home-heading .split-button { align-items: stretch; }
+:root .home-heading .split-button > .invert-button { border-radius: var(--radius-pill) 0 0 var(--radius-pill); border-right-width: 0; padding-inline: var(--space-5) var(--space-4); }
+:root .home-heading .record-more > summary { display: grid; place-items: center; width: 48px; border-radius: 0 var(--radius-pill) var(--radius-pill) 0; border-style: solid; border-width: 1px; border-left-color: color-mix(in oklch, currentColor 28%, transparent); }
+:root .home-heading .library-more > summary { display: grid; place-items: center; width: 48px; padding: 0; border-radius: 50%; }

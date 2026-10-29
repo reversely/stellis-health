@@ -1,0 +1,589 @@
+/* Health overview and goals on Home (goals.js). Reminder banners sit on top
+   in accent colours; charts use Trends' series colour, so a reading looks
+   alike on both pages. */
+.home-goals {
+  --coach-series: var(--data-series-light);
+  --coach-band: color-mix(in oklch, var(--coach-series) 14%, transparent);
+  margin: var(--space-2) 0 var(--space-8);
+}
+html[data-theme='dark'] .home-goals {
+  --coach-series: var(--data-series-dark);
+  --coach-band: color-mix(in oklch, var(--coach-series) 20%, transparent);
+}
+.home-goals:empty {
+  display: none;
+}
+
+/* Reminders */
+.coach-reminder {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3) var(--space-4);
+  margin-bottom: var(--space-5);
+  padding: var(--space-4) var(--space-4);
+  border-radius: var(--radius-panel);
+}
+.coach-reminder.is-ask {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+.coach-reminder.is-pending {
+  border: 1px solid var(--line);
+  background: var(--warning-bg, var(--raised));
+  color: var(--ink);
+}
+.coach-reminder-text {
+  display: grid;
+  gap: 2px;
+}
+.coach-reminder.is-pending .coach-reminder-text {
+  justify-items: start;
+  gap: var(--space-1);
+}
+/* A goal's name inside a sentence, set apart as an inverted pill. */
+.coach-pill {
+  display: inline-block;
+  padding: 1px var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-size: 0.9em;
+  font-weight: 600;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+.coach-reminder.is-ask .coach-pill {
+  background: var(--accent-ink);
+  color: var(--accent);
+}
+.coach-sentence {
+  font-size: 16px;
+  line-height: 1.7;
+}
+.coach-reminder.is-ask .coach-sentence {
+  font-size: 17px;
+}
+.coach-reminder-time {
+  color: var(--muted);
+  font-size: 13px;
+}
+.coach-reminder-when {
+  font-size: 13px;
+  opacity: 0.85;
+}
+.coach-reminder-actions {
+  display: flex;
+  gap: var(--space-2);
+}
+.coach-reminder.is-ask .coach-button {
+  border-color: color-mix(in oklch, var(--accent-ink) 50%, transparent);
+  background: transparent;
+  color: var(--accent-ink);
+}
+.coach-reminder.is-ask .coach-button.is-primary {
+  border-color: var(--accent-ink);
+  background: var(--accent-ink);
+  color: var(--accent);
+}
+.coach-reminder-error:empty {
+  display: none;
+}
+.coach-reminder-error {
+  flex-basis: 100%;
+  font-size: 14px;
+}
+
+/* Health overview */
+.coach-title {
+  margin: 0 0 var(--space-4);
+  font: 300 32px/1.15 var(--font-heading);
+  letter-spacing: -0.02em;
+}
+.coach-title span {
+  margin-left: var(--space-2);
+  color: var(--muted);
+  font: 400 14px var(--font-body);
+  letter-spacing: 0;
+}
+.overview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  border: 1px solid var(--line);
+  border-radius: var(--radius-panel);
+  background: var(--surface);
+}
+/* Each stat spans five rows of the card and shares them with its
+   neighbours, so labels, numbers, trend lines and sentences line up. */
+.overview-stat {
+  display: grid;
+  grid-row: span 5;
+  grid-template-rows: subgrid;
+  align-content: start;
+  justify-items: start;
+  gap: var(--space-1);
+  min-width: 0;
+  padding: var(--space-4) var(--space-4);
+}
+.overview-stat + .overview-stat {
+  border-left: 1px solid var(--line-soft);
+}
+.overview-label {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+}
+.overview-value {
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1.1;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.overview-unit {
+  margin-left: var(--space-compact);
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 400;
+}
+.overview-spark {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 32px;
+  margin: var(--space-1) 0;
+}
+.overview-spark svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.overview-spark polyline {
+  fill: none;
+  stroke: var(--coach-series);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+.overview-spark-dot {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: var(--coach-series);
+  box-shadow: 0 0 0 2px var(--surface);
+}
+.overview-band {
+  fill: var(--coach-band);
+}
+.overview-context {
+  font-size: 14px;
+}
+.overview-meta {
+  color: var(--quiet);
+  font-size: 12px;
+}
+.overview-empty {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* Goals */
+.coach-section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin: var(--space-8) 0 var(--space-3);
+}
+.coach-section-head h3 {
+  margin: 0;
+  font: 300 24px/1.2 var(--font-heading);
+}
+.coach-link {
+  min-height: var(--control-height);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+.coach-goals {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+/* Each card spans four rows of the grid and shares them with the card
+   beside it, so titles, charts, sentences and buttons line up. */
+.coach-goal {
+  display: grid;
+  grid-row: span 4;
+  grid-template-rows: subgrid;
+  gap: var(--space-3);
+  min-width: 0;
+  padding: var(--space-4) var(--space-4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-panel);
+  background: var(--surface);
+}
+.coach-goal-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--space-compact);
+  padding: 0 0 var(--space-3);
+  border-bottom: 1px solid var(--line-soft);
+}
+.coach-goal-head h4 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 17px;
+  overflow-wrap: anywhere;
+}
+.coach-chips {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-compact);
+}
+.coach-chip {
+  padding: 2px var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--raised);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+.coach-icon {
+  display: grid;
+  place-items: center;
+  width: var(--control-height);
+  height: var(--control-height);
+  margin: -6px -8px 0 0;
+  border: 0;
+  border-radius: var(--radius-control);
+  background: none;
+  color: var(--quiet);
+  cursor: pointer;
+}
+.coach-goal-body {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: end;
+  gap: var(--space-4);
+}
+.coach-count {
+  display: grid;
+}
+.coach-count-value {
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.coach-count-label {
+  color: var(--muted);
+  font-size: 13px;
+}
+.goal-weeks {
+  width: 100%;
+  height: 96px;
+  overflow: visible;
+}
+.goal-bar {
+  fill: color-mix(in oklch, var(--coach-series) 40%, var(--surface));
+}
+.goal-bar.is-now {
+  fill: var(--coach-series);
+}
+.goal-line {
+  stroke: var(--muted);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+}
+.goal-weeks text {
+  fill: var(--muted);
+  font-family: var(--font-body);
+  font-size: 10px;
+}
+.coach-note {
+  align-self: start;
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+.coach-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  justify-self: start;
+  gap: var(--space-compact);
+  min-height: var(--control-height);
+  padding: 0 var(--space-4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 150ms,
+    scale 120ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+a.coach-button {
+  text-decoration: none;
+}
+/* display above would otherwise show a hidden button, such as Retry reply mid-call (#258). */
+.coach-button[hidden] { display: none; }
+.coach-button .icon {
+  width: 16px;
+  height: 16px;
+}
+.coach-button.is-primary,
+.coach-button[aria-pressed='true'] {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+/* Quiet is a lighter outline, never bare text: a borderless muted label read as a raw link (#232). */
+.coach-button.is-quiet {
+  border-color: color-mix(in oklch, currentColor 18%, transparent);
+  background: none;
+  color: var(--muted);
+}
+.coach-button.is-danger {
+  margin-left: auto;
+  border-color: transparent;
+  background: none;
+  color: var(--failure);
+}
+.coach-button:disabled {
+  cursor: default;
+  color: var(--quiet);
+}
+.coach-button:active {
+  scale: 0.97;
+}
+@media (hover: hover) and (pointer: fine) {
+  .coach-button:not(.is-primary, [aria-pressed='true'], :disabled):hover {
+    background: var(--raised);
+  }
+}
+.coach-goal-actions {
+  display: grid;
+  align-content: end;
+  justify-items: start;
+  gap: var(--space-compact);
+}
+.coach-error {
+  margin: 0;
+  color: var(--failure);
+  font-size: 14px;
+}
+.coach-error:empty {
+  display: none;
+}
+.coach-reading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+.coach-reading input {
+  width: 88px;
+  min-height: var(--control-height);
+  padding: 0 var(--space-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-control);
+  background: var(--input);
+  color: var(--ink);
+  font: inherit;
+}
+.coach-unit {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* Add or edit a goal */
+.coach-form {
+  display: grid;
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+  padding: var(--space-4) var(--space-4);
+  border: 1px dashed var(--line);
+  border-radius: var(--radius-panel);
+  background: var(--surface);
+}
+.coach-goals .coach-form {
+  grid-row: span 4;
+  align-content: start;
+  margin-top: 0;
+  border-style: solid;
+}
+.coach-form h3 {
+  margin: 0;
+  font-size: 16px;
+}
+.coach-form-fields {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: var(--space-3);
+}
+.coach-field {
+  display: grid;
+  gap: var(--space-1);
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+}
+.coach-field[hidden] {
+  display: none;
+}
+.coach-field :is(select, input:not([type='checkbox'])) {
+  min-height: var(--control-height);
+  padding: 0 var(--space-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-control);
+  background: var(--input);
+  color: var(--ink);
+  font: inherit;
+  font-size: var(--text-body);
+  font-weight: 400;
+}
+.coach-remind-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--ink);
+  font-weight: 400;
+}
+.coach-remind-row input[type='checkbox'] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
+}
+.coach-form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+:is(.coach-button, .coach-link, .coach-icon):focus-visible {
+  outline: var(--focus-width) solid var(--focus);
+  outline-offset: var(--focus-offset);
+}
+
+@media (max-width: 760px) {
+  .overview {
+    grid-template-columns: 1fr;
+  }
+  .overview-stat + .overview-stat {
+    border-left: 0;
+    border-top: 1px solid var(--line-soft);
+  }
+  .overview-stat {
+    padding: var(--space-4);
+  }
+  .overview-value,
+  .coach-count-value {
+    font-size: 24px;
+  }
+  .coach-goals {
+    grid-template-columns: 1fr;
+  }
+  .coach-title span {
+    display: block;
+    margin: var(--space-1) 0 0;
+  }
+  .coach-reminder {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .coach-reminder-actions .coach-button {
+    flex: 1;
+  }
+  .coach-field :is(select, input:not([type='checkbox'])),
+  .coach-reading input {
+    font-size: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .coach-button {
+    transition: none;
+  }
+}
+
+/* Wrap sentences without leaving one word alone on a line. */
+:is(.coach-note, .coach-sentence, .overview-context, .coach-reminder-text) {
+  text-wrap: pretty;
+}
+:is(.coach-goal-head h4, .coach-title) {
+  text-wrap: balance;
+}
+
+/* Goals described in the person's words, filled in by Stellis */
+.coach-describe {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: var(--space-2) var(--space-3);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--line);
+}
+.coach-describe .coach-field {
+  flex: 1 1 280px;
+}
+.coach-describe-status {
+  flex-basis: 100%;
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  text-wrap: pretty;
+}
+.coach-describe-status:empty {
+  display: none;
+}
+.coach-drafted {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  text-wrap: pretty;
+}
+.coach-form.is-drafted {
+  border-style: solid;
+  border-color: var(--accent);
+}
+
+.coach-overview-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-4);
+  margin-bottom: var(--space-4);
+}
+.coach-overview-head .coach-title {
+  margin: 0;
+}
+
+.overview-vitals {
+  display: grid;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+/* My Health's section headings share one face: the serif page-section heading used by Check-ins,
+   Notebooks, Calendar and Tracking, not a second bold sans heading for Vital signs and Goals. */
+.vital-signs-head h2, .coach-section-head h2 { margin: 0; color: var(--ink); font: 300 30px/1.15 var(--font-heading); letter-spacing: -.02em; }
+.overview-stat > a.coach-button { align-self: flex-start; margin-top: var(--space-2); }

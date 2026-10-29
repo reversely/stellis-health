@@ -1,0 +1,57 @@
+#global-add { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); min-height: var(--control-height); padding: var(--space-2) var(--space-4); flex-shrink: 0; }
+#global-add .icon { width: 20px; height: 20px; }
+.health-capture { width: min(560px,calc(100vw - 24px)); box-sizing: border-box; }
+.health-capture[open] { display: flex; flex-direction: column; }
+.health-capture .drawer-head { flex: 0 0 auto; padding-bottom: var(--space-2); }
+/* A scrolling body clips what is drawn outside its controls, so it keeps 8px of room for focus rings and
+   the tour's outline, with the same negative margin so nothing moves (#258). */
+.health-capture .capture-body { min-height: 0; overflow-y: auto; padding: 8px; margin: -8px; }
+.capture-choices { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: var(--space-3); }
+.capture-choices button { justify-self: stretch; justify-content: flex-start; width: 100%; min-height: 56px; white-space: normal; }
+.capture-field { display: flex; flex-direction: column; gap: var(--space-2); margin-block: var(--space-4); min-width: 0; }
+.capture-field :is(input,select,textarea) { box-sizing: border-box; width: 100%; min-width: 0; min-height: var(--control-height); font-size: 16px; }
+.capture-field input[type=file] { white-space: normal; overflow-wrap: anywhere; padding: var(--space-2); }
+.capture-field input::file-selector-button { min-height: var(--control-height); background: var(--action-fill); color: var(--action-ink); border: 0; border-radius: var(--radius-control); padding: var(--space-2) var(--space-3); font: inherit; margin-right: var(--space-2); cursor: pointer; }
+.capture-error { color: var(--ink); }
+.capture-error:empty,.capture-status:empty { display: none; }
+.capture-content .trend-form { margin-inline: 0; }
+.capture-body :is(p,h3,a) { overflow-wrap: anywhere; }
+@media (max-width: 600px) { #global-add { width: 44px; padding: 0; } #global-add span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); } .capture-choices { grid-template-columns: 1fr; } .health-capture { padding: var(--space-4); } }
+/* Capture uses spare desktop toolbar space and one mobile navigation slot. */
+@media (min-width: 1001px) {
+  #global-add { position: fixed; top: 14px; right: 180px; z-index: 4; }
+  body:is(:has(#list-view:not([hidden])),.agent-chat-page,.notebook-page,.timeline-page,.records-page,.summary-page,.trends-page,.document-page,.recording-page) #global-add { right: 24px; }
+}
+@media (max-width: 1000px) {
+  #compact-nav { grid-template-columns: repeat(4,minmax(0,1fr)); }
+  #compact-nav #global-add { justify-self: stretch; width: auto; padding: var(--space-2); color: var(--action-ink); background: var(--action-fill); border-radius: var(--action-radius); }
+  #compact-nav #global-add span { position: static; width: auto; height: auto; clip-path: none; }
+}
+#health-capture-toolbar:empty { display: none; }
+
+.home-heading .dashboard-add-menu > summary { background: transparent; color: var(--ink); border-color: var(--line); }
+
+:root .agent-composer-actions .agent-capture-action { background: transparent; color: var(--ink); border-color: var(--line); }
+@media (hover: hover) and (pointer: fine) { :root .agent-composer-actions .agent-capture-action:hover { background: var(--raised); color: var(--ink); border-color: var(--line); } }
+
+/* The persistent capture action owns its toolbar surface on every desktop page.
+   Content scrolls beneath the toolbar rather than behind the button alone. */
+@media (min-width: 1001px) {
+  body:not(.recording-page, .conversation-page) #health-capture-toolbar:not(:empty) {
+    position: fixed; inset: 0 0 auto var(--rail-width); z-index: 4;
+    display: flex; align-items: center; justify-content: flex-end;
+    box-sizing: border-box; height: calc(var(--control-height) + var(--space-7));
+    padding: var(--space-3) var(--space-6); background: var(--field);
+  }
+  html body:not(.recording-page, .conversation-page) #health-capture-toolbar #global-add { position: static; }
+  .notebook-page #notebook-view :is(section, .brief-chart) {
+    scroll-margin-top: calc(var(--control-height) + var(--space-9));
+  }
+}
+/* The recording and conversation pages have their own full-width header (links in the middle, the
+   theme switch at the right) and no sidebar, so their Add sits in that header beside the switch. The
+   general rule above measures from the sidebar's width, which these pages don't define, and left the
+   Add off screen (#258, found by the click sweep). */
+@media (min-width: 1001px) {
+  body:is(.recording-page, .conversation-page) #health-capture-toolbar:not(:empty) { position: fixed; z-index: 21; top: var(--space-3); right: calc(var(--demo-panel, 0px) + 96px); }
+}

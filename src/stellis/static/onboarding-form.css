@@ -1,0 +1,46 @@
+/* Setup's About you form (owner, 2026-10-28): one paper card of short sections, answers as compact
+   wrapping pills that are tapped before anything is typed, and no tall choice lists. */
+.setup-form { max-width: 760px; }
+.setup-form h1 { margin: 0 0 var(--space-5); }
+.setup-form-card { display: grid; gap: var(--space-6); padding: var(--space-6); border-radius: var(--radius-dialog); }
+.setup-form-section { display: grid; gap: var(--space-3); min-width: 0; margin: 0; padding: 0; border: 0; }
+.setup-form-section > legend { padding: 0; margin-bottom: var(--space-3); color: var(--ink); font: 600 var(--text-body)/1.4 var(--font-body); }
+.setup-form-hint { margin: calc(-1 * var(--space-2)) 0 0; color: var(--muted); font-size: 14px; }
+.setup-form-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 220px); gap: var(--space-4); }
+.setup-form-field { display: grid; gap: var(--space-2); min-width: 0; color: var(--muted); font-size: 14px; }
+.setup-form-field input { width: 100%; box-sizing: border-box; min-height: var(--control-height); font-size: var(--text-body); }
+
+/* Pills: unpressed on the field fill with a hairline, pressed in the darkest mauve with white text. */
+.setup-pills, .intake-answer-suggestions { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.onboarding-page :is(.setup-pill, .intake-answer-suggestion, .setup-form .intake-answer-none) {
+  min-height: 40px; padding: var(--space-2) var(--space-4); border: 1px solid color-mix(in srgb, currentColor 18%, transparent);
+  border-radius: var(--radius-pill); background: var(--field-fill); color: var(--ink);
+  font: 500 15px/1.3 var(--font-body); text-align: left; white-space: normal;
+}
+.onboarding-page :is(.setup-pill, .intake-answer-suggestion, .setup-form .intake-answer-none):enabled:hover { border-color: color-mix(in srgb, currentColor 45%, transparent); }
+.onboarding-page :is(.setup-pill, .intake-answer-suggestion, .setup-form .intake-answer-none)[aria-pressed='true'] {
+  background: var(--brand-mauve); border-color: var(--brand-mauve); color: var(--paper-action-ink);
+}
+.onboarding-page .setup-pill:disabled { color: var(--muted); cursor: not-allowed; }
+.setup-form .intake-answer-picker { gap: var(--space-3); }
+.onboarding-page .setup-form .intake-answer-picker input { min-height: var(--control-height); background: var(--field-fill); border: 1px solid color-mix(in srgb, currentColor 12%, transparent); }
+
+/* A chosen goal's target: the activity, then steppers for its amount and its days a week. */
+.setup-goal-editors { display: grid; gap: var(--space-2); }
+.setup-goal-editors:empty { display: none; }
+.setup-goal-editor { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-4); padding: var(--space-2) var(--space-3); border-radius: var(--radius-control); background: var(--field-fill); color: var(--ink); }
+.setup-goal-editor strong { min-width: 5.5em; font-weight: 600; }
+.onboarding-page .setup-goal-remove { margin-left: auto; }
+.setup-goal-remove .icon { width: 18px; height: 18px; }
+.onboarding-page .setup-pill-more { border-style: dashed; }
+.setup-stepper { display: inline-flex; align-items: center; gap: var(--space-1); }
+.setup-stepper output { min-width: 7.5em; text-align: center; font-variant-numeric: tabular-nums; }
+.onboarding-page .setup-step { display: grid; place-items: center; width: var(--control-height); height: var(--control-height); padding: 0; border: 1px solid color-mix(in srgb, currentColor 18%, transparent); border-radius: var(--radius-pill); background: var(--widget-fill); color: var(--ink); font: 500 20px/1 var(--font-body); }
+.onboarding-page .setup-step:disabled { color: var(--muted); cursor: not-allowed; }
+
+@media (max-width: 640px) {
+  .setup-form-card { padding: var(--space-4); gap: var(--space-5); }
+  .setup-form-row { grid-template-columns: minmax(0, 1fr); }
+  .setup-goal-editor strong { min-width: 0; flex-basis: 100%; }
+  .setup-stepper output { min-width: 7em; }
+}

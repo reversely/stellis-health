@@ -1,0 +1,94 @@
+/* Health summary page. The rail layout lives in timeline.css. */
+.summary-view[hidden] {
+  display: none;
+}
+.summary-view {
+  display: grid;
+  gap: var(--space-4);
+  min-width: 0;
+  max-width: 820px;
+}
+.summary-head h2 {
+  margin: 0;
+  font:
+    300 30px/1.15 var(--font-heading);
+  letter-spacing: -0.02em;
+}
+.summary-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+.summary-meta,
+.summary-status,
+.summary-empty {
+  margin: 0;
+  color: var(--muted);
+}
+.summary-view .summary-update {
+  min-height: var(--control-height);
+  padding: 0 var(--space-4);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-control);
+  background: var(--accent);
+  color: var(--accent-ink);
+  font: inherit;
+  cursor: pointer;
+}
+.summary-view .summary-update:disabled {
+  cursor: default;
+  background: var(--raised);
+  border-color: var(--line);
+  color: var(--quiet);
+}
+.summary-view :focus-visible {
+  outline: var(--focus-width) solid var(--focus);
+  outline-offset: var(--focus-offset);
+}
+.summary-body {
+  display: grid;
+  gap: var(--space-4);
+}
+.summary-section {
+  padding: var(--space-4) var(--space-4);
+  border-radius: var(--radius-panel);
+  background: var(--surface);
+  border: 1px solid var(--line-soft);
+}
+.summary-section h3 {
+  margin: 0 0 var(--space-2);
+  font-size: 18px;
+}
+.summary-section p {
+  margin: 0 0 var(--space-2);
+  line-height: 1.6;
+  max-width: 72ch;
+}
+.summary-section p:last-child {
+  margin-bottom: 0;
+}
+.summary-section .nb-cite {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  height: 24px;
+  margin: 0 2px;
+  padding: 0 var(--space-compact);
+  border-radius: var(--radius-control);
+  background: var(--raised);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  vertical-align: 1px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Keep the 44px touch target inside the citation's horizontal bounds. */
+.summary-section .nb-cite::after {
+  inset: -10px 0;
+}

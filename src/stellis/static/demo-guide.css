@@ -1,0 +1,251 @@
+/* The demo walkthrough (#247) docks beside the app, and the page makes room for it (owner, 2026-10-28):
+   nothing dims the page and nothing floats over it. A sidebar on wide windows, a bottom panel otherwise. */
+:root { --demo-panel: 0px; --demo-sheet: 0px; --demo-left: 0px; --demo-bottom: 0px; }
+.demo-guide {
+  --demo-understand: var(--pillar-understand-colour);
+  --demo-log: var(--pillar-log-colour);
+  --demo-chart: var(--pillar-chart-colour);
+  --demo-monitor: var(--pillar-monitor-colour);
+  position: fixed;
+  z-index: 50;
+  box-sizing: border-box;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: var(--paper-surface);
+  color: var(--paper-ink);
+}
+.demo-card { box-sizing: border-box; padding: var(--space-5); }
+@media (min-width: 1180px) {
+  html.has-demo-panel { --demo-panel: 340px; }
+  html.has-demo-panel.demo-is-small { --demo-panel: 72px; }
+  .demo-guide { top: 0; right: 0; bottom: 0; width: var(--demo-panel); border-left: 1px solid var(--paper-line); }
+  html.has-demo-panel body { margin-right: var(--demo-panel); }
+  /* Fixed things that hug the right edge move in with the page. */
+  html.has-demo-panel body:not(.recording-page, .conversation-page) #health-capture-toolbar:not(:empty) { right: var(--demo-panel); }
+  html.has-demo-panel :is(.stellis-chat-window[data-chat-mode='floating'], .chat-window-launcher) { right: calc(var(--demo-panel) + var(--space-6)); }
+  html.has-demo-panel .stellis-chat-window[data-chat-mode='expanded'] { right: calc(var(--demo-panel) + var(--space-4)); }
+  html.has-demo-panel body #status:not(:empty) { right: calc(var(--demo-panel) + 28px); }
+  html.has-demo-panel .recording-bar { right: var(--demo-panel); }
+  /* Folded, the sidebar is a slim column: avatar, step, expand and leave, one above the other. */
+  .demo-card.is-pill { display: flex; flex-direction: column; align-items: center; gap: var(--space-2); padding: var(--space-4) var(--space-2); }
+}
+@media (max-width: 1179px) {
+  .demo-guide { left: var(--demo-left); right: 0; bottom: var(--demo-bottom); max-height: 46vh; border-top: 1px solid var(--paper-line); box-shadow: var(--elevation-sheet); }
+  /* The page keeps room for the bottom bar (--demo-bottom) as well as the docked tour above it. */
+  html.has-demo-panel body { padding-bottom: calc(var(--demo-sheet) + var(--demo-bottom)); }
+  /* Along the bottom the panel stays short: no pillar row, a smaller title, tighter spacing. */
+  .demo-card { padding: var(--space-3) var(--space-4); }
+  .demo-card .demo-roadmap { display: none; }
+  .demo-card .demo-card-head { margin-top: 0; }
+  .demo-card h2 { margin: 4px 0 2px; font-size: 22px; }
+  .demo-card .demo-actions { margin-top: var(--space-2); }
+  .demo-card .demo-icon { width: 36px; height: 36px; }
+  .demo-card.is-pill { display: flex; align-items: center; gap: var(--space-2); padding: var(--space-2) var(--space-4); }
+  .demo-card.is-pill .demo-count { margin-right: auto; }
+}
+@media (min-width: 1001px) and (max-width: 1179px) { .demo-guide { --demo-left: var(--rail-width); } }
+/* Phones keep their bottom bar; the panel sits on top of it. */
+@media (max-width: 1000px) { :root { --demo-bottom: calc(72px + env(safe-area-inset-bottom)); } }
+html.has-demo-panel { scroll-padding-top: 96px; scroll-padding-bottom: calc(var(--demo-sheet) + 16px); }
+
+/* The step's control is outlined where it is, so the mark scrolls with it. A large region's outline
+   shows briefly and fades; a control the step asks for keeps it. */
+.demo-target { outline: 3px solid var(--focus); outline-offset: 4px; border-radius: var(--radius-control); scroll-margin: 16px; }
+/* An outline sits outside its target's edge, so it never covers the target's own text; where a clipping
+   container would cut it, it moves inside the edge. */
+.demo-target.is-inset { outline-offset: -3px; }
+/* The control a step names is the one filled button on screen (owner, 2026-10-29: several equal buttons
+   left no clear next press). */
+html[data-theme] :is(button, a).demo-target:not(.is-brief) { border-color: var(--action-fill); background: var(--action-fill); color: var(--action-ink); }
+/* Dark mode outlines the header's controls by ID; the step's own control still fills. */
+html[data-theme='dark'] :is(.home-heading .invert-button, .home-heading .call-launch, #health-capture-toolbar #global-add, .measurement-camera, .measurement-manual).demo-target:not(.is-brief) { border-color: var(--action-fill); background: var(--action-fill); color: var(--action-ink); }
+/* Others read the action tokens, so redefining them on the button outlines it whichever rule draws it. */
+.demo-quiet { --action-fill: transparent; --action-ink: currentColor; --action-hover: color-mix(in oklch, currentColor 10%, transparent); --paper-action-fill: transparent; --paper-action-ink: currentColor; --accent: transparent; --accent-ink: currentColor; --accent-strong: color-mix(in oklch, currentColor 10%, transparent); box-shadow: inset 0 0 0 1px color-mix(in oklch, currentColor 45%, transparent); }
+.demo-target.is-brief { animation: demo-brief 2.6s ease-out forwards; }
+@keyframes demo-brief { 0%, 70% { outline-color: var(--focus); } 100% { outline-color: transparent; } }
+@media (prefers-reduced-motion: reduce) { .demo-target.is-brief { animation: none; } }
+
+.demo-card h2 {
+  margin: 10px 0 6px;
+  font: 400 30px/1.15 var(--font-heading);
+  letter-spacing: -0.015em;
+}
+.demo-text {
+  margin: 0;
+  font: 400 16px/1.5 var(--font-body);
+}
+
+.demo-card-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+}
+.demo-roadmap + .demo-card-head { margin-top: 14px; }
+.demo-count {
+  color: var(--paper-muted);
+  font: 600 13px var(--font-body);
+}
+
+/* Where the visitor is: the current pillar filled, the ones shown outlined, those to come quiet. */
+.demo-roadmap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.demo-pillar {
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  box-shadow: inset 0 0 0 1.5px var(--paper-line);
+  color: var(--paper-muted);
+  font: 600 13px var(--font-body);
+  opacity: 0.7;
+}
+.demo-pillar.is-done { opacity: 1; color: var(--paper-ink); }
+.demo-pillar-understand { --pillar: var(--demo-understand); }
+.demo-pillar-log { --pillar: var(--demo-log); }
+.demo-pillar-chart { --pillar: var(--demo-chart); }
+.demo-pillar-monitor { --pillar: var(--demo-monitor); }
+.demo-pillar.is-done { box-shadow: inset 0 0 0 1.5px var(--pillar); }
+.demo-pillar.is-current { opacity: 1; background: var(--pillar); color: var(--paper-action-ink); box-shadow: none; }
+
+.demo-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+}
+.demo-actions .is-quiet:first-child { margin-right: auto; }
+
+
+
+.demo-card-head { display: flex; align-items: center; }
+.demo-window { display: flex; gap: var(--space-1); margin-left: auto; }
+.demo-icon { display: grid; place-items: center; width: 40px; height: 40px; padding: 0; border: 1px solid var(--paper-line); border-radius: 50%; background: transparent; color: var(--paper-ink); cursor: pointer; }
+.demo-icon .icon { width: 18px; height: 18px; }
+.demo-icon.is-primary { border-color: var(--paper-action-fill); background: var(--paper-action-fill); color: var(--paper-action-ink); }
+@media (hover: hover) and (pointer: fine) { .demo-icon:not(.is-primary):hover { background: var(--guide-dim); } }
+.demo-icon:focus-visible { outline: var(--focus-width) solid var(--focus); outline-offset: var(--focus-offset); }
+.demo-end-close { margin-left: auto; }
+@media (max-width: 640px) { .demo-card h2 { font-size: 24px; } }
+
+/* The context slide that opens the demo, in the film's look (#258): who Maya is before any screen names
+   her. Full screen over the app, light paper, her pixel portrait, the narration's words. */
+.demo-context { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; overflow: auto; padding: var(--space-6); background: var(--paper-surface); color: var(--paper-ink); }
+.demo-context-inner { display: grid; justify-items: start; gap: var(--space-4); width: min(720px, 100%); }
+.demo-maya { display: grid; place-items: center; width: 136px; height: 136px; border-radius: 50%; background: var(--portrait-fill); box-shadow: 0 0 0 4px var(--paper-surface), var(--elevation-portrait); }
+.demo-maya svg { width: 106px; height: 106px; }
+.demo-context h1 { margin: var(--space-2) 0 0; font: 400 44px/1.12 var(--font-heading); letter-spacing: -.02em; text-wrap: balance; }
+.demo-context-lede { margin: 0; font: 400 20px/1.5 var(--font-body); color: var(--paper-ink); text-wrap: pretty; }
+.demo-context-what { margin: 0; font: 400 16px/1.55 var(--font-body); color: var(--paper-muted); text-wrap: pretty; }
+.demo-context-actions { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-2); }
+.demo-context-actions .coach-button { min-height: 48px; padding: 0 var(--space-5); font-size: 16px; }
+@media (max-width: 640px) {
+  .demo-context { padding: var(--space-5); }
+  .demo-maya { width: 104px; height: 104px; }
+  .demo-maya svg { width: 80px; height: 80px; }
+  .demo-context h1 { font-size: 30px; }
+  .demo-context-lede { font-size: 17px; }
+}
+
+.demo-context-stellis { display: grid; gap: var(--space-3); align-items: start; width: 100%; margin-top: var(--space-3); padding-top: var(--space-4); border-top: 1px solid var(--paper-line); }
+.demo-context-stellis > div { display: grid; gap: var(--space-3); }
+/* The pillar colours come from the tour's own roadmap; on the slide all four show filled. */
+.demo-context .demo-roadmap { --demo-understand: var(--pillar-understand-colour); --demo-log: var(--pillar-log-colour); --demo-chart: var(--pillar-chart-colour); --demo-monitor: var(--pillar-monitor-colour); }
+.demo-context .demo-pillar { font-size: 14px; padding: 6px 14px; }
+
+/* While the tour is docked it is the demo's frame, so the example bar waits; it returns, with its year
+   steps, when the tour is closed. */
+html.has-demo-panel .example-bar { display: none; }
+.demo-status { flex-basis: 100%; margin: 0; color: var(--paper-failure); font-size: 14px; text-align: right; }
+.demo-status:empty { display: none; }
+/* What the server did with an uploaded file, stage by stage (#258). */
+.demo-receipt { display: grid; gap: var(--space-2); margin: var(--space-3) 0 0; padding-left: 1.3em; font: 400 15px/1.45 var(--font-body); color: var(--paper-ink); }
+/* Demo guests add records through the real Add and Records routes, so the bar's own add stays out. */
+body.is-demo-guest .example-bar .example-bar-add { display: none; }
+
+/* A modal dialog shares the screen with the docked tour (owner, 2026-10-28): it centres in the page area
+   and its backdrop stops at the panel. The panel itself moves into the open dialog (demo-guide.js), so
+   its buttons keep working. */
+/* A dialog that is scaled or moved, even for a moment while it opens, becomes the frame of the fixed
+   panel inside it, which then sits over the dialog's own buttons (owner, 2026-10-29). While the tour is
+   docked, dialogs only fade. */
+html.has-demo-panel dialog, html.has-demo-panel dialog:not([open]) { scale: none; translate: none; transform: none; }
+@starting-style { html.has-demo-panel dialog[open] { scale: none; translate: none; } }
+/* The dark theme's glass blur does the same, so while the tour is docked the blur moves to the dialog's
+   backdrop, which blurs the page behind it just as well. */
+html[data-theme].has-demo-panel dialog:modal { backdrop-filter: none; }
+html[data-theme='dark'].has-demo-panel dialog:modal::backdrop { backdrop-filter: blur(12px); }
+@media (min-width: 1180px) {
+  html.has-demo-panel dialog:modal { inset-inline-end: var(--demo-panel); }
+  html.has-demo-panel dialog:modal::backdrop { inset-inline-end: var(--demo-panel); }
+}
+@media (max-width: 1179px) {
+  html.has-demo-panel dialog:modal { inset-block-end: calc(var(--demo-sheet) + var(--demo-bottom)); max-height: calc(100dvh - var(--demo-sheet) - var(--demo-bottom) - 16px); }
+  html.has-demo-panel dialog:modal::backdrop { inset-block-end: calc(var(--demo-sheet) + var(--demo-bottom)); }
+}
+
+
+/* The tour is what to look at first (owner, 2026-10-28), so it is inverted against the page: in the
+   light theme it takes the rail's dark surface and light ink; in the dark theme the light paper already
+   stands apart. Its contents read the paper and control roles, so the panel redefines those. */
+html:not([data-theme='dark']) .demo-guide {
+  --paper-surface: var(--rail-surface);
+  --paper-raised: var(--rail-control);
+  --paper-ink: var(--rail-ink);
+  --paper-muted: var(--rail-muted);
+  --paper-line: var(--rail-line);
+  --paper-line-soft: var(--rail-line);
+  --paper-failure: var(--rail-failure);
+  --paper-action-fill: var(--rail-ink);
+  --paper-action-ink: var(--rail-surface);
+  --ink: var(--rail-ink);
+  --muted: var(--rail-muted);
+  --line: var(--rail-line);
+  --surface: var(--rail-surface);
+  --quiet: var(--rail-control);
+  --accent: var(--rail-ink);
+  --accent-ink: var(--rail-surface);
+  --action-fill: var(--rail-ink);
+  --action-ink: var(--rail-surface);
+  --action-hover: color-mix(in oklch, var(--rail-ink) 86%, var(--rail-surface));
+  --focus: var(--rail-ink);
+  border-color: transparent;
+  box-shadow: var(--elevation-side);
+}
+html:not([data-theme='dark']) .demo-guide .demo-pillar.is-current { color: var(--pillar-ink); }
+html:not([data-theme='dark']) .demo-guide .agent-avatar { background: transparent; box-shadow: none; }
+html:not([data-theme='dark']) .demo-guide .agent-avatar path { fill: var(--rail-ink); }
+
+/* In the dark theme the panel is light paper, so its main action takes the paper's dark fill. */
+html[data-theme='dark'] .demo-guide { --action-fill: var(--paper-action-fill); --action-ink: var(--paper-action-ink); --action-hover: var(--paper-action-hover); }
+/* The dark theme's general text roles are light; the panel is light paper there, so it takes the paper's. */
+html[data-theme='dark'] .demo-guide { --ink: var(--paper-ink); --muted: var(--paper-muted); --line: var(--paper-line); --surface: var(--paper-surface); --quiet: var(--paper-control-fill); color: var(--paper-ink); }
+.demo-guide :is(.demo-text, .demo-receipt) { color: var(--paper-ink); }
+
+/* The slide is light paper in both themes, so it reads the paper's text and action roles, not the dark
+   theme's light ones (owner, 2026-10-28: the heading and buttons vanished in dark mode). */
+.demo-context {
+  --ink: var(--paper-ink); --muted: var(--paper-muted); --line: var(--paper-line); --surface: var(--paper-surface);
+  --quiet: var(--paper-control-fill);
+  --action-fill: var(--paper-action-fill); --action-ink: var(--paper-action-ink); --action-hover: var(--paper-action-hover);
+  --accent: var(--paper-action-fill); --accent-ink: var(--paper-action-ink); --focus: var(--paper-ink);
+}
+.demo-context h1 { color: var(--paper-ink); }
+.demo-context .coach-button.is-quiet { border-color: var(--paper-line); background: transparent; color: var(--paper-ink); }
+
+/* A starting demo covers the app in the slide's paper until the slide is up (demo-early.js). */
+html.demo-arriving body { visibility: hidden; }
+html.demo-arriving { background: var(--paper-surface); }
+html.demo-arriving .demo-context { visibility: visible; }
+/* The reserved column shows the panel's own surface until the panel is drawn into it. */
+@media (min-width: 1180px) {
+  html.has-demo-panel::after { content: ''; position: fixed; z-index: 49; top: 0; right: 0; bottom: 0; width: var(--demo-panel); background: var(--paper-surface); pointer-events: none; }
+  html.has-demo-panel:not([data-theme='dark'])::after { background: var(--rail-surface); }
+}
+
+/* Controls a later tour step introduces stay out of sight until then (demo-guide.js hideLater). */
+html.demo-before-sort :is(.records-actions, #records-unsorted-title, .records-list) { display: none; }
+/* ‹ and › stay in view when a step's details make the panel scroll (a receipt on a phone's sheet). */
+.demo-card .demo-actions { position: sticky; bottom: 0; padding-block: var(--space-2); background: var(--paper-surface); }

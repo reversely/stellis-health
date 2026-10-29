@@ -1,0 +1,74 @@
+/* The document beside a chat, its citation chips, compact health facts and page highlights. */
+.chat-doc-panel {
+  /* Above the phone chat window (44), below the bottom navigation (46). */
+  position: fixed; inset: 0 0 0 auto; z-index: 45; box-sizing: border-box; width: min(460px, 100vw);
+  display: grid; align-content: start; gap: var(--space-5); padding: var(--space-6); overflow-y: auto;
+  border-left: 1px solid var(--line); background: var(--surface); color: var(--ink);
+  animation: chat-doc-in 200ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.chat-doc-panel:focus { outline: none; }
+@keyframes chat-doc-in { from { opacity: 0; translate: 8px 0; } }
+@media (min-width: 1200px) {
+  /* The chat narrows beside the panel instead of sitting under it. */
+  body.has-chat-document.agent-chat-page #agent-chat-view { margin-right: min(460px, 100vw); }
+}
+.chat-doc-status { margin: 0; color: var(--muted); }
+.chat-doc-head { display: grid; grid-template-columns: minmax(0,1fr); align-items: start; gap: var(--space-3); }
+.chat-doc-titles { display: grid; gap: var(--space-1); min-width: 0; }
+.chat-doc-notebook { margin: 0; color: var(--muted); font-size: 14px; font-weight: 650; }
+.chat-doc-titles h2 { margin: 0; font: 300 26px/1.2 var(--font-heading); overflow-wrap: anywhere; }
+.chat-doc-meta { margin: 0; color: var(--muted); font-size: 15px; }
+.chat-doc-actions { display: flex; flex-wrap: wrap; gap: var(--space-2); min-width: 0; }
+.chat-doc-actions a { display: inline-flex; align-items: center; text-decoration: none; }
+.chat-doc-date { display: grid; gap: var(--space-1); margin: 0; }
+.chat-doc-date div { display: flex; gap: var(--space-3); }
+.chat-doc-date dt { font-weight: 650; }
+.chat-doc-date dd { margin: 0; }
+.chat-doc-evidence { margin: 0; color: var(--muted); font-size: 14px; }
+.chat-doc-facts .facts.is-compact { padding: var(--space-4); border-radius: var(--radius-panel); background: var(--raised); }
+.facts.is-compact .facts-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); }
+.facts.is-compact .facts-head h3 { margin: 0; font-size: 18px; font-weight: 650; }
+.facts-count { color: var(--muted); font-size: 14px; font-weight: 400; }
+.facts.is-compact .fact { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: var(--space-1) var(--space-3); padding: var(--space-3); border-radius: var(--radius-control); }
+.facts.is-compact .fact-head { grid-column: 1; }
+.facts.is-compact .fact-quote { grid-column: 1; border: 0; padding: 0; }
+.facts.is-compact .fact-quote::before { content: '\201C'; }
+.facts.is-compact .fact-quote::after { content: '\201D'; }
+:root .facts.is-compact .facts-find { justify-self: start; background: transparent; color: var(--ink); border: 1px solid var(--line); }
+.facts.is-compact .fact-actions { grid-column: 2; grid-row: 1 / span 2; display: flex; gap: var(--space-2); }
+.fact.is-flagged { background: color-mix(in oklch, var(--block-calculated-fill) 16%, transparent); }
+.fact-value { font-weight: 650; }
+.fact-icon { display: grid; place-items: center; width: var(--control-height); height: var(--control-height); padding: 0; border: 1px solid var(--line); border-radius: var(--radius-control); background: var(--surface); color: var(--ink); cursor: pointer; }
+.fact-icon .icon { width: 18px; height: 18px; }
+.chat-doc-page { display: grid; gap: var(--space-2); margin: 0; }
+.chat-doc-stage { position: relative; border: 1px solid var(--line-soft); border-radius: var(--radius-panel); overflow: hidden; background: var(--paper-raised); }
+.chat-doc-stage img { display: block; width: 100%; height: auto; }
+.chat-doc-mark { position: absolute; box-sizing: border-box; border: 2px solid var(--block-calculated-fill); border-radius: var(--radius-small); background: color-mix(in oklch, var(--block-calculated-fill) 18%, transparent); }
+.chat-doc-caption { color: var(--muted); font-size: 14px; }
+.chat-doc-caption:empty { display: none; }
+
+/* Citation chips name their source; the one open in the panel is a colour block. */
+.agent-message a.chat-cite {
+  display: inline; min-height: 0; padding: 1px var(--space-2); border-radius: var(--radius-small);
+  background: color-mix(in oklch, var(--data-series) 16%, transparent); color: var(--ink);
+  font-size: 14px; font-weight: 600; line-height: 1.9; text-decoration: none; white-space: normal;
+  box-decoration-break: clone; -webkit-box-decoration-break: clone;
+}
+.agent-message a.chat-cite[aria-current='true'] { background: var(--block-fill); color: var(--block-ink); }
+.agent-message a.chat-cite:focus-visible { outline: var(--focus-width) solid var(--focus); outline-offset: var(--focus-offset); }
+.chat-file-icon .icon { width: 18px; height: 18px; color: var(--muted); }
+.chat-file a.chat-file-saved { display: inline-flex; align-items: center; gap: var(--space-2); padding: 2px var(--space-3); border: 1px solid var(--line); border-radius: var(--radius-pill); }
+.chat-file-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; flex: none; }
+@media (max-width: 760px) {
+  .chat-doc-panel { padding: var(--space-4); border-left: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .chat-doc-panel { animation: none; } }
+/* The agent's context column gives its space to the conversation while a document is open. */
+body.has-chat-document .agent-workspace { grid-template-columns: minmax(0, 1fr); }
+body.has-chat-document .agent-context-panel { display: none; }
+@media (max-width: 1000px) {
+  /* Keep the sheet's end above the fixed bottom navigation. */
+  .chat-doc-panel { padding-bottom: calc(var(--space-6) + 80px); }
+}
+.chat-doc-evidence, .chat-doc-caption, .chat-doc-status { font-size: var(--text-body); line-height: 1.5; }
+.agent-message a.chat-cite { font-size: inherit; }

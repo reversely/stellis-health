@@ -1,0 +1,237 @@
+/* Daily status, calendar and pack views share the workspace action roles. */
+.dashboard-reproductive { grid-column: 1 / -1; }
+.dashboard-reproductive .dashboard-section-head { margin-bottom: var(--space-5); }
+.dashboard-reproductive .dashboard-body {
+  --tracker-flow: var(--cycle-light);
+  --tracker-flow-fill: color-mix(in oklch, var(--tracker-flow) 13%, var(--surface));
+  --tracker-success: var(--tracker-success-light);
+  --tracker-success-fill: color-mix(in oklch, var(--tracker-success) 12%, var(--surface));
+  font-variant-numeric: tabular-nums;
+}
+html[data-theme='dark'] .dashboard-reproductive .dashboard-body {
+  --tracker-flow: var(--cycle-dark);
+  --tracker-success: var(--tracker-success-dark);
+}
+.tracker-navigation { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-4); }
+.tracker-tabs[hidden] { display: none; }
+.tracker-panel { margin-top: var(--space-4); padding: var(--space-5); min-width: 0; border: 1px solid var(--line-soft); border-radius: var(--radius-panel); }
+.tracker-panel[aria-busy='true'] { cursor: progress; }
+.tracker-workspace { display: grid; grid-template-columns: minmax(180px, .8fr) minmax(0, 1.4fr); gap: var(--space-10); }
+.tracker-overview { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-4); min-width: 0; }
+.tracker-heading { min-width: 0; }
+.tracker-heading h3 { margin: 0; font-size: 20px; line-height: 1.3; font-weight: 600; overflow-wrap: anywhere; }
+.tracker-heading p { margin: var(--space-2) 0 0; }
+.tracker-muted, .tracker-footnote { color: var(--muted); line-height: 1.5; font-size: 14px; overflow-wrap: anywhere; }
+.tracker-overview > p { margin: 0; }
+.tracker-footnote { font-size: 13px; max-width: 65ch; margin: var(--space-5) 0 0; }
+.tracker-status:empty, .tracker-form-error:empty { display: none; }
+.tracker-status { margin: var(--space-4) 0 0; overflow-wrap: anywhere; }
+.tracker-metrics { display: grid; gap: var(--space-4); width: 100%; margin: 0; }
+.tracker-metric dt { color: var(--muted); font-size: 13px; line-height: 1.5; }
+.tracker-metric dd { margin: var(--space-1) 0 0; font-size: 18px; font-weight: 600; line-height: 1.4; }
+.tracker-ring { position: relative; width: 164px; aspect-ratio: 1; flex: none; }
+.tracker-ring svg { display: block; width: 100%; height: 100%; transform: rotate(-90deg); }
+.tracker-ring circle { stroke-width: 9; stroke-linecap: round; }
+.tracker-ring-track { stroke: var(--line-soft); }
+.tracker-ring-value { stroke: var(--tracker-flow); }
+.tracker-pack .tracker-ring-value { stroke: var(--ink); }
+.tracker-ring-text { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 3px; }
+.tracker-ring-text strong { font: 300 54px/1 var(--font-heading); color: var(--ink); }
+.tracker-ring-text span { color: var(--muted); font-size: 14px; }
+.tracker-icon-button { padding: 0; width: 44px; height: 44px; flex: none; }
+.tracker-legend { display: flex; flex-wrap: wrap; gap: var(--space-3) var(--space-5); margin-top: var(--space-4); }
+.tracker-key { display: inline-flex; align-items: center; gap: var(--space-2); color: var(--muted); font-size: 12px; min-height: 24px; }
+.tracker-key::before { content: ''; display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: var(--line); }
+.tracker-key.is-period::before { background: var(--tracker-flow); }
+.tracker-key.is-today::before { background: transparent; box-shadow: 0 0 0 1.5px var(--ink); }
+.tracker-key.is-taken::before { background: var(--tracker-success); }
+.tracker-key.is-active::before { background: var(--ink); }
+.tracker-key.is-break::before { background: transparent; box-shadow: 0 0 0 1px var(--muted); }
+.tracker-history { margin-top: var(--space-7); }
+.tracker-history h4 { margin: 0 0 var(--space-3); font-size: 16px; font-weight: 600; }
+.tracker-history-row { display: flex; align-items: center; justify-content: space-between; gap: var(--space-5); width: 100%; padding: var(--space-4) 0; border: 0; border-bottom: 1px solid var(--line-soft); background: transparent; color: var(--ink); font: inherit; text-align: left; cursor: pointer; }
+.tracker-history-row > span { display: grid; gap: var(--space-1); min-width: 0; overflow-wrap: anywhere; }
+.tracker-history-row strong { font-size: 15px; font-weight: 600; }
+.tracker-history-row .icon { width: 18px; height: 18px; flex: none; }
+.tracker-pack + .tracker-pack { border-top: 1px solid var(--line-soft); padding-top: var(--space-7); margin-top: var(--space-7); }
+.tracker-pack-visual { min-width: 0; }
+.tracker-pack-visual .tracker-heading h3 { font-size: 17px; }
+.tracker-pack-visual .tracker-heading p { font-size: 13px; }
+.tracker-pill-grid { display: grid; grid-template-columns: repeat(7,minmax(0,1fr)); gap: var(--space-3); margin-top: var(--space-6); }
+.tracker-pill { display: flex; position: relative; align-items: center; justify-content: center; min-height: var(--control-height); width: 100%; aspect-ratio: 1; border: 1px solid var(--line-soft); border-radius: 50%; background: var(--raised); color: var(--ink); font: inherit; font-size: 14px; cursor: pointer; }
+.tracker-pill:disabled { cursor: default; color: var(--muted); opacity: 1; }
+.tracker-pill.is-break { border-style: dashed; background: transparent; }
+.tracker-pill.is-taken { background: var(--tracker-success-fill); border-color: transparent; color: var(--tracker-success); }
+.tracker-pill.is-taken .tracker-pill-number { position: absolute; inset: auto 0 5px; font-size: 10px; line-height: 1; }
+.tracker-pill.is-taken .icon { width: 19px; height: 19px; margin-top: -6px; }
+.tracker-pill[aria-pressed='true'] { outline: var(--focus-width) solid var(--ink); outline-offset: var(--focus-offset); }
+.tracker-dose-status { font-size: 15px; font-weight: 600; line-height: 1.4; }
+.tracker-dose-history { margin-top: var(--space-4); }
+.tracker-dose-history summary { display: flex; align-items: center; min-height: var(--control-height); color: var(--muted); font-size: 14px; cursor: pointer; list-style: none; }
+.tracker-dose-history ul { margin: var(--space-2) 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: var(--space-3); font-size: 14px; }
+.tracker-empty { display: grid; justify-items: center; text-align: center; gap: var(--space-5); padding: var(--space-6) var(--space-4) var(--space-9); }
+.tracker-empty .tracker-heading { max-width: 36ch; }
+.tracker-empty-icon { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; background: var(--raised); color: var(--muted); }
+.tracker-empty-icon .icon { width: 26px; height: 26px; }
+.tracker-empty .tracker-heading h3 { font: 300 27px/1.3 var(--font-heading); }
+.tracker-device-group + .tracker-device-group { margin-top: var(--space-8); }
+.tracker-device-group > h3 { margin: 0 0 var(--space-2); font-size: 16px; font-weight: 600; }
+.tracker-device { display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: start; gap: var(--space-6); padding-block: var(--space-6); border-bottom: 1px solid var(--line-soft); }
+.tracker-device .tracker-heading h3 { font-size: 20px; }
+.tracker-device-dates { display: flex; flex-wrap: wrap; gap: var(--space-5) var(--space-10); margin: 0; grid-row: 2; }
+.tracker-device-dates dd { font-size: 15px; }
+.tracker-device-due { display: grid; gap: var(--space-1); text-align: right; }
+.tracker-device-due strong { font: 300 27px/1.2 var(--font-heading); }
+.tracker-device > button { grid-column: 2; grid-row: 2; align-self: end; }
+.tracker-reminder { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-4) var(--space-4); margin-top: var(--space-4); background: var(--raised); border-radius: var(--radius-panel); }
+.tracker-reminder > span { flex: 1; overflow-wrap: anywhere; }
+.tracker-reminder > .icon { width: 20px; height: 20px; flex: none; }
+.tracker-dialog { box-sizing: border-box; width: min(560px,calc(100vw - 32px)); max-height: calc(100dvh - 32px); padding: var(--space-6); border: 0; border-radius: var(--radius-control); background: var(--surface); color: var(--ink); box-shadow: var(--shadow); overflow-y: auto; }
+.tracker-dialog::backdrop { background: color-mix(in oklch,var(--ink) 45%,transparent); }
+.tracker-dialog-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); margin-bottom: var(--space-6); }
+.tracker-dialog-head h2 { font: 300 30px/1.2 var(--font-heading); margin: 0; }
+.tracker-fields { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: var(--space-5) var(--space-4); }
+.tracker-field { display: flex; flex-direction: column; align-items: stretch; gap: var(--space-2); font-size: 14px; font-weight: 500; min-width: 0; }
+.tracker-fields .is-wide { grid-column: 1 / -1; }
+.tracker-field :is(input:not([type='checkbox']),select,textarea) { box-sizing: border-box; width: 100%; min-width: 0; min-height: var(--control-height); padding: var(--space-3) var(--space-3); border: 1px solid var(--line); border-radius: var(--radius-control); background: var(--surface); color: var(--ink); font: inherit; font-size: 16px; }
+.tracker-field textarea { resize: vertical; }
+.tracker-field.is-checkbox { display: flex; flex-direction: row-reverse; justify-content: flex-end; align-items: center; min-height: var(--control-height); gap: var(--space-3); }
+.tracker-field input[type='checkbox'] { width: 24px; height: 24px; margin: 0; accent-color: var(--ink); }
+.tracker-choices { display: flex; flex-wrap: wrap; gap: var(--space-2); margin: 0; padding: 0; border: 0; min-width: 0; }
+.tracker-choices legend { font-size: 14px; font-weight: 500; padding: 0; margin-bottom: var(--space-3); }
+.tracker-choice[aria-pressed='true'] { background: var(--ink); border-color: var(--ink); color: var(--surface); }
+.tracker-fields > p { margin: -8px 0 0; }
+.tracker-dialog-actions { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-7); padding-top: var(--space-5); border-top: 1px solid var(--line-soft); }
+.tracker-dialog-actions .is-danger { margin-left: 0; margin-right: auto; }
+.tracker-form-error { color: var(--failure); font-size: 14px; line-height: 1.5; margin: var(--space-4) 0 0; }
+.tracker-panel :is(button,summary):focus-visible, .tracker-tab:focus-visible, .tracker-dialog :is(button,input,select,textarea):focus-visible { outline: var(--focus-width) solid var(--focus); outline-offset: var(--focus-offset); }
+@media (hover:hover) and (pointer:fine) {
+  .tracker-tab:not([aria-selected='true']):hover, .tracker-history-row:hover { background: var(--raised); }
+  .tracker-pill:not(:disabled):hover { border-color: var(--ink); }
+}
+@media(max-width:1100px) { .tracker-workspace { gap: var(--space-7); grid-template-columns: minmax(160px,.7fr) minmax(0,1.3fr); } .tracker-pill-grid { gap: var(--space-2); } }
+@media(max-width:640px) {
+  .tracker-navigation { align-items: stretch; flex-direction: column; gap: var(--space-4); }
+  .tracker-tabs { width: 100%; }
+  .tracker-tab { flex: 1 1 auto; padding-inline: var(--space-3); }
+  .tracker-navigation > button { align-self: flex-end; }
+  .tracker-workspace { grid-template-columns: minmax(0,1fr); gap: var(--space-7); }
+  .tracker-overview { display: grid; grid-template-columns: 116px minmax(0,1fr); align-items: center; gap: var(--space-4) var(--space-5); }
+  .tracker-overview > .tracker-heading { grid-column: 1 / -1; }
+  .tracker-overview > .tracker-ring { grid-column: 1; grid-row: auto / span 2; }
+  .tracker-overview > .tracker-ring:first-child { grid-row: 1 / span 2; }
+  .tracker-ring { width: 116px; }
+  .tracker-ring-text strong { font-size: 40px; }
+  .tracker-ring-text span { font-size: 12px; }
+  .tracker-overview > .tracker-footnote, .tracker-overview > .tracker-muted { grid-column: 1 / -1; }
+  .tracker-overview .tracker-metrics { gap: var(--space-3); }
+  .tracker-metric dd { font-size: 16px; }
+  .tracker-overview > .tracker-heading + button { grid-column: 1 / -1; justify-self: start; }
+  .tracker-pill-grid { gap: var(--space-2); }
+  .tracker-pill { min-height: 38px; }
+  .tracker-panel { padding-top: var(--space-6); }
+  .tracker-pack .tracker-overview > .tracker-ring { grid-row: 2 / span 2; }
+  .tracker-pack .tracker-overview > .is-quiet { grid-column: 2; }
+  .tracker-device { gap: var(--space-5) var(--space-3); }
+  .tracker-device-dates { grid-column: 1 / -1; }
+  .tracker-device > button { grid-column: 1 / -1; grid-row: 3; justify-self: start; }
+  .tracker-dialog { padding: var(--space-5); }
+  .tracker-fields { column-gap: var(--space-3); }
+  .tracker-choices { gap: var(--space-compact); }
+  .tracker-choice { padding-inline: var(--space-3); }
+}
+@media(prefers-reduced-motion:reduce) { .tracker-dialog button:active, .tracker-panel button:active { scale: none; } }
+.tracker-dose-actions { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.tracker-pill.is-skipped { background: var(--surface); border-style: dashed; }
+.tracker-pill.is-skipped .tracker-pill-number { position: absolute; inset: auto 0 5px; font-size: 10px; line-height: 1; }
+.tracker-pill.is-skipped .icon { width: 17px; height: 17px; margin-top: -6px; }
+.tracker-key.is-skipped::before { border: 1px dashed var(--muted); background: transparent; }
+.tracker-dose-history summary .icon { width: 16px; height: 16px; margin-left: auto; }
+.tracker-dose-history[open] summary .icon { transform: rotate(180deg); }
+
+.tracker-pill[aria-current='date'] .tracker-pill-number { font-weight: 700; text-decoration: underline; text-underline-offset: 4px; }
+
+.tracker-navigation > [hidden] { display: none; }
+@media(max-width:480px) {
+  .tracker-fields > .tracker-field { grid-column: 1 / -1; }
+  .tracker-fields > :is([data-field='active'],[data-field='break_days']) { grid-column: auto; }
+}
+/* The cycle day is a contained figure, without an invented progress endpoint. */
+.tracker-cycle-overview { --date-figure-fill: var(--tracker-flow-fill); --date-figure-ink: var(--tracker-flow); }
+.tracker-cycle-overview .tracker-metric { padding: var(--space-4) var(--space-4); background: var(--raised); border-radius: var(--radius-panel); }
+.tracker-cycle-overview .tracker-metric dd { font-size: 22px; }
+.dashboard-reproductive .dashboard-section-head > button { padding: var(--space-3) var(--space-4); flex: none; }
+.dashboard-reproductive .dashboard-section-head > .tracker-log-open { margin-left: auto; }
+.dashboard-reproductive .dashboard-section-head > button[hidden] { display: none; }
+@media(max-width:640px) {
+  .tracker-cycle-overview { display: flex; align-items: stretch; }
+  .tracker-cycle-overview > button { align-self: flex-start; }
+  .dashboard-reproductive .dashboard-section-head { flex-wrap: wrap; gap: var(--space-4); }
+  /* The heading keeps its row's left; the actions follow it together rather than one per row. */
+}
+
+.tracker-daily { padding: clamp(var(--space-4), 3vw, var(--space-7)); background: var(--surface); border-radius: var(--radius-panel); margin-bottom: var(--space-6); }
+.tracker-daily-title { display:flex; align-items:center; justify-content:space-between; gap: var(--space-3); }
+.tracker-day-strip { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap: var(--space-compact); margin: var(--space-5) 0; }
+.tracker-day-choice { display:flex; flex-direction:column; align-items:center; justify-content:center; gap: var(--space-2); min-height:76px; border:0; border-radius: var(--radius-pill); background:var(--line-soft); color:var(--ink); font:inherit; cursor:pointer; }
+.tracker-day-choice span { font-size:12px; }
+.tracker-day-choice strong { font-size:22px; font-variant-numeric:tabular-nums; }
+.tracker-day-choice[aria-pressed="true"] { background:var(--ink); color:var(--surface); }
+.tracker-daily-item { padding: var(--space-5) 0; border-bottom:1px solid var(--line-soft); transition:transform 180ms cubic-bezier(0.22,1,0.36,1),opacity 180ms; }
+.tracker-daily-item h4 { margin: 0 0 var(--space-3); overflow-wrap:anywhere; }
+.tracker-daily-actions { display:flex; flex-wrap:wrap; gap: var(--space-2); }
+.tracker-daily-item.is-confirmed { transform:translateY(-16px); opacity:0; }
+.tracker-daily-logged { margin: var(--space-5) 0; }
+.tracker-daily-logged summary { cursor:pointer; padding: var(--space-3) 0; min-height: var(--control-height); }
+.tracker-daily-value { font-size:20px; font-weight:600; }
+@media(prefers-reduced-motion:reduce) { .tracker-daily-item.is-confirmed { transform:none; } }
+@media(max-width:480px) { .tracker-day-strip { gap: 3px; } .tracker-day-choice { min-height:70px; } }
+
+/* Apple Health reference: weekday labels over pale capsules and coral flow circles. */
+.tracker-day-navigation { display:flex; justify-content:space-between; gap: var(--space-3); margin-top: var(--space-4); }
+.tracker-day-navigation button { min-height: var(--control-height); }
+.tracker-day-choice { background:transparent; border-radius: var(--radius-control); padding: var(--space-1) 0; gap: var(--space-compact); min-width:0; }
+.tracker-day-choice[aria-pressed="true"] { background:transparent; color:var(--ink); }
+.tracker-day-choice > span:first-child { font-size:12px; color:var(--muted); }
+.tracker-day-choice strong { font-size:16px; }
+.tracker-day-choice[aria-current="date"] strong { text-decoration:underline; text-underline-offset:4px; }
+.tracker-day-capsule { display:flex; align-items:flex-start; justify-content:center; width:100%; max-width:58px; height:82px; padding: var(--space-compact) 3px; border-radius: var(--radius-pill); background:var(--line-soft); box-sizing:border-box; }
+.tracker-day-circle { display:block; width:100%; max-width:44px; aspect-ratio:1; border-radius:50%; border:1px solid var(--muted); box-sizing:border-box; }
+.tracker-day-choice[aria-pressed="true"] .tracker-day-circle { background:var(--flow-colour); border-color:var(--flow-colour); }
+.tracker-day-choice:hover .tracker-day-capsule { outline:1px solid var(--muted); }
+.tracker-day-choice:focus-visible { outline: var(--focus-width) solid var(--ink); outline-offset: var(--focus-offset); }
+.tracker-day-choice[aria-busy="true"] .tracker-day-circle { opacity:.6; }
+
+.tracker-log-date { display:flex; flex-direction:column; gap: var(--space-compact); font-size:12px; color:var(--muted); min-width:0; }
+.tracker-log-date input { width:100%; min-width:0; box-sizing:border-box; font-size:16px; }
+@media(max-width:480px) { .tracker-daily-title { flex-wrap:wrap; } }
+
+/* Registry courses: today's dose, counts, a start-to-end track and calculated dates. */
+.tracker-course { display: grid; gap: var(--space-5); min-width: 0; }
+.tracker-course + .tracker-course { border-top: 1px solid var(--line-soft); padding-top: var(--space-7); margin-top: var(--space-7); }
+.tracker-course-head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-4); }
+.tracker-course-today { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-3) var(--space-5); }
+.tracker-course-today .tracker-dose-status { margin: 0; font-size: 16px; font-weight: 600; }
+.tracker-course .tracker-metrics { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); }
+.tracker-course-track { display: grid; gap: var(--space-2); }
+.tracker-course-bar { position: relative; height: 8px; margin-inline: var(--space-2); border-radius: var(--radius-pill); background: var(--line-soft); }
+.tracker-course-done { position: absolute; inset: 0 auto 0 0; border-radius: var(--radius-pill); background: var(--tracker-success); }
+.tracker-course-marker, .tracker-course-now { position: absolute; top: 50%; width: 12px; height: 12px; border-radius: 50%; translate: -50% -50%; box-sizing: border-box; }
+.tracker-course-marker { border: 2px solid var(--ink); background: var(--surface); }
+.tracker-course-marker.is-calculated { border-color: var(--block-calculated-fill); }
+.tracker-course-marker.is-planned { background: var(--block-planned-fill); border-color: var(--block-planned-fill); }
+.tracker-course-now { width: 16px; height: 16px; border: 3px solid var(--tracker-success); background: var(--surface); }
+.tracker-course-labels { display: flex; justify-content: space-between; gap: var(--space-4); color: var(--muted); font-size: 13px; }
+.tracker-course-upcoming { display: grid; margin: 0; padding: 0; list-style: none; }
+.tracker-course-upcoming li { display: grid; grid-template-columns: minmax(96px, auto) minmax(0, 1fr) auto; align-items: center; gap: var(--space-4); padding: var(--space-3) 0; border-top: 1px solid var(--line-soft); }
+.tracker-course-upcoming time { font-weight: 600; }
+.tracker-course-upcoming span:not(.status-block) { overflow-wrap: anywhere; }
+.tracker-course-source { justify-self: start; color: var(--ink); font-size: 14px; text-underline-offset: 3px; }
+.tracker-field[hidden] { display: none; }
+.tracker-field-label { display: block; }
+.tracker-field-hint { color: var(--muted); font-size: 13px; }
+.tracker-weekday { display: inline-flex; align-items: center; gap: var(--space-2); min-height: var(--control-height); margin-right: var(--space-3); }
+@media (max-width: 560px) {
+  .tracker-course-upcoming li { grid-template-columns: minmax(0, 1fr) auto; }
+  .tracker-course-upcoming li span:not(.status-block) { grid-column: 1 / -1; grid-row: 2; }
+}

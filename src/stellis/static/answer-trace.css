@@ -1,0 +1,49 @@
+/* How Stellis answered: a right-hand panel with summary tiles, timed steps and checks. */
+.answer-trace {
+  box-sizing: border-box; width: min(600px, 100vw); max-width: 100vw; height: 100dvh; max-height: 100dvh;
+  margin: 0 0 0 auto; padding: var(--space-8) var(--space-7); border: 0; border-left: 1px solid var(--line);
+  background: var(--surface); color: var(--ink); overflow-y: auto;
+  transition: opacity 200ms cubic-bezier(0.22, 1, 0.36, 1), translate 200ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.answer-trace[open] { display: flex; flex-direction: column; gap: var(--space-6); }
+@starting-style { .answer-trace[open] { opacity: 0; translate: 8px 0; } }
+.answer-trace::backdrop { background: var(--overlay-dim); }
+.trace-head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-4); }
+.trace-head h2 { margin: 0; font: 300 var(--text-page-title)/1.15 var(--font-heading); }
+.trace-subtitle { margin: var(--space-2) 0 0; color: var(--muted); font-size: 15px; }
+.trace-body { display: grid; gap: var(--space-5); }
+.trace-status { margin: 0; color: var(--muted); }
+.trace-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: var(--space-3); }
+.trace-tile { display: grid; gap: var(--space-1); align-content: start; padding: var(--space-3) var(--space-4); border-radius: var(--radius-control); background: var(--raised); min-width: 0; }
+.trace-tile strong { font-size: 17px; font-weight: 650; overflow-wrap: anywhere; }
+.trace-tile span { color: var(--muted); font-size: 13px; }
+.trace-steps-head, .trace-step { display: grid; grid-template-columns: 20px minmax(0, 1fr) minmax(90px, 30%) 48px; align-items: start; gap: var(--space-2) var(--space-3); }
+.trace-steps-head { padding: 0 0 var(--space-1); color: var(--muted); font-size: 13px; font-weight: 650; }
+.trace-steps-head span:first-child { grid-column: 2; }
+.trace-steps-head span:last-child { text-align: right; }
+.trace-steps { display: grid; gap: var(--space-4); margin: 0; padding: 0; list-style: none; }
+.trace-step-dot { width: 12px; height: 12px; margin-top: 4px; border-radius: 50%; background: var(--ink); box-shadow: 0 0 0 4px var(--raised); }
+.trace-step-text { display: grid; gap: 2px; min-width: 0; }
+.trace-step-text strong { font-size: 16px; font-weight: 650; }
+.trace-step-text span { color: var(--muted); font-size: 14px; overflow-wrap: anywhere; }
+.trace-step-bar { position: relative; height: 6px; margin-top: 9px; border-radius: var(--radius-pill); background: var(--line-soft); }
+.trace-step-bar span { position: absolute; top: 0; bottom: 0; border-radius: var(--radius-pill); background: var(--data-series); }
+.trace-step-at { margin-top: 2px; text-align: right; color: var(--muted); font-size: 14px; font-variant-numeric: tabular-nums; }
+.trace-sublist { grid-column: 2 / -1; display: grid; gap: var(--space-2); margin: 0; padding: 0 0 0 var(--space-4); border-left: 2px solid var(--line); list-style: none; }
+.trace-sublist li { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-3); font-size: 14px; }
+.trace-sublist li > :first-child { min-width: 0; overflow-wrap: anywhere; }
+.trace-sublist a { color: var(--ink); text-underline-offset: 3px; }
+.trace-sublist-side { flex: none; color: var(--muted); }
+.trace-footer { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); padding-top: var(--space-4); border-top: 1px solid var(--line-soft); }
+.trace-settings-link { text-decoration: none; display: inline-flex; align-items: center; }
+.trace-id { color: var(--muted); font-size: 13px; }
+/* A quiet bordered button beside Save as note, never an underlined raw link (#258). */
+.trace-link { min-height: var(--control-height); padding: 0 var(--space-3); border: 1px solid var(--line); border-radius: var(--radius-control); background: var(--surface); color: var(--ink); font: inherit; font-size: 14px; text-decoration: none; cursor: pointer; }
+@media (hover: hover) and (pointer: fine) { .trace-link:hover { background: var(--raised); } }
+.trace-link:focus-visible { outline: var(--focus-width) solid var(--focus); outline-offset: var(--focus-offset); }
+@media (prefers-reduced-motion: reduce) { @starting-style { .answer-trace[open] { translate: 0 0; } } }
+@media (max-width: 600px) {
+  .answer-trace { padding: var(--space-5) var(--space-4); border-left: 0; }
+  .trace-steps-head, .trace-step { grid-template-columns: 20px minmax(0, 1fr) 48px; }
+  .trace-step-bar, .trace-steps-head span:nth-child(2) { display: none; }
+}

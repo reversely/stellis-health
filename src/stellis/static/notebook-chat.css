@@ -1,0 +1,779 @@
+/* Notebook chat: the Sources panel beside one chat. Below 761px the panel
+   stacks above the chat and starts closed. */
+.notebook-chat {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  gap: var(--space-4);
+  align-items: stretch;
+}
+.notebook-chat[data-sources='closed'] {
+  grid-template-columns: 56px minmax(0, 1fr);
+}
+.notebook-chat button,
+.notebook-chat select,
+.notebook-chat textarea {
+  font: inherit;
+  color: var(--ink);
+}
+.notebook-chat button {
+  min-height: var(--control-height);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  padding: 0 var(--space-3);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  cursor: pointer;
+  transition:
+    border-color 120ms,
+    background-color 120ms;
+}
+.notebook-chat button:disabled {
+  cursor: default;
+  color: var(--quiet);
+}
+@media (hover: hover) and (pointer: fine) {
+  .notebook-chat button:not(:disabled):hover {
+    border-color: var(--accent);
+  }
+}
+.notebook-chat :focus-visible {
+  outline: var(--focus-width) solid var(--focus);
+  outline-offset: var(--focus-offset);
+}
+.nb-empty {
+  color: var(--muted);
+  margin: var(--space-3) 0;
+}
+
+.nb-sources {
+  display: grid;
+  align-content: start;
+  gap: var(--space-3);
+  min-width: 0;
+  padding: var(--space-3);
+  border-radius: var(--radius-panel);
+  background: var(--surface);
+  border: 1px solid var(--line-soft);
+}
+.nb-sources-toggle {
+  width: 100%;
+  justify-content: flex-start;
+  background: transparent !important;
+  border-color: transparent !important;
+  padding: 0 var(--space-2);
+}
+.nb-sources-label {
+  font-weight: 600;
+}
+.nb-sources-count {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+.notebook-chat[data-sources='closed'] .nb-sources {
+  padding: var(--space-compact);
+}
+.notebook-chat[data-sources='closed'] .nb-sources-body {
+  display: none;
+}
+.notebook-chat[data-sources='closed'] .nb-sources-toggle {
+  justify-content: center;
+  padding: 0;
+}
+.notebook-chat[data-sources='closed'] .nb-sources-label,
+.notebook-chat[data-sources='closed'] .nb-sources-count {
+  display: none;
+}
+.nb-sources-body {
+  display: grid;
+  gap: var(--space-2);
+}
+.nb-sources-actions {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--space-2);
+}
+.nb-source-add {
+  justify-content: center;
+}
+.nb-source-all {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  min-height: var(--control-height);
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-control);
+  color: var(--muted);
+  font-size: 14px;
+  cursor: pointer;
+}
+.nb-source-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 2px;
+}
+.nb-source {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-width: 0;
+  border-radius: var(--radius-control);
+}
+.notebook-chat .nb-source-open {
+  flex: 1;
+  min-width: 0;
+  justify-content: flex-start;
+  gap: var(--space-3);
+  padding: 0 var(--space-2);
+  border-color: transparent;
+  background: transparent;
+  text-align: left;
+  font-size: 14px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .nb-source:hover,
+  .nb-source-all:hover {
+    background: var(--surface);
+  }
+  .notebook-chat .nb-source-open:hover {
+    border-color: transparent;
+  }
+}
+.nb-source .icon {
+  flex: none;
+  color: var(--muted);
+}
+.nb-source-title {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.nb-source-status {
+  flex: none;
+  padding-right: var(--space-2);
+  font-size: 12px;
+  color: var(--muted);
+}
+.nb-source[data-status='failed'] .nb-source-status {
+  color: var(--failure);
+}
+.nb-source-check {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+}
+.nb-source input,
+.nb-source-all input {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: var(--accent);
+}
+
+.nb-chat {
+  min-width: 0;
+  display: grid;
+  gap: var(--space-4);
+  align-content: start;
+  padding: var(--space-5);
+  background: var(--surface);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-panel);
+}
+.nb-messages {
+  display: grid;
+  gap: var(--space-5);
+  min-height: 120px;
+}
+.nb-msg {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  line-height: 1.6;
+}
+.nb-msg p {
+  margin: 0 0 var(--space-3);
+}
+.nb-msg p:last-child {
+  margin-bottom: 0;
+}
+.nb-msg-user {
+  justify-self: end;
+  max-width: min(560px, 90%);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-message);
+  background: var(--selected);
+}
+.nb-msg-author {
+  display: block;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: var(--space-1);
+}
+.nb-cite {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  margin: 0 2px;
+  padding: 0 var(--space-compact);
+  border-radius: var(--radius-panel);
+  background: var(--raised);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  vertical-align: 1px;
+  font-variant-numeric: tabular-nums;
+  position: relative;
+}
+.nb-cite::after {
+  content: '';
+  position: absolute;
+  inset: -11px -4px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .nb-cite:hover {
+    border-color: var(--accent);
+  }
+}
+/* The citation open in the viewer is a colour block with inverted ink. */
+.nb-cite[aria-current='true'] {
+  border-color: var(--block-fill);
+  background: var(--block-fill);
+  color: var(--block-ink);
+}
+
+.nb-composer {
+  position: static;
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-3) 0 var(--space-4);
+  background: transparent;
+}
+.nb-answer-with {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 14px;
+  color: var(--muted);
+}
+.nb-answer-with select {
+  min-height: var(--control-height);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  padding: 0 var(--space-3);
+}
+.nb-input {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--space-2);
+  align-items: end;
+  padding: var(--space-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-control);
+  background: var(--input);
+}
+.nb-input:focus-within {
+  border-color: var(--accent);
+}
+.nb-input textarea {
+  border: 0;
+  background: transparent;
+  resize: none;
+  min-height: var(--control-height);
+  max-height: 200px;
+  padding: var(--space-3) var(--space-2);
+  font-size: 16px;
+}
+.nb-input textarea:focus-visible {
+  outline: none;
+}
+.nb-input button[type='submit'] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+.nb-input button[type='submit']:disabled {
+  background: var(--raised);
+  border-color: var(--line);
+  color: var(--quiet);
+}
+.nb-status {
+  min-height: 20px;
+  margin: 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+.nb-msg-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-4);
+  margin-top: var(--space-2);
+}
+.notebook-chat .nb-msg-save {
+  min-height: 36px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* Source viewer: a third column on wide screens and a sheet over the page
+   when there is insufficient reading space. */
+.nb-viewer[hidden] {
+  display: none;
+}
+.nb-viewer {
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  align-content: start;
+  min-width: 0;
+  background: var(--surface);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-panel);
+  overflow: hidden;
+}
+.nb-viewer-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-3) var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--line-soft);
+}
+.nb-viewer-title {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+.nb-viewer-title:focus {
+  outline: none;
+}
+.nb-viewer-open {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--control-height);
+  padding: 0 var(--space-3);
+  color: var(--accent);
+  font-size: 14px;
+}
+.notebook-chat .nb-viewer-close {
+  width: 44px;
+  justify-content: center;
+  padding: 0;
+  font-size: 22px;
+}
+.nb-viewer > .nb-status {
+  padding: 0 var(--space-4);
+}
+.nb-viewer-body {
+  overflow: auto;
+  padding: var(--space-1) var(--space-4) var(--space-4);
+  display: grid;
+  gap: var(--space-3);
+  align-content: start;
+}
+.nb-viewer-audio {
+  width: 100%;
+}
+.nb-viewer-transcript {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 2px;
+}
+.notebook-chat .nb-viewer-segment {
+  display: grid;
+  gap: 2px;
+  width: 100%;
+  min-height: var(--control-height);
+  padding: var(--space-2) var(--space-3);
+  border-color: transparent;
+  background: transparent;
+  text-align: left;
+  line-height: 1.5;
+  font-size: 14px;
+}
+.nb-viewer-transcript .is-target .nb-viewer-segment {
+  background: var(--selected);
+}
+.nb-viewer-time {
+  font-size: 12px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.nb-viewer-note {
+  margin: 0;
+  white-space: pre-line;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.nb-viewer-document .document-page {
+  padding: var(--space-3) var(--space-4);
+}
+@media (min-width: 1384px) {
+  .notebook-chat[data-viewer='open'] {
+    grid-template-columns: 240px minmax(0, 1fr) minmax(280px, 29%);
+  }
+  .notebook-chat[data-viewer='open'][data-sources='closed'] {
+    grid-template-columns: 56px minmax(0, 1fr) minmax(280px, 29%);
+  }
+  .nb-viewer {
+    min-height: 600px;
+  }
+}
+@media (max-width: 1383px) {
+  .nb-viewer {
+    position: fixed;
+    z-index: 40;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(480px, 100%);
+    border-radius: 0;
+    border-width: 0 0 0 1px;
+    box-shadow: var(--shadow);
+  }
+}
+
+@media (max-width: 760px) {
+  /* Keep the composer below the log when the panels stack. */
+  .nb-composer { position: static; }
+  .notebook-chat,
+  .notebook-chat[data-sources='closed'] {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-4);
+  }
+  .nb-chat { padding: var(--space-3); }
+  .nb-sources {
+    position: static;
+  }
+  .notebook-chat[data-sources='closed'] .nb-sources {
+    padding: var(--space-compact) var(--space-3);
+  }
+  .notebook-chat[data-sources='closed'] .nb-sources-toggle {
+    justify-content: flex-start;
+    padding: 0 var(--space-2);
+  }
+  .notebook-chat[data-sources='closed'] .nb-sources-label,
+  .notebook-chat[data-sources='closed'] .nb-sources-count {
+    display: inline;
+  }
+}
+
+/* Add source dialog */
+.nb-add {
+  width: min(560px, calc(100vw - 32px));
+  max-height: calc(100vh - 32px);
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-dialog);
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--shadow);
+}
+.nb-add[open] {
+  display: grid;
+  gap: var(--space-4);
+  align-content: start;
+  overflow: auto;
+  padding: var(--space-4) var(--space-5) var(--space-5);
+}
+.nb-add::backdrop {
+  background: color-mix(in oklch, var(--field) 70%, transparent);
+}
+.nb-add button,
+.nb-add input,
+.nb-add textarea {
+  font: inherit;
+  color: var(--ink);
+}
+.nb-add button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: var(--control-height);
+  padding: 0 var(--space-4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  cursor: pointer;
+  transition: border-color 120ms;
+}
+.nb-add button:disabled {
+  cursor: default;
+  color: var(--quiet);
+}
+@media (hover: hover) and (pointer: fine) {
+  .nb-add button:not(:disabled):hover {
+    border-color: var(--accent);
+  }
+}
+.nb-add :focus-visible {
+  outline: var(--focus-width) solid var(--focus);
+  outline-offset: var(--focus-offset);
+}
+.nb-add-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.nb-add-head h2 {
+  margin: 0;
+  font-size: 20px;
+}
+.nb-add-count {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+.nb-add .nb-add-close {
+  width: 44px;
+  padding: 0;
+  font-size: 22px;
+}
+.nb-add-drop {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-compact);
+  padding: var(--space-6) var(--space-4);
+  border: 1.5px dashed var(--line);
+  border-radius: var(--radius-panel);
+  text-align: center;
+  cursor: pointer;
+  transition:
+    border-color 120ms,
+    background-color 120ms;
+}
+/* The action role follows the surface (the dark theme's --accent is light, for the dark page; this sits
+   on a light panel). */
+.nb-add-drop span {
+  color: var(--action-fill);
+}
+.nb-add-drop.is-over {
+  border-color: var(--action-fill);
+  background: var(--selected);
+}
+.nb-add-drop[aria-disabled='true'] {
+  cursor: default;
+  color: var(--quiet);
+}
+.nb-add-progress {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-1);
+  font-size: 14px;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+.nb-add-progress:empty {
+  display: none;
+}
+.nb-add-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+}
+.nb-add-paste {
+  display: grid;
+  gap: var(--space-3);
+}
+.nb-add-paste[hidden] {
+  display: none;
+}
+.nb-add-paste label {
+  display: grid;
+  gap: var(--space-1);
+  font-size: 14px;
+  color: var(--muted);
+}
+.nb-add-paste input,
+.nb-add-paste textarea,
+.nb-add-records input {
+  min-height: var(--control-height);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-control);
+  background: var(--input);
+  font-size: 16px;
+}
+.nb-add-paste textarea {
+  resize: vertical;
+}
+.nb-add-paste button {
+  justify-self: end;
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+.nb-add-records {
+  display: grid;
+  gap: var(--space-2);
+}
+.nb-add-records h3 {
+  margin: var(--space-1) 0 0;
+  font-size: 15px;
+}
+.nb-add-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 2px;
+  max-height: 280px;
+  overflow: auto;
+}
+.nb-add-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-1) var(--space-1) var(--space-1) var(--space-2);
+  border-radius: var(--radius-control);
+}
+.nb-add-row .icon {
+  flex: none;
+  color: var(--muted);
+}
+.nb-add-row-text {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+}
+.nb-add-row-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14px;
+}
+.nb-add-row small {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+/* An empty thread needs no floating composer over its introductory text. */
+.nb-chat:has(.nb-messages > .nb-empty:only-child) .nb-composer {
+  position: static;
+}
+
+/* After an answer: other notebooks it did not read, the citation check and data-driven follow-ups. */
+.nb-unread { margin: var(--space-3) 0 0; padding: var(--space-3) var(--space-4); border-radius: var(--radius-control); background: var(--raised); color: var(--ink); font-size: 15px; }
+.nb-research { display: flex; align-items: center; gap: var(--space-2); min-height: var(--control-height); font-size: 14px; color: var(--ink); }
+.nb-research input { width: 20px; height: 20px; margin: 0; }
+.nb-searched-row { display: flex; align-items: flex-start; gap: var(--space-2); margin: var(--space-3) 0 0; }
+.nb-searched { flex: 1; min-width: 0; color: var(--ink); font-size: 14px; }
+.nb-searched summary { display: flex; align-items: center; min-height: var(--control-height); cursor: pointer; color: var(--muted); overflow-wrap: anywhere; }
+.nb-searched[open] { padding: 0 var(--space-4) var(--space-3); border-radius: var(--radius-control); background: var(--raised); }
+.nb-searched h3 { margin: var(--space-3) 0 var(--space-2); font-size: 14px; font-weight: 600; }
+.nb-searched ul { margin: 0; padding: 0; list-style: none; display: grid; gap: var(--space-2); }
+.nb-searched li { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-3); }
+.nb-searched li span, .nb-searched p { color: var(--muted); }
+.nb-searched p { margin: var(--space-2) 0 0; }
+.nb-live-search { margin: var(--space-3) 0; padding: var(--space-3) var(--space-4); border-radius: var(--radius-control); background: var(--raised); color: var(--ink); font-size: 14px; }
+.nb-live-head { display: flex; align-items: center; gap: var(--space-2); }
+.nb-live-status { margin: 0; font-weight: 600; }
+.nb-live-list { margin: var(--space-2) 0 0; padding: 0; list-style: none; display: grid; gap: var(--space-2); }
+.nb-live-list li { display: flex; align-items: flex-start; gap: var(--space-2); animation: nb-search-in 220ms ease-out; overflow-wrap: anywhere; }
+.nb-live-list .icon { flex: none; width: 16px; height: 16px; margin-top: 2px; }
+@keyframes nb-search-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .nb-live-list li { animation: none; } }
+.nb-search-info { position: relative; display: inline-flex; flex-direction: column; align-items: flex-end; }
+.nb-search-info-button { display: grid; place-items: center; width: var(--control-height); height: var(--control-height); padding: 0; border: 0; border-radius: 50%; background: transparent; color: var(--muted); cursor: pointer; }
+.nb-search-info-button:hover, .nb-search-info-button[aria-expanded='true'] { color: var(--ink); background: var(--raised); }
+.nb-search-info-button .icon { width: 18px; height: 18px; }
+.nb-search-note { position: absolute; top: 100%; right: 0; z-index: 5; width: min(320px, 80vw); margin: var(--space-1) 0 0; padding: var(--space-3); border: 1px solid var(--line); border-radius: var(--radius-control); background: var(--surface); color: var(--ink); font-size: 14px; line-height: 1.5; box-shadow: var(--overlay-shadow); }
+.nb-cite.nb-cite-public { background: transparent; border: 1px dashed currentColor; }
+.nb-searched h3 + ul + h3, .nb-searched ul + h3 { margin-top: var(--space-3); }
+.nb-public-list { margin: 0; padding: 0; list-style: none; display: grid; gap: var(--space-2); }
+.nb-public-list li { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-1) var(--space-2); font-size: 14px; }
+.nb-public-list li > span:last-child { color: var(--muted); }
+.nb-public-list a { color: var(--ink); }
+.nb-check { display: flex; align-items: center; gap: var(--space-2); margin: var(--space-3) 0 0; color: var(--success); font-size: 14px; font-weight: 600; }
+.nb-check .icon { width: 16px; height: 16px; }
+.nb-follow { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-3); }
+.nb-follow-chip { min-height: var(--control-height); padding: var(--space-2) var(--space-4); border: 1px solid var(--line); border-radius: var(--radius-pill); background: var(--surface); color: var(--ink); font: inherit; font-size: 15px; cursor: pointer; }
+@media (hover: hover) and (pointer: fine) { .nb-follow-chip:hover { background: var(--raised); } }
+.nb-add-from { display: grid; gap: var(--space-2); margin-top: var(--space-3); }
+.nb-add-from:empty { display: none; }
+.nb-add-from-button { min-height: var(--control-height); justify-content: flex-start; }
+/* The viewer names its citation with a colour block, then the source's kind, date and page. */
+.nb-viewer-head { align-items: flex-start; }
+.nb-viewer-badge { display: grid; place-items: center; min-width: 28px; height: 24px; padding: 0 var(--space-2); border-radius: var(--radius-small); background: var(--block-fill); color: var(--block-ink); font-size: 13px; font-weight: 650; flex: none; }
+.nb-viewer-badge[hidden] { display: none; }
+.nb-viewer-titles { display: grid; gap: 2px; min-width: 0; flex: 1; }
+.nb-viewer-meta { margin: 0; color: var(--muted); font-size: 14px; }
+.nb-viewer-meta:empty { display: none; }
+.nb-viewer > .nb-viewer-open { justify-self: start; display: inline-flex; align-items: center; min-height: var(--control-height); margin: var(--space-4); align-self: end; padding: 0 var(--space-4); border: 1px solid var(--line); border-radius: var(--radius-control); color: var(--ink); text-decoration: none; }
+
+/* Notebook workspace proportions from the original Ask reference. */
+@media (min-width: 1001px) {
+  .notebook-page #notebook-view { padding-top: var(--space-4); }
+}
+.notebook-page .notebook-hero { margin-bottom: var(--space-5); }
+.notebook-chat .nb-source-add { white-space: nowrap; padding-inline: var(--space-2); }
+.nb-sources-actions { display:flex; flex-wrap:wrap; gap:var(--space-2); }
+.nb-sources-actions > button { flex:1 1 auto; justify-content:center; }
+.notebook-chat button .icon { flex:none; width:18px; height:18px; }
+.nb-msg-user { background: var(--brand-mauve); color: var(--paper-action-ink); }
+/* One themed composer surface, without native textarea shading or a blank
+   grid row when the optional model selector is hidden. */
+.nb-input textarea { appearance:none; box-shadow:none; color-scheme:inherit; }
+.nb-answer-with[hidden] { display:none; }
+.nb-input button { align-self:end; }
+.notebook-chat .nb-input button[type='submit']:not(:disabled) {
+  background: var(--action-fill);
+  color: var(--action-ink);
+  border-color: transparent;
+}
+
+.nb-msg-user p { color: inherit; }
+@media (max-width: 1000px) {
+  .nb-viewer { bottom: 80px; }
+}
+.nb-status, .nb-unread, .nb-answer-with, .nb-check { font-size: var(--text-body); line-height: 1.5; }
+
+/* Welcome (empty chat): the notebook, its latest results, the next date and questions to start
+   with, so a new thread opens on what the notebook already holds. */
+.nb-welcome { display: grid; gap: var(--space-5); }
+.nb-welcome-meta, .nb-welcome-about { margin: 0; font-size: var(--text-body); line-height: 1.5; }
+.nb-welcome-meta { color: var(--muted); }
+.nb-welcome-levels { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 180px), 1fr)); gap: var(--space-3); margin: 0; padding: 0; list-style: none; }
+.nb-welcome-level-link { display: grid; gap: var(--space-1); height: 100%; box-sizing: border-box; padding: var(--space-4); border: 1px solid var(--widget-line); border-radius: var(--radius-panel); background: var(--widget-fill); color: var(--widget-ink); text-decoration: none; font-size: var(--text-body); }
+.nb-welcome-level-link:hover { border-color: var(--widget-ink); }
+.nb-welcome-level-link:focus-visible { outline: var(--focus-width) solid var(--focus); outline-offset: var(--focus-offset); }
+.nb-welcome-level-link strong { font: 300 28px/1.15 var(--font-heading); font-variant-numeric: tabular-nums; }
+.nb-welcome-level-meta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-1) var(--space-2); margin-top: var(--space-1); color: var(--widget-muted); }
+.nb-welcome-level-status { padding: 2px var(--space-3); border-radius: var(--radius-pill); background: var(--widget-raised); color: var(--widget-ink); font-weight: 600; }
+.nb-welcome-level.is-alert .nb-welcome-level-status { background: var(--block-alert-fill); color: var(--block-alert-ink); }
+.nb-welcome-level.is-alert .nb-welcome-level-link { border-color: var(--block-alert-fill); box-shadow: inset 4px 0 0 var(--block-alert-fill); }
+.nb-welcome-next { display: flex; align-items: center; gap: var(--space-2); margin: 0; font-size: var(--text-body); line-height: 1.5; }
+.nb-welcome-next .icon { width: 18px; height: 18px; flex: none; }
+.nb-welcome-title { margin: 0 0 calc(var(--space-3) * -1 + var(--space-1)); font-size: var(--text-body); font-weight: 650; }
+/* Attach, public search and the answering model sit in one row under the box. */
+.nb-composer-options { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-4); }
+.nb-composer-options .nb-research { font-size: var(--text-body); }
+/* The suggested questions sit on one white widget, like For you now, in both themes. */
+.nb-welcome-ideas { padding: var(--space-1) var(--space-5); border-radius: var(--radius-panel); background: var(--widget-fill); color: var(--widget-ink); }
+/* The chat column never grows past its panel: a textarea's intrinsic width once pushed it 2px
+   wider than a 320px screen. */
+.nb-chat, .nb-composer { grid-template-columns: minmax(0, 1fr); }

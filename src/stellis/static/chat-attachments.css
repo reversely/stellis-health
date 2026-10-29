@@ -1,0 +1,10 @@
+.chat-attachments,.chat-file-list { min-width:0; max-width:100%; }
+.chat-file-list { display:grid; gap: var(--space-2); }
+.chat-file { display:flex; flex-wrap:wrap; align-items:center; gap: var(--space-2); min-width:0; padding: var(--space-2) 0; }
+.chat-file>a:first-child { flex:1 1 160px; min-width:0; overflow-wrap:anywhere; }
+.chat-file select { flex:1 1 160px; width:auto; max-width:100%; min-width:0; min-height: var(--control-height); font:inherit; font-size:16px; }
+.chat-file button,.chat-attach { min-height: var(--control-height); padding: var(--space-2) var(--space-3); border:1px solid var(--line); border-radius: var(--radius-control); background:var(--raised); color:var(--ink); font:inherit; cursor:pointer; }
+.chat-file button:disabled,.chat-attach:disabled { color:var(--muted); cursor:default; }
+.chat-file-status { color:var(--muted); font-size:14px; overflow-wrap:anywhere; }
+.chat-file-status:empty { display:none; }
+.chat-file button:focus-visible,.chat-attach:focus-visible { outline: var(--focus-width) solid var(--ink); outline-offset: var(--focus-offset); }

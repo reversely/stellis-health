@@ -1,0 +1,20 @@
+name: Uptime
+# A failed run is the alert: GitHub notifies the repository owner.
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+jobs:
+  check:
+    # The live site is watched from the public repository only; the dev copy stays quiet.
+    if: github.repository == 'reversely/stellis-health'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Health endpoint answers over HTTPS
+        run: |
+          for attempt in 1 2 3; do
+            curl -fsS --max-time 20 https://204-12-180-88.sslip.io/api/health && exit 0
+            sleep 30
+          done
+          exit 1

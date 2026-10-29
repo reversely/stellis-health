@@ -1,0 +1,141 @@
+/* Motion identifies user-triggered overlays and changes within a task. */
+:root {
+  --ease-enter: cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-dialog: 220ms;
+  --motion-exit: 180ms;
+  --motion-menu: 160ms;
+  --motion-call: 200ms;
+  --motion-press: 120ms;
+}
+
+/* Keep the panel and backdrop together on entry and exit. */
+dialog {
+  transition:
+    opacity var(--motion-dialog) var(--ease-enter),
+    scale var(--motion-dialog) var(--ease-enter),
+    overlay var(--motion-dialog) allow-discrete,
+    display var(--motion-dialog) allow-discrete;
+}
+dialog::backdrop {
+  transition:
+    opacity var(--motion-dialog) var(--ease-enter),
+    overlay var(--motion-dialog) allow-discrete,
+    display var(--motion-dialog) allow-discrete;
+}
+dialog:not([open]) {
+  opacity: 0;
+  scale: 0.96;
+  transition-duration: var(--motion-exit);
+}
+dialog:not([open])::backdrop {
+  opacity: 0;
+  transition-duration: var(--motion-exit);
+}
+@starting-style {
+  dialog[open] { opacity: 0; scale: 0.96; }
+  dialog[open]::backdrop { opacity: 0; }
+}
+
+/* Native pickers stay in the top layer until their short exit finishes. */
+@supports (appearance: base-select) {
+  select::picker(select) {
+    opacity: 0;
+    translate: 0 4px;
+    transition:
+      opacity var(--motion-menu) var(--ease-enter),
+      translate var(--motion-menu) var(--ease-enter),
+      display var(--motion-menu) allow-discrete,
+      overlay var(--motion-menu) allow-discrete;
+  }
+  select:open::picker(select) { opacity: 1; translate: none; }
+  @starting-style {
+    select:open::picker(select) { opacity: 0; translate: 0 4px; }
+  }
+}
+
+/* Menus and the call panel appear beside their trigger or docking edge. */
+details[open] > .more-menu-items {
+  transform-origin: top right;
+  transition: opacity var(--motion-menu) var(--ease-enter),
+    scale var(--motion-menu) var(--ease-enter);
+}
+.coach-call {
+  transition: opacity var(--motion-call) var(--ease-enter),
+    translate var(--motion-call) var(--ease-enter);
+}
+@starting-style {
+  details[open] > .more-menu-items { opacity: 0; scale: 0.96; }
+  .coach-call { opacity: 0; translate: 0 8px; }
+}
+
+/* Forms and capture results enter only when the task creates them. */
+.pulse-body > *,
+:is(.trend-form, .document-text-editor, .trend-table-wrap, .setup-scene):not([hidden]) {
+  transition: opacity var(--motion-dialog) var(--ease-enter),
+    translate var(--motion-dialog) var(--ease-enter);
+}
+@starting-style {
+  .pulse-body > *,
+  :is(.trend-form, .document-text-editor, .trend-table-wrap, .setup-scene):not([hidden]) {
+    opacity: 0;
+    translate: 0 4px;
+  }
+}
+.pulse-ring { transition: stroke-dasharray 300ms linear; }
+.pulse-step, .pulse-step-dot {
+  transition: color 150ms var(--ease-enter),
+    background-color 150ms var(--ease-enter),
+    border-color 150ms var(--ease-enter);
+}
+
+/* Task starts and confirmations acknowledge a pointer press. */
+:is(.invert-button, .coach-button.is-primary, .pulse-primary, .trend-save,
+    .records-sort, .records-file, .summary-update, .setup-scene button.primary) {
+  transition: scale var(--motion-press) var(--ease-enter),
+    background-color var(--motion-press) var(--ease-enter),
+    border-color var(--motion-press) var(--ease-enter);
+}
+:is(.invert-button, .coach-button.is-primary, .pulse-primary, .trend-save,
+    .records-sort, .records-file, .summary-update, .setup-scene button.primary):enabled:active {
+  scale: 0.97;
+}
+
+/* Keyboard interaction stays immediate, including shortcut-opened overlays. */
+html[data-input='keyboard'] :is(button, a, input, select, dialog,
+    .more-menu-items, .coach-call, .trend-form, .document-text-editor,
+    .trend-table-wrap, .setup-scene, .pulse-body > *) {
+  transition-duration: 0s !important;
+  animation: none !important;
+}
+html[data-input='keyboard'] :is(button, a, input):active {
+  scale: 1 !important;
+  translate: none !important;
+}
+html[data-input='keyboard'] :is(#theme-toggle, #setup-theme):active { scale: 1; }
+html[data-input='keyboard'] dialog::backdrop,
+html[data-input='keyboard'] select::picker(select) { transition-duration: 0s; }
+
+/* Theme colours change in one frame. */
+html.theme-swapping *,
+html.theme-swapping *::before,
+html.theme-swapping *::after { transition: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  dialog, dialog:not([open]), .coach-call,
+  details[open] > .more-menu-items {
+    scale: 1;
+    translate: none;
+  }
+  :root :is(button, a, input):active { scale: 1 !important; translate: none !important; }
+  :root :is(#theme-toggle, #setup-theme):active { scale: 1; }
+  select::picker(select) { translate: none; }
+  .pulse-ring { transition: none; }
+  @starting-style {
+    dialog[open], details[open] > .more-menu-items { scale: 1; }
+    .coach-call, select:open::picker(select),
+    .pulse-body > *,
+    :is(.trend-form, .document-text-editor, .trend-table-wrap, .setup-scene):not([hidden]) {
+      translate: none;
+    }
+  }
+}

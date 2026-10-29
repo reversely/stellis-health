@@ -1,0 +1,295 @@
+/* The sign-in page is also the first impression (owner, 2026-10-28): what Stellis does, in the film's
+   language, with the account card beside it. Pillar colours and surfaces come from theme.css; motion
+   follows the film: entrances in place (opacity and a slight scale, no travel), the strong ease-out,
+   each shown once as it comes into view, and none at all under reduced motion. */
+.landing {
+  --landing-ease: cubic-bezier(0.23, 1, 0.32, 1);
+  --landing-measure: 1180px;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Hero: the problem, what Stellis is, and the account card, on the rail surface. */
+.landing-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 440px);
+  gap: clamp(var(--space-6), 5vw, 72px);
+  align-items: start;
+  box-sizing: border-box;
+  width: min(100%, var(--landing-measure));
+  margin: 0 auto;
+  padding: clamp(var(--space-6), 6vh, 64px) var(--space-6) clamp(var(--space-8), 10vh, 96px);
+  color: var(--rail-ink);
+}
+.landing-hero .auth-main { width: auto; margin: 0; padding: 0; }
+.landing-intro { display: grid; gap: var(--space-5); align-content: start; padding-top: var(--space-4); }
+.landing-intro h1 { margin: 0; font: 400 clamp(36px, 4.6vw, 56px)/1.08 var(--font-heading); letter-spacing: -0.02em; text-wrap: balance; color: var(--rail-ink); }
+.landing-lede { margin: 0; font: 400 clamp(19px, 1.8vw, 23px)/1.6 var(--font-body); color: var(--rail-ink); }
+/* Try the demo is the page's main action: the inverted fill (the rail's text colour, the rail's
+   colour for the label), larger than any other control here. */
+.landing-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3) var(--space-4); margin-top: var(--space-2); }
+.landing-actions .auth-demo { display: grid; gap: 6px; margin: 0; padding: 0; border: 0; }
+.landing-actions .auth-demo[hidden] { display: none; }
+.landing-demo { min-height: 56px; padding: 0 var(--space-7); border: 0; border-radius: var(--radius-pill); background: var(--rail-ink); color: var(--rail-surface); font: 700 18px var(--font-body); cursor: pointer; box-shadow: var(--elevation-on-rail); transition: scale 120ms var(--landing-ease), background-color 150ms; }
+.landing-demo:active { scale: .97; }
+@media (hover: hover) and (pointer: fine) { .landing-demo:hover { background: color-mix(in oklch, var(--rail-ink) 88%, var(--pillar-understand-colour)); } }
+.landing-demo:focus-visible { outline: var(--focus-width) solid var(--rail-ink); outline-offset: 3px; }
+.landing-demo:disabled { cursor: progress; }
+.landing-actions .auth-hint { color: color-mix(in oklch, var(--rail-ink) 72%, transparent); font-size: 14px; }
+
+/* "helps you ___ your health": one pill the size of its longest word; each pillar slides up into it in
+   its own colour, as in the film, so the sentence around it never moves. */
+.landing-slot { display: inline-block; position: relative; width: 6.2em; height: 1.5em; overflow: hidden; vertical-align: -0.38em; border-radius: var(--radius-pill); background: var(--slot, var(--pillar-understand-colour)); transition: background-color 300ms var(--landing-ease); }
+.landing-slot-word { position: absolute; inset: 0; display: grid; place-items: center; color: var(--pillar-ink); font-weight: 650; transition: translate 300ms cubic-bezier(0.77, 0, 0.175, 1); }
+.landing-slot-word.is-leaving { translate: 0 -100%; }
+.landing-slot-word.is-coming { translate: 0 100%; transition: none; }
+
+.landing-more { justify-self: start; min-height: 44px; padding: 0 var(--space-5); border: 1px solid color-mix(in oklch, var(--rail-ink) 40%, transparent); border-radius: var(--radius-pill); background: transparent; color: var(--rail-ink); font: 650 16px var(--font-body); cursor: pointer; }
+@media (hover: hover) and (pointer: fine) { .landing-more:hover { background: color-mix(in oklch, var(--rail-ink) 10%, transparent); } }
+.landing-more:focus-visible { outline: var(--focus-width) solid var(--rail-ink); outline-offset: var(--focus-offset); }
+
+/* Sections on the film's paper: copy on one side, the thing it describes on the other. */
+/* The paper sections use the paper roles whatever the page's theme, as the account card does. */
+.landing-section, .landing-end { --ink: var(--paper-ink); --muted: var(--paper-muted); --line: var(--paper-line); --surface: var(--paper-surface); background: var(--paper-surface); color: var(--paper-ink); }
+.landing-section {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  gap: clamp(var(--space-6), 5vw, 80px);
+  align-items: center;
+  padding: clamp(var(--space-8), 9vh, 96px) max(var(--space-6), calc((100% - var(--landing-measure)) / 2 + var(--space-6)));
+  border-top: 1px solid var(--paper-line);
+}
+.landing-section.is-reversed { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); }
+.landing-section.is-reversed .landing-copy { order: 2; }
+.landing-copy { display: grid; gap: var(--space-4); }
+.landing-copy h2 { margin: 0; font: 400 clamp(30px, 3.2vw, 42px)/1.12 var(--font-heading); letter-spacing: -0.015em; color: var(--paper-ink); text-wrap: balance; }
+.landing-copy p { margin: 0; font: 400 18px/1.6 var(--font-body); color: var(--paper-ink); max-width: 56ch; }
+.landing-copy .landing-note { color: var(--paper-muted); font-size: 15px; }
+.landing-pillar { display: inline-flex; align-items: center; gap: 8px; justify-self: start; padding: 6px 14px; border-radius: var(--radius-pill); background: var(--pillar); color: var(--pillar-ink); font: 650 15px/1.2 var(--font-body) !important; }
+.landing-pillar .icon { width: 18px; height: 18px; }
+.landing-and { opacity: .8; font-weight: 500; }
+[data-pillar='understand'] { --pillar: var(--pillar-understand-colour); }
+[data-pillar='chart'] { --pillar: var(--pillar-chart-colour); }
+[data-pillar='log'] { --pillar: var(--pillar-log-colour); }
+
+/* The report, its result rows outlined left to right and the low one explained, as the film does. */
+/* The frame does not clip, so the explanation can reach past the page's edge on a narrow screen. */
+.landing-page { position: relative; margin: 0; border-radius: var(--radius-panel); background: var(--paper-raised); box-shadow: var(--elevation-card); }
+.landing-page img { display: block; width: 100%; height: auto; border-radius: var(--radius-panel); }
+.landing-row { position: absolute; left: var(--x); top: var(--y); width: var(--w); height: var(--h); border-radius: var(--radius-text); background: color-mix(in oklch, var(--pillar-understand-colour) 22%, transparent); box-shadow: inset 0 0 0 1.5px color-mix(in oklch, var(--pillar-understand-colour) 70%, transparent); }
+.landing-row.is-low { background: color-mix(in oklch, var(--pillar-chart-colour) 22%, transparent); box-shadow: inset 0 0 0 2px var(--pillar-chart-colour); }
+.landing-callout { position: absolute; left: var(--x); top: calc(var(--y) + 5.5%); max-width: 62%; padding: 10px 14px; border-radius: var(--radius-dialog); background: var(--paper-raised); color: var(--paper-ink); font: 600 15px/1.4 var(--font-body); box-shadow: var(--elevation-chip), 0 0 0 1.5px var(--pillar-chart-colour); }
+.landing.is-moving [data-reveal]:not(.is-shown) .landing-row { clip-path: inset(0 100% 0 0); }
+.landing.is-moving [data-reveal] .landing-row { transition: clip-path 420ms var(--landing-ease) calc(var(--i) * 80ms); }
+.landing.is-moving [data-reveal]:not(.is-shown) .landing-callout { opacity: 0; scale: .97; }
+.landing.is-moving [data-reveal] .landing-callout { transform-origin: left top; transition: opacity 300ms var(--landing-ease) 700ms, scale 300ms var(--landing-ease) 700ms; }
+
+/* A question and its sourced answer, as the report chat shows them. */
+.landing-chat { display: grid; gap: var(--space-3); padding: var(--space-5); border-radius: var(--radius-panel); background: var(--paper-raised); box-shadow: var(--elevation-card); }
+.landing-chat p { margin: 0; }
+.landing-quote { padding: 10px 14px; border-left: 3px solid var(--paper-ink); background: color-mix(in oklch, var(--paper-ink) 5%, transparent); font: 500 16px var(--font-body); }
+.landing-ask { justify-self: end; max-width: 80%; padding: 12px 16px; border-radius: var(--radius-message); background: var(--brand-mauve); color: var(--pillar-ink); font: 400 16px/1.5 var(--font-body); }
+.landing-answer { display: grid; gap: 4px; font: 400 16px/1.6 var(--font-body); color: var(--paper-ink); }
+.landing-answer p { margin: 0; }
+.landing-cite { display: inline-grid; place-items: center; min-width: 20px; height: 20px; margin-left: 4px; border-radius: var(--radius-small); background: var(--paper-ink); color: var(--paper-surface); font: 700 12px var(--font-body); vertical-align: 2px; }
+.landing.is-moving [data-reveal]:not(.is-shown) :is(.landing-quote, .landing-ask, .landing-answer) { opacity: 0; scale: .97; }
+.landing.is-moving [data-reveal] :is(.landing-quote, .landing-ask, .landing-answer) { transition: opacity 320ms var(--landing-ease), scale 320ms var(--landing-ease); }
+.landing.is-moving [data-reveal] .landing-ask { transition-delay: 300ms; transform-origin: right center; }
+.landing.is-moving [data-reveal] .landing-answer { transition-delay: 800ms; transform-origin: left top; }
+
+/* Ferritin over five years, drawn through its points. */
+.landing-chart { margin: 0; padding: var(--space-5); border-radius: var(--radius-panel); background: var(--paper-raised); box-shadow: var(--elevation-card); }
+.landing-chart figcaption { font: 700 18px var(--font-body); color: var(--paper-ink); }
+.landing-chart figcaption span { color: var(--paper-muted); font-weight: 500; }
+.landing-chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+.landing-chart text { font: 500 13px var(--font-body); fill: var(--paper-muted); }
+.landing-chart .landing-value { font-weight: 700; fill: var(--paper-ink); }
+.landing-chart .landing-line { fill: none; stroke: var(--pillar-chart-colour); stroke-width: 3; stroke-linejoin: round; }
+.landing-chart .landing-point { fill: var(--pillar-chart-colour); }
+.landing-chart .landing-range { stroke: var(--paper-line); stroke-width: 1.5; stroke-dasharray: 5 5; }
+.landing.is-moving [data-reveal]:not(.is-shown) .landing-line { stroke-dashoffset: 1; }
+.landing.is-moving [data-reveal] .landing-line { stroke-dasharray: 1; transition: stroke-dashoffset 1100ms cubic-bezier(0.77, 0, 0.175, 1) 150ms; }
+.landing.is-moving [data-reveal]:not(.is-shown) .landing-point { opacity: 0; }
+.landing.is-moving [data-reveal] .landing-point { transition: opacity 200ms var(--landing-ease) calc(150ms + var(--i) * 100ms); }
+
+/* Today's doses, ticked as the app ticks them, and a camera reading. */
+.landing-today { display: grid; gap: var(--space-3); padding: var(--space-5); border-radius: var(--radius-panel); background: var(--paper-raised); box-shadow: var(--elevation-card); }
+.landing-today-head { margin: 0; font: 400 26px var(--font-heading); }
+.landing-dose { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); padding: var(--space-3) 0; border-top: 1px solid var(--paper-line); font: 600 17px var(--font-body); }
+.landing-dose small { display: block; color: var(--paper-muted); font-weight: 500; font-size: 15px; }
+.landing-tick { flex: none; width: 40px; height: 40px; border: 2px solid var(--paper-ink); border-radius: 50%; background: transparent; cursor: pointer; }
+.landing-tick[aria-pressed='true'] { background: var(--pillar-log-colour) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5l10 -10'/%3E%3C/svg%3E") center / 22px no-repeat; border-color: var(--pillar-log-colour); }
+.landing-tick:active { scale: .97; }
+.landing-tick:focus-visible { outline: var(--focus-width) solid var(--focus); outline-offset: var(--focus-offset); }
+.landing-vitals { display: flex; flex-wrap: wrap; gap: var(--space-5); padding-top: var(--space-3); border-top: 1px solid var(--paper-line); color: var(--paper-muted); font: 500 15px var(--font-body); }
+.landing-vitals strong { color: var(--pillar-monitor-colour); font: 400 30px var(--font-heading); }
+
+/* How Stellis runs: the film's architecture as a diagram, each part with its security facts. */
+.landing-arch { --ink: var(--paper-ink); --muted: var(--paper-muted); display: grid; gap: var(--space-7); padding: clamp(var(--space-8), 9vh, 96px) max(var(--space-6), calc((100% - var(--landing-measure)) / 2 + var(--space-6))); border-top: 1px solid var(--paper-line); background: var(--paper-surface); color: var(--paper-ink); }
+.landing-arch .landing-copy p { max-width: 72ch; }
+.landing-diagram { display: grid; grid-template-columns: minmax(0, 1fr) 40px minmax(0, 1.25fr) 48px minmax(0, 1fr); align-items: center; }
+.landing-out { display: grid; gap: var(--space-6); }
+.landing-node { position: relative; display: grid; gap: var(--space-3); padding: var(--space-4); border-radius: var(--radius-tile); background: var(--paper-raised); box-shadow: var(--elevation-tile); }
+.landing-node.is-server { box-shadow: var(--elevation-tile), 0 0 0 2px var(--pillar-understand-colour); }
+.landing-node-head { display: flex; align-items: center; gap: var(--space-3); margin: 0; }
+.landing-node-head .icon { flex: none; width: 44px; height: 44px; padding: 10px; box-sizing: border-box; border-radius: var(--radius-dialog); background: var(--paper-ink); color: var(--pillar-ink); }
+.landing-node.is-server .landing-node-head .icon { background: var(--pillar-understand-colour); }
+.landing-node-head span { display: grid; color: var(--paper-muted); font: 500 14px/1.35 var(--font-body); }
+.landing-node-head strong { color: var(--paper-ink); font: 400 21px/1.15 var(--font-heading); }
+.landing-node ul { display: grid; gap: 6px; margin: 0; padding-left: 1.1em; color: var(--paper-ink); font: 400 15px/1.45 var(--font-body); }
+.landing-node-stellis { position: absolute; right: 18px; bottom: 100%; width: 44px; height: 44px; }
+.landing-node-stellis svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.landing-link { height: 2px; background: var(--paper-ink); transform-origin: left center; }
+/* Server to the model and to public sources: one line that splits to the two parts' centres. */
+.landing-link.is-split { position: relative; align-self: stretch; height: auto; background: none; }
+.landing-link.is-split::before { content: ''; position: absolute; left: 0; top: 50%; width: 50%; height: 2px; background: var(--paper-ink); }
+.landing-link.is-split::after { content: ''; position: absolute; left: 50%; right: 0; top: 25%; bottom: 25%; border: 2px solid var(--paper-ink); border-right: 0; border-radius: var(--radius-dialog) 0 0 var(--radius-dialog); }
+.landing.is-moving [data-reveal]:not(.is-shown) :is(.landing-node, .landing-link) { opacity: 0; }
+.landing.is-moving [data-reveal]:not(.is-shown) .landing-node { scale: .97; }
+.landing.is-moving [data-reveal] :is(.landing-node, .landing-link) { transition: opacity 320ms var(--landing-ease), scale 320ms var(--landing-ease); }
+.landing.is-moving [data-reveal] > :nth-child(2) { transition-delay: 200ms; }
+.landing.is-moving [data-reveal] > :nth-child(3) { transition-delay: 300ms; }
+.landing.is-moving [data-reveal] > :nth-child(4) { transition-delay: 500ms; }
+.landing.is-moving [data-reveal] .landing-out .landing-node { transition-delay: 600ms; }
+.landing.is-moving [data-reveal] .landing-out .landing-node + .landing-node { transition-delay: 700ms; }
+
+.landing-end { display: grid; justify-items: center; gap: var(--space-5); padding: var(--space-8) var(--space-6) var(--space-9); border-top: 1px solid var(--paper-line); text-align: center; }
+.landing-end p { margin: 0; font: 400 clamp(26px, 3vw, 36px)/1.25 var(--font-heading); }
+.landing-end .landing-more { justify-self: center; border-color: var(--paper-ink); color: var(--paper-ink); }
+@media (hover: hover) and (pointer: fine) { .landing-end .landing-more:hover { background: color-mix(in oklch, var(--paper-ink) 8%, transparent); } }
+.landing-end .landing-more:focus-visible { outline-color: var(--paper-ink); }
+
+@media (max-width: 900px) {
+  .landing-hero { grid-template-columns: 1fr; padding-inline: var(--space-4); }
+  .landing-section, .landing-section.is-reversed { grid-template-columns: 1fr; padding-inline: var(--space-4); }
+  .landing-section.is-reversed .landing-copy { order: 0; }
+  .landing-arch { padding-inline: var(--space-4); }
+  /* The diagram reads top to bottom, its links vertical. */
+  .landing-diagram { grid-template-columns: 1fr; justify-items: stretch; }
+  .landing-link, .landing-link.is-split { justify-self: center; width: 2px; height: 32px; background: var(--paper-ink); }
+  .landing-link.is-split::before, .landing-link.is-split::after { display: none; }
+  .landing-callout { font-size: 13px; max-width: 70%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-slot, .landing-slot-word { transition: none; }
+}
+
+/* The label sits inside the copy, whose paragraph colour would otherwise win; the illustrations' text
+   is full ink, not the app's muted paragraph colour. */
+.landing-copy .landing-pillar { color: var(--pillar-ink); }
+:is(.landing-answer p, .landing-quote, .landing-today-head, .landing-end p, .landing-dose span) { color: var(--paper-ink); }
+
+/* Illustrations that are not a record say so. */
+.landing-example { margin-left: var(--space-2); padding: 3px 10px; border-radius: var(--radius-pill); background: color-mix(in oklch, var(--paper-ink) 8%, transparent); color: var(--paper-muted); font: 600 13px var(--font-body); vertical-align: middle; }
+/* On the dark opening Stellis is drawn light, the film's paper-coloured sprite inverted for the rail. */
+
+/* The opening fits one screen (owner, 2026-10-28) and ends in a gradient toward the paper sections with a
+   down arrow that scrolls on, in place of a How it works button. */
+.landing-hero {
+  position: relative;
+  min-height: calc(100svh - 68px);
+  box-sizing: border-box;
+  align-content: center;
+  padding-top: var(--space-4);
+  padding-bottom: 96px;
+}
+.landing-hero::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 120px; background: linear-gradient(to bottom, transparent, color-mix(in oklch, var(--paper-surface) 14%, var(--rail-surface))); pointer-events: none; }
+/* The hero spans the full width so its gradient does; its content keeps the measure. */
+.landing-hero { width: 100%; max-width: none; padding-inline: max(var(--space-6), calc((100% - var(--landing-measure)) / 2 + var(--space-6))); }
+.landing-intro { gap: var(--space-4); padding-top: 0; }
+.landing-intro h1 { font-size: clamp(32px, 3.6vw, 50px); }
+.landing-lede { font-size: clamp(18px, 1.5vw, 21px); line-height: 1.5; }
+.landing-down { position: absolute; z-index: 1; left: 50%; bottom: 20px; translate: -50% 0; display: grid; place-items: center; width: 52px; height: 52px; padding: 0; border: 1px solid color-mix(in oklch, var(--rail-ink) 45%, transparent); border-radius: 50%; background: color-mix(in oklch, var(--rail-surface) 70%, transparent); color: var(--rail-ink); cursor: pointer; transition: scale 120ms var(--landing-ease), background-color 150ms; }
+.landing-down .icon { width: 26px; height: 26px; }
+.landing-down:active { scale: .95; }
+@media (hover: hover) and (pointer: fine) { .landing-down:hover { background: color-mix(in oklch, var(--rail-ink) 14%, var(--rail-surface)); } }
+.landing-down:focus-visible { outline: var(--focus-width) solid var(--rail-ink); outline-offset: 3px; }
+/* A slow nudge downward, twice, so the arrow reads as "there is more". */
+.landing.is-moving .landing-down .icon { animation: landing-nudge 1.6s cubic-bezier(0.645, 0.045, 0.355, 1) 1.2s 2; }
+@keyframes landing-nudge { 0%, 100% { translate: 0 0; } 50% { translate: 0 5px; } }
+/* On a phone the opening line and Try the demo come first; the functions and the account card follow. */
+@media (max-width: 900px) {
+  .landing-hero { align-content: start; padding-top: var(--space-5); padding-inline: var(--space-4); }
+  .landing-down { display: none; }
+}
+
+/* The opening, decluttered (owner, 2026-10-28): the headline and Try the demo beside a small scene of
+   Stellis filing records into notebooks; signing in is a corner button. */
+.landing-hero { grid-template-columns: minmax(0, 1fr) minmax(0, 500px); align-items: center; }
+.landing-intro { gap: var(--space-5); }
+.landing-intro h1 { font-size: clamp(36px, 4.4vw, 60px); }
+.landing-lede { max-width: 34ch; }
+.landing-error { margin: 0; color: var(--rail-failure); font: 500 15px var(--font-body); }
+.landing-error:empty { display: none; }
+
+/* The scene: Stellis takes each record from the cloud and files it into its area of care, which lists and
+   counts it (landing.js). */
+.landing-scene { position: relative; height: 380px; }
+.landing-scene-stellis { position: absolute; left: 0; top: 0; width: 72px; height: 72px; }
+.landing-scene-stellis svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.landing-scene-stellis svg path { fill: var(--rail-ink); }
+.landing-scene-card { position: absolute; left: 0; top: 0; display: inline-flex; align-items: center; gap: 8px; padding: 9px 14px; border-radius: var(--radius-pill); background: var(--paper-raised); color: var(--paper-ink); font: 600 14px/1.2 var(--font-body); white-space: nowrap; box-shadow: var(--elevation-on-rail); }
+.landing-scene-card .icon { width: 18px; height: 18px; color: var(--card-colour, var(--pillar-understand-colour)); }
+
+/* Signing in: a corner button that opens the account card over the page's top right. */
+body.auth-page header { display: flex; align-items: center; justify-content: space-between; }
+.landing-signin { min-height: 40px; padding: 0 var(--space-5); border: 1px solid color-mix(in oklch, var(--rail-ink) 40%, transparent); border-radius: var(--radius-pill); background: transparent; color: var(--rail-ink); font: 650 15px var(--font-body); cursor: pointer; }
+@media (hover: hover) and (pointer: fine) { .landing-signin:hover { background: color-mix(in oklch, var(--rail-ink) 10%, transparent); } }
+.landing-signin:focus-visible { outline: var(--focus-width) solid var(--rail-ink); outline-offset: 3px; }
+.landing-signin[aria-expanded='true'] { background: var(--rail-ink); color: var(--rail-surface); }
+.landing-account { position: fixed; z-index: 60; top: 68px; right: var(--space-5); width: min(400px, calc(100vw - 2 * var(--space-4))); max-height: calc(100svh - 84px); overflow-y: auto; border-radius: var(--radius-panel); box-shadow: var(--overlay-shadow); transform-origin: top right; transition: opacity 180ms cubic-bezier(0.22, 1, 0.36, 1), scale 180ms cubic-bezier(0.22, 1, 0.36, 1); }
+.landing-account[hidden] { display: none; }
+@starting-style { .landing-account { opacity: 0; scale: .97; } }
+.landing-account .auth-card { margin: 0; }
+.landing-account-close { position: absolute; z-index: 1; top: 10px; right: 10px; display: grid; place-items: center; width: 36px; height: 36px; padding: 0; border: 0; border-radius: 50%; background: transparent; color: var(--paper-ink); cursor: pointer; }
+.landing-account-close .icon { width: 18px; height: 18px; }
+@media (hover: hover) and (pointer: fine) { .landing-account-close:hover { background: color-mix(in oklch, var(--paper-ink) 8%, transparent); } }
+.landing-account-close:focus-visible { outline: var(--focus-width) solid var(--paper-ink); outline-offset: 2px; }
+@media (max-width: 900px) {
+  .landing-hero { grid-template-columns: 1fr; }
+  .landing-scene { height: 300px; }
+  .landing-account { right: var(--space-4); left: var(--space-4); width: auto; top: 64px; }
+  }
+@media (prefers-reduced-motion: reduce) { .landing-account { transition: none; } }
+/* Floating over the page, the account card is fully opaque. */
+html[data-theme] body.auth-page .landing-account .auth-card { background: var(--paper-raised); color: var(--paper-ink); }
+
+/* The opening is the dark rail surface in both themes (owner, 2026-10-28: in the light theme its light
+   text sat on the light page); the header above it matches, and the sections below stay paper. */
+html body.auth-page { background: var(--paper-surface); }
+html body.auth-page header { background: var(--rail-surface); }
+html[data-theme] body.auth-page .brand { color: var(--rail-ink); }
+.landing-hero { background: var(--rail-surface); }
+.landing-hero::after { background: linear-gradient(to bottom, transparent, color-mix(in oklch, var(--paper-surface) 14%, var(--rail-surface))); }
+[data-pillar='monitor'] { --pillar: var(--pillar-monitor-colour); }
+body.auth-page .landing-actions .auth-hint { color: color-mix(in oklch, var(--rail-ink) 72%, transparent); }
+
+.landing-scene-card { gap: 10px; }
+.landing-scene-card span { display: inline-flex; gap: 6px; }
+.landing-scene-shelf { position: absolute; left: 0; right: 0; bottom: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-2); }
+.landing-scene-area { min-width: 0; padding: var(--space-3); border-radius: var(--radius-tile); background: var(--paper-raised); color: var(--paper-ink); box-shadow: var(--elevation-on-rail); }
+html body.auth-page .landing-scene-area .landing-scene-name { display: flex; margin: 0; color: var(--paper-ink); align-items: center; gap: 6px; font: 700 15px/1.2 var(--font-body); }
+.landing-scene-area .landing-scene-name span { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.landing-scene-area .landing-scene-name .icon { flex: none; width: 18px; height: 18px; color: var(--pillar-understand-colour); }
+.landing-scene-area .landing-scene-name b { margin-left: auto; color: var(--paper-muted); font-weight: 600; font-variant-numeric: tabular-nums; }
+.landing-scene-area ul { display: grid; gap: 4px; min-height: 44px; margin: var(--space-2) 0 0; padding: 0; list-style: none; }
+.landing-scene-area li { display: flex; align-items: center; gap: 6px; min-width: 0; color: var(--paper-muted); font: 500 13px/1.3 var(--font-body); }
+.landing-scene-area li span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.landing-scene-area li .icon { flex: none; width: 14px; height: 14px; }
+.landing-scene-stellis { width: 64px; height: 64px; }
+/* Reports in the cloud drift gently in place until Stellis takes one. */
+.landing-scene-card.is-floating { animation: landing-drift 3.2s ease-in-out var(--drift, 0s) infinite alternate; }
+@keyframes landing-drift { from { translate: 0 0; } to { translate: 0 -6px; } }
+@media (prefers-reduced-motion: reduce) { .landing-scene-card.is-floating { animation: none; } }
+.landing-scene { height: 420px; }
+.landing-scene-card { max-width: calc(100% - 8px); padding: 7px 12px; font-size: 13px; }
+.landing-scene-card span { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+/* On a phone the three areas share 358px: names keep every letter, so the notebook icon goes. */
+@media (max-width: 600px) {
+  html body.auth-page .landing-scene-area .landing-scene-name { font-size: 13px; }
+  .landing-scene-area .landing-scene-name .icon { display: none; }
+  .landing-scene-area { padding: var(--space-2) var(--space-3); }
+  .landing-scene-area li { font-size: 12px; }
+}

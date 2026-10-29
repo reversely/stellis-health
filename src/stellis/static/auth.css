@@ -1,0 +1,163 @@
+/* The account form uses the same dark rail and light paper roles as the workspace. */
+body.auth-page {
+  min-height: 100vh;
+  background: var(--rail-surface);
+}
+body.auth-page::before { display: none; }
+body.auth-page header {
+  border: 0;
+  background: transparent;
+  backdrop-filter: none;
+}
+body.auth-page .brand { color: var(--paper-surface); }
+
+.auth-main {
+  width: min(100%, 460px);
+  max-width: none;
+  margin: clamp(var(--space-9), 10vh, 100px) auto 64px;
+  padding: 0 var(--space-5);
+}
+.auth-card {
+  --ink: var(--paper-ink);
+  --muted: var(--paper-muted);
+  --surface: var(--paper-surface);
+  --input: var(--paper-raised);
+  --line: var(--paper-line);
+  --focus: var(--source-focus);
+  padding: var(--space-8);
+  border: 1px solid var(--paper-line);
+  border-radius: var(--radius-panel);
+  background: var(--paper-surface);
+  color: var(--paper-ink);
+  box-shadow:var(--shadow);
+}
+.auth-card h1 {
+  margin: var(--space-3) 0 var(--space-6);
+  color: var(--paper-ink);
+  font-size: 30px;
+}
+.auth-modes {
+  display: flex;
+  gap: var(--space-2);
+  border-bottom: 1px solid var(--paper-line);
+}
+.auth-modes[hidden] { display: none; }
+.auth-modes button {
+  flex: 1;
+  min-height: var(--control-height);
+  padding: var(--space-3) var(--space-3);
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--paper-muted);
+  font: inherit;
+  font-weight: 650;
+  cursor: pointer;
+}
+.auth-modes button[aria-current='page'] {
+  border-bottom-color: var(--paper-action-fill);
+  color: var(--paper-ink);
+}
+.auth-modes button:hover { color: var(--paper-ink); }
+.auth-card form { display: grid; gap: var(--space-3); }
+.auth-card label { font-size: 14px; font-weight: 650; }
+.auth-card input {
+  width: 100%;
+  min-height: var(--control-height);
+  margin-bottom: var(--space-3);
+  padding: var(--space-3) var(--space-3);
+  border: 1px solid var(--paper-line);
+  border-radius: var(--radius-control);
+  background: var(--paper-raised);
+  color: var(--paper-ink);
+  font: inherit;
+}
+.auth-card form button {
+  min-height: 48px;
+  margin-top: var(--space-1);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--paper-action-fill);
+  border-radius: var(--radius-control);
+  background: var(--paper-action-fill);
+  color: var(--paper-raised);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.auth-card form button:hover:not(:disabled) {
+  border-color: var(--paper-action-hover);
+  background: var(--paper-action-hover);
+}
+.auth-card form button:disabled { opacity: .55; cursor: not-allowed; }
+.auth-card :is(button, input):focus-visible {
+  outline: var(--focus-width) solid var(--focus);
+  outline-offset: var(--focus-offset);
+}
+.auth-card p { margin: var(--space-4) 0 0; color: var(--paper-failure); }
+.auth-card p:empty { display: none; }
+
+html[data-theme='light'] body.auth-page { background: var(--paper-surface); }
+html[data-theme='light'] .auth-card { background: var(--paper-raised); box-shadow: 0 14px 36px var(--paper-ink)1C; }
+html[data-theme='light'] body.auth-page .brand { color: var(--paper-ink); }
+
+@media (max-width: 600px) {
+  .auth-main { margin-top: var(--space-11); }
+  .auth-card { padding: var(--space-6); }
+}
+
+.auth-card .auth-check {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--control-height);
+  font-weight: 600;
+  cursor: pointer;
+}
+.auth-card .auth-check input {
+  width: 20px;
+  min-height: 20px;
+  height: 20px;
+  margin: 0;
+  accent-color: var(--paper-action-fill);
+  color-scheme: light;
+}
+.auth-hint {
+  margin: -8px 0 var(--space-compact) calc(20px + var(--space-4));
+  font-size: 13px;
+  opacity: 0.75;
+}
+
+.auth-privacy { display: inline-flex; align-items: center; min-height: var(--control-height); color: var(--muted); text-decoration: none; }
+@media (hover: hover) { .auth-privacy:hover { text-decoration: underline; } }
+/* The password's note sits under its field, not indented like the checkbox hint. */
+#encryption-hint { margin-left: 0; padding-left: 0; }
+
+/* Recovery: the key shown once after sign-up, and the forgotten-password form. */
+html:root .auth-card form button.auth-secondary { background: transparent; color: var(--paper-ink); border: 1px solid color-mix(in oklch, currentColor 18%, transparent); }
+.auth-card .auth-link { justify-self: start; min-height: var(--control-height); padding: 0; border: 0; background: none; color: var(--muted); font: inherit; cursor: pointer; }
+@media (hover: hover) { .auth-card .auth-link:hover { text-decoration: underline; } }
+.auth-card h2 { margin: 0; font: 300 24px/1.2 var(--font-heading); }
+.auth-note { font-size: var(--text-body); line-height: 1.5; }
+.recovery-code { display: block; padding: var(--space-3) var(--space-4); border-radius: var(--radius-control); background: var(--paper-control-fill); color: var(--paper-ink); font-size: 18px; font-weight: 600; letter-spacing: .06em; line-height: 1.6; overflow-wrap: anywhere; user-select: all; }
+.recovery-actions { display: flex; gap: var(--space-2); }
+.recovery-actions button { flex: 1; }
+.auth-card form[hidden], .auth-card .auth-link[hidden] { display: none; }
+@media (hover: hover) { html:root .auth-card form button.auth-secondary:hover:not(:disabled) { background: color-mix(in oklch, currentColor 8%, transparent); border-color: color-mix(in oklch, currentColor 28%, transparent); } }
+
+/* The demo (#247): one secondary action below the forms, separated by a hairline, with its note under it. */
+.auth-demo { display: grid; gap: var(--space-2); margin-top: var(--space-4); padding-top: var(--space-4); border-top: 1px solid color-mix(in oklch, currentColor 12%, transparent); }
+.auth-demo[hidden] { display: none; }
+html:root .auth-demo button.auth-secondary {
+  min-height: 48px; padding: var(--space-3) var(--space-4); border-radius: var(--radius-control);
+  background: transparent; color: var(--paper-ink); border: 1px solid color-mix(in oklch, currentColor 18%, transparent);
+  font: inherit; font-weight: 700; cursor: pointer;
+}
+html:root .auth-demo button.auth-secondary:disabled { opacity: .55; cursor: progress; }
+@media (hover: hover) { html:root .auth-demo button.auth-secondary:hover:not(:disabled) { background: color-mix(in oklch, currentColor 8%, transparent); border-color: color-mix(in oklch, currentColor 28%, transparent); } }
+.auth-demo .auth-hint { margin: 0; text-align: center; }
+
+/* #258: the tabs already name the mode, so the heading under them is for screen readers only; the
+   card shows once its mode is set, so nothing moves as the page loads. */
+.auth-card:has(.auth-modes:not([hidden])) #auth-title { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.auth-card:has(.auth-modes:not([hidden])) #auth-form { margin-top: var(--space-5); }
+.auth-card:not(.is-ready) { visibility: hidden; }

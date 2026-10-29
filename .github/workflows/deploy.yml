@@ -1,0 +1,55 @@
+name: Deploy
+# Each published release deploys the live site. The server accepts one command from this key, which
+# builds the release, fetches the pinned demo revision and swaps the container; it puts the previous
+# version back if the site does not answer.
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  test:
+    uses: ./.github/workflows/tests.yml
+
+  deploy:
+    needs: test
+    # Only the public repository deploys; it alone holds the deploy key.
+    if: github.repository == 'reversely/stellis-health'
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check the release name
+        id: release
+        run: |
+          name="${{ github.event.release.tag_name || github.sha }}"
+          [[ "$name" =~ ^(v[0-9]+(\.[0-9]+){0,2}|[0-9a-f]{40})$ ]] || { echo "Release tags look like v1.2.3"; exit 1; }
+          echo "name=${name:0:40}" >> "$GITHUB_OUTPUT"
+          echo "demo=$(cat DEMO_REVISION)" >> "$GITHUB_OUTPUT"
+      - name: Deploy to the server
+        env:
+          DEPLOY_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+          HOST: ${{ secrets.DEPLOY_HOST }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$DEPLOY_KEY" > ~/.ssh/deploy && chmod 600 ~/.ssh/deploy
+          printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+          git archive --format=tar HEAD Dockerfile docker-entrypoint.sh pyproject.toml uv.lock .python-version \
+              LICENSE NOTICE src scripts/check_ocr.py rust/stellis-audio-worker \
+            | ssh -i ~/.ssh/deploy -o BatchMode=yes -o StrictHostKeyChecking=yes "deploy@$HOST" \
+                "deploy ${{ steps.release.outputs.name }} ${{ steps.release.outputs.demo }}"
+      - name: Check the live site serves this release
+        env:
+          SITE: ${{ vars.SITE_URL }}
+        run: |
+          expected=$(md5sum < src/stellis/static/app.js | cut -c1-32)
+          for i in $(seq 30); do
+            live=$(curl -fsS --max-time 10 "$SITE/static/app.js" | md5sum | cut -c1-32) && [ "$live" = "$expected" ] && exit 0
+            sleep 5
+          done
+          echo "The live site does not serve this release's app.js"; exit 1

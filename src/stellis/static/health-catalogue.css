@@ -1,0 +1,37 @@
+.health-catalogue {
+  width: min(48rem, calc(100vw - 2rem));
+  max-height: calc(100dvh - 2rem);
+  padding: 1.25rem; background: var(--surface); color: var(--ink);
+  border: 1px solid var(--line); border-radius: var(--radius-panel);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.health-catalogue[open] { display: flex; flex-direction: column; }
+.catalogue-content { min-height: 0; overflow-y: auto; flex: 1 1 auto; padding-inline: .2rem; }
+.health-catalogue > h2, .health-catalogue > label, .health-catalogue > .dialog-actions { flex-shrink: 0; }
+.health-catalogue label { display: grid; gap: .4rem; margin-block: .8rem; }
+.health-catalogue input:not([type=checkbox]), .health-catalogue textarea, .health-catalogue select {
+  width: 100%; min-width: 0; box-sizing: border-box; font-size: 1rem;
+}
+.health-catalogue h3 { margin-block: 1.5rem .6rem; }
+.health-catalogue summary { min-height: var(--control-height); cursor: pointer; padding-block: .6rem; box-sizing: border-box; overflow-wrap: anywhere; }
+label.catalogue-option { display: flex; align-items: flex-start; gap: .75rem; padding: .6rem; min-height: var(--control-height); }
+.catalogue-option input { flex: 0 0 auto; margin-top: .25rem; }
+.catalogue-option span { min-width: 0; overflow-wrap: anywhere; }
+.catalogue-option small { display: block; margin-top: .3rem; }
+.health-catalogue footer { margin-top: 1rem; }
+.health-catalogue footer a { color: var(--ink); display: block; margin-block: 1rem; font-size: .875rem; overflow-wrap: anywhere; }
+.catalogue-archived { display: flex; align-items: center; justify-content: space-between; gap: .75rem; }
+.catalogue-archived span { overflow-wrap: anywhere; }
+.health-catalogue .dialog-actions { position: static; background: var(--surface); padding-block: .75rem; }
+.catalogue-collection { font-size: .875rem; }
+
+#notebook-health { grid-column: 1 / -1; min-width: 0; }
+#notebook-health summary { cursor: pointer; min-height: var(--control-height); padding-block: .5rem; }
+#notebook-health li { overflow-wrap: anywhere; margin-block: .5rem; }
+#notebook-settings-features label { display: flex; gap: .75rem; min-height: var(--control-height); align-items: center; }
+
+.catalogue-selected li { display:flex; gap: .75rem; align-items:center; justify-content:space-between; margin-block: .5rem; }
+.catalogue-selected span { min-width:0; overflow-wrap:anywhere; }
+.catalogue-selected button { flex-shrink:0; }
+.catalogue-category .catalogue-option small { font-size:var(--text-body); line-height:1.5; }

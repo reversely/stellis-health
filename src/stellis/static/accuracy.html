@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Accuracy | Stellis Health</title>
+<script>try { document.documentElement.dataset.theme = localStorage.getItem('stellis-theme') === 'dark' ? 'dark' : 'light'; } catch {}</script>
+<link rel="stylesheet" href="/static/app.css"><link rel="stylesheet" href="/static/theme.css"><link rel="stylesheet" href="/static/accuracy.css">
+</head>
+<body class="accuracy-page">
+<main class="accuracy">
+<a class="accuracy-back" href="/">Back to Stellis Health</a>
+<h1>Accuracy</h1>
+<p class="accuracy-lead">Stellis Health measures some values with your phone's camera and writes some text with speech recognition and a language model. This page states how each one works, the error measured so far, and what each one suits. Where nobody has measured the error yet, the page says so.</p>
+<nav aria-label="On this page"><ul>
+<li><a href="#camera">Camera readings</a></li>
+<li><a href="#speech">Transcripts</a></li>
+<li><a href="#summaries">Summaries, notes and record facts</a></li>
+<li><a href="#entries">Your own entries and record values</a></li>
+</ul></nav>
+
+<section id="camera" aria-labelledby="camera-title">
+<h2 id="camera-title">Camera readings</h2>
+<p>Each camera reading is an estimate for following your own trend at rest. It does not replace a blood pressure cuff, a pulse oximeter or an ECG, and it cannot detect a heart rhythm problem.</p>
+<h3>How it works</h3>
+<ul>
+<li>Your browser runs the POS method (Wang and others, 2017) through vitallens 0.4.8. It reads the small colour changes in the skin of your face with each heartbeat. The video stays on your device, and Stellis saves only the numbers and a quality score from 0 to 1.</li>
+<li>A capture needs 30 seconds of signal with your face in view. The pulse is the strongest rhythm in the last 20 seconds.</li>
+<li>When the estimates from that window spread by more than 8 beats a minute (10th to 90th percentile), Stellis still saves the reading and marks it "Approximate".</li>
+<li>Breathing rate comes from three signals: each beat's height, the time between beats, and your head's movement. When fewer than two of them agree within 2 breaths a minute, Stellis marks the reading "Approximate".</li>
+<li>Heart rate variability (RMSSD) comes from the time between detected beats.</li>
+</ul>
+<h3>Measured error</h3>
+<table>
+<caption>Published error of the POS method on phone video</caption>
+<thead><tr><th scope="col">Conditions</th><th scope="col">Average error</th><th scope="col">Source</th></tr></thead>
+<tbody>
+<tr><td>All conditions: 33 people, 4 skin tones, still and moving, 4 kinds of light</td><td>12.3 beats a minute</td><td rowspan="2"><a href="https://github.com/McJackTang/MMPD_rPPG_dataset">MMPD dataset</a>, Tang and others, 2023</td></tr>
+<tr><td>Sitting still, artificial light, skin tone type 3</td><td>7.7 beats a minute</td></tr>
+</tbody>
+</table>
+<p>The same study found errors above 10 beats a minute for skin tone types 4 to 6 with methods of this kind.</p>
+<p>Stellis's own tests:</p>
+<ul>
+<li><strong>Pulse:</strong> on a reference video, Stellis read 75 beats a minute. The ECG recorded with that video ranged from 75 to 87 beats a minute, with an average of 78.1. One video shows that the steps run. It does not measure accuracy.</li>
+<li><strong>Breathing rate:</strong> on synthetic recordings with a known rate of 14 breaths a minute, Stellis read 14 at every noise level tested.</li>
+<li><strong>Heart rate variability:</strong> on the same synthetic recordings, with a true RMSSD of 52 ms, Stellis read 55 ms at the lowest noise and 76 ms at the highest. Noise shifts the timing of each detected beat, so camera HRV reads high.</li>
+<li><strong>Not yet measured:</strong> comparison with a cuff, an oximeter or a chest strap in people's homes.</li>
+</ul>
+<h3 id="blood-pressure">Blood pressure estimate</h3>
+<p>The blood pressure figure is a research estimate. It is shown with each camera reading but never saved, so your charts hold only cuff readings. Do not use it to diagnose or treat high or low blood pressure.</p>
+<ul>
+<li><strong>Method:</strong> the LSTM network of Schrumpf and others, 2021, runs in your browser on the last 7 seconds of the pulse waveform, resampled to 125 samples a second. Its PPG-trained weights are published under CC BY 4.0. Stellis refitted the output layer on the camera recordings the authors published, with each window scaled to the same spread.</li>
+<li><strong>Who it learned from:</strong> 17 surgical patients in one hospital, with an average of 143/66 mmHg. Estimates stay close to that average, so a healthy reading can show as high.</li>
+</ul>
+<table>
+<caption>Average error on camera recordings, systolic / diastolic</caption>
+<thead><tr><th scope="col">Model</th><th scope="col">Average error</th><th scope="col">Source</th></tr></thead>
+<tbody>
+<tr><td>Published LSTM before camera training</td><td>33.5 / 12.4 mmHg</td><td rowspan="2"><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8472879/">Schrumpf and others, 2021</a>, table 2</td></tr>
+<tr><td>Published LSTM after camera training</td><td>13.6 / 10.3 mmHg</td></tr>
+<tr><td>Stellis's refit, each patient left out in turn</td><td>11.5 / 10.5 mmHg</td><td rowspan="2">Stellis's own test on the authors' <a href="https://github.com/Fabian-Sc85/non-invasive-bp-estimation-using-deep-learning">camera recordings</a></td></tr>
+<tr><td>Guessing the other patients' average</td><td>12.7 / 10.3 mmHg</td></tr>
+</tbody>
+</table>
+<p>Half of Stellis's estimates fell within 10 mmHg of the reference. The authors write that none of their results met the BHS and AAMI standards for blood pressure devices, and neither does this estimate. The weights are on <a href="https://doi.org/10.5281/zenodo.5590603">Zenodo</a>.</p>
+<h3>What lowers accuracy</h3>
+<ul>
+<li>Moving or talking during the capture</li>
+<li>Dim, flickering or backlit light</li>
+<li>Darker skin tones, in published studies of this method</li>
+<li>Your face partly out of the frame, or far from the camera</li>
+</ul>
+<h3>What it suits</h3>
+<p>A resting reading taken at the same time each day, compared with your own usual range on Trends. If a reading worries you, or you feel unwell, check it with a medical device or contact your clinician. For chest pain, fainting or trouble breathing, call your local emergency number.</p>
+</section>
+
+<section id="speech" aria-labelledby="speech-title">
+<h2 id="speech-title">Transcripts</h2>
+<h3>How it works</h3>
+<ul>
+<li>The setup call turns your speech into text with Moonshine Base, an 8-bit model that runs on Stellis's server.</li>
+<li>Recordings and imports use whisper.cpp with the Whisper small English model.</li>
+<li>Stellis keeps the text of each answer and stores no call audio, unless you turned on "Keep debug data" in Settings.</li>
+</ul>
+<h3>Measured error</h3>
+<ul>
+<li><strong>Published:</strong> the Moonshine paper (Jeffries and others, 2024) reports that Moonshine Base gets about 3 words in 100 wrong on clear read speech (LibriSpeech test-clean). It gets about 8 in 100 wrong on harder speech (test-other). Those figures come from the full-precision model. Stellis uses an 8-bit version, which can score differently.</li>
+<li><strong>Stellis's own tests:</strong> Moonshine misheard the medicine name "lisinopril" in 4 of 4 synthetic tests. For this reason, Stellis asks you to confirm medicine names, and it lists unconfirmed names under "To confirm".</li>
+<li><strong>Not yet measured:</strong> the error rate on health conversations, in Stellis's own tests or in published work.</li>
+</ul>
+<h3>What lowers accuracy</h3>
+<ul>
+<li>Medicine and clinician names</li>
+<li>Background noise and more than one person talking</li>
+<li>Strong accents, which these models saw less of in training</li>
+</ul>
+<h3>What it suits</h3>
+<p>Notes you read and correct. You can edit any line of the notes and the transcript.</p>
+</section>
+
+<section id="summaries" aria-labelledby="summaries-title">
+<h2 id="summaries-title">Summaries, notes and record facts</h2>
+<h3>How it works</h3>
+<ul>
+<li>A language model, Nemotron, served by Nebius, writes summaries, call notes and the facts it finds in your records.</li>
+<li>Each summary item and each fact cites the passage or page it came from. Stellis rejects any citation that does not point to a real passage.</li>
+<li>Facts from records stay proposed until you accept them, and only accepted facts appear on Trends.</li>
+<li>A record value outside the plausible range for its measure never reaches a chart. Stellis treats such a value as a misread number.</li>
+</ul>
+<h3>Measured error</h3>
+<p>Not yet measured. The model can leave out a point, merge two points, or state a point more strongly than the source does.</p>
+<h3>What it suits</h3>
+<p>A starting point that you check against the cited passage before you act on it or share it with your care team.</p>
+</section>
+
+<section id="entries" aria-labelledby="entries-title">
+<h2 id="entries-title">Your own entries and record values</h2>
+<p>A reading you enter is as accurate as the device you read it from. Stellis converts weights in pounds to kilograms and rejects values outside each measure's plausible range, such as a pulse above 250. Trends compares each new reading with your own usual range, the middle 80% of your readings over the 90 days before it, rather than with population norms.</p>
+</section>
+
+<p class="accuracy-updated">Last updated October 22, 2026.</p>
+</main>
+</body>
+</html>

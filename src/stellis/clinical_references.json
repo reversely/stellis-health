@@ -1,0 +1,30 @@
+[
+  {
+    "id": "asrm-gardner",
+    "title": "ASRM \u00b7 Gardner grading scale",
+    "url": "https://www.asrm.org/asrm-academy/asrm-academy-on-the-go/embryo-data-grading--evaluation/grading-scales/",
+    "reviewed": "2026-10-25",
+    "terms": [
+      "gardner",
+      "trophectoderm",
+      "inner cell mass",
+      "blastocyst grading",
+      "embryo grading"
+    ],
+    "summary": "General reference, not this patient's record. Gardner blastocyst grading has an expansion stage from 1 to 6. Stage 3 describes a full blastocyst whose cavity fills it; stage 4 describes further expansion and thinning of the surrounding coat. The remaining assessments concern the inner cell mass and the trophectoderm. These are observations of appearance. The scale itself does not supply a patient-specific genetic diagnosis, embryo choice or probability of pregnancy."
+  },
+  {
+    "id": "pcrm-blastocyst-grades",
+    "title": "PCRM \u00b7 Guide to IVF lab results, page5",
+    "url": "https://www.pacificfertility.ca/media/pages/resources/guide-to-ivf-lab-results/ccba59b5a3-1756410486/pcrm-guide-to-ivf-lab-results.pdf#page=5",
+    "reviewed": "2026-10-25",
+    "terms": [
+      "gardner",
+      "trophectoderm",
+      "inner cell mass",
+      "blastocyst grading",
+      "embryo grading"
+    ],
+    "summary": "General patient education, not this patient's inventory. In the blastocyst code, the number describes expansion, followed by two letters. The first letter describes the inner cell mass: A denotes numerous compact cells and B a looser group of several cells. The second letter describes the trophectoderm: A denotes many cells in a cohesive layer and B fewer cells in a layer. A grade's number is not an inner-cell-mass rating or the day of culture. A patient's actual embryo identifiers and grades must come from their own report, not this general guide. The inner cell mass develops into fetal tissue; the surrounding trophectoderm develops into placental tissue."
+  }
+]

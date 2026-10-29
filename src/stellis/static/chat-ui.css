@@ -1,0 +1,128 @@
+/* Chat composer, send and typing (#225). Paper roles from the #223 component contract. */
+.chat-composer.chat-composer { display: flex; align-items: flex-end; gap: var(--space-2); padding: var(--space-2) var(--space-2) var(--space-2) var(--space-4); border: 1px solid color-mix(in oklch, var(--widget-ink) 10%, transparent); border-radius: var(--radius-composer); background: var(--composer-fill, var(--widget-fill)); color: var(--widget-ink); }
+.chat-composer.chat-composer:focus-within { outline: var(--focus-width) solid var(--focus); outline-offset: var(--focus-offset); }
+.chat-composer .chat-composer-input.chat-composer-input { flex: 1; min-width: 0; min-height: 28px; max-height: 160px; margin: 0; padding: var(--space-2) 0; border: 0; border-radius: 0; background: transparent; color: var(--widget-ink); font: inherit; font-size: var(--text-body); line-height: 1.5; resize: none; box-shadow: none; outline: none; }
+.chat-composer .chat-composer-input::placeholder { color: var(--widget-muted); }
+.chat-composer button.chat-send.chat-send { display: inline-grid; place-items: center; flex: none; width: var(--control-height); height: var(--control-height); min-width: var(--control-height); min-height: var(--control-height); padding: 0; border: 0; border-radius: var(--radius-pill); background: var(--brand-mauve); color: var(--paper-action-ink); }
+.chat-composer button.chat-send.chat-send:hover:enabled { background: var(--paper-action-hover); }
+.chat-composer button.chat-send.chat-send:disabled { background: var(--control-disabled-fill); color: var(--control-disabled-ink); cursor: not-allowed; }
+.chat-composer button.chat-send.chat-send:focus-visible { outline: var(--focus-width) solid var(--focus); outline-offset: var(--focus-offset); }
+.chat-send .icon { width: 20px; height: 20px; color: inherit; }
+/* Three dots in place of the next assistant message. Assistant text is unboxed, so the dots are too. */
+.chat-typing { display: inline-flex; align-items: center; gap: var(--space-1); min-height: 32px; padding: var(--space-2) 0; }
+.chat-typing-dot { width: 8px; height: 8px; border-radius: var(--radius-pill); background: var(--muted); opacity: .35; animation: chat-typing 1.2s ease-in-out infinite; }
+.chat-typing-dot:nth-child(2) { animation-delay: .15s; }
+.chat-typing-dot:nth-child(3) { animation-delay: .3s; }
+@keyframes chat-typing { 0%, 60%, 100% { opacity: .35; transform: none; } 30% { opacity: 1; transform: translateY(-3px); } }
+@media (prefers-reduced-motion: reduce) { .chat-typing-dot { animation: none; opacity: .6; } }
+.coach-call-input.chat-composer { flex: 1 1 auto; min-width: 0; }
+
+/* Ideas: what Stellis can do next, written from the person's data (For you now, the Home start
+   panel, a notebook's Ask welcome). Rows are separated by hairlines; each leads with a category
+   tile, a soft tint of Understand, Monitor or Improve with one glyph, in place of an emoji. */
+.chat-ideas { display: grid; margin: 0; padding: 0; list-style: none; }
+.chat-idea { display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; align-items: center; gap: var(--space-2) var(--space-4); padding: var(--space-4) 0; border-top: 1px solid color-mix(in oklch, var(--widget-ink) 9%, transparent); color: var(--widget-ink); }
+.chat-idea:first-child { border-top: 0; }
+.chat-idea-icon { --tile: var(--category-understand); display: grid; place-items: center; width: 44px; height: 44px; border-radius: var(--radius-control); background: color-mix(in oklch, var(--tile) 13%, var(--widget-fill)); color: var(--tile); align-self: start; }
+.chat-idea-icon.is-monitor { --tile: var(--category-monitor); }
+.chat-idea-icon.is-improve { --tile: var(--category-improve); }
+.chat-idea.is-flagged .chat-idea-icon { --tile: var(--paper-failure); }
+.chat-idea-icon .icon { width: 22px; height: 22px; color: inherit; }
+.chat-idea-words { display: grid; gap: var(--space-1); min-width: 0; font-size: var(--text-body); line-height: 1.5; }
+.chat-idea-detail { color: var(--widget-muted); }
+.chat-idea-source { justify-self: start; color: var(--widget-ink); text-underline-offset: 3px; }
+.chat-idea-action { display: inline-flex; align-items: center; justify-content: center; min-height: var(--control-height); padding: 0 var(--space-4); border: 1px solid var(--secondary-line); border-radius: var(--radius-control); background: var(--secondary-fill); color: var(--secondary-ink); font: inherit; font-size: var(--text-body); font-weight: 600; text-decoration: none; white-space: nowrap; cursor: pointer; }
+.chat-idea-action:hover:enabled, a.chat-idea-action:hover { background: var(--secondary-hover); }
+.chat-idea-action.is-primary { border-color: var(--action-fill); background: var(--action-fill); color: var(--action-ink); }
+.chat-idea-action.is-primary:hover { background: var(--action-hover); }
+.chat-idea-action:focus-visible { outline: var(--focus-width) solid var(--focus); outline-offset: var(--focus-offset); }
+.chat-idea-action:disabled { cursor: progress; opacity: .7; }
+@media (max-width: 640px) {
+  .chat-idea { grid-template-columns: 44px minmax(0, 1fr); }
+  .chat-idea-action { grid-column: 2; justify-self: start; }
+}
+
+/* Example records: a notch hanging from the top edge, centred over the page, its 44px controls level
+   with Add (top 14px). It is distinct (dashed edge) and always one click from removal. */
+.example-bar { position: relative; z-index: 40; display: flex; flex-wrap: nowrap; align-items: center; gap: var(--space-2); box-sizing: border-box;
+  width: max-content; max-width: calc(100% - 2 * var(--space-4)); margin: 0 auto; padding: 14px var(--space-2) var(--space-2) var(--space-3);
+  border: 1px dashed var(--widget-ink); border-top: 0; border-radius: 0 0 var(--radius-panel) var(--radius-panel);
+  background: var(--widget-fill); color: var(--widget-ink); box-shadow: var(--shadow); }
+.example-bar-icon { display: grid; flex: none; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: var(--widget-raised); }
+.example-bar-icon .icon { width: 18px; height: 18px; }
+.example-bar-words { flex: none; margin: 0 var(--space-2) 0 0; font-size: var(--text-body); line-height: 1.5; white-space: nowrap; }
+.example-bar-words span { color: var(--widget-muted); }
+.example-bar-words strong { color: var(--widget-ink); } /* the bar is a white widget in both themes */
+.example-bar button { flex: none; white-space: nowrap; }
+.example-bar :is(.example-bar-add, .example-bar-remove) { display: inline-flex; align-items: center; min-height: var(--control-height); padding: 0 var(--space-4); border-radius: var(--radius-control); font-size: var(--text-body); font-weight: 600; }
+.example-bar .example-bar-add { border: 1px solid var(--widget-line); background: var(--widget-fill); color: var(--widget-ink); }
+.example-bar .example-bar-remove { border: 1px solid var(--widget-line); background: var(--widget-fill); color: var(--widget-ink); }
+.example-bar-status:empty { display: none; }
+/* Maya's year, stepped one year at a time (#258): the year and its chapter between two arrows. */
+.example-bar-years { display: inline-flex; flex: none; align-items: center; min-height: var(--control-height); border: 1px solid var(--widget-line); border-radius: var(--radius-control); background: var(--widget-fill); color: var(--widget-ink); }
+.example-bar .example-bar-step { display: grid; place-items: center; width: 40px; min-height: var(--control-height); padding: 0; border: 0; border-radius: var(--radius-control); background: transparent; color: inherit; cursor: pointer; }
+.example-bar .example-bar-step:disabled { opacity: .3; cursor: default; }
+@media (hover: hover) and (pointer: fine) { .example-bar .example-bar-step:enabled:hover { background: var(--widget-raised); } }
+.example-bar-step .icon { width: 18px; height: 18px; }
+.example-bar-year { display: inline-flex; gap: var(--space-2); align-items: baseline; padding: 0 var(--space-1); font-size: var(--text-body); white-space: nowrap; }
+.example-bar-year span { color: var(--widget-muted); }
+/* Desktop: centred in the top band over the content column (right of the sidebar). It belongs to the
+   top of the page and scrolls away with it, so it never covers content (owner, 2026-10-27). */
+@media (min-width: 1001px) {
+  /* The demo tour's sidebar (--demo-panel) takes its width off the right, like the sidebar on the left. */
+  .example-bar { position: absolute; top: 0; left: calc(var(--rail-width, 0px) + (100% - var(--rail-width, 0px) - var(--demo-panel, 0px)) / 2); max-width: calc(100% - var(--rail-width, 0px) - var(--demo-panel, 0px) - 2 * 140px); margin: 0; translate: -50% 0; }
+}
+/* Narrower screens: the sparkle and the qualifier give way so the notch stays one row. */
+@media (max-width: 1200px) { .example-bar-icon { display: none; } }
+@media (max-width: 1000px) { .example-bar { padding-top: var(--space-2); } }
+@media (max-width: 600px) {
+  .example-bar { flex-wrap: wrap; justify-content: center; padding: var(--space-2) var(--space-3) var(--space-3); }
+  .example-bar-words { flex-basis: 100%; margin: 0; text-align: center; }
+}
+.example-dialog-body { display: grid; gap: var(--space-4); min-width: 0; }
+.example-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; gap: var(--space-1) var(--space-3); padding: var(--space-2) 0; border-top: 1px solid var(--line-soft); font-size: var(--text-body); }
+.example-row:first-child { border-top: 0; }
+.example-row > span, .example-row > strong { min-width: 0; overflow-wrap: anywhere; }
+.example-row-reason { grid-column: 1 / -1; font-size: var(--text-body); line-height: 1.5; }
+.example-dialog-body .records-reason { font-size: var(--text-body); line-height: 1.5; }
+.example-dialog-body h3 { margin: 0; font-size: 18px; }
+.example-row > a { min-width: 0; color: var(--ink); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+.example-care-quote { grid-column: 1 / -1; margin: 0; padding-left: var(--space-3); border-left: 2px solid var(--line); color: var(--muted); font-size: var(--text-body); }
+.example-dialog-status:empty { display: none; }
+/* One screen per pack (#258): the years, the four pipeline stages and what to try next, no scrolling. */
+.example-pack .example-dialog-body { gap: var(--space-3); }
+.example-pack-intro { margin: 0; color: var(--muted); font-size: var(--text-body); line-height: 1.5; }
+.example-pack-years { display: flex; flex-wrap: wrap; gap: var(--space-2); margin: 0; padding: 0; list-style: none; }
+.example-pack-year .icon { width: 14px; height: 14px; margin-right: 4px; vertical-align: -2px; }
+.example-pack-year { padding: var(--space-1) var(--space-3); border: 1px solid var(--line); border-radius: var(--radius-pill); color: var(--muted); font: 600 13px var(--font-body); }
+.example-pack-year.is-done { border-color: transparent; background: var(--raised); color: var(--ink); }
+.example-pack-year[aria-current='step'] { border-color: var(--ink); color: var(--ink); }
+.example-pipeline { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-2); margin: 0; padding: 0; list-style: none; }
+.example-stage { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--space-2); align-items: start; padding: var(--space-3); border: 1px solid var(--line-soft); border-radius: var(--radius-control); }
+.example-stage-mark .icon { width: 18px; height: 18px; color: var(--muted); }
+.example-stage.is-done .example-stage-mark .icon { color: var(--ink); }
+.example-stage.is-running { border-color: var(--ink); }
+.example-stage.is-running .example-stage-mark .icon { animation: example-stage-pulse 1.2s ease-in-out infinite; }
+.example-stage.is-failed { border-color: var(--failure); }
+@keyframes example-stage-pulse { 50% { opacity: .35; } }
+.example-stage-words { display: grid; gap: 2px; min-width: 0; font-size: 13px; line-height: 1.4; }
+.example-stage-words strong { font-size: var(--text-body); }
+.example-stage-words span { color: var(--muted); overflow-wrap: anywhere; }
+.example-stage.is-done .example-stage-words span { color: var(--ink); }
+.example-next { display: grid; gap: var(--space-2); padding-top: var(--space-3); border-top: 1px solid var(--line-soft); }
+.example-next-list { display: grid; gap: var(--space-1); margin: 0; padding: 0; list-style: none; }
+.example-next-list li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--space-2); align-items: center; min-height: 36px; font-size: var(--text-body); }
+.example-next-icon .icon { width: 18px; height: 18px; color: var(--muted); }
+.example-next-link { color: var(--ink); font-weight: 600; text-decoration: none; overflow-wrap: anywhere; }
+.example-next-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 640px) {
+  .example-pipeline { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .example-pack h2 { font-size: 24px; }
+  .example-stage { padding: var(--space-2); }
+  .example-next-list li { min-height: 32px; }
+  /* Once a year is in, the intro has been read; the phone keeps the room for what comes next. */
+  .example-pack:has(.example-next) .example-pack-intro { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .example-stage.is-running .example-stage-mark .icon { animation: none; } }
+/* The composer shows focus with :focus-within; a second ring on the field inside it doubled the outline. */
+.chat-composer .chat-composer-input.chat-composer-input:focus-visible { outline: none; }

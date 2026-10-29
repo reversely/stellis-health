@@ -1,0 +1,40 @@
+.intake-library {
+  min-width: 0;
+  overflow: auto;
+  padding: var(--space-4) var(--space-5);
+  color: var(--ink);
+}
+.intake-library[hidden] { display: none; }
+.intake-library input { box-sizing: border-box; width: 100%; min-width: 0; font-size: 16px; }
+.intake-library-status { color: var(--muted); margin: var(--space-3) 0; font-size: 14px; }
+.intake-library-results { display: grid; gap: var(--space-2); }
+.onboarding-page .intake-library-item {
+  display: grid;
+  gap: var(--space-1);
+  min-width: 0;
+  width: 100%;
+  padding: var(--space-3);
+  text-align: left;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-panel);
+  background: var(--raised);
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+.intake-library-item span { font-size: 14px; font-weight: 400; color: var(--muted); }
+.intake-library-source { margin-top: var(--space-4); font-size: 13px; color: var(--muted); }
+.intake-library-source summary { cursor: pointer; min-height: 28px; }
+/* Clinical answers share one field for lookup and unlisted entries. */
+.intake-answer-picker { min-width:0; display:grid; gap:var(--space-3); }
+.intake-answer-picker > label { font-size:var(--text-body); color:var(--ink); }
+.onboarding-page .intake-answer-picker input { width:100%; box-sizing:border-box; min-height:48px; padding:var(--space-3) var(--space-4); border:1px solid var(--control-line); border-radius:var(--radius-control); background:var(--widget-fill); color:var(--widget-ink); font:400 16px/1.5 var(--font-body); }
+.intake-answer-values { display:flex; flex-wrap:wrap; gap:var(--space-2); }
+.intake-answer-values:empty,.intake-answer-status:empty { display:none; }
+.intake-answer-value { display:inline-flex; align-items:center; gap:var(--space-3); max-width:100%; min-height:44px; text-align:left; overflow-wrap:anywhere; }
+.intake-answer-value span { font-size:22px; }
+.intake-answer-picker .intake-library-results { max-height:260px; overflow:auto; }
+.intake-answer-picker .intake-library-item { font-size:var(--text-body); }
+.intake-answer-picker .intake-library-item[aria-selected='true'] { outline:var(--focus-width) solid var(--focus); outline-offset:calc(-1 * var(--focus-width)); }
+.intake-answer-status { margin:0; font-size:var(--text-body); color:var(--muted); }
+.onboarding-page .intake-answer-none { justify-self:start; background:var(--widget-fill); color:var(--widget-ink); border:1px solid var(--control-line); }
+.onboarding-page .intake-answer-none[aria-pressed='true'] { background:var(--brand-mauve); color:var(--paper-action-ink); border-color:var(--brand-mauve); }

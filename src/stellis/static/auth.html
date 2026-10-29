@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><meta name="theme-color" content="#27222B" /><title>Stellis Health: a privacy-first AI agent for your health records</title>
+<script>try { if (localStorage.getItem('stellis-theme') === 'light') document.documentElement.dataset.theme = 'light'; } catch {}</script>
+<link rel="stylesheet" href="/static/app.css" /><link rel="stylesheet" href="/static/theme.css" /><link rel="stylesheet" href="/static/auth.css" /><link rel="stylesheet" href="/static/landing.css" /><script src="/static/auth.js" defer></script><script src="/shared/agent-avatar.js" defer></script><script src="/static/landing.js" defer></script>
+<script src="/static/motion-input.js" defer></script>
+</head>
+<body class="auth-page">
+<header><a class="brand" href="/"><span class="brand-mark" aria-hidden="true"></span>stellis health</a><button id="landing-signin" class="landing-signin" type="button" aria-expanded="false" aria-controls="account-panel">Sign in</button></header>
+<div id="account-panel" class="landing-account" role="dialog" aria-modal="false" aria-label="Account" hidden><button class="landing-account-close" type="button" aria-label="Close"><svg class="icon"><use href="/static/landing/icons.svg#x"/></svg></button><section class="auth-card">
+<nav class="auth-modes" aria-label="Account"><button id="sign-in-tab" type="button" aria-current="page">Sign in</button><button id="sign-up-tab" type="button">Create account</button></nav>
+<h1 id="auth-title">Sign in</h1>
+<form id="auth-form">
+<label for="username">Username</label><input id="username" name="username" autocomplete="username" required minlength="1" maxlength="80" />
+<label for="password">Password</label><input id="password" name="password" type="password" autocomplete="current-password" required minlength="1" maxlength="1024" />
+<small id="encryption-hint" class="auth-hint" hidden>Your records are encrypted with this password and the recovery key shown next</small>
+<label for="invite-code" hidden>Invite code</label><input id="invite-code" name="invite_code" autocomplete="off" maxlength="200" hidden />
+<label id="keep-debug-label" class="auth-check" hidden><input id="keep-debug" type="checkbox" aria-describedby="keep-debug-hint" />Keep my data for debugging</label>
+<small id="keep-debug-hint" class="auth-hint" hidden>Keeps call audio and replies for debugging</small>
+<button id="auth-submit" type="submit">Sign in</button>
+</form>
+<button id="forgot-password" class="auth-link" type="button" hidden>Forgot password?</button>
+<form id="recover-form" hidden>
+<label for="recover-username">Username</label><input id="recover-username" autocomplete="username" required maxlength="80" />
+<label for="recovery-key">Recovery key</label><input id="recovery-key" autocomplete="off" spellcheck="false" required maxlength="80" />
+<label for="recover-password">New password</label><input id="recover-password" type="password" autocomplete="new-password" required minlength="12" maxlength="1024" />
+<button id="recover-submit" type="submit">Reset password</button>
+<button id="recover-back" class="auth-secondary" type="button">Back to sign in</button>
+</form>
+<form id="recovery-panel" hidden aria-labelledby="recovery-title">
+<h2 id="recovery-title">Save your recovery key</h2>
+<div class="auth-note">Only this key or your password can unlock your records</div>
+<output id="recovery-code" class="recovery-code"></output>
+<div class="recovery-actions"><button id="recovery-copy" class="auth-secondary" type="button">Copy</button><button id="recovery-download" class="auth-secondary" type="button">Download</button></div>
+<label class="auth-check"><input id="recovery-saved" type="checkbox" />I saved my recovery key</label>
+<button id="recovery-continue" type="submit" disabled>Continue</button>
+</form>
+<p id="auth-error" role="alert"></p>
+<a class="auth-privacy" href="/privacy">Privacy</a>
+</section></div>
+<main class="landing">
+<section class="landing-hero" aria-labelledby="landing-title">
+<div class="landing-intro">
+
+<h1 id="landing-title">Stellis is a privacy-first AI agent for your health records.</h1>
+<p class="landing-lede">Add your lab reports, letters and visit recordings. Stellis grows with you and helps you <span class="landing-slot" aria-hidden="true"><span class="landing-slot-word" data-pillar="understand">understand</span></span><span class="visually-hidden">understand, log, monitor and chart</span> your health over time.</p>
+
+<div class="landing-actions">
+<div id="demo-entry" class="auth-demo" hidden><button id="take-demo" class="landing-demo" type="button">Try the demo</button><small class="auth-hint">A guided tour with a fictional patient's records, about 3 minutes</small><p id="demo-error" class="landing-error" role="alert"></p></div>
+</div>
+
+</div>
+
+<div class="landing-scene" aria-hidden="true"></div>
+<button class="landing-down" type="button" data-scroll="#landing-read" aria-label="See what Stellis does"><svg class="icon"><use href="/static/landing/icons.svg#chevron-down"/></svg></button>
+</section>
+
+<section id="landing-read" class="landing-section" data-pillar="understand" aria-labelledby="read-title">
+<div class="landing-copy">
+<p class="landing-pillar"><svg class="icon"><use href="/static/landing/icons.svg#notebook"/></svg>Understand</p>
+<h2 id="read-title">Understand your reports</h2>
+<p>Add a lab report, letter or visit recording. Stellis explains what it says in plain words: what each result measures and whether yours is in range.</p>
+<p class="landing-note">An example report from the demo, for Maya, a fictional patient.</p>
+</div>
+<figure class="landing-page" data-reveal>
+<img src="/static/landing/blood-test.png" width="1080" height="788" alt="A lab report: CBC, ferritin and thyroid results, January 21, 2027. Ferritin 11 ug/L, below the range of 15 to 150." />
+<span class="landing-row" data-box="5 56.45 81.3 3.81" data-i="0"></span>
+<span class="landing-row" data-box="5 62.03 81.3 3.81" data-i="1"></span>
+<span class="landing-row" data-box="5 67.61 81.3 3.81" data-i="2"></span>
+<span class="landing-row" data-box="5 73.2 81.3 3.81" data-i="3"></span>
+<span class="landing-row is-low" data-box="5 78.78 81.3 3.81" data-i="4"></span>
+<span class="landing-row" data-box="5 84.37 81.3 3.81" data-i="5"></span>
+<span class="landing-callout" data-box="28 78.78">Ferritin: the iron your body has stored. 11 is below this lab's range of 15 to 150.</span>
+</figure>
+</section>
+
+<section class="landing-section is-reversed" data-pillar="understand" aria-labelledby="ask-title">
+<div class="landing-copy">
+<p class="landing-pillar"><svg class="icon"><use href="/static/landing/icons.svg#notebook"/></svg>Understand</p>
+<h2 id="ask-title">Check where each answer comes from</h2>
+<p>Ask anything about your records. Each answer links to the page it is based on, so you can check it yourself.</p>
+</div>
+<div class="landing-chat" data-reveal>
+<p class="landing-quote">Ferritin 11 ug/L 15-150 L</p>
+<p class="landing-ask">What does this result mean for me?</p>
+<div class="landing-answer"><strong>Stellis</strong><p>Your ferritin was 11 ug/L on January 21, 2027, below the lab's range of 15 to 150, which points to low iron stores. Your hemoglobin, 124 g/L, was in range on the same day. <span class="landing-cite">1</span></p></div>
+</div>
+</section>
+
+<section class="landing-section" data-pillar="log" aria-labelledby="log-title">
+<div class="landing-copy">
+<p class="landing-pillar"><svg class="icon"><use href="/static/landing/icons.svg#circle-check"/></svg>Log</p>
+<h2 id="log-title">Keep track of medicines and goals</h2>
+<p>Tick off doses and goals as you go, and keep notes from your visits. When a new record shows something has changed, Stellis suggests an update for you to approve.</p>
+</div>
+<div class="landing-today" data-reveal>
+<p class="landing-today-head">Today <span class="landing-example">Example</span></p>
+<div class="landing-dose"><span>Iron <small>300 mg, evening</small></span><button type="button" class="landing-tick" aria-pressed="false" aria-label="Taken: iron"></button></div>
+<div class="landing-dose"><span>Walk <small>20 minutes</small></span><button type="button" class="landing-tick" aria-pressed="true" aria-label="Done: walk"></button></div>
+</div>
+</section>
+
+<section class="landing-section is-reversed" data-pillar="monitor" aria-labelledby="monitor-title">
+<div class="landing-copy">
+<p class="landing-pillar"><svg class="icon"><use href="/static/landing/icons.svg#heartbeat"/></svg>Monitor</p>
+<h2 id="monitor-title">Check your vital signs at home</h2>
+<p>Measure your pulse, breathing and heart rate variability with your webcam in about 30 seconds. Blood pressure is shown as an estimate. The video stays on your device.</p>
+</div>
+<div class="landing-today" data-reveal>
+<p class="landing-today-head">Vital signs <span class="landing-example">Example reading</span></p>
+<div class="landing-vitals"><span>Pulse <strong>68</strong> <small>bpm</small></span><span>Breathing <strong>14</strong> <small>per min</small></span><span>HRV <strong>42</strong> <small>ms</small></span></div>
+</div>
+</section>
+
+<section class="landing-section" data-pillar="chart" aria-labelledby="chart-title">
+<div class="landing-copy">
+<p class="landing-pillar"><svg class="icon"><use href="/static/landing/icons.svg#chart-line"/></svg>Chart</p>
+<h2 id="chart-title">See how your results change</h2>
+<p>Lab results and home readings appear together over time. Tap any point to see the record behind it.</p>
+</div>
+<figure class="landing-chart" data-reveal aria-label="Ferritin from January 2027 to December 2031: 11, 34, 38, 36, 32, 9, 22, 42, 13, 35 and 48 ug/L.">
+<figcaption>Ferritin <span>ug/L</span></figcaption>
+<svg viewBox="0 0 640 220" role="presentation"></svg>
+</figure>
+</section>
+
+<section class="landing-arch" aria-labelledby="arch-title">
+<div class="landing-copy">
+<h2 id="arch-title">How Stellis runs</h2>
+<p>Stellis runs on its own server on Nebius AI Cloud. Your records are encrypted at rest and zero-access: Stellis can't read what's stored. AI models are served on Nebius Token Factory with zero data retention and a privacy proxy. Stellis conducts research with Nemotron Super 120B combined with Tavily, chosen for its accuracy on our evaluations with synthetic patient interactions.</p>
+</div>
+<div class="landing-diagram" data-reveal>
+<div class="landing-node" data-node="device">
+<p class="landing-node-head"><svg class="icon"><use href="/static/landing/icons.svg#device-laptop"/></svg><span><strong>Your device</strong>Web or phone</span></p>
+<ul><li>Your camera video never leaves your device</li></ul>
+</div>
+<div class="landing-link" aria-hidden="true"></div>
+<div class="landing-node is-server" data-node="server">
+<span class="landing-node-stellis" aria-hidden="true"></span>
+<p class="landing-node-head"><svg class="icon"><use href="/static/landing/icons.svg#server"/></svg><span><strong>Stellis server</strong>Nebius AI Cloud, United States</span></p>
+<ul>
+<li>Your records are encrypted (AES-256-GCM)</li>
+<li>Only your password unlocks them, so Stellis can't read what's stored</li>
+<li>Visit recordings are transcribed here, not sent elsewhere</li>
+<li>Your name and ID numbers are removed before anything goes to the AI model</li>
+</ul>
+</div>
+<div class="landing-link is-split" aria-hidden="true"></div>
+<div class="landing-out">
+<div class="landing-node" data-node="model">
+<p class="landing-node-head"><svg class="icon"><use href="/static/landing/icons.svg#cpu"/></svg><span><strong>Nebius Token Factory</strong>Nemotron Super 120B</span></p>
+<ul><li>Stores nothing Stellis sends it</li></ul>
+</div>
+<div class="landing-node" data-node="search">
+<p class="landing-node-head"><svg class="icon"><use href="/static/landing/icons.svg#world-search"/></svg><span><strong>Web research</strong>MedlinePlus, PubMed, Tavily</span></p>
+<ul><li>When Stellis looks something up for you, it sends only the topic, never your name or details</li></ul>
+</div>
+</div>
+</div>
+</section>
+
+<section class="landing-end">
+<p>Stellis is an agent for your health records, on your side.</p>
+<button class="landing-more" type="button" data-signin>Sign in</button>
+</section>
+</main>
+</body>
+</html>

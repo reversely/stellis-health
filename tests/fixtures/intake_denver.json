@@ -1,0 +1,113 @@
+{
+  "about": "A synthetic intake example with goals, health context and reminders. Topic completion is explicit and the final handoff includes a goodbye.",
+  "turns": [
+    {
+      "agent": "Hi, I'm Stellis. Let's talk about your health goals. I'll take notes you can edit. What would you like help with?",
+      "person": "Keeping the weight off. I've lost about eight kilos since April last year, and I'd like my knees to stop hurting on the stairs.",
+      "notes": [
+        {
+          "heading": "Goals",
+          "items": [
+            "Keep the weight off, after losing about 8 kg since April 2024",
+            "Less knee pain on stairs"
+          ]
+        }
+      ]
+    },
+    {
+      "agent": "Eight kilos is real progress. Next, your health: which conditions do you have, and which medicines do you take?",
+      "person": "Type two diabetes and high blood pressure, since the eighties. Metformin five hundred in the morning, lisinopril, and simvastatin at night.",
+      "notes": [
+        {
+          "heading": "Goals",
+          "items": [
+            "Keep the weight off, after losing about 8 kg since April 2024",
+            "Less knee pain on stairs"
+          ]
+        },
+        {
+          "heading": "Conditions",
+          "items": [
+            "Type 2 diabetes since the 1980s",
+            "High blood pressure since the 1980s"
+          ]
+        },
+        {
+          "heading": "Medicines",
+          "items": [
+            "Metformin 500 mg in the morning",
+            "Simvastatin at night"
+          ]
+        },
+        {
+          "heading": "To confirm",
+          "items": [
+            "Lisinopril"
+          ]
+        }
+      ]
+    },
+    {
+      "agent": "Thank you. Last one: would any reminders help, and when?",
+      "person": "A reminder to weigh in on Monday mornings would help.",
+      "notes": [
+        {
+          "heading": "Goals",
+          "items": [
+            "Keep the weight off, after losing about 8 kg since April 2024",
+            "Less knee pain on stairs"
+          ]
+        },
+        {
+          "heading": "Conditions",
+          "items": [
+            "Type 2 diabetes since the 1980s",
+            "High blood pressure since the 1980s"
+          ]
+        },
+        {
+          "heading": "Medicines",
+          "items": [
+            "Metformin 500 mg in the morning",
+            "Simvastatin at night"
+          ]
+        },
+        {
+          "heading": "Reminders",
+          "items": [
+            "Weigh in on Monday mornings"
+          ]
+        },
+        {
+          "heading": "To confirm",
+          "items": [
+            "Lisinopril"
+          ]
+        }
+      ]
+    },
+    {
+      "agent": "I have enough to get your setup started. You can review your notes, then choose Add records to continue setup. Thanks for talking with me. Goodbye. [END]",
+      "person": null,
+      "notes": "same"
+    }
+  ],
+  "notebooks": [
+    {
+      "notebook": "Weight maintenance",
+      "kind": "objective",
+      "goal": "Keep the weight off",
+      "records": [
+        "Dietitian"
+      ]
+    },
+    {
+      "notebook": "Diabetes",
+      "kind": "condition",
+      "goal": "",
+      "records": [
+        "Lab results"
+      ]
+    }
+  ]
+}

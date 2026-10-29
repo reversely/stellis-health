@@ -1,0 +1,522 @@
+/* Trends page. The rail layout lives in timeline.css. */
+.trends-view {
+  --chart-series: var(--data-series-light);
+  --chart-band: color-mix(in oklch, var(--chart-series) 13%, transparent);
+  display: grid;
+  gap: var(--space-4);
+  min-width: 0;
+  width: 100%;
+  max-width: none;
+}
+html[data-theme='dark'] .trends-view {
+  --chart-series: var(--data-series-dark);
+  --chart-band: color-mix(in oklch, var(--chart-series) 18%, transparent);
+}
+.trends-view[hidden] {
+  display: none;
+}
+.trends-head h2 {
+  margin: 0;
+  font:
+    300 30px/1.15 var(--font-heading);
+  letter-spacing: -0.02em;
+}
+.trends-view :focus-visible {
+  outline: var(--focus-width) solid var(--focus);
+  outline-offset: var(--focus-offset);
+}
+
+/* Time range: one segmented control above every card. */
+.trends-ranges {
+  display: inline-flex;
+  justify-self: start;
+  gap: 2px;
+  padding: 3px;
+  border-radius: var(--radius-control);
+  background: var(--raised);
+}
+.trends-ranges button {
+  min-height:var(--control-height);
+  padding: 0 var(--space-4);
+  border: 0;
+  border-radius: var(--radius-control);
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  transition:
+    background-color 150ms,
+    color 150ms;
+}
+.trends-ranges button[aria-pressed='true'] {
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: 0 1px 3px color-mix(in oklch, var(--ink) 14%, transparent);
+}
+@media (hover: hover) and (pointer: fine) {
+  .trends-ranges button:hover {
+    color: var(--ink);
+  }
+}
+.trends-status:empty {
+  display: none;
+}
+.trends-status {
+  margin: 0;
+  color: var(--muted);
+}
+.trends-cards {
+  display: grid;
+  gap: var(--space-4);
+}
+
+/* One card per measure. */
+.trend-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0;
+  padding: var(--space-5);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-panel);
+  background: var(--surface);
+}
+.trend-card :is(h3, h4) {
+  margin: 0;
+  color: var(--muted);
+  font-size: 15px;
+  font-weight: 600;
+}
+.trend-card-head {
+  display: grid;
+  gap: 2px;
+}
+.trend-figure {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-compact);
+  margin: 2px 0 0;
+}
+.trend-value {
+  color: var(--ink);
+  font-size: 44px;
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+.trend-unit {
+  color: var(--muted);
+  font-size: 17px;
+}
+.trend-when {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+.trend-status {
+  display: inline-flex;
+  align-items: center;
+  justify-self: start;
+  gap: var(--space-compact);
+  margin: var(--space-2) 0 0;
+  padding: var(--space-1) var(--space-3) var(--space-1) var(--space-2);
+  border-radius: var(--radius-control);
+  background: var(--raised);
+  color: var(--ink);
+  font-size: 14px;
+}
+.trend-status .icon {
+  width: 16px;
+  height: 16px;
+  color: var(--chart-series);
+}
+/* Personal-history comparisons carry no alert severity. */
+.trend-status:is(.is-above, .is-below, .is-usual) {
+  background: var(--raised);
+  color: var(--ink);
+  border: 1px solid var(--line-soft);
+}
+.trend-status:is(.is-above, .is-below, .is-usual) .icon { color: currentColor; }
+p.trend-status:not([class*='is-']) {
+  color: var(--muted);
+  background: transparent;
+  padding: 0;
+}
+.trend-empty {
+  margin: 0;
+  color: var(--muted);
+}
+
+/* The chart. */
+.trend-plot {
+  position: relative;
+  min-width: 0;
+  border-radius: var(--radius-control);
+}
+.trend-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  touch-action: pan-y;
+}
+.trend-grid {
+  stroke: var(--line-soft);
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+.trend-axis {
+  fill: var(--muted);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.trend-usual {
+  fill: var(--chart-band);
+}
+.trend-line {
+  fill: none;
+  stroke: var(--chart-series);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.trend-bar {
+  fill: var(--chart-series);
+}
+.trend-marker {
+  stroke: var(--surface);
+  stroke-width: 2;
+  fill: var(--chart-series);
+}
+.trend-marker.is-camera {
+  fill: var(--surface);
+  stroke: var(--chart-series);
+}
+.trend-cursor {
+  stroke: var(--line);
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+.trend-focus {
+  fill: var(--chart-series);
+  stroke: var(--surface);
+  stroke-width: 3;
+}
+.trend-tooltip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  display: grid;
+  gap: 1px;
+  min-width: 120px;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-panel);
+  background: var(--surface);
+  box-shadow:
+    0 0 0 1px var(--line-soft),
+    0 8px 24px color-mix(in oklch, var(--ink) 16%, transparent);
+  pointer-events: none;
+  white-space: nowrap;
+}
+.trend-tooltip[hidden] {
+  display: none;
+}
+.trend-tooltip strong {
+  color: var(--ink);
+  font-size: 16px;
+}
+.trend-tooltip span {
+  color: var(--muted);
+  font-size: 13px;
+}
+.trend-tooltip-source {
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Change and legend under the chart. */
+.trend-foot {
+  display: grid;
+  gap: var(--space-2);
+}
+.trend-change {
+  color: var(--ink);
+  font-size: 14px;
+}
+.trend-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--muted);
+  font-size: 13px;
+}
+.trend-legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-compact);
+}
+.trend-key {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--chart-series);
+}
+.trend-key.is-record {
+  border-radius: var(--radius-text);
+}
+.trend-key.is-camera {
+  box-sizing: border-box;
+  border: 2px solid var(--chart-series);
+  background: var(--surface);
+}
+.trend-key.is-usual {
+  width: 14px;
+  border-radius: var(--radius-text);
+  background: var(--chart-band);
+}
+
+/* Logging and the table view. */
+.trend-actions,
+.trend-form-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.trend-card button {
+  min-height: var(--control-height);
+  padding: 0 var(--space-4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+.trend-card .trend-add,
+.trend-card .trend-save {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+.trend-card button:disabled {
+  cursor: default;
+  color: var(--quiet);
+  background: var(--raised);
+  border-color: var(--line-soft);
+}
+.trend-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-radius: var(--radius-panel);
+  background: var(--raised);
+}
+.trend-field {
+  display: grid;
+  gap: var(--space-1);
+  color: var(--muted);
+  font-size: 13px;
+}
+.trend-field input {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  min-height: var(--control-height);
+  padding: 0 var(--space-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-size: 16px;
+}
+.trend-form-error {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--failure);
+}
+.trend-form-error:empty {
+  display: none;
+}
+.trend-form-buttons {
+  grid-column: 1 / -1;
+}
+.trend-table-wrap {
+  overflow-x: auto;
+}
+.trend-table-wrap[hidden] {
+  display: none;
+}
+.trend-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.trend-table caption {
+  text-align: left;
+  color: var(--muted);
+  padding-bottom: var(--space-compact);
+}
+.trend-table th,
+.trend-table td {
+  padding: var(--space-compact) var(--space-2);
+  border-bottom: 1px solid var(--line-soft);
+  text-align: left;
+}
+.trend-table th {
+  color: var(--muted);
+  font-weight: 600;
+}
+.trend-table td:nth-child(-n + 2) {
+  white-space: nowrap;
+}
+.trend-table td:nth-child(3) {
+  overflow-wrap: anywhere;
+}
+.trend-number {
+  font-variant-numeric: tabular-nums;
+}
+.trend-card .trend-delete {
+  display: inline-grid;
+  place-items: center;
+  width: var(--control-height);
+  min-height: var(--control-height);
+  padding: 0;
+  border-color: transparent;
+  background: transparent;
+  color: var(--muted);
+}
+@media (hover: hover) and (pointer: fine) {
+  .trend-card .trend-delete:hover {
+    color: var(--ink);
+    background: var(--raised);
+  }
+}
+.trend-table td:last-child {
+  width: 40px;
+  padding-right: 0;
+}
+.trend-start-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  min-height: var(--control-height);
+  border-top: 1px solid var(--line-soft);
+}
+.trend-start-name {
+  color: var(--ink);
+}
+.trend-start-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-2);
+}
+.trend-card .trend-camera {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.trend-camera .icon {
+  width: 18px;
+  height: 18px;
+}
+@media (max-width: 600px) {
+  .trend-card {
+    padding: var(--space-4);
+  }
+  .trend-value {
+    font-size: 38px;
+  }
+}
+
+.trend-vitals {
+  display: grid;
+  gap: var(--space-4);
+  min-width: 0;
+}
+
+.trend-card .trend-manual {
+  border-color: transparent;
+  background: transparent;
+  color: var(--muted);
+}
+@media (hover: hover) and (pointer: fine) {
+  .trend-card .trend-manual:hover { color: var(--ink); }
+}
+
+/* Measurement categories share one hierarchy; unused measures are quiet rows. */
+.trends-cards { gap: var(--space-8); }
+.trend-group { display: grid; gap: var(--space-4); min-width: 0; }
+.trend-group .vital-signs-head { flex-wrap: wrap; }
+.trend-when { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-3); align-items: baseline; }
+.trend-source { overflow-wrap: anywhere; }
+.trend-untracked { display: grid; min-width: 0; }
+.trend-untracked .trend-start-row { padding-block: var(--space-2); border-top: 0; }
+.trend-untracked .trend-start-row + .trend-start-row { border-top: 1px solid var(--line-soft); }
+.trend-untracked button { min-height: var(--control-height); }
+
+@media (max-width: 1000px) {
+  .trend-form { scroll-margin-block: var(--space-4) calc(88px + env(safe-area-inset-bottom)); }
+}
+
+/* Let desktop measurements use the workspace rather than a narrow document column. */
+.trend-group-body { display: grid; gap: var(--space-4); min-width: 0; align-items: stretch; }
+.trend-group { align-content: start; }
+@media (min-width: 1001px) {
+  body.trends-page main { width: 100%; max-width: none; }
+  .trends-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: var(--space-8) var(--space-6); }
+  .trend-vitals { grid-column: 1 / -1; }
+  .trend-vitals .trend-group-body { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .trend-group:not(.trend-vitals) .vital-signs-head { min-height: var(--control-height); }
+}
+@media (min-width: 1800px) {
+  .trend-vitals .trend-group-body { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+/* A pressed table icon indicates the current view without a settings switch. */
+.trend-card-top { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); min-height: var(--control-height); }
+.trend-card .trend-table-control { display: inline-grid; place-items: center; flex: 0 0 auto; width: var(--control-height); height: var(--control-height); padding: 0; border: 0; background: transparent; color: var(--muted); }
+.table-view-glyph { display: inline-block; width: 20px; height: 20px; background: currentColor; mask: url('/static/table-view.svg') center / contain no-repeat; }
+.trend-card .trend-table-control:hover { background: var(--raised); color: var(--ink); }
+.trend-card .trend-table-control[aria-pressed='true'] { background: var(--ink); color: var(--surface); }
+.trend-card > [hidden] { display: none; }
+
+.trend-actions { margin-top: auto; }
+.trend-untracked { align-self: start; }
+
+/* Dash owns only the measurement body; the existing app owns its shell. */
+.dash-measurements-frame { display:block; width:100%; min-height:480px; border:0; color-scheme:normal; }
+.dash-camera-results:empty { display:none; }
+.dash-camera-results { padding:var(--space-5); border:1px solid var(--line); border-radius:var(--radius-panel); background:var(--surface); }
+
+/* Notebook measurements share the native controls and source-review hierarchy. */
+/* The two logging actions sit on the page above Measurements, never in an otherwise empty card. */
+.measurement-actions { display:flex; gap:var(--space-3); flex-wrap:wrap; justify-content:flex-end; margin:0; }
+.measurement-suggestions { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:var(--space-4); margin-bottom:var(--space-6); }
+.measurement-suggestions>h2,.measurement-suggestions>p { grid-column:1/-1; margin:0; }
+/* Without suggestions or a status message, neither takes a row of the page grid. */
+.measurement-suggestions[hidden], .trends-view > p[role='status']:empty { display:none; }
+.measurement-suggestion { padding:var(--space-4); border:1px solid var(--line); border-radius:var(--radius-panel); background:var(--widget-fill); color:var(--widget-ink); }
+.measurement-suggestion h3 { font:600 var(--text-body)/1.5 var(--font-body); margin:0 0 var(--space-3); }
+.measurement-suggestion-row { display:flex; align-items:center; justify-content:space-between; gap:var(--space-3); flex-wrap:wrap; margin-top:var(--space-2); }
+@media(max-width:760px) { .measurement-suggestions { grid-template-columns:minmax(0,1fr); } }
+
+@media(max-width:760px) {
+ #notebook-view>.view-tabs { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); overflow:visible; }
+ #notebook-view>.view-tabs button { justify-content:center; padding-inline:var(--space-2); min-height:var(--control-height); }
+ #notebook-view>.view-tabs button .icon { display:block; flex:none; }
+}
+.measurement-actions .coach-button { background:var(--secondary-fill); color:var(--secondary-ink); border:1px solid var(--secondary-line); border-radius:var(--action-radius); }
+@media(max-width:760px) { .notebook-hero-actions>.invert-button { padding-inline:var(--space-3); } }
+.measurement-actions > button { display:inline-flex; align-items:center; gap:var(--space-2); min-height:var(--control-height); padding:0 var(--space-4); font-size:var(--text-body); font-weight:600; }
+.measurement-actions > button .icon { width:18px; height:18px; flex:none; }

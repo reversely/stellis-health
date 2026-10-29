@@ -1,0 +1,112 @@
+.home-care-toolbar { display:flex; justify-content:space-between; align-items:center; gap:var(--space-4); margin-bottom:var(--space-5); }
+.home-care-toolbar label { display:flex; align-items:center; gap:var(--space-3); }
+.home-context-picker { display:grid; gap:var(--space-2); font-size:var(--text-body); }
+.home-care-toolbar input,.home-context-picker select { min-height:var(--control-height); padding:var(--space-2) var(--space-3); color:var(--ink); background:var(--input); border:1px solid var(--line); border-radius:var(--radius-control); font:inherit; max-width:100%; }
+.home-care-board { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.4fr) minmax(0,1fr); gap:var(--space-5); align-items:stretch; }
+.home-care-board h2 { font:300 28px/1.25 var(--font-heading); margin:0 0 var(--space-4); }
+.home-context,.home-today { min-width:0; padding:var(--space-5); border:1px solid var(--line); border-radius:var(--radius-panel); }
+.home-context { display:flex; flex-direction:column; gap:var(--space-4); }
+.home-context-picker { margin-bottom:var(--space-3); }
+.home-context-ring { position:relative; max-width:260px; width:100%; align-self:center; }
+.home-context-ring svg { display:block; width:100%; transform:rotate(-90deg); }
+.home-ring-track,.home-ring-progress { stroke-width:12; }
+.home-ring-track { stroke:var(--line); }
+.home-ring-progress { stroke:var(--data-series); }
+.home-ring-text { position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; align-items:center; }
+.home-ring-text strong { font:300 64px/1.2 var(--font-heading); }
+.home-context-phase { text-align:center; margin:0; }
+.home-context-dates { display:grid; grid-template-columns:1fr auto; gap:var(--space-3); margin-top:auto; padding-top:var(--space-5); }
+.home-context-dates dd { margin:0; font-weight:600; }
+.home-care-heading { display:flex; gap:var(--space-3); align-items:center; flex-wrap:wrap; margin-bottom:var(--space-4); }
+.home-care-heading h2 { margin:0; }
+.home-care-aside { display:grid; gap:var(--space-5); align-content:start; min-width:0; }
+/* Nothing coming up: no card, and the board gives its column back. */
+.home-care-aside[hidden] { display:none; }
+@media(min-width:761px) { .home-care-board[data-parts='2'] { grid-template-columns:minmax(0,1fr) minmax(0,1.4fr); } .home-care-board[data-parts='1'] { grid-template-columns:minmax(0,1fr); } }
+.home-care-aside>section { border:1px solid var(--line); border-radius:var(--radius-panel); padding:var(--space-4); }
+.home-care-week { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:var(--space-1); margin-bottom:var(--space-4); }
+.home-care-week button { padding:var(--space-2) var(--space-1); font-size:var(--text-body); min-width:0; }
+.home-care-week button[aria-current] { background:var(--action-fill); color:var(--action-ink); }
+.home-care-event { display:grid; gap:var(--space-2); padding:var(--space-3) 0; border-top:1px solid var(--line); }
+.home-care-books a { display:block; padding-block:var(--space-3); border-bottom:1px solid var(--line); }
+.home-care-status { margin-block:var(--space-3); }
+.home-supplementary { margin-top:var(--space-8); }
+@media(max-width:1500px) { .home-care-board { grid-template-columns:minmax(0,1fr) minmax(0,1.4fr); } .home-care-aside { grid-column:1/-1; grid-template-columns:minmax(0,1fr); } }
+@media(max-width:760px) { .home-care-board,.home-care-aside { grid-template-columns:minmax(0,1fr); } .home-context-ring { max-width:220px; } .home-care-toolbar { align-items:center; flex-wrap:wrap; } .home-context,.home-today { padding:var(--space-4); } }
+.home-care-content a { color:inherit; text-underline-offset:3px; overflow-wrap:anywhere; }
+.home-care-week button { display:flex; flex-direction:column; gap:var(--space-1); align-items:center; justify-content:center; }
+/* The column fits the 64px face, so it never overlaps the heading (#258). */
+#dashboard-notifications .coach-incoming { padding:var(--space-5) var(--space-6); grid-template-columns:64px minmax(0,1fr); align-items:start; gap:var(--space-3) var(--space-5); }
+#dashboard-notifications .coach-incoming-face { width:64px; height:64px; }
+#dashboard-notifications .coach-incoming-face svg { width:48px; height:48px; }
+#dashboard-notifications .coach-incoming h2 { font-size:24px; }
+.coach-incoming-details { grid-column:2; }
+.coach-incoming-details>summary { min-height:var(--control-height); cursor:pointer; }
+@media(max-width:760px) { #dashboard-notifications .coach-incoming { grid-template-columns:64px minmax(0,1fr); padding:var(--space-4); gap:var(--space-3) var(--space-4); } #dashboard-notifications :is(.coach-incoming-actions, .coach-incoming-details) { grid-column:1/-1; } }
+.home-care-toolbar>.coach-button { border:1px solid var(--widget-line); background:var(--widget-fill); color:var(--widget-ink); }
+/* The compact Home card shrinks the avatar with its face, so it cannot overlap the heading. */
+#dashboard-notifications .coach-incoming-face > :not(.coach-incoming-ring) { width: 48px; height: 48px; }
+/* Every action on the care board is an outlined button, never bare text beside the content. */
+.home-care-content :is(.home-care-toolbar, .home-care-heading, .home-context, .home-context-actions, .home-care-camera) > .coach-button.is-quiet,
+.home-context-actions > a.coach-button {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2);
+  min-height: var(--control-height); padding: 0 var(--space-4);
+  border: 1px solid var(--secondary-line); border-radius: var(--radius-control);
+  background: var(--secondary-fill); color: var(--secondary-ink);
+  font-size: var(--text-body); font-weight: 600; text-decoration: none;
+}
+.home-care-content :is(.home-care-toolbar, .home-care-heading, .home-context, .home-context-actions, .home-care-camera) > .coach-button.is-quiet:hover,
+.home-context-actions > a.coach-button:hover { background: var(--secondary-hover); }
+.home-care-content .coach-button .icon { width: 18px; height: 18px; flex: none; }
+/* Keep the date and history aligned in one compact toolbar. */
+.home-care-toolbar { justify-content: flex-start; }
+.home-care-toolbar > .coach-button:first-of-type { margin-left: auto; }
+.home-care-camera > .coach-button, .home-context > .coach-button { align-self: flex-start; }
+.home-care-camera p { margin: 0 0 var(--space-4); }
+@media (max-width: 760px) { .home-care-toolbar { gap:var(--space-2); } .home-care-toolbar > label { min-width:0; } .home-care-toolbar input { min-width:0; width:145px; } .home-care-toolbar > .coach-button:first-of-type { margin-left:auto; } }
+/* Doses and goals: one tick pill per day (Apple Health medications). Filled is taken or done; an
+   empty pill on a past day is skipped by definition; the selected day carries a ring. */
+.home-care-count { color:var(--widget-muted); font-size:var(--text-body); }
+.home-dose-scroll { overflow-x:auto; padding:4px 6px 4px 0; }
+.home-dose-grid { width:100%; border-collapse:collapse; font-size:var(--text-body); }
+.home-dose-grid thead th { padding:0 0 var(--space-3); color:var(--widget-muted); font-weight:600; text-align:center; }
+.home-dose-grid thead th.is-selected { color:var(--widget-ink); }
+.home-dose-grid tbody tr { border-top:1px solid var(--widget-line); }
+.home-dose-grid tbody th { padding:var(--space-3) var(--space-3) var(--space-3) 0; text-align:left; font-weight:400; min-width:120px; }
+.home-dose-grid td { padding:var(--space-3) 2px; text-align:center; width:48px; }
+.home-dose-name { display:flex; flex-wrap:wrap; align-items:center; gap:var(--space-2); }
+.home-dose-name strong { flex:1 0 100%; }
+.home-dose-amount { display:block; color:var(--widget-muted); }
+.home-context-title { display:flex; flex-wrap:wrap; align-items:center; gap:var(--space-2); overflow-wrap:anywhere; }
+.home-context-title .home-source-hint .icon { width:18px; height:18px; }
+/* The button is a 44px target; the visible pill is drawn inside it. */
+.home-dose-pill { position:relative; display:inline-grid; place-items:center; width:44px; height:44px; min-height:0; min-width:0; padding:0; border:0; border-radius:var(--radius-pill); background:transparent; color:var(--data-series); cursor:pointer; }
+/* A tick is a circle, as in Apple Health: unticked an outline, ticked filled. */
+.home-dose-pill::before { content:''; width:28px; height:28px; box-sizing:border-box; border:1.5px solid currentColor; border-radius:var(--radius-pill); }
+.home-dose-pill[aria-pressed='true']::before { background:var(--data-series); border-color:var(--data-series); }
+.home-dose-pill.is-selected::before { box-shadow:0 0 0 2px var(--widget-fill), 0 0 0 4px var(--widget-ink); }
+.home-dose-pill:disabled { cursor:default; opacity:.45; }
+/* While a tick saves, the circle already shows it and the pointer does not change (#258). */
+.home-dose-pill[aria-busy='true'] { cursor:pointer; }
+@media (hover:hover) and (pointer:fine) { .home-dose-pill:enabled:hover::before { background:color-mix(in oklch, var(--data-series) 25%, transparent); } .home-dose-pill[aria-pressed='true']:enabled:hover::before { background:var(--data-series); } }
+/* On phones the names wrap instead of holding 120px, so today's column stays inside the card. */
+@media (max-width:760px) { .home-dose-grid tbody th { min-width:100px; overflow-wrap:break-word; hyphens:auto; } .home-dose-grid td { width:40px; } .home-dose-pill { width:40px; } .home-dose-pill::before { width:26px; height:26px; } }
+.home-source-hint { position:relative; display:inline-flex; align-items:center; gap:1px; color:var(--widget-muted); text-decoration:none; }
+.home-source-hint .icon { width:15px; height:15px; }
+.home-source-tip { position:absolute; z-index:5; left:0; bottom:calc(100% + 6px); width:max-content; max-width:260px; padding:var(--space-2) var(--space-3); border-radius:var(--radius-control); background:var(--widget-ink); color:var(--widget-fill); font-size:14px; line-height:1.4; white-space:normal; visibility:hidden; opacity:0; pointer-events:none; transition:opacity 120ms ease-out; }
+.home-source-hint:is(:hover,:focus-visible) .home-source-tip { visibility:visible; opacity:1; }
+@media (max-width:760px) { .home-source-tip { position:fixed; left:var(--space-4); right:var(--space-4); bottom:calc(88px + var(--space-4)); width:auto; max-width:none; } }
+.home-context-ring.is-plain { display:grid; place-items:center; max-width:none; padding-block:var(--space-2); }
+.home-ring-detail { color:var(--muted); font-size:16px; }
+.home-context-ring.is-plain .home-ring-text { position:static; }
+/* The grid fits its card, not the window: a narrow card (phones, or the three-column board at
+   1201-1600px) shows fewer days, always ending at the selected one, so nothing runs off the card. */
+.home-today { container: dose / inline-size; }
+@container dose (max-width: 500px) { .home-dose-grid tr > :nth-child(n+2):nth-child(-n+4) { display:none; } .home-dose-grid tbody th { min-width:100px; } }
+@container dose (max-width: 300px) { .home-dose-grid tr > :nth-child(5) { display:none; } }
+
+/* While Stellis is calling, the incoming card is the one call control; the heading's Call Stellis steps aside. */
+.home-main:has(#dashboard-notifications .coach-incoming) #dashboard-call { display: none; }
+
+/* Coming up's Details is an outlined button, not a raw link (#232). */
+.home-care-event .home-event-details { justify-self: start; display: inline-flex; align-items: center; min-height: var(--control-height); padding: 0 var(--space-4); border: 1px solid var(--secondary-line); border-radius: var(--action-radius); background: var(--secondary-fill); color: var(--secondary-ink); font-weight: 600; text-decoration: none; }

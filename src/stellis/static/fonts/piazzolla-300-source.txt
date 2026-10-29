@@ -1,0 +1,5 @@
+Piazzolla upright 300, Latin subset. Downloaded on GN100 on 2026-10-20.
+Source CSS: https://fonts.googleapis.com/css2?family=Piazzolla:wght@300&display=swap
+Asset: https://fonts.gstatic.com/s/piazzolla/v42/N0b52SlTPu5rIkWIZjVKKtYtfxYqZ4RJBFzFfYUjkSDdlqZgy7KGxkL13gA.woff2
+License: SIL Open Font License 1.1; see piazzolla-ofl.txt.
+Served locally; browsers do not request Google Fonts.

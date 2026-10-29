@@ -1,0 +1,3578 @@
+{
+  "source_url": "https://medlineplus.gov/xml/mplus_topics_compressed_2026-10-24.zip",
+  "date_generated": "10/24/2026 02:30:36",
+  "attribution": "Condition names from MedlinePlus.gov, U.S. National Library of Medicine.",
+  "scope": "Title-based condition subset; free-text entries remain available.",
+  "terms": [
+    {
+      "id": "3061",
+      "label": "Abdominal Pain",
+      "url": "https://medlineplus.gov/abdominalpain.html",
+      "aliases": [
+        "Bellyache",
+        "Pain, Abdominal",
+        "Stomach Ache"
+      ]
+    },
+    {
+      "id": "5755",
+      "label": "Acute Bronchitis",
+      "url": "https://medlineplus.gov/acutebronchitis.html",
+      "aliases": [
+        "Bronchitis",
+        "Chest Cold",
+        "Chest cold"
+      ]
+    },
+    {
+      "id": "1437",
+      "label": "Acute Lymphocytic Leukemia",
+      "url": "https://medlineplus.gov/acutelymphocyticleukemia.html",
+      "aliases": [
+        "ALL",
+        "Acute Lymphoblastic Leukemia",
+        "Acute lymphoblastic leukemia",
+        "Leukemia, Acute Lymphoblastic",
+        "Leukemia, Acute Lymphocytic"
+      ]
+    },
+    {
+      "id": "5622",
+      "label": "Acute Myeloid Leukemia",
+      "url": "https://medlineplus.gov/acutemyeloidleukemia.html",
+      "aliases": [
+        "AML",
+        "ANLL",
+        "Acute Myeloblastic Leukemia",
+        "Acute myelogenous leukemia",
+        "Leukemia, Myeloblastic, Acute",
+        "Leukemia, Myelogenous, Acute",
+        "Leukemia, Myeloid, Acute"
+      ]
+    },
+    {
+      "id": "1233",
+      "label": "Addison Disease",
+      "url": "https://medlineplus.gov/addisondisease.html",
+      "aliases": [
+        "Adrenal Insufficiency",
+        "Adrenocortical hypofunction",
+        "Hypocortisolism",
+        "Primary adrenal insufficiency"
+      ]
+    },
+    {
+      "id": "5211",
+      "label": "Adrenal Gland Cancer",
+      "url": "https://medlineplus.gov/adrenalglandcancer.html",
+      "aliases": []
+    },
+    {
+      "id": "128",
+      "label": "Adrenal Gland Disorders",
+      "url": "https://medlineplus.gov/adrenalglanddisorders.html",
+      "aliases": [
+        "Adrenal Insufficiency",
+        "CAH",
+        "Congenital Adrenal Hyperplasia"
+      ]
+    },
+    {
+      "id": "120",
+      "label": "Alcohol Use Disorder (AUD)",
+      "url": "https://medlineplus.gov/alcoholusedisorderaud.html",
+      "aliases": [
+        "Alcohol Abuse",
+        "Alcohol Dependence",
+        "Alcohol Withdrawal",
+        "Alcohol abuse",
+        "Alcohol dependence",
+        "Alcoholism",
+        "Binge Drinking",
+        "Drinking",
+        "Substance Use"
+      ]
+    },
+    {
+      "id": "6621",
+      "label": "Alcohol Use Disorder (AUD) Treatment",
+      "url": "https://medlineplus.gov/alcoholusedisorderaudtreatment.html",
+      "aliases": [
+        "Alcohol Abuse Treatment",
+        "Alcoholism Treatment"
+      ]
+    },
+    {
+      "id": "24",
+      "label": "Allergy",
+      "url": "https://medlineplus.gov/allergy.html",
+      "aliases": [
+        "Allergic Rhinitis",
+        "Hypersensitivity"
+      ]
+    },
+    {
+      "id": "22",
+      "label": "Alzheimer's Disease",
+      "url": "https://medlineplus.gov/alzheimersdisease.html",
+      "aliases": [
+        "AD"
+      ]
+    },
+    {
+      "id": "6385",
+      "label": "Amino Acid Metabolism Disorders",
+      "url": "https://medlineplus.gov/aminoacidmetabolismdisorders.html",
+      "aliases": []
+    },
+    {
+      "id": "3791",
+      "label": "Anal Cancer",
+      "url": "https://medlineplus.gov/analcancer.html",
+      "aliases": []
+    },
+    {
+      "id": "137",
+      "label": "Anal Disorders",
+      "url": "https://medlineplus.gov/analdisorders.html",
+      "aliases": [
+        "Anorectal diseases",
+        "Pruritus Ani"
+      ]
+    },
+    {
+      "id": "139",
+      "label": "Anemia",
+      "url": "https://medlineplus.gov/anemia.html",
+      "aliases": [
+        "Iron Deficiency Anemia",
+        "Iron poor blood"
+      ]
+    },
+    {
+      "id": "141",
+      "label": "Aneurysms",
+      "url": "https://medlineplus.gov/aneurysms.html",
+      "aliases": []
+    },
+    {
+      "id": "142",
+      "label": "Angina",
+      "url": "https://medlineplus.gov/angina.html",
+      "aliases": [
+        "Angina Pectoris",
+        "Syndrome X (Cardiac)"
+      ]
+    },
+    {
+      "id": "4055",
+      "label": "Animal Diseases and Your Health",
+      "url": "https://medlineplus.gov/animaldiseasesandyourhealth.html",
+      "aliases": [
+        "Animal Health",
+        "Zoonoses"
+      ]
+    },
+    {
+      "id": "1612",
+      "label": "Ankle Injuries and Disorders",
+      "url": "https://medlineplus.gov/ankleinjuriesanddisorders.html",
+      "aliases": []
+    },
+    {
+      "id": "144",
+      "label": "Anxiety",
+      "url": "https://medlineplus.gov/anxiety.html",
+      "aliases": [
+        "Generalized Anxiety Disorder"
+      ]
+    },
+    {
+      "id": "4931",
+      "label": "Aortic Aneurysm",
+      "url": "https://medlineplus.gov/aorticaneurysm.html",
+      "aliases": [
+        "AAA",
+        "Abdominal Aortic Aneurysm",
+        "Aortic Dissection",
+        "TAA",
+        "Thoracic Aortic Aneurysm"
+      ]
+    },
+    {
+      "id": "5955",
+      "label": "Aplastic Anemia",
+      "url": "https://medlineplus.gov/aplasticanemia.html",
+      "aliases": [
+        "Fanconi Anemia"
+      ]
+    },
+    {
+      "id": "4329",
+      "label": "Arm Injuries and Disorders",
+      "url": "https://medlineplus.gov/arminjuriesanddisorders.html",
+      "aliases": []
+    },
+    {
+      "id": "147",
+      "label": "Arrhythmia",
+      "url": "https://medlineplus.gov/arrhythmia.html",
+      "aliases": [
+        "Bradycardia",
+        "Irregular Heartbeat",
+        "Irregular heartbeat",
+        "Multifocal Atrial Tachycardia",
+        "Sick Sinus Syndrome",
+        "Tachycardia"
+      ]
+    },
+    {
+      "id": "23",
+      "label": "Arthritis",
+      "url": "https://medlineplus.gov/arthritis.html",
+      "aliases": [
+        "Joint inflammation"
+      ]
+    },
+    {
+      "id": "2",
+      "label": "Asthma",
+      "url": "https://medlineplus.gov/asthma.html",
+      "aliases": [
+        "Bronchial Asthma"
+      ]
+    },
+    {
+      "id": "1507",
+      "label": "Asthma in Children",
+      "url": "https://medlineplus.gov/asthmainchildren.html",
+      "aliases": [
+        "Childhood Asthma",
+        "Childhood asthma",
+        "Pediatric asthma"
+      ]
+    },
+    {
+      "id": "152",
+      "label": "Attention Deficit Hyperactivity Disorder",
+      "url": "https://medlineplus.gov/attentiondeficithyperactivitydisorder.html",
+      "aliases": [
+        "ADD",
+        "ADHD",
+        "Hyperactivity"
+      ]
+    },
+    {
+      "id": "153",
+      "label": "Autism Spectrum Disorder",
+      "url": "https://medlineplus.gov/autismspectrumdisorder.html",
+      "aliases": [
+        "ASD",
+        "Asperger Syndrome",
+        "Autism",
+        "Pervasive Developmental Disorder",
+        "Pervasive developmental disorder (PDD)"
+      ]
+    },
+    {
+      "id": "154",
+      "label": "Autoimmune Diseases",
+      "url": "https://medlineplus.gov/autoimmunediseases.html",
+      "aliases": [
+        "Autoinflammatory Diseases"
+      ]
+    },
+    {
+      "id": "4242",
+      "label": "Autonomic Nervous System Disorders",
+      "url": "https://medlineplus.gov/autonomicnervoussystemdisorders.html",
+      "aliases": [
+        "Dysautonomia",
+        "Horner Syndrome",
+        "Multiple System Atrophy",
+        "Orthostatic Hypotension",
+        "Postural Orthostatic Tachycardia Syndrome",
+        "Shy-Drager Syndrome"
+      ]
+    },
+    {
+      "id": "156",
+      "label": "Back Injuries",
+      "url": "https://medlineplus.gov/backinjuries.html",
+      "aliases": []
+    },
+    {
+      "id": "157",
+      "label": "Back Pain",
+      "url": "https://medlineplus.gov/backpain.html",
+      "aliases": [
+        "Backache",
+        "Low Back Pain",
+        "Lumbago",
+        "Pain, Back"
+      ]
+    },
+    {
+      "id": "158",
+      "label": "Bacterial Infections",
+      "url": "https://medlineplus.gov/bacterialinfections.html",
+      "aliases": [
+        "Flesh-Eating Bacteria",
+        "Infections, Bacterial",
+        "Necrotizing Fasciitis",
+        "Q Fever"
+      ]
+    },
+    {
+      "id": "1084",
+      "label": "Behcet's Syndrome",
+      "url": "https://medlineplus.gov/behcetssyndrome.html",
+      "aliases": [
+        "Behcet's disease"
+      ]
+    },
+    {
+      "id": "5905",
+      "label": "Bile Duct Cancer",
+      "url": "https://medlineplus.gov/bileductcancer.html",
+      "aliases": [
+        "Cholangiocarcinoma"
+      ]
+    },
+    {
+      "id": "3787",
+      "label": "Bile Duct Diseases",
+      "url": "https://medlineplus.gov/bileductdiseases.html",
+      "aliases": [
+        "Biliary Cirrhosis",
+        "Biliary Tract Diseases",
+        "Cholangitis",
+        "Cholestasis"
+      ]
+    },
+    {
+      "id": "600",
+      "label": "Bipolar Disorder",
+      "url": "https://medlineplus.gov/bipolardisorder.html",
+      "aliases": [
+        "Bi-polar Disorder",
+        "Manic depression",
+        "Manic-Depressive Illness",
+        "Manic-depressive illness"
+      ]
+    },
+    {
+      "id": "163",
+      "label": "Bladder Cancer",
+      "url": "https://medlineplus.gov/bladdercancer.html",
+      "aliases": [
+        "Urinary Bladder Cancer"
+      ]
+    },
+    {
+      "id": "164",
+      "label": "Bladder Diseases",
+      "url": "https://medlineplus.gov/bladderdiseases.html",
+      "aliases": [
+        "Neurogenic Bladder"
+      ]
+    },
+    {
+      "id": "166",
+      "label": "Bleeding Disorders",
+      "url": "https://medlineplus.gov/bleedingdisorders.html",
+      "aliases": [
+        "Blood Coagulation Disorders",
+        "Clotting disorders"
+      ]
+    },
+    {
+      "id": "3646",
+      "label": "Blood Disorders",
+      "url": "https://medlineplus.gov/blooddisorders.html",
+      "aliases": [
+        "Hematologic Disorders",
+        "Hematologic diseases"
+      ]
+    },
+    {
+      "id": "169",
+      "label": "Bone Cancer",
+      "url": "https://medlineplus.gov/bonecancer.html",
+      "aliases": [
+        "Ewing's Sarcoma",
+        "Osteosarcoma",
+        "Sarcoma, Ewing's"
+      ]
+    },
+    {
+      "id": "170",
+      "label": "Bone Diseases",
+      "url": "https://medlineplus.gov/bonediseases.html",
+      "aliases": []
+    },
+    {
+      "id": "5739",
+      "label": "Bone Infections",
+      "url": "https://medlineplus.gov/boneinfections.html",
+      "aliases": [
+        "Osteomyelitis"
+      ]
+    },
+    {
+      "id": "171",
+      "label": "Bone Marrow Diseases",
+      "url": "https://medlineplus.gov/bonemarrowdiseases.html",
+      "aliases": [
+        "Myeloproliferative Disorders"
+      ]
+    },
+    {
+      "id": "6089",
+      "label": "Brachial Plexus Injuries",
+      "url": "https://medlineplus.gov/brachialplexusinjuries.html",
+      "aliases": []
+    },
+    {
+      "id": "4926",
+      "label": "Brain Aneurysm",
+      "url": "https://medlineplus.gov/brainaneurysm.html",
+      "aliases": [
+        "Berry Aneurysm",
+        "Berry aneurysm",
+        "Cerebral Aneurysm",
+        "Cerebral aneurysm",
+        "Intracranial Aneurysm",
+        "Intracranial aneurysm"
+      ]
+    },
+    {
+      "id": "174",
+      "label": "Brain Diseases",
+      "url": "https://medlineplus.gov/braindiseases.html",
+      "aliases": []
+    },
+    {
+      "id": "3",
+      "label": "Breast Cancer",
+      "url": "https://medlineplus.gov/breastcancer.html",
+      "aliases": [
+        "Paget's Disease of Breast"
+      ]
+    },
+    {
+      "id": "474",
+      "label": "Breast Diseases",
+      "url": "https://medlineplus.gov/breastdiseases.html",
+      "aliases": [
+        "Fibrocystic Breast Disease",
+        "Gynecomastia"
+      ]
+    },
+    {
+      "id": "5977",
+      "label": "Bronchial Disorders",
+      "url": "https://medlineplus.gov/bronchialdisorders.html",
+      "aliases": [
+        "Bronchiectasis",
+        "Bronchiolitis"
+      ]
+    },
+    {
+      "id": "4617",
+      "label": "C. diff Infections",
+      "url": "https://medlineplus.gov/cdiffinfections.html",
+      "aliases": [
+        "Clostridioides difficile infections",
+        "Clostridium difficile Infections",
+        "Clostridium difficile infections",
+        "Clostridium enterocolitis",
+        "Pseudomembranous colitis"
+      ]
+    },
+    {
+      "id": "6046",
+      "label": "Campylobacter Infections",
+      "url": "https://medlineplus.gov/campylobacterinfections.html",
+      "aliases": []
+    },
+    {
+      "id": "25",
+      "label": "Cancer",
+      "url": "https://medlineplus.gov/cancer.html",
+      "aliases": [
+        "Carcinoma",
+        "Malignancy",
+        "Neoplasms",
+        "Oncology",
+        "Tumor"
+      ]
+    },
+    {
+      "id": "3192",
+      "label": "Cancer Alternative Therapies",
+      "url": "https://medlineplus.gov/canceralternativetherapies.html",
+      "aliases": [
+        "Alternative Therapy for Cancer"
+      ]
+    },
+    {
+      "id": "464",
+      "label": "Cancer Chemotherapy",
+      "url": "https://medlineplus.gov/cancerchemotherapy.html",
+      "aliases": [
+        "Chemotherapy"
+      ]
+    },
+    {
+      "id": "6429",
+      "label": "Cancer Immunotherapy",
+      "url": "https://medlineplus.gov/cancerimmunotherapy.html",
+      "aliases": []
+    },
+    {
+      "id": "4355",
+      "label": "Cancer in Children",
+      "url": "https://medlineplus.gov/cancerinchildren.html",
+      "aliases": [
+        "Childhood Cancer"
+      ]
+    },
+    {
+      "id": "6389",
+      "label": "Carbohydrate Metabolism Disorders",
+      "url": "https://medlineplus.gov/carbohydratemetabolismdisorders.html",
+      "aliases": [
+        "Mucopolysaccharidoses"
+      ]
+    },
+    {
+      "id": "4063",
+      "label": "Carotid Artery Disease",
+      "url": "https://medlineplus.gov/carotidarterydisease.html",
+      "aliases": [
+        "Carotid Endarterectomy"
+      ]
+    },
+    {
+      "id": "179",
+      "label": "Carpal Tunnel Syndrome",
+      "url": "https://medlineplus.gov/carpaltunnelsyndrome.html",
+      "aliases": [
+        "Median nerve entrapment"
+      ]
+    },
+    {
+      "id": "1412",
+      "label": "Cartilage Disorders",
+      "url": "https://medlineplus.gov/cartilagedisorders.html",
+      "aliases": [
+        "Costochondritis",
+        "Polychondritis"
+      ]
+    },
+    {
+      "id": "4320",
+      "label": "Cat Scratch Disease",
+      "url": "https://medlineplus.gov/catscratchdisease.html",
+      "aliases": [
+        "CSD",
+        "Cat scratch fever"
+      ]
+    },
+    {
+      "id": "897",
+      "label": "Celiac Disease",
+      "url": "https://medlineplus.gov/celiacdisease.html",
+      "aliases": [
+        "Celiac sprue",
+        "Gluten Intolerance",
+        "Gluten-Sensitive Enteropathy",
+        "Gluten-sensitive enteropathy",
+        "Nontropical Sprue",
+        "Nontropical sprue"
+      ]
+    },
+    {
+      "id": "5919",
+      "label": "Cerebellar Disorders",
+      "url": "https://medlineplus.gov/cerebellardisorders.html",
+      "aliases": [
+        "Ataxia",
+        "Dandy-Walker Syndrome"
+      ]
+    },
+    {
+      "id": "180",
+      "label": "Cerebral Palsy",
+      "url": "https://medlineplus.gov/cerebralpalsy.html",
+      "aliases": [
+        "CP"
+      ]
+    },
+    {
+      "id": "111",
+      "label": "Cervical Cancer",
+      "url": "https://medlineplus.gov/cervicalcancer.html",
+      "aliases": []
+    },
+    {
+      "id": "5415",
+      "label": "Cervix Disorders",
+      "url": "https://medlineplus.gov/cervixdisorders.html",
+      "aliases": [
+        "Cervical Dysplasia",
+        "Uterine Cervix Disorders"
+      ]
+    },
+    {
+      "id": "3660",
+      "label": "Chagas Disease",
+      "url": "https://medlineplus.gov/chagasdisease.html",
+      "aliases": [
+        "American trypanosomiasis",
+        "South American Trypanosomiasis",
+        "South American trypanosomiasis"
+      ]
+    },
+    {
+      "id": "1260",
+      "label": "Charcot-Marie-Tooth Disease",
+      "url": "https://medlineplus.gov/charcotmarietoothdisease.html",
+      "aliases": [
+        "Hereditary motor and sensory neuropathy",
+        "Peroneal muscular atrophy"
+      ]
+    },
+    {
+      "id": "5858",
+      "label": "Chest Injuries and Disorders",
+      "url": "https://medlineplus.gov/chestinjuriesanddisorders.html",
+      "aliases": [
+        "Mediastinal Disorders",
+        "Rib Injuries",
+        "Thoracic Injuries"
+      ]
+    },
+    {
+      "id": "4744",
+      "label": "Chest Pain",
+      "url": "https://medlineplus.gov/chestpain.html",
+      "aliases": [
+        "Pain, Chest"
+      ]
+    },
+    {
+      "id": "184",
+      "label": "Child Behavior Disorders",
+      "url": "https://medlineplus.gov/childbehaviordisorders.html",
+      "aliases": [
+        "Conduct Disorder",
+        "Conduct disorders"
+      ]
+    },
+    {
+      "id": "1438",
+      "label": "Childhood Leukemia",
+      "url": "https://medlineplus.gov/childhoodleukemia.html",
+      "aliases": [
+        "Leukemia, Childhood"
+      ]
+    },
+    {
+      "id": "1307",
+      "label": "Chlamydia Infections",
+      "url": "https://medlineplus.gov/chlamydiainfections.html",
+      "aliases": []
+    },
+    {
+      "id": "1608",
+      "label": "Chronic Bronchitis",
+      "url": "https://medlineplus.gov/chronicbronchitis.html",
+      "aliases": [
+        "Bronchitis"
+      ]
+    },
+    {
+      "id": "5987",
+      "label": "Chronic Kidney Disease",
+      "url": "https://medlineplus.gov/chronickidneydisease.html",
+      "aliases": [
+        "CKD"
+      ]
+    },
+    {
+      "id": "87",
+      "label": "Chronic Lymphocytic Leukemia",
+      "url": "https://medlineplus.gov/chroniclymphocyticleukemia.html",
+      "aliases": [
+        "CLL",
+        "Leukemia, Chronic Lymphocytic"
+      ]
+    },
+    {
+      "id": "5624",
+      "label": "Chronic Myeloid Leukemia",
+      "url": "https://medlineplus.gov/chronicmyeloidleukemia.html",
+      "aliases": [
+        "CML",
+        "Chronic Granulocytic Leukemia",
+        "Chronic Myelogenous Leukemia",
+        "Chronic granulocytic leukemia",
+        "Chronic myelogenous leukemia",
+        "Leukemia, Myeloid, Chronic"
+      ]
+    },
+    {
+      "id": "5995",
+      "label": "Chronic Pain",
+      "url": "https://medlineplus.gov/chronicpain.html",
+      "aliases": [
+        "Pain, Chronic"
+      ]
+    },
+    {
+      "id": "190",
+      "label": "Cirrhosis",
+      "url": "https://medlineplus.gov/cirrhosis.html",
+      "aliases": [
+        "Hepatic fibrosis",
+        "Liver Cirrhosis"
+      ]
+    },
+    {
+      "id": "194",
+      "label": "Colonic Diseases",
+      "url": "https://medlineplus.gov/colonicdiseases.html",
+      "aliases": [
+        "Intestinal Diseases",
+        "Large intestine diseases"
+      ]
+    },
+    {
+      "id": "88",
+      "label": "Colorectal Cancer",
+      "url": "https://medlineplus.gov/colorectalcancer.html",
+      "aliases": [
+        "Colon Cancer",
+        "Colon cancer",
+        "Rectal Cancer",
+        "Rectal cancer"
+      ]
+    },
+    {
+      "id": "382",
+      "label": "Complex Regional Pain Syndrome",
+      "url": "https://medlineplus.gov/complexregionalpainsyndrome.html",
+      "aliases": [
+        "CRPS",
+        "Causalgia",
+        "Reflex Sympathetic Dystrophy",
+        "Reflex sympathetic dystrophy"
+      ]
+    },
+    {
+      "id": "4867",
+      "label": "Concussion",
+      "url": "https://medlineplus.gov/concussion.html",
+      "aliases": [
+        "Brain Concussion",
+        "Brain Injury",
+        "Brain concussion"
+      ]
+    },
+    {
+      "id": "1411",
+      "label": "Connective Tissue Disorders",
+      "url": "https://medlineplus.gov/connectivetissuedisorders.html",
+      "aliases": [
+        "Mixed Connective Tissue Disease",
+        "PXE"
+      ]
+    },
+    {
+      "id": "200",
+      "label": "Constipation",
+      "url": "https://medlineplus.gov/constipation.html",
+      "aliases": []
+    },
+    {
+      "id": "27",
+      "label": "COPD",
+      "url": "https://medlineplus.gov/copd.html",
+      "aliases": [
+        "Chronic Obstructive Pulmonary Disease"
+      ]
+    },
+    {
+      "id": "5532",
+      "label": "Corneal Disorders",
+      "url": "https://medlineplus.gov/cornealdisorders.html",
+      "aliases": []
+    },
+    {
+      "id": "1276",
+      "label": "Coronary Artery Disease",
+      "url": "https://medlineplus.gov/coronaryarterydisease.html",
+      "aliases": [
+        "Arteriosclerosis, Coronary",
+        "Atherosclerosis, Coronary",
+        "CAD",
+        "Coronary Arteriosclerosis",
+        "Coronary arteriosclerosis",
+        "Coronary atherosclerosis",
+        "Coronary heart disease"
+      ]
+    },
+    {
+      "id": "3181",
+      "label": "COVID-19 (Coronavirus Disease 2019)",
+      "url": "https://medlineplus.gov/covid19coronavirusdisease2019.html",
+      "aliases": [
+        "COVID-19",
+        "Coronavirus"
+      ]
+    },
+    {
+      "id": "1242",
+      "label": "Creutzfeldt-Jakob Disease",
+      "url": "https://medlineplus.gov/creutzfeldtjakobdisease.html",
+      "aliases": [
+        "BSE",
+        "Bovine Spongiform Encephalopathy",
+        "CJD",
+        "Jakob-Creutzfeldt Disease",
+        "Mad Cow Disease",
+        "Prion Diseases",
+        "vCJD"
+      ]
+    },
+    {
+      "id": "119",
+      "label": "Crohn's Disease",
+      "url": "https://medlineplus.gov/crohnsdisease.html",
+      "aliases": [
+        "Ileocolitis",
+        "Inflammatory Bowel Disease",
+        "Regional Enteritis",
+        "Regional Ileitis",
+        "Regional enteritis",
+        "Regional ileitis"
+      ]
+    },
+    {
+      "id": "4318",
+      "label": "Cushing Syndrome",
+      "url": "https://medlineplus.gov/cushingsyndrome.html",
+      "aliases": [
+        "Cushing Disease",
+        "Hypercortisolism"
+      ]
+    },
+    {
+      "id": "203",
+      "label": "Cystic Fibrosis",
+      "url": "https://medlineplus.gov/cysticfibrosis.html",
+      "aliases": [
+        "CF"
+      ]
+    },
+    {
+      "id": "3980",
+      "label": "Cytomegalovirus Infections",
+      "url": "https://medlineplus.gov/cytomegalovirusinfections.html",
+      "aliases": [
+        "CMV",
+        "CMV Infections"
+      ]
+    },
+    {
+      "id": "1683",
+      "label": "Deep Vein Thrombosis",
+      "url": "https://medlineplus.gov/deepveinthrombosis.html",
+      "aliases": [
+        "DVT",
+        "Venous Thrombosis"
+      ]
+    },
+    {
+      "id": "619",
+      "label": "Degenerative Nerve Diseases",
+      "url": "https://medlineplus.gov/degenerativenervediseases.html",
+      "aliases": [
+        "Ataxia",
+        "Neurodegenerative Diseases",
+        "Neurodegenerative diseases",
+        "Prion Diseases"
+      ]
+    },
+    {
+      "id": "205",
+      "label": "Dementia",
+      "url": "https://medlineplus.gov/dementia.html",
+      "aliases": [
+        "Senility"
+      ]
+    },
+    {
+      "id": "113",
+      "label": "Depression",
+      "url": "https://medlineplus.gov/depression.html",
+      "aliases": [
+        "Clinical depression",
+        "Dysthymic Disorder",
+        "Dysthymic disorder",
+        "Major depressive disorder",
+        "Unipolar depression"
+      ]
+    },
+    {
+      "id": "4",
+      "label": "Diabetes",
+      "url": "https://medlineplus.gov/diabetes.html",
+      "aliases": [
+        "DM",
+        "Diabetes Mellitus",
+        "Diabetes mellitus",
+        "Sugar Diabetes"
+      ]
+    },
+    {
+      "id": "1408",
+      "label": "Diabetes and Pregnancy",
+      "url": "https://medlineplus.gov/diabetesandpregnancy.html",
+      "aliases": [
+        "Gestational Diabetes",
+        "Gestational diabetes",
+        "Pregnancy and Diabetes"
+      ]
+    },
+    {
+      "id": "4567",
+      "label": "Diabetes Complications",
+      "url": "https://medlineplus.gov/diabetescomplications.html",
+      "aliases": [
+        "Diabetic complications"
+      ]
+    },
+    {
+      "id": "6026",
+      "label": "Diabetes in Children and Teens",
+      "url": "https://medlineplus.gov/diabetesinchildrenandteens.html",
+      "aliases": [
+        "Children and Diabetes",
+        "Teens and Diabetes"
+      ]
+    },
+    {
+      "id": "3046",
+      "label": "Diabetes Insipidus",
+      "url": "https://medlineplus.gov/diabetesinsipidus.html",
+      "aliases": [
+        "DI"
+      ]
+    },
+    {
+      "id": "1339",
+      "label": "Diabetes Type 1",
+      "url": "https://medlineplus.gov/diabetestype1.html",
+      "aliases": [
+        "Insulin-Dependent Diabetes Mellitus",
+        "Insulin-dependent diabetes",
+        "Juvenile Diabetes",
+        "Juvenile diabetes",
+        "Type 1 Diabetes",
+        "Type I diabetes"
+      ]
+    },
+    {
+      "id": "5930",
+      "label": "Diabetes Type 2",
+      "url": "https://medlineplus.gov/diabetestype2.html",
+      "aliases": [
+        "Non-Insulin Dependent Diabetes Mellitus",
+        "Sugar Diabetes",
+        "Type 2 Diabetes",
+        "Type II Diabetes"
+      ]
+    },
+    {
+      "id": "6011",
+      "label": "Diabetic Heart Disease",
+      "url": "https://medlineplus.gov/diabeticheartdisease.html",
+      "aliases": []
+    },
+    {
+      "id": "29",
+      "label": "Digestive Diseases",
+      "url": "https://medlineplus.gov/digestivediseases.html",
+      "aliases": [
+        "Gastrointestinal Diseases",
+        "Gastrointestinal diseases"
+      ]
+    },
+    {
+      "id": "214",
+      "label": "Diverticulosis and Diverticulitis",
+      "url": "https://medlineplus.gov/diverticulosisanddiverticulitis.html",
+      "aliases": [
+        "Diverticular disease",
+        "Diverticulitis"
+      ]
+    },
+    {
+      "id": "217",
+      "label": "Down Syndrome",
+      "url": "https://medlineplus.gov/downsyndrome.html",
+      "aliases": [
+        "Trisomy 21"
+      ]
+    },
+    {
+      "id": "1010",
+      "label": "E. coli Infections",
+      "url": "https://medlineplus.gov/ecoliinfections.html",
+      "aliases": [
+        "Escherichia coli"
+      ]
+    },
+    {
+      "id": "1545",
+      "label": "Ear Disorders",
+      "url": "https://medlineplus.gov/eardisorders.html",
+      "aliases": []
+    },
+    {
+      "id": "115",
+      "label": "Ear Infections",
+      "url": "https://medlineplus.gov/earinfections.html",
+      "aliases": [
+        "Otitis Media",
+        "Otitis media",
+        "Swimmer's Ear"
+      ]
+    },
+    {
+      "id": "237",
+      "label": "Eating Disorders",
+      "url": "https://medlineplus.gov/eatingdisorders.html",
+      "aliases": [
+        "Anorexia Nervosa",
+        "Anorexia nervosa",
+        "Binge Eating",
+        "Binge eating",
+        "Bulimia",
+        "Pica"
+      ]
+    },
+    {
+      "id": "1215",
+      "label": "Eczema",
+      "url": "https://medlineplus.gov/eczema.html",
+      "aliases": [
+        "Atopic Dermatitis",
+        "Dermatitis"
+      ]
+    },
+    {
+      "id": "1594",
+      "label": "Ehlers-Danlos Syndrome",
+      "url": "https://medlineplus.gov/ehlersdanlossyndrome.html",
+      "aliases": [
+        "Cutis elastica",
+        "EDS",
+        "Hypermobility Syndrome"
+      ]
+    },
+    {
+      "id": "506",
+      "label": "Elbow Injuries and Disorders",
+      "url": "https://medlineplus.gov/elbowinjuriesanddisorders.html",
+      "aliases": [
+        "Cubital Tunnel Syndrome",
+        "Tennis Elbow"
+      ]
+    },
+    {
+      "id": "6280",
+      "label": "Electrical Injuries",
+      "url": "https://medlineplus.gov/electricalinjuries.html",
+      "aliases": [
+        "Electric shock",
+        "Electrical burn",
+        "Lightning Strikes"
+      ]
+    },
+    {
+      "id": "475",
+      "label": "Endocrine Diseases",
+      "url": "https://medlineplus.gov/endocrinediseases.html",
+      "aliases": [
+        "Multiple Endocrine Neoplasia"
+      ]
+    },
+    {
+      "id": "243",
+      "label": "Endometriosis",
+      "url": "https://medlineplus.gov/endometriosis.html",
+      "aliases": [
+        "Adenomyosis",
+        "Endo"
+      ]
+    },
+    {
+      "id": "4589",
+      "label": "Eosinophilic Disorders",
+      "url": "https://medlineplus.gov/eosinophilicdisorders.html",
+      "aliases": [
+        "Churg-Strauss Syndrome",
+        "Eosinophilia",
+        "Hypereosinophilic Syndrome"
+      ]
+    },
+    {
+      "id": "244",
+      "label": "Epilepsy",
+      "url": "https://medlineplus.gov/epilepsy.html",
+      "aliases": []
+    },
+    {
+      "id": "245",
+      "label": "Esophageal Cancer",
+      "url": "https://medlineplus.gov/esophagealcancer.html",
+      "aliases": []
+    },
+    {
+      "id": "246",
+      "label": "Esophagus Disorders",
+      "url": "https://medlineplus.gov/esophagusdisorders.html",
+      "aliases": [
+        "Achalasia",
+        "Barrett's Esophagus",
+        "Cardiospasm"
+      ]
+    },
+    {
+      "id": "491",
+      "label": "Eye Cancer",
+      "url": "https://medlineplus.gov/eyecancer.html",
+      "aliases": [
+        "Intraocular Melanoma",
+        "Retinoblastoma"
+      ]
+    },
+    {
+      "id": "247",
+      "label": "Eye Diseases",
+      "url": "https://medlineplus.gov/eyediseases.html",
+      "aliases": [
+        "Ophthalmology",
+        "Pinguecula"
+      ]
+    },
+    {
+      "id": "4398",
+      "label": "Eye Infections",
+      "url": "https://medlineplus.gov/eyeinfections.html",
+      "aliases": []
+    },
+    {
+      "id": "492",
+      "label": "Eye Injuries",
+      "url": "https://medlineplus.gov/eyeinjuries.html",
+      "aliases": [
+        "Protective Eye Wear"
+      ]
+    },
+    {
+      "id": "5873",
+      "label": "Eye Movement Disorders",
+      "url": "https://medlineplus.gov/eyemovementdisorders.html",
+      "aliases": [
+        "Crossed Eyes",
+        "Nystagmus",
+        "Squint",
+        "Strabismus",
+        "Walleye"
+      ]
+    },
+    {
+      "id": "5404",
+      "label": "Eyelid Disorders",
+      "url": "https://medlineplus.gov/eyeliddisorders.html",
+      "aliases": [
+        "Blepharospasm",
+        "Chalazion",
+        "Ptosis",
+        "Stye"
+      ]
+    },
+    {
+      "id": "1574",
+      "label": "Facial Injuries and Disorders",
+      "url": "https://medlineplus.gov/facialinjuriesanddisorders.html",
+      "aliases": [
+        "Craniofacial Injuries"
+      ]
+    },
+    {
+      "id": "5654",
+      "label": "Female Infertility",
+      "url": "https://medlineplus.gov/femaleinfertility.html",
+      "aliases": [
+        "Infertility, Female"
+      ]
+    },
+    {
+      "id": "1300",
+      "label": "Fetal Alcohol Spectrum Disorders",
+      "url": "https://medlineplus.gov/fetalalcoholspectrumdisorders.html",
+      "aliases": [
+        "FAS",
+        "FASD",
+        "Fetal Alcohol Syndrome"
+      ]
+    },
+    {
+      "id": "32",
+      "label": "Fibromyalgia",
+      "url": "https://medlineplus.gov/fibromyalgia.html",
+      "aliases": [
+        "FMS",
+        "Fibro"
+      ]
+    },
+    {
+      "id": "1609",
+      "label": "Fifth Disease",
+      "url": "https://medlineplus.gov/fifthdisease.html",
+      "aliases": [
+        "Erythema Infectiosum",
+        "Erythema infectiosum",
+        "Parvovirus B19",
+        "Parvovirus B19 infection"
+      ]
+    },
+    {
+      "id": "5356",
+      "label": "Finger Injuries and Disorders",
+      "url": "https://medlineplus.gov/fingerinjuriesanddisorders.html",
+      "aliases": [
+        "Dupuytren Contracture",
+        "Thumb Injuries"
+      ]
+    },
+    {
+      "id": "1256",
+      "label": "Food Allergy",
+      "url": "https://medlineplus.gov/foodallergy.html",
+      "aliases": [
+        "Allergy, Food",
+        "Egg Allergy",
+        "Milk Allergy",
+        "Nut Allergy",
+        "Peanut Allergy",
+        "Shellfish Allergy",
+        "Wheat Allergy"
+      ]
+    },
+    {
+      "id": "508",
+      "label": "Foot Injuries and Disorders",
+      "url": "https://medlineplus.gov/footinjuriesanddisorders.html",
+      "aliases": [
+        "Morton's Neuroma"
+      ]
+    },
+    {
+      "id": "257",
+      "label": "Fractures",
+      "url": "https://medlineplus.gov/fractures.html",
+      "aliases": [
+        "Broken Bones",
+        "Broken bone"
+      ]
+    },
+    {
+      "id": "3690",
+      "label": "Fragile X Syndrome",
+      "url": "https://medlineplus.gov/fragilexsyndrome.html",
+      "aliases": [
+        "FRAXA",
+        "FXS"
+      ]
+    },
+    {
+      "id": "258",
+      "label": "Fungal Infections",
+      "url": "https://medlineplus.gov/fungalinfections.html",
+      "aliases": [
+        "Cryptococcosis",
+        "Infections, Fungal",
+        "Mycoses"
+      ]
+    },
+    {
+      "id": "4645",
+      "label": "Gallbladder Cancer",
+      "url": "https://medlineplus.gov/gallbladdercancer.html",
+      "aliases": []
+    },
+    {
+      "id": "259",
+      "label": "Gallbladder Diseases",
+      "url": "https://medlineplus.gov/gallbladderdiseases.html",
+      "aliases": [
+        "Biliary Tract Diseases",
+        "Cholecystectomy"
+      ]
+    },
+    {
+      "id": "4643",
+      "label": "Gallstones",
+      "url": "https://medlineplus.gov/gallstones.html",
+      "aliases": [
+        "Choledocholithiasis",
+        "Cholelithiasis"
+      ]
+    },
+    {
+      "id": "1523",
+      "label": "Gaucher Disease",
+      "url": "https://medlineplus.gov/gaucherdisease.html",
+      "aliases": []
+    },
+    {
+      "id": "3117",
+      "label": "Genetic Brain Disorders",
+      "url": "https://medlineplus.gov/geneticbraindisorders.html",
+      "aliases": [
+        "Brain Disorders, Inborn Genetic",
+        "Inborn genetic brain disorders",
+        "Maple Syrup Urine Disease",
+        "Niemann-Pick Disease"
+      ]
+    },
+    {
+      "id": "33",
+      "label": "Genetic Disorders",
+      "url": "https://medlineplus.gov/geneticdisorders.html",
+      "aliases": [
+        "Progeria"
+      ]
+    },
+    {
+      "id": "1258",
+      "label": "Giardia Infections",
+      "url": "https://medlineplus.gov/giardiainfections.html",
+      "aliases": []
+    },
+    {
+      "id": "42",
+      "label": "Glaucoma",
+      "url": "https://medlineplus.gov/glaucoma.html",
+      "aliases": []
+    },
+    {
+      "id": "264",
+      "label": "Gout",
+      "url": "https://medlineplus.gov/gout.html",
+      "aliases": [
+        "Chondrocalcinosis",
+        "Gouty arthritis",
+        "Hyperuricemia",
+        "Pseudogout"
+      ]
+    },
+    {
+      "id": "265",
+      "label": "Growth Disorders",
+      "url": "https://medlineplus.gov/growthdisorders.html",
+      "aliases": [
+        "Acromegaly",
+        "Failure to Thrive"
+      ]
+    },
+    {
+      "id": "1234",
+      "label": "Guillain-Barre Syndrome",
+      "url": "https://medlineplus.gov/guillainbarresyndrome.html",
+      "aliases": [
+        "Acute idiopathic polyneuritis",
+        "Acute inflammatory polyneuropathy",
+        "Infectious polyneuritis",
+        "Landry-Guillain-Barre syndrome"
+      ]
+    },
+    {
+      "id": "266",
+      "label": "Gum Disease",
+      "url": "https://medlineplus.gov/gumdisease.html",
+      "aliases": [
+        "Periodontal Disease",
+        "Periodontal disease",
+        "Plaque, Dental"
+      ]
+    },
+    {
+      "id": "5968",
+      "label": "Haemophilus Infections",
+      "url": "https://medlineplus.gov/haemophilusinfections.html",
+      "aliases": [
+        "Hib"
+      ]
+    },
+    {
+      "id": "507",
+      "label": "Hand Injuries and Disorders",
+      "url": "https://medlineplus.gov/handinjuriesanddisorders.html",
+      "aliases": []
+    },
+    {
+      "id": "3217",
+      "label": "Hantavirus Infections",
+      "url": "https://medlineplus.gov/hantavirusinfections.html",
+      "aliases": [
+        "HPS",
+        "Hanta virus"
+      ]
+    },
+    {
+      "id": "330",
+      "label": "Head and Neck Cancer",
+      "url": "https://medlineplus.gov/headandneckcancer.html",
+      "aliases": []
+    },
+    {
+      "id": "5825",
+      "label": "Head Injuries",
+      "url": "https://medlineplus.gov/headinjuries.html",
+      "aliases": [
+        "Cranial Injuries",
+        "Cranial injuries",
+        "Skull Fractures",
+        "Skull Injuries",
+        "Skull fractures",
+        "Skull injuries"
+      ]
+    },
+    {
+      "id": "204",
+      "label": "Hearing Disorders and Deafness",
+      "url": "https://medlineplus.gov/hearingdisordersanddeafness.html",
+      "aliases": [
+        "Deafness",
+        "Hearing loss",
+        "Presbycusis"
+      ]
+    },
+    {
+      "id": "5",
+      "label": "Heart Attack",
+      "url": "https://medlineplus.gov/heartattack.html",
+      "aliases": [
+        "MI",
+        "Myocardial Infarction",
+        "Myocardial infarction"
+      ]
+    },
+    {
+      "id": "4212",
+      "label": "Heart Disease in Women",
+      "url": "https://medlineplus.gov/heartdiseaseinwomen.html",
+      "aliases": []
+    },
+    {
+      "id": "277",
+      "label": "Heart Diseases",
+      "url": "https://medlineplus.gov/heartdiseases.html",
+      "aliases": [
+        "Cardiac Diseases",
+        "Cardiac diseases",
+        "Cardiovascular Diseases"
+      ]
+    },
+    {
+      "id": "199",
+      "label": "Heart Failure",
+      "url": "https://medlineplus.gov/heartfailure.html",
+      "aliases": [
+        "CHF",
+        "Cardiac Failure",
+        "Cardiac failure",
+        "Congestive Heart Failure",
+        "Congestive heart failure",
+        "Left-sided heart failure",
+        "Low Cardiac Output",
+        "Right-sided heart failure"
+      ]
+    },
+    {
+      "id": "279",
+      "label": "Heart Valve Diseases",
+      "url": "https://medlineplus.gov/heartvalvediseases.html",
+      "aliases": [
+        "Aortic Stenosis",
+        "Heart Murmur",
+        "Valvular Heart Diseases",
+        "Valvular heart disease"
+      ]
+    },
+    {
+      "id": "3650",
+      "label": "Heel Injuries and Disorders",
+      "url": "https://medlineplus.gov/heelinjuriesanddisorders.html",
+      "aliases": [
+        "Achilles Tendon Injuries",
+        "Plantar Fasciitis"
+      ]
+    },
+    {
+      "id": "6078",
+      "label": "Helicobacter pylori Infections",
+      "url": "https://medlineplus.gov/helicobacterpyloriinfections.html",
+      "aliases": [
+        "H. pylori Infections",
+        "H. pylori infections"
+      ]
+    },
+    {
+      "id": "6263",
+      "label": "Hemorrhagic Stroke",
+      "url": "https://medlineplus.gov/hemorrhagicstroke.html",
+      "aliases": [
+        "Brain Hemorrhage ",
+        "Cerebral Hemorrhage ",
+        "Intracerebral Hemorrhage",
+        "Subarachnoid Hemorrhage",
+        "Subarachnoid Hemorrhage "
+      ]
+    },
+    {
+      "id": "109",
+      "label": "Hepatitis",
+      "url": "https://medlineplus.gov/hepatitis.html",
+      "aliases": [
+        "Viral Hepatitis"
+      ]
+    },
+    {
+      "id": "1686",
+      "label": "Hepatitis A",
+      "url": "https://medlineplus.gov/hepatitisa.html",
+      "aliases": [
+        "HAV"
+      ]
+    },
+    {
+      "id": "1687",
+      "label": "Hepatitis B",
+      "url": "https://medlineplus.gov/hepatitisb.html",
+      "aliases": [
+        "HBV"
+      ]
+    },
+    {
+      "id": "1286",
+      "label": "Hepatitis C",
+      "url": "https://medlineplus.gov/hepatitisc.html",
+      "aliases": [
+        "HCV"
+      ]
+    },
+    {
+      "id": "283",
+      "label": "Hernia",
+      "url": "https://medlineplus.gov/hernia.html",
+      "aliases": [
+        "Congenital Diaphragmatic Hernia",
+        "Diaphragmatic Hernia",
+        "Enterocele",
+        "Inguinal Hernia",
+        "Umbilical Hernia"
+      ]
+    },
+    {
+      "id": "284",
+      "label": "Herniated Disk",
+      "url": "https://medlineplus.gov/herniateddisk.html",
+      "aliases": [
+        "Bulging disk",
+        "Compressed disk",
+        "Herniated intervertebral disk",
+        "Herniated nucleus pulposus",
+        "Prolapsed disk",
+        "Ruptured Disk",
+        "Ruptured disk",
+        "Slipped Disk",
+        "Slipped disk"
+      ]
+    },
+    {
+      "id": "4370",
+      "label": "Hiatal Hernia",
+      "url": "https://medlineplus.gov/hiatalhernia.html",
+      "aliases": []
+    },
+    {
+      "id": "34",
+      "label": "High Blood Pressure",
+      "url": "https://medlineplus.gov/highbloodpressure.html",
+      "aliases": [
+        "Benign essential hypertension",
+        "Blood Pressure",
+        "Essential hypertension",
+        "HBP",
+        "HTN",
+        "Hypertension"
+      ]
+    },
+    {
+      "id": "1508",
+      "label": "High Blood Pressure in Pregnancy",
+      "url": "https://medlineplus.gov/highbloodpressureinpregnancy.html",
+      "aliases": [
+        "Eclampsia",
+        "Gestational Hypertension",
+        "HELLP Syndrome",
+        "Preeclampsia",
+        "Toxemia of Pregnancy"
+      ]
+    },
+    {
+      "id": "6907",
+      "label": "High Cholesterol in Children and Teens",
+      "url": "https://medlineplus.gov/highcholesterolinchildrenandteens.html",
+      "aliases": []
+    },
+    {
+      "id": "287",
+      "label": "Hip Injuries and Disorders",
+      "url": "https://medlineplus.gov/hipinjuriesanddisorders.html",
+      "aliases": [
+        "Pelvis"
+      ]
+    },
+    {
+      "id": "1",
+      "label": "HIV",
+      "url": "https://medlineplus.gov/hiv.html",
+      "aliases": [
+        "AIDS",
+        "Acquired Immunodeficiency Syndrome",
+        "Acquired immunodeficiency syndrome",
+        "Human Immunodeficiency Virus",
+        "Human immunodeficiency virus"
+      ]
+    },
+    {
+      "id": "1503",
+      "label": "HIV and Infections",
+      "url": "https://medlineplus.gov/hivandinfections.html",
+      "aliases": [
+        "AIDS and Infections",
+        "AIDS-related opportunistic infections",
+        "OIs",
+        "Opportunistic Infections in AIDS"
+      ]
+    },
+    {
+      "id": "1470",
+      "label": "HIV and Pregnancy",
+      "url": "https://medlineplus.gov/hivandpregnancy.html",
+      "aliases": [
+        "AIDS and Pregnancy",
+        "Pregnancy and AIDS",
+        "Pregnancy and HIV"
+      ]
+    },
+    {
+      "id": "5737",
+      "label": "HIV in Women",
+      "url": "https://medlineplus.gov/hivinwomen.html",
+      "aliases": [
+        "AIDS in Women"
+      ]
+    },
+    {
+      "id": "7347",
+      "label": "HIV: PrEP and PEP",
+      "url": "https://medlineplus.gov/hivprepandpep.html",
+      "aliases": [
+        "PEP",
+        "Post-Exposure Prophylaxis",
+        "PrEP",
+        "Pre-Exposure Prophylaxis"
+      ]
+    },
+    {
+      "id": "289",
+      "label": "Hives",
+      "url": "https://medlineplus.gov/hives.html",
+      "aliases": [
+        "Urticaria"
+      ]
+    },
+    {
+      "id": "1262",
+      "label": "Hodgkin Lymphoma",
+      "url": "https://medlineplus.gov/hodgkinlymphoma.html",
+      "aliases": [
+        "Hodgkin Disease"
+      ]
+    },
+    {
+      "id": "6661",
+      "label": "How to Prevent Diabetes",
+      "url": "https://medlineplus.gov/howtopreventdiabetes.html",
+      "aliases": [
+        "Diabetes Prevention"
+      ]
+    },
+    {
+      "id": "1598",
+      "label": "How to Prevent Heart Disease",
+      "url": "https://medlineplus.gov/howtopreventheartdisease.html",
+      "aliases": [
+        "Heart Disease Prevention"
+      ]
+    },
+    {
+      "id": "6450",
+      "label": "How to Prevent High Blood Pressure",
+      "url": "https://medlineplus.gov/howtopreventhighbloodpressure.html",
+      "aliases": [
+        "High Blood Pressure Prevention",
+        "Lowering high blood pressure"
+      ]
+    },
+    {
+      "id": "1218",
+      "label": "Huntington's Disease",
+      "url": "https://medlineplus.gov/huntingtonsdisease.html",
+      "aliases": [
+        "HD",
+        "Huntington's chorea"
+      ]
+    },
+    {
+      "id": "6177",
+      "label": "Hyperthyroidism",
+      "url": "https://medlineplus.gov/hyperthyroidism.html",
+      "aliases": [
+        "Basedow's Disease",
+        "Graves' Disease",
+        "Overactive Thyroid",
+        "Overactive thyroid",
+        "Thyrotoxicosis"
+      ]
+    },
+    {
+      "id": "6175",
+      "label": "Hypothyroidism",
+      "url": "https://medlineplus.gov/hypothyroidism.html",
+      "aliases": [
+        "Autoimmune Thyroiditis",
+        "Hashimoto's Disease",
+        "Underactive Thyroid",
+        "Underactive thyroid"
+      ]
+    },
+    {
+      "id": "295",
+      "label": "Immune System and Disorders",
+      "url": "https://medlineplus.gov/immunesystemanddisorders.html",
+      "aliases": [
+        "Chronic Granulomatous Disease",
+        "Primary Immunodeficiency Diseases",
+        "SCID",
+        "Severe Combined Immunodeficiency"
+      ]
+    },
+    {
+      "id": "3040",
+      "label": "Infection Control",
+      "url": "https://medlineplus.gov/infectioncontrol.html",
+      "aliases": [
+        "Blood-Borne Pathogens",
+        "Cross Infection",
+        "Healthcare-Associated Infections",
+        "Universal Precautions"
+      ]
+    },
+    {
+      "id": "3154",
+      "label": "Infections and Pregnancy",
+      "url": "https://medlineplus.gov/infectionsandpregnancy.html",
+      "aliases": [
+        "Pregnancy, Infections in"
+      ]
+    },
+    {
+      "id": "5668",
+      "label": "Infectious Arthritis",
+      "url": "https://medlineplus.gov/infectiousarthritis.html",
+      "aliases": [
+        "Reactive Arthritis",
+        "Reiter's Syndrome",
+        "Septic Arthritis",
+        "Septic arthritis"
+      ]
+    },
+    {
+      "id": "513",
+      "label": "Infectious Diseases",
+      "url": "https://medlineplus.gov/infectiousdiseases.html",
+      "aliases": [
+        "Communicable Diseases",
+        "Communicable diseases"
+      ]
+    },
+    {
+      "id": "250",
+      "label": "Infertility",
+      "url": "https://medlineplus.gov/infertility.html",
+      "aliases": [
+        "Artificial Insemination",
+        "Fertility",
+        "Gamete Intrafallopian Transfer",
+        "Sterility"
+      ]
+    },
+    {
+      "id": "6081",
+      "label": "Inhalation Injuries",
+      "url": "https://medlineplus.gov/inhalationinjuries.html",
+      "aliases": [
+        "Smoke Inhalation"
+      ]
+    },
+    {
+      "id": "6055",
+      "label": "Insomnia",
+      "url": "https://medlineplus.gov/insomnia.html",
+      "aliases": []
+    },
+    {
+      "id": "1274",
+      "label": "Interstitial Cystitis",
+      "url": "https://medlineplus.gov/interstitialcystitis.html",
+      "aliases": [
+        "Bladder Pain Syndrome",
+        "Bladder pain syndrome",
+        "Cystitis",
+        "IC",
+        "PBS",
+        "Painful Bladder Syndrome",
+        "Painful bladder syndrome"
+      ]
+    },
+    {
+      "id": "5597",
+      "label": "Interstitial Lung Diseases",
+      "url": "https://medlineplus.gov/interstitiallungdiseases.html",
+      "aliases": [
+        "Coal Miner's Lung",
+        "Farmer's Lung",
+        "Interstitial Pneumonitis",
+        "Pneumoconiosis"
+      ]
+    },
+    {
+      "id": "3652",
+      "label": "Intestinal Cancer",
+      "url": "https://medlineplus.gov/intestinalcancer.html",
+      "aliases": [
+        "Duodenal cancer",
+        "Gastrointestinal Stromal Tumors",
+        "Ileal cancer",
+        "Jejunal cancer",
+        "Small Intestine Cancer",
+        "Small intestine cancer"
+      ]
+    },
+    {
+      "id": "614",
+      "label": "Irritable Bowel Syndrome",
+      "url": "https://medlineplus.gov/irritablebowelsyndrome.html",
+      "aliases": [
+        "IBS",
+        "Irritable colon"
+      ]
+    },
+    {
+      "id": "6248",
+      "label": "Ischemic Stroke",
+      "url": "https://medlineplus.gov/ischemicstroke.html",
+      "aliases": [
+        "Carotid Endarterectomy",
+        "Embolic Stroke",
+        "Thrombotic stroke"
+      ]
+    },
+    {
+      "id": "5536",
+      "label": "Jaw Injuries and Disorders",
+      "url": "https://medlineplus.gov/jawinjuriesanddisorders.html",
+      "aliases": [
+        "Mandibular Disorders",
+        "Maxillary Disorders"
+      ]
+    },
+    {
+      "id": "4621",
+      "label": "Joint Disorders",
+      "url": "https://medlineplus.gov/jointdisorders.html",
+      "aliases": [
+        "Arthrography",
+        "Arthroplasty",
+        "Arthroscopy"
+      ]
+    },
+    {
+      "id": "1292",
+      "label": "Juvenile Arthritis",
+      "url": "https://medlineplus.gov/juvenilearthritis.html",
+      "aliases": [
+        "Childhood arthritis",
+        "JRA",
+        "Juvenile Rheumatoid Arthritis",
+        "Juvenile idiopathic arthritis",
+        "Still's Disease",
+        "Still's disease"
+      ]
+    },
+    {
+      "id": "4921",
+      "label": "Kawasaki Disease",
+      "url": "https://medlineplus.gov/kawasakidisease.html",
+      "aliases": [
+        "Mucocutaneous Lymph Node Syndrome",
+        "Mucocutaneous lymph node syndrome"
+      ]
+    },
+    {
+      "id": "301",
+      "label": "Kidney Cancer",
+      "url": "https://medlineplus.gov/kidneycancer.html",
+      "aliases": [
+        "Hypernephroma",
+        "Renal Cancer",
+        "Renal cancer"
+      ]
+    },
+    {
+      "id": "5808",
+      "label": "Kidney Cysts",
+      "url": "https://medlineplus.gov/kidneycysts.html",
+      "aliases": [
+        "Cystic Kidney Diseases",
+        "Polycystic Kidney Disease"
+      ]
+    },
+    {
+      "id": "91",
+      "label": "Kidney Diseases",
+      "url": "https://medlineplus.gov/kidneydiseases.html",
+      "aliases": [
+        "Nephritis",
+        "Renal Diseases",
+        "Renal diseases"
+      ]
+    },
+    {
+      "id": "1224",
+      "label": "Kidney Stones",
+      "url": "https://medlineplus.gov/kidneystones.html",
+      "aliases": [
+        "Nephrolithiasis"
+      ]
+    },
+    {
+      "id": "1524",
+      "label": "Klinefelter Syndrome",
+      "url": "https://medlineplus.gov/klinefeltersyndrome.html",
+      "aliases": [
+        "XXY male"
+      ]
+    },
+    {
+      "id": "304",
+      "label": "Knee Injuries and Disorders",
+      "url": "https://medlineplus.gov/kneeinjuriesanddisorders.html",
+      "aliases": [
+        "ACL Injuries",
+        "Anterior Cruciate Ligament Injury",
+        "Baker's Cyst",
+        "Chondromalacia Patellae",
+        "Meniscus",
+        "Patella"
+      ]
+    },
+    {
+      "id": "1439",
+      "label": "Latex Allergy",
+      "url": "https://medlineplus.gov/latexallergy.html",
+      "aliases": [
+        "Allergy, Latex"
+      ]
+    },
+    {
+      "id": "509",
+      "label": "Leg Injuries and Disorders",
+      "url": "https://medlineplus.gov/leginjuriesanddisorders.html",
+      "aliases": [
+        "Claudication",
+        "Intermittent Claudication",
+        "Leg Cramps",
+        "Ulcer, Leg"
+      ]
+    },
+    {
+      "id": "1526",
+      "label": "Legionnaires' Disease",
+      "url": "https://medlineplus.gov/legionnairesdisease.html",
+      "aliases": [
+        "Legionellosis"
+      ]
+    },
+    {
+      "id": "5620",
+      "label": "Leukemia",
+      "url": "https://medlineplus.gov/leukemia.html",
+      "aliases": [
+        "Hairy Cell Leukemia"
+      ]
+    },
+    {
+      "id": "4070",
+      "label": "Lewy Body Dementia",
+      "url": "https://medlineplus.gov/lewybodydementia.html",
+      "aliases": [
+        "Dementia with Lewy Bodies",
+        "Dementia with Lewy bodies",
+        "LBD",
+        "Lewy body disease",
+        "Parkinson's disease dementia"
+      ]
+    },
+    {
+      "id": "6387",
+      "label": "Lipid Metabolism Disorders",
+      "url": "https://medlineplus.gov/lipidmetabolismdisorders.html",
+      "aliases": []
+    },
+    {
+      "id": "1241",
+      "label": "Listeria Infections",
+      "url": "https://medlineplus.gov/listeriainfections.html",
+      "aliases": [
+        "Listeriosis"
+      ]
+    },
+    {
+      "id": "309",
+      "label": "Liver Cancer",
+      "url": "https://medlineplus.gov/livercancer.html",
+      "aliases": [
+        "Hepatoblastoma",
+        "Hepatocellular Carcinoma",
+        "Hepatocellular carcinoma"
+      ]
+    },
+    {
+      "id": "310",
+      "label": "Liver Diseases",
+      "url": "https://medlineplus.gov/liverdiseases.html",
+      "aliases": [
+        "Alagille Syndrome",
+        "Gilbert Disease",
+        "Hepatic Diseases",
+        "Hepatic diseases"
+      ]
+    },
+    {
+      "id": "86",
+      "label": "Lung Cancer",
+      "url": "https://medlineplus.gov/lungcancer.html",
+      "aliases": [
+        "Bronchogenic Carcinoma",
+        "Bronchogenic carcinoma",
+        "Non-Small Cell Lung Cancer",
+        "Small Cell Lung Cancer"
+      ]
+    },
+    {
+      "id": "484",
+      "label": "Lung Diseases",
+      "url": "https://medlineplus.gov/lungdiseases.html",
+      "aliases": [
+        "Respiratory Diseases"
+      ]
+    },
+    {
+      "id": "82",
+      "label": "Lupus",
+      "url": "https://medlineplus.gov/lupus.html",
+      "aliases": [
+        "Cutaneous Lupus",
+        "Discoid lupus",
+        "SLE",
+        "Subacute Cutaneous Lupus",
+        "Subacute cutaneous lupus",
+        "Systemic Lupus Erythematosus",
+        "Systemic lupus erythematosus"
+      ]
+    },
+    {
+      "id": "84",
+      "label": "Lyme Disease",
+      "url": "https://medlineplus.gov/lymedisease.html",
+      "aliases": [
+        "Borreliosis",
+        "Erythema Migrans",
+        "Post-Treatment Lyme Disease Syndrome"
+      ]
+    },
+    {
+      "id": "591",
+      "label": "Lymphatic Diseases",
+      "url": "https://medlineplus.gov/lymphaticdiseases.html",
+      "aliases": [
+        "Lymph Nodes",
+        "Swollen Glands"
+      ]
+    },
+    {
+      "id": "117",
+      "label": "Lymphoma",
+      "url": "https://medlineplus.gov/lymphoma.html",
+      "aliases": [
+        "Non-Hodgkin Lymphoma",
+        "Non-Hodgkin lymphoma",
+        "Waldenstrom's Macroglobulinemia"
+      ]
+    },
+    {
+      "id": "5459",
+      "label": "Malabsorption Syndromes",
+      "url": "https://medlineplus.gov/malabsorptionsyndromes.html",
+      "aliases": []
+    },
+    {
+      "id": "3577",
+      "label": "Male Breast Cancer",
+      "url": "https://medlineplus.gov/malebreastcancer.html",
+      "aliases": [
+        "Breast Cancer, Male"
+      ]
+    },
+    {
+      "id": "5656",
+      "label": "Male Infertility",
+      "url": "https://medlineplus.gov/maleinfertility.html",
+      "aliases": [
+        "Infertility, Male",
+        "Low Sperm Count"
+      ]
+    },
+    {
+      "id": "939",
+      "label": "Marfan Syndrome",
+      "url": "https://medlineplus.gov/marfansyndrome.html",
+      "aliases": []
+    },
+    {
+      "id": "1674",
+      "label": "Meniere's Disease",
+      "url": "https://medlineplus.gov/menieresdisease.html",
+      "aliases": [
+        "Vestibular Diseases"
+      ]
+    },
+    {
+      "id": "5651",
+      "label": "Meningococcal Disease",
+      "url": "https://medlineplus.gov/meningococcaldisease.html",
+      "aliases": [
+        "Meningococcal Infections",
+        "Meningococcemia"
+      ]
+    },
+    {
+      "id": "5676",
+      "label": "Mental Disorders",
+      "url": "https://medlineplus.gov/mentaldisorders.html",
+      "aliases": [
+        "Hair Pulling",
+        "Mental illness",
+        "Psychiatric Disorders",
+        "Trichotillomania"
+      ]
+    },
+    {
+      "id": "1703",
+      "label": "Metabolic Disorders",
+      "url": "https://medlineplus.gov/metabolicdisorders.html",
+      "aliases": [
+        "Mucolipidoses"
+      ]
+    },
+    {
+      "id": "3528",
+      "label": "Metabolic Syndrome",
+      "url": "https://medlineplus.gov/metabolicsyndrome.html",
+      "aliases": [
+        "Insulin Resistance",
+        "Insulin resistance syndrome",
+        "Metabolic syndrome X",
+        "Syndrome X (Metabolic)"
+      ]
+    },
+    {
+      "id": "3157",
+      "label": "Migraine",
+      "url": "https://medlineplus.gov/migraine.html",
+      "aliases": [
+        "Vascular Headache"
+      ]
+    },
+    {
+      "id": "6391",
+      "label": "Mitochondrial Diseases",
+      "url": "https://medlineplus.gov/mitochondrialdiseases.html",
+      "aliases": []
+    },
+    {
+      "id": "6063",
+      "label": "Mood Disorders",
+      "url": "https://medlineplus.gov/mooddisorders.html",
+      "aliases": [
+        "Cyclothymic Disorder"
+      ]
+    },
+    {
+      "id": "594",
+      "label": "Mouth Disorders",
+      "url": "https://medlineplus.gov/mouthdisorders.html",
+      "aliases": []
+    },
+    {
+      "id": "520",
+      "label": "Movement Disorders",
+      "url": "https://medlineplus.gov/movementdisorders.html",
+      "aliases": [
+        "Ataxia",
+        "Chorea",
+        "Dyskinesia",
+        "Tardive Dyskinesia"
+      ]
+    },
+    {
+      "id": "83",
+      "label": "Multiple Sclerosis",
+      "url": "https://medlineplus.gov/multiplesclerosis.html",
+      "aliases": [
+        "MS"
+      ]
+    },
+    {
+      "id": "510",
+      "label": "Muscle Disorders",
+      "url": "https://medlineplus.gov/muscledisorders.html",
+      "aliases": [
+        "Myopathies",
+        "Myopathy",
+        "Rhabdomyolysis"
+      ]
+    },
+    {
+      "id": "89",
+      "label": "Myalgic Encephalomyelitis/Chronic Fatigue Syndrome",
+      "url": "https://medlineplus.gov/myalgicencephalomyelitischronicfatiguesyndrome.html",
+      "aliases": [
+        "CFS",
+        "Chronic Fatigue Syndrome",
+        "Chronic fatigue syndrome",
+        "ME/CFS",
+        "Myalgic encephalomyelitis",
+        "SEID",
+        "Systemic exertion intolerance disease"
+      ]
+    },
+    {
+      "id": "5360",
+      "label": "Mycobacterial Infections",
+      "url": "https://medlineplus.gov/mycobacterialinfections.html",
+      "aliases": [
+        "Hansen's Disease",
+        "Leprosy"
+      ]
+    },
+    {
+      "id": "5550",
+      "label": "Myelodysplastic Syndromes",
+      "url": "https://medlineplus.gov/myelodysplasticsyndromes.html",
+      "aliases": [
+        "MDS"
+      ]
+    },
+    {
+      "id": "532",
+      "label": "Nail Diseases",
+      "url": "https://medlineplus.gov/naildiseases.html",
+      "aliases": [
+        "Fingernails",
+        "Ingrown Nail",
+        "Onychomycosis",
+        "Paronychia",
+        "Toenails"
+      ]
+    },
+    {
+      "id": "2720",
+      "label": "Nasal Cancer",
+      "url": "https://medlineplus.gov/nasalcancer.html",
+      "aliases": [
+        "Cancer of the nasal cavity",
+        "Cancer of the paranasal sinus",
+        "Paranasal Sinus Cancer",
+        "Sinus Cancer"
+      ]
+    },
+    {
+      "id": "339",
+      "label": "Neck Injuries and Disorders",
+      "url": "https://medlineplus.gov/neckinjuriesanddisorders.html",
+      "aliases": [
+        "Cervical Spine",
+        "Whiplash"
+      ]
+    },
+    {
+      "id": "341",
+      "label": "Neurologic Diseases",
+      "url": "https://medlineplus.gov/neurologicdiseases.html",
+      "aliases": [
+        "Nerve Diseases",
+        "Nervous System Diseases",
+        "Nervous system diseases"
+      ]
+    },
+    {
+      "id": "1518",
+      "label": "Neuromuscular Disorders",
+      "url": "https://medlineplus.gov/neuromusculardisorders.html",
+      "aliases": [
+        "Spasticity"
+      ]
+    },
+    {
+      "id": "7107",
+      "label": "Non-Drug Pain Management",
+      "url": "https://medlineplus.gov/nondrugpainmanagement.html",
+      "aliases": []
+    },
+    {
+      "id": "6103",
+      "label": "Norovirus Infections",
+      "url": "https://medlineplus.gov/norovirusinfections.html",
+      "aliases": [
+        "Norwalk Virus Infections",
+        "Norwalk virus infections"
+      ]
+    },
+    {
+      "id": "1400",
+      "label": "Nose Injuries and Disorders",
+      "url": "https://medlineplus.gov/noseinjuriesanddisorders.html",
+      "aliases": [
+        "Nasal Disorders",
+        "Nasal disorders",
+        "Nosebleed"
+      ]
+    },
+    {
+      "id": "61",
+      "label": "Obesity",
+      "url": "https://medlineplus.gov/obesity.html",
+      "aliases": [
+        "Overweight"
+      ]
+    },
+    {
+      "id": "4077",
+      "label": "Obesity in Children",
+      "url": "https://medlineplus.gov/obesityinchildren.html",
+      "aliases": [
+        "Childhood Obesity"
+      ]
+    },
+    {
+      "id": "471",
+      "label": "Obsessive-Compulsive Disorder",
+      "url": "https://medlineplus.gov/obsessivecompulsivedisorder.html",
+      "aliases": [
+        "Hoarding",
+        "OCD"
+      ]
+    },
+    {
+      "id": "7129",
+      "label": "Opioid Use Disorder (OUD) Treatment",
+      "url": "https://medlineplus.gov/opioidusedisorderoudtreatment.html",
+      "aliases": [
+        "Medications for opioid use disorder (MOUD)",
+        "Opioid Abuse and Addiction Treatment",
+        "Opioid abuse and addiction treatment"
+      ]
+    },
+    {
+      "id": "6431",
+      "label": "Opioids and Opioid Use Disorder (OUD)",
+      "url": "https://medlineplus.gov/opioidsandopioidusedisorderoud.html",
+      "aliases": [
+        "Opiates",
+        "Opioid Abuse and Addiction",
+        "Opioid abuse",
+        "Opioid addiction",
+        "Opioid misuse"
+      ]
+    },
+    {
+      "id": "6427",
+      "label": "Optic Nerve Disorders",
+      "url": "https://medlineplus.gov/opticnervedisorders.html",
+      "aliases": []
+    },
+    {
+      "id": "331",
+      "label": "Oral Cancer",
+      "url": "https://medlineplus.gov/oralcancer.html",
+      "aliases": [
+        "Mouth Cancer",
+        "Tongue Cancer"
+      ]
+    },
+    {
+      "id": "37",
+      "label": "Osteoporosis",
+      "url": "https://medlineplus.gov/osteoporosis.html",
+      "aliases": [
+        "Bone Loss"
+      ]
+    },
+    {
+      "id": "348",
+      "label": "Ovarian Cancer",
+      "url": "https://medlineplus.gov/ovariancancer.html",
+      "aliases": [
+        "Fallopian Tube Cancer",
+        "Primary Peritoneal Cancer"
+      ]
+    },
+    {
+      "id": "349",
+      "label": "Ovarian Cysts",
+      "url": "https://medlineplus.gov/ovariancysts.html",
+      "aliases": []
+    },
+    {
+      "id": "5804",
+      "label": "Ovarian Disorders",
+      "url": "https://medlineplus.gov/ovariandisorders.html",
+      "aliases": [
+        "Ovarian Insufficiency"
+      ]
+    },
+    {
+      "id": "1607",
+      "label": "Paget's Disease of Bone",
+      "url": "https://medlineplus.gov/pagetsdiseaseofbone.html",
+      "aliases": [
+        "Osteitis Deformans",
+        "Osteitis deformans"
+      ]
+    },
+    {
+      "id": "351",
+      "label": "Pain",
+      "url": "https://medlineplus.gov/pain.html",
+      "aliases": []
+    },
+    {
+      "id": "4059",
+      "label": "Pain Relievers",
+      "url": "https://medlineplus.gov/painrelievers.html",
+      "aliases": [
+        "Analgesics",
+        "Narcotics",
+        "Pain medicines",
+        "Painkillers"
+      ]
+    },
+    {
+      "id": "469",
+      "label": "Pancreatic Cancer",
+      "url": "https://medlineplus.gov/pancreaticcancer.html",
+      "aliases": [
+        "Islet Cell Carcinoma"
+      ]
+    },
+    {
+      "id": "110",
+      "label": "Pancreatic Diseases",
+      "url": "https://medlineplus.gov/pancreaticdiseases.html",
+      "aliases": []
+    },
+    {
+      "id": "601",
+      "label": "Panic Disorder",
+      "url": "https://medlineplus.gov/panicdisorder.html",
+      "aliases": []
+    },
+    {
+      "id": "482",
+      "label": "Parasitic Diseases",
+      "url": "https://medlineplus.gov/parasiticdiseases.html",
+      "aliases": []
+    },
+    {
+      "id": "356",
+      "label": "Parathyroid Disorders",
+      "url": "https://medlineplus.gov/parathyroiddisorders.html",
+      "aliases": [
+        "Hyperparathyroidism",
+        "Hypoparathyroidism",
+        "Multiple Endocrine Neoplasia"
+      ]
+    },
+    {
+      "id": "85",
+      "label": "Parkinson's Disease",
+      "url": "https://medlineplus.gov/parkinsonsdisease.html",
+      "aliases": [
+        "Paralysis Agitans",
+        "Paralysis agitans",
+        "Shaking Palsy",
+        "Shaking palsy"
+      ]
+    },
+    {
+      "id": "1677",
+      "label": "Pelvic Floor Disorders",
+      "url": "https://medlineplus.gov/pelvicfloordisorders.html",
+      "aliases": [
+        "Cystocele",
+        "Enterocele",
+        "Pelvic prolapse",
+        "Rectocele",
+        "Uterine Prolapse"
+      ]
+    },
+    {
+      "id": "3044",
+      "label": "Pelvic Inflammatory Disease",
+      "url": "https://medlineplus.gov/pelvicinflammatorydisease.html",
+      "aliases": [
+        "PID"
+      ]
+    },
+    {
+      "id": "4486",
+      "label": "Pelvic Pain",
+      "url": "https://medlineplus.gov/pelvicpain.html",
+      "aliases": [
+        "Pudendal Neuralgia"
+      ]
+    },
+    {
+      "id": "1360",
+      "label": "Penis Disorders",
+      "url": "https://medlineplus.gov/penisdisorders.html",
+      "aliases": [
+        "Balanitis",
+        "Male Genital Disorders",
+        "Penile Disorders",
+        "Penile disorders",
+        "Peyronie's Disease"
+      ]
+    },
+    {
+      "id": "357",
+      "label": "Peptic Ulcer",
+      "url": "https://medlineplus.gov/pepticulcer.html",
+      "aliases": [
+        "Duodenal Ulcer",
+        "Duodenal ulcer",
+        "Gastric ulcer",
+        "Stomach Ulcer",
+        "Stomach ulcer",
+        "Ulcer",
+        "Ulcers"
+      ]
+    },
+    {
+      "id": "5664",
+      "label": "Pericardial Disorders",
+      "url": "https://medlineplus.gov/pericardialdisorders.html",
+      "aliases": [
+        "Pericardial Effusion",
+        "Pericarditis"
+      ]
+    },
+    {
+      "id": "6415",
+      "label": "Period Pain",
+      "url": "https://medlineplus.gov/periodpain.html",
+      "aliases": [
+        "Dysmenorrhea",
+        "Menstrual Cramps",
+        "Menstrual cramps",
+        "Menstrual pain"
+      ]
+    },
+    {
+      "id": "4083",
+      "label": "Peripheral Arterial Disease",
+      "url": "https://medlineplus.gov/peripheralarterialdisease.html",
+      "aliases": [
+        "Arteriosclerosis of Extremities",
+        "Claudication",
+        "Intermittent Claudication",
+        "PAD"
+      ]
+    },
+    {
+      "id": "1095",
+      "label": "Peripheral Nerve Disorders",
+      "url": "https://medlineplus.gov/peripheralnervedisorders.html",
+      "aliases": [
+        "Neuritis",
+        "Neuropathy",
+        "Peripheral neuritis",
+        "Peripheral neuropathy"
+      ]
+    },
+    {
+      "id": "5583",
+      "label": "Peritoneal Disorders",
+      "url": "https://medlineplus.gov/peritonealdisorders.html",
+      "aliases": [
+        "Peritonitis"
+      ]
+    },
+    {
+      "id": "4117",
+      "label": "Personality Disorders",
+      "url": "https://medlineplus.gov/personalitydisorders.html",
+      "aliases": [
+        "Antisocial Personality Disorder",
+        "Borderline Personality Disorder",
+        "Histrionic Personality Disorder",
+        "Narcissistic Personality Disorder"
+      ]
+    },
+    {
+      "id": "362",
+      "label": "Pituitary Disorders",
+      "url": "https://medlineplus.gov/pituitarydisorders.html",
+      "aliases": [
+        "Acromegaly"
+      ]
+    },
+    {
+      "id": "5218",
+      "label": "Platelet Disorders",
+      "url": "https://medlineplus.gov/plateletdisorders.html",
+      "aliases": [
+        "Blood Platelet Disorders",
+        "Thrombocyte disorders",
+        "Thrombocytopenia",
+        "von Willebrand's Disease"
+      ]
+    },
+    {
+      "id": "4627",
+      "label": "Pleural Disorders",
+      "url": "https://medlineplus.gov/pleuraldisorders.html",
+      "aliases": [
+        "Pleural Effusion",
+        "Pleurisy",
+        "Pneumothorax",
+        "Thoracentesis"
+      ]
+    },
+    {
+      "id": "5714",
+      "label": "Pneumococcal Infections",
+      "url": "https://medlineplus.gov/pneumococcalinfections.html",
+      "aliases": [
+        "Streptococcus Pneumoniae Infections",
+        "Streptococcus pneumoniae infections"
+      ]
+    },
+    {
+      "id": "1510",
+      "label": "Pneumocystis Infections",
+      "url": "https://medlineplus.gov/pneumocystisinfections.html",
+      "aliases": []
+    },
+    {
+      "id": "363",
+      "label": "Pneumonia",
+      "url": "https://medlineplus.gov/pneumonia.html",
+      "aliases": [
+        "Bronchopneumonia",
+        "Walking Pneumonia"
+      ]
+    },
+    {
+      "id": "365",
+      "label": "Polio and Post-Polio Syndrome",
+      "url": "https://medlineplus.gov/polioandpostpoliosyndrome.html",
+      "aliases": [
+        "Infantile Paralysis",
+        "Infantile paralysis",
+        "PPS",
+        "Paralysis, Infantile",
+        "Poliomyelitis",
+        "Post-polio Syndrome"
+      ]
+    },
+    {
+      "id": "5912",
+      "label": "Polycystic Ovary Syndrome",
+      "url": "https://medlineplus.gov/polycysticovarysyndrome.html",
+      "aliases": [
+        "PCOS",
+        "Stein-Leventhal Syndrome"
+      ]
+    },
+    {
+      "id": "367",
+      "label": "Post-Traumatic Stress Disorder",
+      "url": "https://medlineplus.gov/posttraumaticstressdisorder.html",
+      "aliases": [
+        "PTSD"
+      ]
+    },
+    {
+      "id": "1238",
+      "label": "Postpartum Depression",
+      "url": "https://medlineplus.gov/postpartumdepression.html",
+      "aliases": [
+        "Baby Blues",
+        "Post-pregnancy depression"
+      ]
+    },
+    {
+      "id": "1243",
+      "label": "Prader-Willi Syndrome",
+      "url": "https://medlineplus.gov/praderwillisyndrome.html",
+      "aliases": [
+        "PWS"
+      ]
+    },
+    {
+      "id": "3793",
+      "label": "Premenstrual Syndrome",
+      "url": "https://medlineplus.gov/premenstrualsyndrome.html",
+      "aliases": [
+        "PMS"
+      ]
+    },
+    {
+      "id": "112",
+      "label": "Prostate Cancer",
+      "url": "https://medlineplus.gov/prostatecancer.html",
+      "aliases": []
+    },
+    {
+      "id": "7",
+      "label": "Prostate Diseases",
+      "url": "https://medlineplus.gov/prostatediseases.html",
+      "aliases": []
+    },
+    {
+      "id": "373",
+      "label": "Psoriasis",
+      "url": "https://medlineplus.gov/psoriasis.html",
+      "aliases": []
+    },
+    {
+      "id": "6159",
+      "label": "Psoriatic Arthritis",
+      "url": "https://medlineplus.gov/psoriaticarthritis.html",
+      "aliases": []
+    },
+    {
+      "id": "4180",
+      "label": "Psychotic Disorders",
+      "url": "https://medlineplus.gov/psychoticdisorders.html",
+      "aliases": [
+        "Psychoses"
+      ]
+    },
+    {
+      "id": "3634",
+      "label": "Pulmonary Hypertension",
+      "url": "https://medlineplus.gov/pulmonaryhypertension.html",
+      "aliases": [
+        "Cor Pulmonale",
+        "Hypertension, Pulmonary",
+        "Primary Pulmonary Hypertension",
+        "Pulmonary Arterial Hypertension",
+        "Pulmonary arterial hypertension"
+      ]
+    },
+    {
+      "id": "519",
+      "label": "Rare Diseases",
+      "url": "https://medlineplus.gov/rarediseases.html",
+      "aliases": []
+    },
+    {
+      "id": "5870",
+      "label": "Rectal Disorders",
+      "url": "https://medlineplus.gov/rectaldisorders.html",
+      "aliases": [
+        "Proctitis",
+        "Rectocele"
+      ]
+    },
+    {
+      "id": "6521",
+      "label": "Reflux in Children",
+      "url": "https://medlineplus.gov/refluxinchildren.html",
+      "aliases": [
+        "GER in Children",
+        "GERD in Children",
+        "Gastroesophageal Reflux in Children"
+      ]
+    },
+    {
+      "id": "6467",
+      "label": "Reflux in Infants",
+      "url": "https://medlineplus.gov/refluxininfants.html",
+      "aliases": [
+        "GER in Infants",
+        "GERD in Infants",
+        "GERD in infants",
+        "Gastroesophageal Reflux in Infants",
+        "Pediatric Gastroesophageal Reflux"
+      ]
+    },
+    {
+      "id": "3101",
+      "label": "Respiratory Syncytial Virus Infections",
+      "url": "https://medlineplus.gov/respiratorysyncytialvirusinfections.html",
+      "aliases": [
+        "Bronchiolitis",
+        "RSV",
+        "RSV Infections"
+      ]
+    },
+    {
+      "id": "1681",
+      "label": "Retinal Disorders",
+      "url": "https://medlineplus.gov/retinaldisorders.html",
+      "aliases": [
+        "Floater"
+      ]
+    },
+    {
+      "id": "4272",
+      "label": "Rett Syndrome",
+      "url": "https://medlineplus.gov/rettsyndrome.html",
+      "aliases": []
+    },
+    {
+      "id": "385",
+      "label": "Reye Syndrome",
+      "url": "https://medlineplus.gov/reyesyndrome.html",
+      "aliases": []
+    },
+    {
+      "id": "1232",
+      "label": "Rheumatoid Arthritis",
+      "url": "https://medlineplus.gov/rheumatoidarthritis.html",
+      "aliases": [
+        "RA"
+      ]
+    },
+    {
+      "id": "5932",
+      "label": "Rotator Cuff Injuries",
+      "url": "https://medlineplus.gov/rotatorcuffinjuries.html",
+      "aliases": [
+        "Shoulder Impingement"
+      ]
+    },
+    {
+      "id": "3215",
+      "label": "Rotavirus Infections",
+      "url": "https://medlineplus.gov/rotavirusinfections.html",
+      "aliases": []
+    },
+    {
+      "id": "5331",
+      "label": "Salivary Gland Cancer",
+      "url": "https://medlineplus.gov/salivaryglandcancer.html",
+      "aliases": [
+        "Parotid Gland Cancer"
+      ]
+    },
+    {
+      "id": "388",
+      "label": "Salivary Gland Disorders",
+      "url": "https://medlineplus.gov/salivaryglanddisorders.html",
+      "aliases": [
+        "Parotid Gland Disorders"
+      ]
+    },
+    {
+      "id": "1213",
+      "label": "Salmonella Infections",
+      "url": "https://medlineplus.gov/salmonellainfections.html",
+      "aliases": [
+        "Typhoid Fever"
+      ]
+    },
+    {
+      "id": "395",
+      "label": "Scoliosis",
+      "url": "https://medlineplus.gov/scoliosis.html",
+      "aliases": []
+    },
+    {
+      "id": "3140",
+      "label": "Seasonal Affective Disorder",
+      "url": "https://medlineplus.gov/seasonalaffectivedisorder.html",
+      "aliases": [
+        "Major depressive disorder with seasonal pattern",
+        "SAD",
+        "Seasonal depression",
+        "Seasonal mood disorder"
+      ]
+    },
+    {
+      "id": "400",
+      "label": "Sexually Transmitted Infections",
+      "url": "https://medlineplus.gov/sexuallytransmittedinfections.html",
+      "aliases": [
+        "Crab Lice",
+        "STDs",
+        "STIs",
+        "Sexually Transmitted Diseases",
+        "Sexually transmitted diseases",
+        "Venereal Disease",
+        "Venereal disease"
+      ]
+    },
+    {
+      "id": "505",
+      "label": "Shoulder Injuries and Disorders",
+      "url": "https://medlineplus.gov/shoulderinjuriesanddisorders.html",
+      "aliases": [
+        "Clavicle Injuries",
+        "Collarbone Injuries",
+        "Frozen Shoulder",
+        "Scapula Injuries"
+      ]
+    },
+    {
+      "id": "402",
+      "label": "Sickle Cell Disease",
+      "url": "https://medlineplus.gov/sicklecelldisease.html",
+      "aliases": [
+        "Hemoglobin SS Disease",
+        "Hemoglobin SS disease",
+        "Sickle Cell Anemia",
+        "Sickle cell anemia"
+      ]
+    },
+    {
+      "id": "918",
+      "label": "Sjögren's Disease",
+      "url": "https://medlineplus.gov/sjogrensdisease.html",
+      "aliases": [
+        "Sjögren's Syndrome",
+        "Sjögren's syndrome"
+      ]
+    },
+    {
+      "id": "405",
+      "label": "Skin Cancer",
+      "url": "https://medlineplus.gov/skincancer.html",
+      "aliases": [
+        "Actinic Keratosis",
+        "Basal Cell Carcinoma",
+        "Merkel Cell Cancer"
+      ]
+    },
+    {
+      "id": "5358",
+      "label": "Skin Infections",
+      "url": "https://medlineplus.gov/skininfections.html",
+      "aliases": [
+        "Molluscum Contagiosum"
+      ]
+    },
+    {
+      "id": "406",
+      "label": "Skin Pigmentation Disorders",
+      "url": "https://medlineplus.gov/skinpigmentationdisorders.html",
+      "aliases": [
+        "Hyperpigmentation",
+        "Hypopigmentation"
+      ]
+    },
+    {
+      "id": "2784",
+      "label": "Sleep Apnea",
+      "url": "https://medlineplus.gov/sleepapnea.html",
+      "aliases": [
+        "Apnea, Sleep",
+        "Sleep-disordered Breathing",
+        "Sleep-disordered breathing"
+      ]
+    },
+    {
+      "id": "408",
+      "label": "Sleep Disorders",
+      "url": "https://medlineplus.gov/sleepdisorders.html",
+      "aliases": [
+        "Narcolepsy",
+        "Night Terrors",
+        "Sleeping Pills"
+      ]
+    },
+    {
+      "id": "5446",
+      "label": "Small Intestine Disorders",
+      "url": "https://medlineplus.gov/smallintestinedisorders.html",
+      "aliases": [
+        "Intestinal Diseases"
+      ]
+    },
+    {
+      "id": "409",
+      "label": "Speech and Communication Disorders",
+      "url": "https://medlineplus.gov/speechandcommunicationdisorders.html",
+      "aliases": [
+        "Communication Disorders",
+        "Communication disorders",
+        "Language Problems"
+      ]
+    },
+    {
+      "id": "410",
+      "label": "Spinal Cord Diseases",
+      "url": "https://medlineplus.gov/spinalcorddiseases.html",
+      "aliases": []
+    },
+    {
+      "id": "411",
+      "label": "Spinal Cord Injuries",
+      "url": "https://medlineplus.gov/spinalcordinjuries.html",
+      "aliases": []
+    },
+    {
+      "id": "1505",
+      "label": "Spine Injuries and Disorders",
+      "url": "https://medlineplus.gov/spineinjuriesanddisorders.html",
+      "aliases": [
+        "Compression Fracture",
+        "Kyphosis",
+        "Spondylolisthesis"
+      ]
+    },
+    {
+      "id": "414",
+      "label": "Spleen Diseases",
+      "url": "https://medlineplus.gov/spleendiseases.html",
+      "aliases": [
+        "Splenic Diseases",
+        "Splenic diseases",
+        "Splenomegaly"
+      ]
+    },
+    {
+      "id": "620",
+      "label": "Sports Injuries",
+      "url": "https://medlineplus.gov/sportsinjuries.html",
+      "aliases": []
+    },
+    {
+      "id": "418",
+      "label": "Staphylococcal Infections",
+      "url": "https://medlineplus.gov/staphylococcalinfections.html",
+      "aliases": [
+        "Staph",
+        "Vancomycin-Resistant Staphylococcus aureus"
+      ]
+    },
+    {
+      "id": "6465",
+      "label": "Steatotic Liver Disease",
+      "url": "https://medlineplus.gov/steatoticliverdisease.html",
+      "aliases": [
+        "ALD",
+        "Alcohol-Associated Liver Disease",
+        "Alcohol-associated liver disease",
+        "Alcoholic Fatty Liver Disease",
+        "Alcoholic fatty liver disease",
+        "Fatty Liver Disease",
+        "MASLD",
+        "Metabolic Dysfunction-Associated Steatotic Liver Disease",
+        "Metabolic dysfunction-associated steatotic liver disease",
+        "NAFLD",
+        "Nonalcoholic Fatty Liver Disease",
+        "Nonalcoholic fatty liver disease",
+        "SLD"
+      ]
+    },
+    {
+      "id": "419",
+      "label": "Stomach Cancer",
+      "url": "https://medlineplus.gov/stomachcancer.html",
+      "aliases": [
+        "Gastric Cancer",
+        "Gastric cancer"
+      ]
+    },
+    {
+      "id": "420",
+      "label": "Stomach Disorders",
+      "url": "https://medlineplus.gov/stomachdisorders.html",
+      "aliases": [
+        "Gastric Disorders",
+        "Gastric disorders",
+        "Gastritis",
+        "Gastroparesis",
+        "Stomach Ache"
+      ]
+    },
+    {
+      "id": "421",
+      "label": "Streptococcal Infections",
+      "url": "https://medlineplus.gov/streptococcalinfections.html",
+      "aliases": [
+        "Rheumatic Fever",
+        "Scarlet Fever",
+        "Strep",
+        "Strep Throat"
+      ]
+    },
+    {
+      "id": "8",
+      "label": "Stroke",
+      "url": "https://medlineplus.gov/stroke.html",
+      "aliases": [
+        "Brain Attack",
+        "Brain attack",
+        "CVA",
+        "Cerebrovascular Accident",
+        "Cerebrovascular Disease"
+      ]
+    },
+    {
+      "id": "504",
+      "label": "Sudden Infant Death Syndrome",
+      "url": "https://medlineplus.gov/suddeninfantdeathsyndrome.html",
+      "aliases": [
+        "Crib Death",
+        "Crib death",
+        "SIDS"
+      ]
+    },
+    {
+      "id": "1309",
+      "label": "Swallowing Disorders",
+      "url": "https://medlineplus.gov/swallowingdisorders.html",
+      "aliases": [
+        "Dysphagia"
+      ]
+    },
+    {
+      "id": "1448",
+      "label": "Tailbone Disorders",
+      "url": "https://medlineplus.gov/tailbonedisorders.html",
+      "aliases": [
+        "Coccyx",
+        "Coccyx disorders",
+        "Pilonidal Cyst"
+      ]
+    },
+    {
+      "id": "430",
+      "label": "Taste and Smell Disorders",
+      "url": "https://medlineplus.gov/tasteandsmelldisorders.html",
+      "aliases": [
+        "Ageusia",
+        "Anosmia",
+        "Dysgeusia",
+        "Dysosmia",
+        "Smelling Disorders"
+      ]
+    },
+    {
+      "id": "2737",
+      "label": "Tay-Sachs Disease",
+      "url": "https://medlineplus.gov/taysachsdisease.html",
+      "aliases": []
+    },
+    {
+      "id": "6931",
+      "label": "Teen Depression",
+      "url": "https://medlineplus.gov/teendepression.html",
+      "aliases": [
+        "Depression, Teen"
+      ]
+    },
+    {
+      "id": "1235",
+      "label": "Temporomandibular Disorders",
+      "url": "https://medlineplus.gov/temporomandibulardisorders.html",
+      "aliases": [
+        "TMD",
+        "TMJ",
+        "TMJ disorders",
+        "Temporomandibular Joint Dysfunction",
+        "Temporomandibular joint dysfunction"
+      ]
+    },
+    {
+      "id": "434",
+      "label": "Testicular Cancer",
+      "url": "https://medlineplus.gov/testicularcancer.html",
+      "aliases": [
+        "Seminoma"
+      ]
+    },
+    {
+      "id": "4280",
+      "label": "Testicular Disorders",
+      "url": "https://medlineplus.gov/testiculardisorders.html",
+      "aliases": [
+        "Male Genital Disorders",
+        "Semen",
+        "Undescended Testicle"
+      ]
+    },
+    {
+      "id": "1251",
+      "label": "Thoracic Outlet Syndrome",
+      "url": "https://medlineplus.gov/thoracicoutletsyndrome.html",
+      "aliases": [
+        "TOS"
+      ]
+    },
+    {
+      "id": "5841",
+      "label": "Throat Cancer",
+      "url": "https://medlineplus.gov/throatcancer.html",
+      "aliases": [
+        "Hypopharyngeal Cancer",
+        "Hypopharyngeal cancer",
+        "Laryngeal Cancer",
+        "Laryngeal cancer",
+        "Laryngopharyngeal Cancer",
+        "Laryngopharyngeal cancer",
+        "Nasopharyngeal Cancer",
+        "Nasopharyngeal cancer",
+        "Oropharyngeal Cancer",
+        "Oropharyngeal cancer",
+        "Pharyngeal Cancer",
+        "Pharyngeal cancer"
+      ]
+    },
+    {
+      "id": "1660",
+      "label": "Throat Disorders",
+      "url": "https://medlineplus.gov/throatdisorders.html",
+      "aliases": [
+        "Laryngitis",
+        "Pharyngeal disorders",
+        "Pharynx Disorders",
+        "Voicebox Disorders"
+      ]
+    },
+    {
+      "id": "1245",
+      "label": "Thymus Cancer",
+      "url": "https://medlineplus.gov/thymuscancer.html",
+      "aliases": [
+        "Thymoma"
+      ]
+    },
+    {
+      "id": "438",
+      "label": "Thyroid Cancer",
+      "url": "https://medlineplus.gov/thyroidcancer.html",
+      "aliases": []
+    },
+    {
+      "id": "439",
+      "label": "Thyroid Diseases",
+      "url": "https://medlineplus.gov/thyroiddiseases.html",
+      "aliases": [
+        "Goiter"
+      ]
+    },
+    {
+      "id": "1228",
+      "label": "Tinea Infections",
+      "url": "https://medlineplus.gov/tineainfections.html",
+      "aliases": [
+        "Jock Itch",
+        "Ringworm"
+      ]
+    },
+    {
+      "id": "3648",
+      "label": "Toe Injuries and Disorders",
+      "url": "https://medlineplus.gov/toeinjuriesanddisorders.html",
+      "aliases": [
+        "Bunions",
+        "Hammer Toe"
+      ]
+    },
+    {
+      "id": "5266",
+      "label": "Tongue Disorders",
+      "url": "https://medlineplus.gov/tonguedisorders.html",
+      "aliases": [
+        "Geographic Tongue",
+        "Glossitis"
+      ]
+    },
+    {
+      "id": "3069",
+      "label": "Tooth Disorders",
+      "url": "https://medlineplus.gov/toothdisorders.html",
+      "aliases": [
+        "Bruxism",
+        "Impacted Tooth",
+        "Root Canal",
+        "Teeth"
+      ]
+    },
+    {
+      "id": "442",
+      "label": "Tourette Syndrome",
+      "url": "https://medlineplus.gov/tourettesyndrome.html",
+      "aliases": []
+    },
+    {
+      "id": "5448",
+      "label": "Tracheal Disorders",
+      "url": "https://medlineplus.gov/trachealdisorders.html",
+      "aliases": [
+        "Tracheostomy",
+        "Windpipe Disorders",
+        "Windpipe disorders"
+      ]
+    },
+    {
+      "id": "271",
+      "label": "Traumatic Brain Injury",
+      "url": "https://medlineplus.gov/traumaticbraininjury.html",
+      "aliases": [
+        "Acquired brain injury",
+        "TBI"
+      ]
+    },
+    {
+      "id": "1504",
+      "label": "Turner Syndrome",
+      "url": "https://medlineplus.gov/turnersyndrome.html",
+      "aliases": []
+    },
+    {
+      "id": "446",
+      "label": "Ulcerative Colitis",
+      "url": "https://medlineplus.gov/ulcerativecolitis.html",
+      "aliases": [
+        "Colitis",
+        "Distal colitis",
+        "Inflammatory Bowel Disease",
+        "Pancolitis",
+        "Ulcerative proctitis"
+      ]
+    },
+    {
+      "id": "5350",
+      "label": "Ureteral Disorders",
+      "url": "https://medlineplus.gov/ureteraldisorders.html",
+      "aliases": [
+        "Ureteral Cancer"
+      ]
+    },
+    {
+      "id": "5352",
+      "label": "Urethral Disorders",
+      "url": "https://medlineplus.gov/urethraldisorders.html",
+      "aliases": [
+        "Urethral Cancer"
+      ]
+    },
+    {
+      "id": "448",
+      "label": "Urinary Tract Infections",
+      "url": "https://medlineplus.gov/urinarytractinfections.html",
+      "aliases": [
+        "Bladder Infections",
+        "Infections, Bladder",
+        "Kidney Infections",
+        "Pyelonephritis",
+        "UTI"
+      ]
+    },
+    {
+      "id": "4368",
+      "label": "Usher Syndrome",
+      "url": "https://medlineplus.gov/ushersyndrome.html",
+      "aliases": []
+    },
+    {
+      "id": "449",
+      "label": "Uterine Cancer",
+      "url": "https://medlineplus.gov/uterinecancer.html",
+      "aliases": [
+        "Endometrial Cancer",
+        "Endometrial cancer"
+      ]
+    },
+    {
+      "id": "477",
+      "label": "Uterine Diseases",
+      "url": "https://medlineplus.gov/uterinediseases.html",
+      "aliases": []
+    },
+    {
+      "id": "1222",
+      "label": "Uterine Fibroids",
+      "url": "https://medlineplus.gov/uterinefibroids.html",
+      "aliases": [
+        "Fibroids",
+        "Uterine Leiomyomata",
+        "Uterine leiomyomata"
+      ]
+    },
+    {
+      "id": "494",
+      "label": "Vaginal Cancer",
+      "url": "https://medlineplus.gov/vaginalcancer.html",
+      "aliases": []
+    },
+    {
+      "id": "451",
+      "label": "Vaginal Diseases",
+      "url": "https://medlineplus.gov/vaginaldiseases.html",
+      "aliases": [
+        "Vaginal Infections"
+      ]
+    },
+    {
+      "id": "533",
+      "label": "Vascular Diseases",
+      "url": "https://medlineplus.gov/vasculardiseases.html",
+      "aliases": [
+        "Cardiovascular Diseases",
+        "Circulatory Disorders",
+        "Hemangioma",
+        "Veins"
+      ]
+    },
+    {
+      "id": "454",
+      "label": "Viral Infections",
+      "url": "https://medlineplus.gov/viralinfections.html",
+      "aliases": [
+        "Adenovirus Infections",
+        "Coxsackievirus Infections",
+        "Enterovirus",
+        "Hand, Foot, and Mouth Disease",
+        "Infections, Viral",
+        "Roseola"
+      ]
+    },
+    {
+      "id": "1650",
+      "label": "Voice Disorders",
+      "url": "https://medlineplus.gov/voicedisorders.html",
+      "aliases": [
+        "Laryngitis",
+        "Vocal Cord Problems",
+        "Vocal disorders",
+        "Voicebox Disorders"
+      ]
+    },
+    {
+      "id": "4361",
+      "label": "Von Hippel-Lindau Syndrome",
+      "url": "https://medlineplus.gov/vonhippellindausyndrome.html",
+      "aliases": [
+        "VHL",
+        "Von Hippel-Lindau Disease"
+      ]
+    },
+    {
+      "id": "1701",
+      "label": "Vulvar Cancer",
+      "url": "https://medlineplus.gov/vulvarcancer.html",
+      "aliases": []
+    },
+    {
+      "id": "4550",
+      "label": "Vulvar Disorders",
+      "url": "https://medlineplus.gov/vulvardisorders.html",
+      "aliases": [
+        "Vulvodynia"
+      ]
+    },
+    {
+      "id": "1691",
+      "label": "Wilson Disease",
+      "url": "https://medlineplus.gov/wilsondisease.html",
+      "aliases": [
+        "Copper Storage Disease",
+        "Copper storage disease",
+        "Hepatolenticular Degeneration",
+        "Hepatolenticular degeneration"
+      ]
+    },
+    {
+      "id": "3858",
+      "label": "Wounds and Injuries",
+      "url": "https://medlineplus.gov/woundsandinjuries.html",
+      "aliases": [
+        "Accidents",
+        "Injuries",
+        "Lacerations",
+        "Traumatic injuries"
+      ]
+    },
+    {
+      "id": "1657",
+      "label": "Wrist Injuries and Disorders",
+      "url": "https://medlineplus.gov/wristinjuriesanddisorders.html",
+      "aliases": [
+        "Ganglion Cyst"
+      ]
+    },
+    {
+      "id": "1255",
+      "label": "Yeast Infections",
+      "url": "https://medlineplus.gov/yeastinfections.html",
+      "aliases": [
+        "Candidiasis",
+        "Moniliasis",
+        "Thrush",
+        "Vaginal Yeast Infection"
+      ]
+    }
+  ]
+}

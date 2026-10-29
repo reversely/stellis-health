@@ -1,0 +1,404 @@
+/* Coach calls: the morning check-in's incoming call card on Home, and the
+   call panel docked over the page (coach-call.js). */
+
+.coach-incoming {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-4) var(--space-7);
+  margin-bottom: var(--space-7);
+  padding: var(--space-7) var(--space-8);
+  border-radius: var(--radius-dialog);
+  background: var(--accent);
+  color: var(--accent-ink);
+  box-shadow: var(--shadow);
+}
+.coach-incoming-face {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 104px;
+  height: 104px;
+}
+.coach-incoming-ring {
+  position: absolute;
+  inset: 0;
+  border: 2px solid var(--accent-ink);
+  border-radius: 50%;
+  opacity: 0.35;
+  /* The ring pulses while Stellis is calling (restored; #116 dropped it). */
+  animation: coach-ring 1.8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+@keyframes coach-ring {
+  0% { opacity: 0.7; scale: 0.7; }
+  100% { opacity: 0; scale: 1.25; }
+}
+/* The answer swipe spans the card; the quieter choices sit on one row beneath it. */
+.coach-incoming-actions > .swipe-answer { flex: 1 1 100%; max-width: 440px; }
+.coach-incoming-text {
+  display: grid;
+  gap: var(--space-1);
+}
+.coach-incoming-kind {
+  margin: 0;
+  color: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  opacity: 0.8;
+}
+.coach-incoming h2 {
+  margin: 0;
+  font: 300 36px/1.1 var(--font-heading);
+  letter-spacing: -0.02em;
+}
+.coach-incoming-hint {
+  margin: 0;
+  color: inherit;
+  font-size: 16px;
+  opacity: 0.85;
+  text-wrap: pretty;
+}
+.coach-incoming-actions {
+  display: flex;
+  flex-wrap: wrap;
+  grid-column: 2;
+  gap: var(--space-2);
+}
+.coach-incoming .coach-button {
+  border-color: color-mix(in oklch, var(--accent-ink) 50%, transparent);
+  background: transparent;
+  color: var(--accent-ink);
+}
+.coach-incoming .coach-button.is-primary {
+  border-color: var(--accent-ink);
+  background: var(--accent-ink);
+  color: var(--accent);
+}
+.coach-incoming .coach-button.is-quiet {
+  border-color: transparent;
+  color: var(--accent-ink);
+  opacity: 0.85;
+}
+.coach-call-start {
+  margin-left: auto;
+}
+
+/* The docked call */
+.coach-call {
+  position: fixed;
+  /* Above the phone chat window (44) so a call, including the tour, stays usable; below the bottom navigation (46). */
+  z-index: 45;
+  right: 20px;
+  bottom: 20px;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto auto auto auto;
+  grid-template-columns: minmax(0, 1fr);
+  width: min(400px, calc(100vw - 32px));
+  max-height: min(560px, calc(100vh - 40px));
+  border: 1px solid var(--line);
+  border-radius: var(--radius-dialog);
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--shadow);
+}
+.coach-call-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-3) var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--line);
+}
+.coach-call-face {
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  outline: var(--focus-width) solid transparent;
+  outline-offset: var(--focus-offset);
+  transition: outline-color 200ms;
+}
+.coach-call[data-state='speaking'] .coach-call-face {
+  outline-color: var(--accent);
+}
+.coach-call-who {
+  display: grid;
+  flex: 1;
+  min-width: 0;
+}
+.coach-call-who strong {
+  font-size: 15px;
+}
+.coach-call-line {
+  display: flex;
+  gap: var(--space-2);
+  color: var(--muted);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+.coach-call-icon {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+}
+.coach-call-icon .icon {
+  width: 18px;
+  height: 18px;
+}
+.coach-call-icon[aria-pressed='true'] {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+.coach-call-icon.is-end {
+  border-color: var(--action-danger-fill);
+  background: var(--action-danger-fill);
+  color: var(--action-danger-ink);
+}
+.coach-call-icon[hidden] {
+  display: none;
+}
+.coach-call-log {
+  display: grid;
+  align-content: start;
+  gap: var(--space-3);
+  min-height: 120px;
+  margin: 0;
+  padding: var(--space-4) var(--space-4);
+  overflow-y: auto;
+  list-style: none;
+  overscroll-behavior: contain;
+}
+.coach-call-log > li {
+  display: grid;
+  gap: 2px;
+  max-width: 85%;
+}
+.coach-call-log > li.is-person {
+  justify-self: end;
+  text-align: right;
+}
+.coach-call-log > li > p {
+  margin: 0;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-dialog);
+  background: var(--raised);
+  font-size: 15px;
+  line-height: 1.45;
+  text-align: left;
+  text-wrap: pretty;
+}
+.coach-call-log > li.is-person > p {
+  background: var(--block-fill);
+  color: var(--block-ink);
+}
+.coach-call-said {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+.coach-call-log > li.is-action {
+  justify-self: center;
+  max-width: 100%;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+}
+.coach-call-foot,
+.coach-call-ended {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-3);
+  border-top: 1px solid var(--line);
+}
+.coach-call-foot[hidden],
+.coach-call-ended[hidden] {
+  display: none;
+}
+.coach-call-foot input {
+  flex: 1;
+  min-width: 0;
+  min-height: 40px;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  background: var(--input);
+  color: var(--ink);
+  font: inherit;
+  font-size: 16px;
+}
+.coach-call-heard {
+  margin: 0;
+  padding: 0 var(--space-4) var(--space-3);
+  color: var(--muted);
+  font-size: 12px;
+}
+.coach-call.is-minimised .coach-call-log,
+.coach-call.is-minimised .coach-call-heard {
+  display: none;
+}
+:is(.coach-call-icon, .coach-call-foot input):focus-visible {
+  outline: var(--focus-width) solid var(--focus);
+  outline-offset: var(--focus-offset);
+}
+@media (hover: hover) and (pointer: fine) {
+  .coach-call-icon:not([aria-pressed='true'], .is-end):hover {
+    background: var(--raised);
+  }
+}
+
+@media (max-width: 760px) {
+  .coach-incoming {
+    gap: var(--space-4);
+    padding: var(--space-5);
+  }
+  .coach-incoming-face {
+    width: 80px;
+    height: 80px;
+  }
+  .coach-incoming h2 {
+    font-size: 28px;
+  }
+  .coach-incoming-actions {
+    grid-column: 1 / -1;
+    justify-content: stretch;
+  }
+  .coach-incoming-actions .coach-button {
+    flex: 1 1 auto;
+  }
+  .coach-call-log {
+    min-height: 72px;
+  }
+  .coach-call-heard {
+    display: none;
+  }
+  .coach-call {
+    right: 8px;
+    bottom: 8px;
+    left: 8px;
+    width: auto;
+    max-height: 46vh;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .coach-incoming,
+  .coach-call {
+    animation: none;
+  }
+  .coach-incoming-ring {
+    animation: none;
+    opacity: 0.4;
+  }
+}
+
+/* The tour's highlight on the control Stellis is describing */
+.tour-target {
+  outline: var(--focus-width) solid var(--accent);
+  outline-offset: 6px;
+  box-shadow: 0 0 0 12px color-mix(in oklch, var(--accent) 12%, transparent);
+  scroll-margin: 96px;
+  transition:
+    outline-offset 300ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+@starting-style {
+  .tour-target {
+    outline-offset: 16px;
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+.coach-offer {
+  grid-template-rows: auto auto;
+}
+.coach-offer .coach-call-head {
+  border-bottom: 0;
+}
+.coach-offer .coach-call-ended {
+  border-top: 0;
+  padding-top: 0;
+}
+
+/* Keep tour narration distinct from the page behind the call. */
+html[data-theme] .coach-call[data-kind='tour'] {
+  background: var(--selected);
+  padding: var(--space-3);
+  border-radius: var(--radius-dialog);
+}
+
+.coach-call-head { grid-row: 1; }
+.coach-tour-step { margin: var(--space-3) var(--space-1); padding: var(--space-4); background: var(--surface); border-radius: var(--radius-panel); }
+.coach-tour-step h3 { margin: 0 0 var(--space-2); font-size: 18px; }
+.coach-tour-step p { margin: 0; line-height: 1.5; }
+.coach-call-body { grid-row: 2; min-height: 0; overflow-y: auto; }
+.coach-call-body:focus-visible { outline: var(--focus-width) solid var(--focus); outline-offset: -2px; }
+.coach-call-recovery { grid-row: 3; padding: var(--space-3); display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.coach-call-recovery p { flex-basis: 100%; margin: 0; }
+.coach-call-foot { grid-row: 4; }
+.coach-call-ended { grid-row: 5; flex-wrap: wrap; }
+.coach-call-heard { grid-row: 6; }
+.coach-tour-step[hidden], .coach-call-recovery[hidden], .coach-call-log:empty { display: none; }
+.coach-call.is-minimised :is(.coach-call-body, .coach-call-recovery) { display: none; }
+.coach-call-log { min-height: 0; overflow: visible; }
+
+@media (max-width: 600px) {
+  .coach-call-foot { display: grid; grid-template-columns: var(--control-height) var(--control-height) minmax(0, 1fr); }
+  .coach-call-foot:has(.is-primary) { grid-template-columns: var(--control-height) var(--control-height) minmax(0, 1fr) auto; }
+  /* The field sits inside its composer (#225), with the round send; the composer takes the full first row. */
+  .coach-call-foot > :is(input, .coach-call-input) { grid-column: 1 / -1; grid-row: 1; }
+  .coach-call-foot .coach-call-icon { grid-row: 2; }
+  .coach-call-foot > button[type='submit'] { grid-column: 3; grid-row: 2; justify-self: end; }
+  .coach-call-foot .is-primary { grid-column: 4; grid-row: 2; }
+}
+
+/* Keep the guide's collapsed controls clear of the chat composer. */
+.coach-call[data-guide='maya'].is-minimised {
+  top: 96px;
+  bottom: auto;
+}
+.coach-call[data-guide='maya'].is-minimised .coach-call-ended { display: none; }
+
+/* What a check-in covers: on the incoming card (a filled block) and as a checklist in the call. */
+.coach-incoming-agenda { grid-column: 1 / -1; display: grid; gap: var(--space-2); padding-top: var(--space-4); border-top: 1px solid color-mix(in oklch, var(--accent-ink) 25%, transparent); }
+.coach-incoming-agenda h3 { margin: 0; font-size: 13px; font-weight: 650; opacity: .85; }
+.coach-incoming-agenda ul, .coach-agenda ul { display: grid; margin: 0; padding: 0; list-style: none; }
+.coach-incoming-agenda li { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: var(--space-3); padding: var(--space-2) 0; }
+.coach-incoming-agenda li + li { border-top: 1px solid color-mix(in oklch, var(--accent-ink) 18%, transparent); }
+.coach-agenda-icon { display: grid; place-items: center; width: 32px; height: 32px; border-radius: var(--radius-control); background: color-mix(in oklch, currentColor 12%, transparent); }
+.coach-agenda-icon .icon { width: 18px; height: 18px; }
+.coach-agenda-title { font-size: 15px; overflow-wrap: anywhere; }
+.coach-agenda-source { font-size: 13px; opacity: .8; text-align: right; }
+.coach-agenda { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--space-2); padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--line-soft); }
+.coach-agenda h3 { margin: 0; font-size: 13px; font-weight: 650; }
+.coach-agenda-progress { color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; }
+.coach-agenda ul { grid-column: 1 / -1; gap: var(--space-1); }
+.coach-agenda li { display: grid; grid-template-columns: 22px minmax(0, 1fr); align-items: center; gap: var(--space-2); font-size: 14px; }
+.coach-agenda li .coach-agenda-icon, .coach-agenda li .coach-agenda-source { display: none; }
+.coach-agenda li::before { content: ''; width: 16px; height: 16px; border: 1.5px solid var(--muted); border-radius: 50%; box-sizing: border-box; }
+.coach-agenda li[data-covered]::before { border-color: var(--block-ok-fill); background: var(--block-ok-fill); }
+.coach-agenda li[data-covered] { color: var(--muted); }
+.coach-call-source { color: var(--muted); font-size: 12px; }
+.coach-call-log > li.is-action strong { color: var(--ink); }
+.coach-call-log > li.is-review { justify-self: stretch; max-width: 100%; }
+@media (max-width: 760px) {
+  .coach-incoming-agenda li { grid-template-columns: auto minmax(0, 1fr); }
+  .coach-incoming-agenda .coach-agenda-source { grid-column: 2; text-align: left; }
+}
+.coach-call-log p, .coach-call-source, .coach-call-heard, .coach-call .accuracy-note, .coach-call-log .is-action { font-size: var(--text-body); line-height: 1.5; }
+.coach-call-foot input { font-size: var(--text-body); min-height: var(--control-height); }
+.coach-call .coach-call-log>li>p, .coach-call .coach-call-log>li.is-action { font-size: var(--text-body); line-height: 1.5; }
+.coach-call-said { font-size: var(--text-small); }
+.coach-agenda li a.coach-agenda-source { display: inline-flex; grid-column: 2; align-items: center; min-height: var(--control-height); color: var(--ink); font-size: var(--text-body); text-align: left; }
+.coach-agenda-title { font-size: var(--text-body); }
+@media(min-width:1001px) {
+}
+
+/* While the docked tour is open the page keeps room below its content, so a highlighted target can
+   always scroll above the panel; a short page (no empty sections) would otherwise leave it underneath. */
+body:has(.coach-call[data-kind='tour']) main { padding-bottom: min(600px, 62vh) !important; }

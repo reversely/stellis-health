@@ -1,0 +1,15 @@
+.routine-review { padding: var(--space-5); margin-block: var(--space-4); border: 1px solid var(--line); border-radius: var(--radius-panel); }
+.routine-review h3 { margin: 0; }
+.routine-review p, .routine-review blockquote { font-size: var(--text-body); line-height: 1.5; overflow-wrap: anywhere; }
+.routine-review-item { padding-block: var(--space-4); border-top: 1px solid var(--line); }
+.routine-review-choice { display: flex; align-items: center; gap: var(--space-3); min-height: var(--control-height); }
+.routine-review-choice input { width: 24px; height: 24px; accent-color: var(--ink); flex: 0 0 auto; }
+.routine-review-values { display: grid; grid-template-columns: minmax(100px, 1fr) minmax(0, 2fr); gap: var(--space-2) var(--space-4); font-size: var(--text-body); }
+.routine-review-values dt { text-transform: capitalize; color: var(--muted); }
+.routine-review-values dd { margin: 0; overflow-wrap: anywhere; }
+.routine-review summary { cursor: pointer; min-height: var(--control-height); display: flex; align-items: center; }
+.routine-review blockquote { margin: var(--space-2) 0; padding-inline-start: var(--space-4); border-inline-start: 3px solid var(--line); }
+
+.routine-review-item > p { margin-block: var(--space-2); }
+.routine-review-item .coach-button { border: 1px solid var(--line); margin-block: var(--space-2); }
+.routine-review-values { margin-block: var(--space-3); }
