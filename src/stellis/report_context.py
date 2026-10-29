@@ -414,6 +414,10 @@ async def _ask(document_id, map_id, region_id, question, trace_id):
         passages.append(notebook_chat.Passage('public:'+item['id'],item['title'],item['summary'],item['url']))
         evidence.append({'public_id':item['id'],'title':item['title'],'url':item['url'],'digest':clinical_references.digest(item),'text':item['summary'],'reviewed':item['reviewed']})
     dates={d['id']:d.get('record_date') for d in documents.list_all()}
+    if summary:
+        # A summary reads only this report and uses the date found on it until one is confirmed (normally
+        # the same day), so confirming the date does not change the request.
+        dates[document_id]=record.get('record_date') or (record.get('date_suggestion') or {}).get('date')
     def relative_dates(day):
         if not day:return None
         from datetime import date,timedelta
@@ -429,12 +433,15 @@ async def _ask(document_id, map_id, region_id, question, trace_id):
         health_facts.prepare(identity)
         for fact in health_facts.list_for(identity):
             if fact['page']!=passage.page or fact['kind'] not in health_facts.MEASURED:continue
-            source_fields.append({'source_index':source_index,**{key:fact.get(key) for key in ('name','value','unit','date','quote','reference','range_status','status','accepted_at')}})
+            # The summary leaves out whether the person approved a result yet, so it is the same request,
+            # and the demo the same stored reply, for everyone who opens the report.
+            kept=('name','value','unit','date','quote','reference','range_status')+(() if summary else ('status','accepted_at'))
+            source_fields.append({'source_index':source_index,**{key:fact.get(key) for key in kept}})
     from stellis import report_followups
     prompt = json.dumps({
-        'existing_visit_questions':[{'question':item['question'],'state':item['state']} for item in report_followups.list_for(document_id)],
-        'question': question, 'selection': {'id': PAGE, 'text': 'The whole page (source 1)'} if whole else selection, 'selected_document_date':record.get('record_date'), 'source_result_fields':source_fields,
-        'history': [{'question': e['question'], 'answer': re.sub(r'\[\[\d+\]\]', '', e['answer']).strip()} for e in previous],
+        'existing_visit_questions':[] if summary else [{'question':item['question'],'state':item['state']} for item in report_followups.list_for(document_id)],
+        'question': question, 'selection': {'id': PAGE, 'text': 'The whole page (source 1)'} if whole else selection, 'selected_document_date':None if summary else record.get('record_date'), 'source_result_fields':source_fields,
+        'history': [] if summary else [{'question': e['question'], 'answer': re.sub(r'\[\[\d+\]\]', '', e['answer']).strip()} for e in previous],
         'sources': [{'index': i, 'title': p.title, 'text': p.text, 'kind':'public_reference' if p.source_id.startswith('public:') else 'patient_record', 'record_date':dates.get(p.source_id.removeprefix('document:')), 'relative_dates':relative_dates(dates.get(p.source_id.removeprefix('document:')))} for i, p in enumerate(passages, 1)]},
         ensure_ascii=False)
     instructions = '''Priorities: answer the complete original question in concise accessible language, normally 90–160 words and never over 220 words unless the person explicitly asks for exhaustive detail. Summaries select key findings, not inventories of normal anatomy or measurements. No repeated conclusion. Prefer original laboratory/result sources for measurements and the later review source for its plan; cite both when both matter. Every claim in a paragraph must be supported by its selected citations. Cite the original completed test for completion claims, not just the earlier plan that ordered it. If the person references a latest numeric result, briefly confirm its actual value/date from the original lab and cite that lab before explaining the review plan. Reconcile all supplied completed investigations before calling an earlier investigation pending. A documented plan includes its follow-up and return conditions, not just a stop date. For embryo-grade explanations or comparisons, essential limits must be explicit: appearance does not establish chromosomes or predict pregnancy outcome. Do not restate or interpret the user's appointment timing or purpose, or claim it follows/aligns with a plan; their review date is conversation context, not corroboration.\n''' + INSTRUCTIONS + '\nReturn JSON matching the supplied source_answer schema: paragraphs is an array of objects with text and sources. Each sources array contains the current numbered source indices supporting that paragraph. Write normal conversational paragraph text without citation markup, URLs or JSON outside this object. Do not use display citation numbers from history; select indices from the current sources. Include relevant sources even for a short follow-up.'
@@ -443,7 +450,7 @@ async def _ask(document_id, map_id, region_id, question, trace_id):
     current_prompt=prompt
     for attempt in range(2):
         try:
-            reply,_=await agent_gateway.turn(current_prompt,'report-'+str(uuid.uuid4()),instructions=instructions,response_format=format,model_role="report")
+            reply,_=await agent_gateway.turn(current_prompt,'report-'+str(uuid.uuid4()),instructions=instructions,response_format=format,model_role='summary' if summary else 'answers')
         except agent_gateway.GatewayError as exc:
             raise notebook_chat.ChatError(str(exc)) from exc
         if len(reply)>16000:raise notebook_chat.ChatError('The explanation was too long. Try a more specific question.')

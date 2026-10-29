@@ -161,7 +161,7 @@ async def refresh() -> dict[str, object]:
     dates = {str(source["id"]): str(source["date"]) for source in sources}
     try:
         reply, _ = await agent_gateway.turn(build_prompt(passages, dates),
-                                            "health-summary")
+                                            "health-summary", model_role="summary")
     except agent_gateway.GatewayError as exc:
         raise notebook_chat.ChatError(str(exc)) from exc
     content, citations = notebook_chat.cite(reply.strip(), passages)

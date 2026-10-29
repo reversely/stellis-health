@@ -14,6 +14,15 @@ class ModelRoutesTest(unittest.TestCase):
     def tearDown(self):
         self.env.stop()
         self.temp.cleanup()
+    def test_summaries_and_record_answers_are_light_and_research_is_largest(self):
+        with patch.dict(os.environ, {'STELLIS_RUNTIME_PROFILE': 'direct'}):
+            self.assertEqual(runtime_profile.model_id('summary'), 'nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B')
+            self.assertEqual(runtime_profile.model_id('answers'), 'nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B')
+            self.assertEqual(runtime_profile.model_id('research'), 'nvidia/nemotron-3-super-120b-a12b')
+            # A choice saved in Settings still wins.
+            model_routes.save({'summary': 'nvidia/Nemotron-3_5-Lightning'})
+            self.assertEqual(runtime_profile.model_id('summary'), 'nvidia/Nemotron-3_5-Lightning')
+
     def test_independent_roles_profiles_and_accounts(self):
         model_routes.save({'transcript':'text:one','categories':'classify:two','planning':'plan:three'})
         self.assertEqual(runtime_profile.model_id(), 'text:one')

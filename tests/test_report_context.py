@@ -101,6 +101,14 @@ class ReportContextTests(unittest.TestCase):
             self.assertIn(json.dumps(line['text'])[1:-1], prompts[0])
         # The summary reads only this report: the earlier one stays out, so it is short and repeatable.
         self.assertNotIn('4.8', prompts[0])
+        # Approving the results or confirming the date leaves the request unchanged, so a stored reply serves it.
+        from stellis import health_facts
+        health_facts.accept_all(self.record['id'])
+        documents.update(self.record['id'], record_date='2026-04-02')
+        with mock.patch.object(report_context.agent_gateway, 'turn', side_effect=turn):
+            self.client.post(self.base+'/explanations', json={
+                'map_id': mapped['id'], 'region_id': 'page', 'question': 'What does this report say?'})
+        self.assertEqual(prompts[1], prompts[0])
 
     def test_each_explanation_links_its_trace_with_sources_and_checks(self):
         prior, _ = documents.create('earlier.pdf', report('4.8'))

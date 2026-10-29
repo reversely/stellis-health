@@ -694,10 +694,12 @@ async def _ask(notebook_id, question, source_ids, agent_id, attachment_ids, trac
                                                           question, passages)
         trace_id = runtime_trace.for_job(job_id) if job_id else None
     else:
+        # Only a question that searched public sources needs the largest model.
+        role = "research" if research else "answers"
         series = result_series(question, passages)
         prompt = build_prompt(question, passages, history, series)
         try:
-            reply, _ = await agent_gateway.turn(prompt, "notebook-" + notebook_id)
+            reply, _ = await agent_gateway.turn(prompt, "notebook-" + notebook_id, model_role=role)
             missing = [item for item in series
                        if f"[[source:{item['source']}]]" not in reply.replace(" ", "")]
             if missing:
@@ -705,14 +707,14 @@ async def _ask(notebook_id, question, source_ids, agent_id, attachment_ids, trac
                 runtime_trace.event("citation_retry", supplied_count=len(passages))
                 reply, _ = await agent_gateway.turn(prompt + _SERIES_RETRY.format(
                     missing=", ".join(f"{item['value']} {item['unit'] or ''} on {item['date']}".replace("  ", " ") for item in missing)),
-                    "notebook-" + notebook_id)
+                    "notebook-" + notebook_id, model_role=role)
             try:
                 cite(reply.strip(), passages)
             except ChatError:
                 # One corrective retry: answers with a link or an unknown source number otherwise fail outright.
                 runtime_trace.event("citation_retry", supplied_count=len(passages))
                 reply, _ = await agent_gateway.turn(
-                    prompt + _CITATION_RETRY.format(count=len(passages)), "notebook-" + notebook_id)
+                    prompt + _CITATION_RETRY.format(count=len(passages)), "notebook-" + notebook_id, model_role=role)
         except agent_gateway.GatewayError as exc:
             raise ChatError(str(exc)) from exc
     answer, citations = cite(reply.strip(), passages)

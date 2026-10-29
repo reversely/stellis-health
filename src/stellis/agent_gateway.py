@@ -127,8 +127,9 @@ async def _turn(prompt: str, session_id: str, *, instructions: str | None = None
 
 def request_options(role):
     """Reason through clinical source comparisons; keep tool/planning turns bounded."""
-    if role=='review':return {'temperature':0.2,'max_tokens':2048,'chat_template_kwargs':{'enable_thinking':False}}
-    return {'temperature':0.2,'max_tokens':8192 if role=='report' else 4096,'chat_template_kwargs':{'enable_thinking':role=='report'}}
+    if role in {'review','summary'}:return {'temperature':0.2,'max_tokens':2048,'chat_template_kwargs':{'enable_thinking':False}}
+    reasons=role in {'report','answers','research'}
+    return {'temperature':0.2,'max_tokens':8192 if reasons else 4096,'chat_template_kwargs':{'enable_thinking':reasons}}
 
 
 async def _direct_turn(prompt: str, session_id: str, *, instructions: str | None = None, response_format: dict | None = None, model_role: str = "agent") -> tuple[str, str]:

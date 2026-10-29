@@ -261,6 +261,17 @@ class NotebookChatTest(unittest.TestCase):
         passages = [notebook_chat.Passage("document:a", "Lab", "Ferritin 48", "/document/a")]
         self.assertEqual(notebook_chat.cite("Ferritin is 48【1†L12-L14】. [[source:1]]", passages)[0], "Ferritin is 48. [[1]]")
 
+    def test_only_a_question_that_searches_public_sources_uses_the_research_model(self):
+        for research, role in ((False, "answers"), (True, "research")):
+            turn = mock.AsyncMock(return_value=("The dose stays at 10 mg. [[source:1]]", "s"))
+            found = mock.Mock(results=[], summary=lambda: None)
+            with mock.patch.object(agent_gateway, "turn", turn), \
+                    mock.patch("stellis.research.research", mock.AsyncMock(return_value=found)):
+                response = self.client.post(f"/api/v1/notebooks/{self.book}/ask",
+                                            json={"question": QUESTION, "source_ids": self.checked, "research": research})
+            self.assertEqual(response.status_code, 200, response.text)
+            self.assertEqual(turn.await_args.kwargs["model_role"], role)
+
     def test_a_question_not_about_change_gets_no_series(self):
         passages = [notebook_chat.Passage("document:d", "Lab", "Ferritin 11 ug/L", "/document/d")]
         self.assertEqual(notebook_chat.result_series("What is ferritin?", passages), [])

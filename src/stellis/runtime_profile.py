@@ -114,6 +114,12 @@ def model_id(role: str = "transcript") -> str:
     if role in {"care","agent","report"} and not local_inference():
         # Super grounded research answers best in docs/evidence/221/research; Ultra stays selectable.
         return "nvidia/nemotron-3-super-120b-a12b"
+    # Summaries and answers from the person's own records run on the lighter model; only questions that
+    # search public sources need the largest one (owner, 2026-10-29).
+    if role in {"summary", "answers"} and not local_inference():
+        return "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B"
+    if role == "research" and not local_inference():
+        return "nvidia/nemotron-3-super-120b-a12b"
     if role == "categories" and not local_inference():
         return "zai-org/GLM-5.3-Flash"
     return _default_text_model()
