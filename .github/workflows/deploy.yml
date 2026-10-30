@@ -11,12 +11,10 @@ concurrency:
   group: deploy
   cancel-in-progress: false
 
+# Tests run on every push (tests.yml); a release deploys at once instead of running them a second time
+# (owner, 2026-10-30: the deploy was four minutes of repeated tests and 45 seconds of deploying).
 jobs:
-  test:
-    uses: ./.github/workflows/tests.yml
-
   deploy:
-    needs: test
     # Only the public repository deploys; it alone holds the deploy key.
     if: github.repository == 'reversely/stellis-health'
     runs-on: ubuntu-latest
