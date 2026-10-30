@@ -3225,22 +3225,28 @@ html body #app-header:has(.header-account-controls):has(#capture-header-controls
 /* Local widget and page roles keep every icon on its own control's ink. */
 :is(.view-tabs, .nb-input, .nb-sources-actions) .icon { flex-shrink: 0; color: currentColor; }
 
+/* A full page load (sign-in to the app, an upload's reload) keeps the last page on screen until the next
+   one paints, instead of a blank page between them (owner, 2026-10-30). Same-origin only; no motion. */
+@view-transition { navigation: auto; }
+::view-transition-old(root), ::view-transition-new(root) { animation: none; }
+
 /* A page load holds everything but the sidebar's surface until app.js has routed (index.html sets
    data-routing): the sidebar's links wait too, so My Health never shows selected on another page. */
 html[data-routing] main > :not(.home-rail), html[data-routing] .home-rail > * { visibility: hidden; }
 /* While it routes, a skeleton of a page stands where the content will be: a heading, a line and two
    cards, drawn by one mask so it takes the theme's ink (owner, 2026-10-29: loading should look like the
-   page arriving, not like a broken one). It waits 120ms, so a quick load never flashes it. */
+   page arriving, not like a broken one). It shows at once: in-app pages set data-routing only after
+   100ms, and a full page load keeps the last page up until this paints. */
 html[data-routing] main::before {
   content: ''; display: block; height: 360px; margin-bottom: -360px; opacity: 0;
   background: color-mix(in oklch, var(--ink) 9%, transparent);
   -webkit-mask: var(--page-skeleton) top left / 100% 360px no-repeat; mask: var(--page-skeleton) top left / 100% 360px no-repeat;
-  animation: page-loading-in 150ms 120ms ease-out forwards, page-skeleton-pulse 1.2s 270ms ease-in-out infinite alternate;
+  animation: page-loading-in 150ms ease-out forwards, page-skeleton-pulse 1.2s 150ms ease-in-out infinite alternate;
 }
 :root { --page-skeleton: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='42%25' height='38' rx='10'/%3E%3Crect y='56' width='26%25' height='14' rx='7'/%3E%3Crect y='102' width='100%25' height='118' rx='18'/%3E%3Crect y='238' width='100%25' height='118' rx='18'/%3E%3C/svg%3E"); }
 @keyframes page-loading-in { to { opacity: 1; } }
 @keyframes page-skeleton-pulse { from { opacity: 1; } to { opacity: .55; } }
-@media (prefers-reduced-motion: reduce) { html[data-routing] main::before { animation: page-loading-in 150ms 120ms forwards; } }
+@media (prefers-reduced-motion: reduce) { html[data-routing] main::before { animation: page-loading-in 150ms forwards; } }
 
 /* Log out is small and outline only in every header, rail and theme (owner, 2026-10-27). */
 html body #app-header .header-account-controls #logout-button {
