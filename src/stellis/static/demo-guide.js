@@ -573,6 +573,8 @@
     if (!status || !status.guest) return;
     // Demo guests add records through the real routes, with or without the tour.
     document.body.classList.add('is-demo-guest');
+    // The logo takes a demo guest back to the main page, which offers a way back into the demo.
+    document.querySelector('#app-header .brand')?.setAttribute('href', '/auth?home=1');
     offerExamples();
     const index = stepIndex();
     if (index < 0 || index >= STEPS.length) { uncover(); root.classList.remove('has-demo-panel', 'demo-is-small'); return; }

@@ -57,7 +57,17 @@ signUp.addEventListener('click', () => showMode(true));
     if (!response.ok) throw new Error();
     const status = await response.json();
     const creating = new URLSearchParams(location.search).get('create') === '1';
-    if (!status.required || (status.username && !creating)) { location.replace(destination(status.onboarding_required)); return; }
+    // A demo guest who opens the main page from the app stays on it, with a way back to the demo.
+    const visiting = status.guest && new URLSearchParams(location.search).get('home') === '1';
+    if (!status.required || (status.username && !creating && !visiting)) { location.replace(destination(status.onboarding_required)); return; }
+    if (visiting) {
+      const back = document.querySelector('#take-demo');
+      document.querySelector('#demo-entry').hidden = false;
+      back.textContent = 'Back to the demo';
+      back.addEventListener('click', event => { event.stopImmediatePropagation(); location.assign('/'); }, {capture: true});
+      document.querySelector('.auth-card').classList.add('is-ready');
+      return;
+    }
     registrationOpen = status.registration_open;
     inviteRequired = status.invite_required;
     lockedWorkspaces = Boolean(status.locked_workspaces);
