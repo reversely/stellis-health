@@ -285,6 +285,9 @@ html body.auth-page .landing-scene-area .landing-scene-name { display: flex; mar
 @keyframes landing-drift { from { translate: 0 0; } to { translate: 0 -6px; } }
 @media (prefers-reduced-motion: reduce) { .landing-scene-card.is-floating { animation: none; } }
 .landing-scene { height: 420px; }
+/* Narrow screens stack the scene under the opening; at 420px its notebooks fell below the fold. This
+   comes after the 420px rule, which had overridden the earlier narrow height. */
+@media (max-width: 900px) { .landing-scene { height: 300px; } }
 .landing-scene-card { max-width: calc(100% - 8px); padding: 7px 12px; font-size: 13px; }
 .landing-scene-card span { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
 /* On a phone the three areas share 358px: names keep every letter, so the notebook icon goes. */

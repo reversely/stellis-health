@@ -156,7 +156,9 @@
       requestAnimationFrame(run);
     });
     const place = (node, x, y, scale = 1, opacity = 1) => { node.style.transform = `translate(${x}px, ${y}px) scale(${scale})`; node.style.opacity = String(opacity); };
-    const S = 64, CLOUD = 5;
+    // The pile keeps as many 30px rows as fit above Stellis: five on a wide screen, fewer in the shorter
+    // scene of a narrow one, where five reached down over Stellis (owner, 2026-10-30).
+    const S = 64, CLOUD = Math.max(2, Math.min(5, Math.floor((board.offsetTop - S - 6 - 36) / 30) + 1));
     let x = 0;
     // The cloud: the next few reports in a loose fanned pile across the top, one row each, each drifting
     // slightly. A report taken from the pile frees its row for the next one.
