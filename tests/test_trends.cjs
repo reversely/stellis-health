@@ -233,6 +233,8 @@ function run(eventAt) {
       height: 640,
       box: [160, 140, 320, 450],
       wave: 1,
+      waveData: [Math.sin(2*Math.PI*66/60*now/1000)],
+      waveTimes: [now/1000],
       bpm: 66,
       faceLuma: 130,
       frameLuma: 140,
@@ -245,7 +247,7 @@ function run(eventAt) {
   return update;
 }
 
-test('the countdown pauses while a check fails and then finishes', () => {
+test('reacquisition starts a new contiguous segment and then finishes', () => {
   const update = run((now) => now > 5000 && now < 15000 ? {box: null} : {});
   assert.equal(update.done, true);
   assert.deepEqual([update.result.ok, update.result.bpm], [true, 66]);
@@ -266,7 +268,7 @@ test('poor light keeps measuring and shows advice after 3 s', () => {
   const early = state.update({...event, now: 1000});
   assert.deepEqual([early.stage, early.hint], ['measuring', '']);
   const later = state.update({...event, now: 4200});
-  assert.equal(later.hint, 'More light on your face gives a better reading');
+  assert.equal(later.hint, 'A little more light may help');
 });
 
 test('an attempt with no face found asks for the face', () => {
@@ -276,17 +278,17 @@ test('an attempt with no face found asks for the face', () => {
       [true, false, 'face']);
 });
 
-test('a full ring always gives a reading, marked approximate if unsure', () => {
-  const update = run((now) => ({bpm: 50 + (now % 3000) / 50}));
+test('a full ring without timestamped evidence does not invent a reading', () => {
+  const update = run((now) => ({bpm: 50 + (now % 3000) / 50, waveData:undefined, waveTimes:undefined}));
   assert.deepEqual(
       [update.done, update.result.ok, update.result.approximate],
-      [true, true, true]);
-  assert.ok(update.goodMs >= pulse.GOOD_MS);
+      [true, false, undefined]);
+  assert.equal(update.goodMs, 0);
 });
 
-test('running out of time keeps a reading from 15 s of good signal', () => {
+test('short disconnected segments never become a continuous reading', () => {
   const update = run((now) => now % 6000 < 1200 ? {} : {box: null});
-  assert.deepEqual([update.done, update.result.ok], [true, true]);
+  assert.deepEqual([update.done, update.result.ok], [true, false]);
   assert.ok(update.goodMs < pulse.GOOD_MS);
 });
 
@@ -299,7 +301,7 @@ test('the oval path starts at the top of the oval', () => {
   assert.equal(pulse.ovalPath(300, 400), 'M150 40A96 144 0 1 1 149.99 40Z');
 });
 
-test('spoken guidance is on until the person turns it off', () => {
+test('spoken guidance starts quiet and is explicitly enabled', () => {
   const saved = Object.getOwnPropertyDescriptor(globalThis, 'localStorage');
   const stored = new Map();
   Object.defineProperty(globalThis, 'localStorage', {
@@ -307,7 +309,7 @@ test('spoken guidance is on until the person turns it off', () => {
     value: {getItem: (key) => stored.get(key) ?? null},
   });
   try {
-    assert.equal(pulse.speakChosen(), true);
+    assert.equal(pulse.speakChosen(), false);
     stored.set('stellis-pulse-speak', 'off');
     assert.equal(pulse.speakChosen(), false);
     stored.set('stellis-pulse-speak', 'on');
@@ -336,4 +338,33 @@ test('a reading saves its breathing rate and HRV beside the pulse', () => {
       pulse.readingsToSave({bpm: 70, quality: 0.4, approximate: true})
           .map((b) => b.measure),
       ['pulse']);
+});
+
+
+test('a usable segment survives lost tracking without joining disconnected beats', () => {
+  const update = run(now => now > 35000 ? {box: null} : {});
+  assert.equal(update.result.ok, true);
+  assert.equal(update.result.bpm, 66);
+  assert.ok(update.result.duration > 34 && update.result.duration < 35);
+  assert.ok(update.result.recording.every(point => point.t < 35));
+});
+
+test('advisory lighting still completes from timestamped evidence', () => {
+  const update = run(() => ({faceLuma: 40, frameLuma: 45}));
+  assert.equal(update.result.ok, true);
+  assert.equal(update.result.bpm, 66);
+  assert.ok(update.result.duration >= 45);
+});
+
+
+test('a requested longer scan waits for its own duration', () => {
+  const state = new pulse.CaptureState(0,60000);
+  let update;
+  for(let now=33;now<=60100;now+=33) {
+    update=state.update({now,width:480,height:640,box:[160,140,320,450],wave:1,waveData:[Math.sin(2*Math.PI*66/60*now/1000)],waveTimes:[now/1000],bpm:66,faceLuma:130,frameLuma:140});
+    if(now<60000)assert.equal(update.done,false);
+    if(update.done)break;
+  }
+  assert.equal(update.result.ok,true);
+  assert.ok(update.result.duration>=60);
 });

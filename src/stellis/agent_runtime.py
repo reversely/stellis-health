@@ -390,6 +390,10 @@ async def _ask(agent_id: str, question: str, notebook_id: str | None = None,
         if len(answer) > 12000:
             raise AgentRunError("Agent reply was too long. Try again.")
         runtime_trace.event("sources_validated", citation_count=len(cited_indices))
+        from stellis import safety
+        if safety.unsafe_answer(answer):
+            safety.record("answer_replaced", "agent")
+            answer, artifact_kind, cited_indices = safety.MEDICINE_CHANGE, None, set()
         agents.require_enabled(agent_id, notebook_id)
         agent_message = agents.append_message(agent_id, "agent", "Draft ready for review." if artifact_kind else answer, notebook_id, job_id)
         if artifact_kind:

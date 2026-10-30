@@ -46,7 +46,10 @@ def used_today() -> int:
 
 
 def exceeded() -> str | None:
-    """Returns the message to show when today's allowance is used up."""
+    """Returns the message to show when the deployment's budget or today's allowance is used up."""
+    from stellis import deployment
+    if deployment.exhausted():
+        return deployment.MESSAGE
     allowed = limit()
     if allowed is not None and used_today() >= allowed:
         return MESSAGE
@@ -78,8 +81,11 @@ def count_tokens(usage: object) -> int:
             number("input") + number("output"))
 
 
-def record(usage: object) -> None:
-    """Adds one response's token count to today's total."""
+def record(usage: object, model: str | None = None) -> None:
+    """Adds one response's tokens to today's total and its cost to the deployment's budget."""
+    from stellis import deployment
+    if not runtime_profile.local_inference():  # A local model costs the deployment nothing.
+        deployment.charge(deployment.cost(model, usage))
     tokens = count_tokens(usage)
     if not tokens:
         return

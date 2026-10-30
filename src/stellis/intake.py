@@ -466,7 +466,7 @@ async def _stream_tokens(messages: list[dict[str, object]],
                     if not model_seen and data.get("model"):
                         runtime_trace.report(model=data["model"]);model_seen=True
                     if data.get("usage"):
-                        token_quota.record(data["usage"]);runtime_trace.report(usage=data["usage"])
+                        token_quota.record(data["usage"], data.get("model"));runtime_trace.report(usage=data["usage"])
                     for choice in data.get("choices") or []:
                         if choice.get("finish_reason")=="length":raise IntakeError("The reply ended before all suggestions were complete. Retry reply.")
                         delta = choice.get("delta") or {}
@@ -632,7 +632,7 @@ async def complete_json(instructions: str, context: dict[str, object], schema: d
         if response.status_code != 200:
             raise IntakeError("The intake agent is unavailable. Try again.")
         data = response.json()
-        token_quota.record(data.get("usage"))
+        token_quota.record(data.get("usage"), data.get("model"))
         content = data["choices"][0]["message"]["content"]
         return json.loads(re.sub(r"^```(?:json)?\s*|\s*```$", "", content.strip()))
     except (httpx.HTTPError, ValueError, KeyError, IndexError, TypeError) as exc:

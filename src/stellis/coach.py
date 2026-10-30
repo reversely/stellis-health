@@ -107,7 +107,7 @@ async def _complete(messages: list[dict], tools: list[dict]) -> dict:
         if response.status_code != 200:
             raise CoachError("Stellis is unavailable. Try again.")
         data = response.json()
-        token_quota.record(data.get("usage"))
+        token_quota.record(data.get("usage"), data.get("model"))
         return data["choices"][0]["message"]
     except (httpx.HTTPError, ValueError, KeyError, IndexError, TypeError) as exc:
         raise CoachError("Stellis is unavailable. Try again.") from exc

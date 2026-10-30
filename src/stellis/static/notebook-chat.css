@@ -208,6 +208,16 @@
 .nb-msg p:last-child {
   margin-bottom: 0;
 }
+/* Each point of an answer is its own short message (owner, 2026-10-30: long answers read as walls). */
+.nb-answer { display: grid; gap: var(--space-2); justify-items: start; }
+.nb-answer > p {
+  margin: 0;
+  max-width: min(560px, 92%);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-message);
+  background: var(--raised);
+  color: var(--ink);
+}
 .nb-msg-user {
   justify-self: end;
   max-width: min(560px, 90%);

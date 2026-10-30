@@ -145,7 +145,7 @@ def infer(pages, *, model=None, key=None, endpoint=None, audit=False):
                     'response_format':{'type':'json_schema','json_schema':{'name':'document_title','strict':True,'schema':SCHEMA}}})
             if response.status_code!=200: raise NamingError(f'Title generation failed (HTTP {response.status_code})')
             data=response.json();metadata['model']=data.get('model') or model;metadata['usage']=data.get('usage') or {}
-            runtime_trace.report(model=metadata['model'],usage=metadata['usage']);token_quota.record(metadata['usage'])
+            runtime_trace.report(model=metadata['model'],usage=metadata['usage']);token_quota.record(metadata['usage'], metadata['model'])
             choice=data['choices'][0]
             if choice.get('finish_reason')=='length': raise NamingError('Title generation reached its output limit')
             payload=json.loads(choice['message']['content'])

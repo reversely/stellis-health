@@ -39,75 +39,79 @@
    * `receipt` lists what the server did with the uploaded file.
    */
   const LONG = [
-    {path: '/', target: '#global-add', pillar: 'understand', wait: true, title: 'From a lab report to answers',
-      text: "Add a lab report and Stellis reads every result on it, so you don't have to decode it yourself."},
-    {target: ['.health-capture .coach-button', 'Upload Record'], pillar: 'understand', wait: true, title: 'Upload a record',
-      text: 'Lab reports, letters, photos and visit recordings all work.'},
+    {path: '/', target: '#global-add', pillar: 'understand', wait: true, title: 'Lab report',
+      text: 'Stellis reads every result on a lab report you add'},
+    {target: ['.health-capture .coach-button', 'Upload Record'], pillar: 'understand', wait: true, title: 'Upload',
+      text: 'Reports and recordings both go in here'},
     // The upload opens the report itself, so the step ends when the report appears, not at the press.
     {target: ['.health-capture .upload-examples .coach-button', 'Blood test'], pillar: 'understand', until: '.report-paper',
-      title: "Maya's blood test",
-      text: 'A blood test from January 2027. Choosing it uploads it, and the report opens.'},
-    {path: '/document/{added}', target: '.report-found', pillar: 'understand', receipt: true, title: 'What Stellis read',
-      text: 'Stellis summarizes the report as it opens. The date and results it found are added with one press each, whenever you like.'},
+      title: 'Blood test, January 2027',
+      text: 'Choosing the file uploads it and opens the report'},
+    {path: '/document/{added}', target: '.report-found', pillar: 'understand', receipt: true, title: 'Report summary',
+      text: 'Stellis summarizes the report and lists the date and 6 results it found'},
     {path: '/document/{added}', target: ['.report-region.has-fact', 'Ferritin'], pillar: 'understand', wait: true,
-      title: 'Choose a result',
-      text: "Ferritin is 11, below this lab's range of 15 to 150. Select it to ask about it."},
-    {path: '/document/{added}', target: ['.report-idea', 'mean'], pillar: 'understand', wait: true, title: 'Ask what it means',
-      text: "A plain answer about this result, drawn from Maya's records."},
+      title: 'Ferritin',
+      text: "Low iron stores, caught while Maya's hemoglobin is still normal"},
+    {path: '/document/{added}', target: ['.report-idea', 'mean'], pillar: 'understand', wait: true, title: 'Question',
+      text: "Stellis explains the result from Maya's records"},
     {path: '/document/{added}', target: '.report-explanation .trace-link', pillar: 'understand', wait: true, patience: 180000,
-      title: 'Check the answer',
-      text: 'Every fact links to the page it came from. How Stellis answered shows the rest of its working.'},
-    {target: 'dialog.answer-trace .trace-body', pillar: 'understand', title: 'How Stellis answered',
-      text: 'The records and pages Stellis read for this answer, and any public sources it searched, so you can see where each part came from.'},
+      title: 'Sources',
+      text: 'Each fact in the answer links to the page it came from'},
+    {target: 'dialog.answer-trace .trace-body', pillar: 'understand', title: 'Answer trace',
+      text: 'The records and public sources Stellis read for this answer'},
     {path: '/records', target: ['.upload-examples .coach-button', 'All of'], pillar: 'chart',
-      until: '.records-review .coach-button.is-primary', title: 'Five years at once',
-      text: "Add all of Maya's records together. Each is read, dated and checked the same way."},
+      until: '.records-review .coach-button.is-primary', title: 'All records',
+      text: "All 70 of Maya's records from 2027 to 2031 go in at once"},
     {target: '.records-review .coach-button.is-primary', pillar: 'chart', until: ['.records-review h3', 'Saved'],
-      title: 'Check, then approve',
-      text: 'The dates and results Stellis found in each record, for you to check before anything is saved.'},
-    {target: '.records-sort', pillar: 'chart', until: '.records-file-all:not([hidden])', hideBefore: 'demo-before-sort', title: 'Sort into notebooks',
-      text: 'Stellis groups the records by area of care, such as Bloodwork, IVF or Pregnancy.'},
-    {target: '.records-file-all', pillar: 'chart', until: ['.records-status', 'Filed in'], title: 'File them',
-      text: 'Each record goes into its notebook. You can move any of them later.'},
-    {path: '/', target: '.home-results', pillar: 'chart', title: "Maya's latest results",
-      text: 'Her newest result for each test, and how it changed since the one before.'},
-    {path: '/', target: '#global-add', pillar: 'log', wait: true, title: 'A visit, summarized',
-      text: 'Record an appointment, or add a recording, and Stellis writes up what was said.'},
-    {target: ['.health-capture .coach-button', 'Upload Record'], pillar: 'log', wait: true, title: 'Upload a recording',
-      text: 'Recordings go in the same way as reports.'},
+      title: 'Review',
+      text: 'Stellis lists the dates and results it found before anything is saved'},
+    {target: '.records-sort', pillar: 'chart', until: '.records-file-all:not([hidden])', hideBefore: 'demo-before-sort', title: 'Notebooks',
+      text: 'Stellis groups the records by area of care such as Bloodwork or Pregnancy'},
+    {target: '.records-file-all', pillar: 'chart', until: ['.records-status', 'Filed in'], title: 'Filing',
+      text: 'Each record goes into its notebook and can be moved later'},
+    {path: '/', target: '.home-results', pillar: 'chart', title: 'Latest results',
+      text: 'The newest value for each test and its change since the one before'},
+    {path: '/', target: '#global-add', pillar: 'log', wait: true, title: 'Visit recording',
+      text: 'Stellis transcribes a visit and writes up what was decided'},
+    {target: ['.health-capture .coach-button', 'Upload Record'], pillar: 'log', wait: true, title: 'Upload',
+      text: 'Recordings go in the same way as reports'},
     {target: ['.health-capture .upload-examples .coach-button', 'Visit recording'], pillar: 'log', wait: true,
-      title: "Dr Vale's call",
-      text: "A short call about Maya's iron tablets. Choosing it uploads it, and Stellis transcribes it on its own server."},
-    {target: '#enhanced-notes-panel', pillar: 'understand', title: 'Transcript and summary',
-      text: 'What was decided and what happens next, with the full transcript beside it. The line under Summary shows progress until it is ready.'},
-    {path: '/trends', target: 'iframe[title="Measurements"]', pillar: 'chart', title: 'Every result over time',
-      text: 'One chart per test across five years of reports. The table icon shows which report each value came from.'},
-    {path: '/trends', target: ['button', 'Log vital signs'], pillar: 'monitor', wait: true, title: 'Your own vital signs',
-      text: 'Check your pulse and breathing with your camera in about 30 seconds. The video stays on your device.'},
-    {kind: 'end', title: 'Now with your own records', pillar: null},
+      title: 'Visit recording, February 2027',
+      text: "A 35-second call with Maya's GP about iron tablets"},
+    {target: '#enhanced-notes-panel', pillar: 'understand', title: 'Summary',
+      text: 'What was decided and what happens next beside the full transcript'},
+    {path: '/trends', target: 'iframe[title="Measurements"]', pillar: 'chart', title: 'Measurements',
+      text: 'One chart per test across five years with a source for each point'},
+    {path: '/trends', target: ['button', 'Log vital signs'], pillar: 'monitor', wait: true, title: 'Vital signs',
+      text: 'Pulse and breathing from 30 seconds of camera video that stays on your device'},
+    {kind: 'end', title: 'Your records', pillar: null},
   ];
+  // The short tour argues one point per beat (owner review, 2026-10-30): personal problem, reasoning
+  // across history, verifiable execution, new evidence, controlled update, useful follow-through.
   const SHORT = [
-    {path: '/', target: '.home-results', pillar: 'chart', title: "Maya's five years",
-      text: 'A fictional five-year case: 70 synthetic records, already read and filed. Ferritin, her iron store, is the thread to follow.'},
+    {path: '/', target: '.home-results', pillar: 'chart', title: 'Five years of results',
+      text: "Maya's ferritin has dropped low more than once, and each result sits in a different report. These 70 synthetic records are already filed in Maya's account."},
     {path: '/notebook/{anemia}', target: '.chat-idea-action[data-idea*="changed since"]', pillar: 'understand', wait: true,
-      title: 'Ask how it changed', text: 'A question Stellis offers here. The answer reads every dated ferritin result in her records.'},
-    {path: '/notebook/{anemia}', target: '.nb-cite:not(.nb-cite-public)', pillar: 'understand', wait: true, patience: 180000,
-      title: 'Open a source', text: 'Each value links to the report it came from.'},
+      title: "Reasoning across Maya's history", text: 'This question needs every dated ferritin result brought together and explained. Nemotron on Nebius Token Factory reads her Anemia Management records and answers with a source for each value.'},
+    {path: '/notebook/{anemia}', target: '.nb-msg-actions .trace-link', pillar: 'understand', wait: true, patience: 180000,
+      title: 'How Stellis answered', text: 'Every answer keeps a log of how it was made. A first answer can take a minute or two while the model reads five years of reports.'},
+    {target: 'dialog.answer-trace .trace-tiles', pillar: 'understand', title: 'What ran, on what',
+      text: "The model that answered, where it ran and how many passages it read, from this request's own log. Maya's records stay encrypted in Maya's account; only the passages for this question went to Token Factory, with names replaced, and Token Factory keeps nothing."},
+    {path: '/notebook/{anemia}', close: true, target: '.nb-cite:not(.nb-cite-public)', pillar: 'understand', wait: true,
+      title: 'Check a claim', text: 'Every value in the answer links to the report it came from.'},
     {target: '.report-paper', pillar: 'understand', title: 'The original report',
-      text: "The lab's own page, where that value is printed."},
-    {path: '/', target: '#global-add', opens: 'upload', notebook: ANEMIA_KEY, pillar: 'understand', wait: true, title: 'Add a new report',
-      text: 'A blood test from March 2032, after her five years. Adding it should change what Stellis shows.'},
+      text: "The cited result on the lab's own page, so the answer can be checked line by line."},
+    {path: '/', target: '#global-add', opens: 'upload', notebook: ANEMIA_KEY, pillar: 'understand', wait: true, title: 'New evidence',
+      text: "A March 2032 blood test from outside the 70 records in Maya's account. The next steps show how it enters that history."},
     {target: ['.health-capture .upload-examples .coach-button', 'March 2032'], pillar: 'understand', until: '.report-paper',
-      title: 'Iron studies, March 2032', text: 'Choosing it uploads it, and the report opens.'},
-    {path: '/document/{added}', target: ['.report-region.has-fact', 'Ferritin'], pillar: 'understand',
-      title: 'Ferritin 52', text: 'The report prints ferritin 52 ug/L. Stellis read it from that line.'},
+      title: 'Iron studies, March 2032', text: 'Choosing the file uploads it, and Stellis reads and summarizes the report.'},
     {path: '/document/{added}', target: ['.report-found .coach-button', 'Add to Measurements'], pillar: 'chart', wait: true,
-      title: 'Add it to her history', text: 'Nothing is added until you approve it. One press adds every result Stellis found.'},
-    {path: '/', target: '.home-results', pillar: 'chart', title: 'Her history, updated',
-      text: 'Ferritin now ends at 52 ug/L, March 24, 2032, after 48 in December.'},
+      title: 'A proposed update', text: 'Stellis proposes each result with its date and the row it came from, including ferritin 52 ug/L on March 24, 2032. Nothing joins her history until she approves it.'},
+    {path: '/', target: '.home-results', pillar: 'chart', title: 'One history',
+      text: "The approved result joins the same history: ferritin now ends at 52, with December's 48 and every earlier value kept."},
     {path: '/document/{added}', target: ['.report-idea', 'next appointment'], pillar: 'understand', wait: true, patience: 180000,
-      title: 'For her next appointment', text: 'Stellis drafts what to ask from her records, each point linked to its source.'},
-    {kind: 'end', title: 'Now with your own records', pillar: null},
+      title: "Ready for Maya's appointment", text: "Stellis drafts questions for Maya's clinician from five years of results, each with its source, so Maya does not have to assemble them."},
+    {kind: 'end', title: 'Your records', pillar: null},
   ];
   const STEPS = (() => { try { return sessionStorage.getItem(TRACK_KEY) === 'short' ? SHORT : LONG; } catch { return LONG; } })();
 
@@ -374,8 +378,8 @@
     const stay = symbol('x', 'Close the tour'); stay.onclick = () => { setStep(-1); dock(false); };
     head.append(stay); stay.classList.add('demo-end-close');
     const row = el('div', null, 'demo-actions'); row.append(own);
-    card.append(roadmap(null), head, el('h2', 'Now with your own records'),
-      el('p', 'Add your reports and recordings, and Stellis explains every result, keeps track of your care and shows how things change. Only you can read what you add.', 'demo-text'), row);
+    card.append(roadmap(null), head, el('h2', 'Your records'),
+      el('p', 'Stellis reads your own reports and recordings the same way', 'demo-text'), el('p', 'Only you can read what you add', 'demo-text'), row);
   }
 
   /**
@@ -389,7 +393,7 @@
     const title = el('h1', 'Maya is 28, and about to face health issues and treatment for the first time.'); title.id = 'demo-context-title';
     // The narration's second sentence read as antagonistic (owner, 2026-10-28), so the slide says what
     // Maya has instead.
-    const lines = el('p', 'She has five years of lab reports, letters and visit recordings to keep track of.', 'demo-context-lede');
+    const lines = el('p', "Maya has five years of lab reports, letters and visit recordings to keep track of.", 'demo-context-lede');
     // What Stellis is, in the narration's second line, with the four pillars the tour is organized by.
     const stellis = el('div', null, 'demo-context-stellis');
     const said = el('p', 'Stellis Health is for people like Maya: an AI agent that knows your history and helps you understand, log, monitor and chart your health.', 'demo-context-lede');
@@ -398,7 +402,7 @@
     const words = el('div'); words.append(said, pillars);
     // One left edge for the whole slide: Maya's portrait is the slide's one image, so no avatar column.
     stellis.append(words);
-    const what = el('p', "Maya is fictional. You'll add her records the way you would add yours, and see what Stellis does with them.", 'demo-context-what');
+    const what = el('p', "Maya is fictional. You'll add Maya's records the way you would add yours, and see what Stellis does with them.", 'demo-context-what');
     const start = el('button', 'Start the tour', 'coach-button is-primary'); start.type = 'button';
     const quick = el('button', 'Short tour', 'coach-button is-quiet'); quick.type = 'button';
     const explore = el('button', 'Explore on my own', 'coach-button is-quiet'); explore.type = 'button';
@@ -484,6 +488,8 @@
       await window.StellisNavigate(path);
       if (stepIndex() !== index) return;
     }
+    // A step that returns to the page from an open panel (the answer's log) closes it first.
+    if (step.close) document.querySelectorAll('dialog[open]').forEach(dialog => dialog.close());
     shown = path ? location.pathname + location.search : null;
     if (small()) { pill(index, false); return; }
     if (step.kind === 'end') { mark(null); endCard(); return; }

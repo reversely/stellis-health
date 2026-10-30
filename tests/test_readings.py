@@ -139,6 +139,24 @@ class ReadingsApiTest(unittest.TestCase):
         self.client = testclient.TestClient(server.app)
         self.addCleanup(self.client.close)
 
+    def test_scan_evidence_roundtrip_and_retry(self):
+        body = {"measure": "pulse", "value": 72, "source": "camera", "quality": .85,
+                "note": "Resting", "capture_id": "scan-267-pulse",
+                "scan_evidence": {"method": "facephys", "duration": 45,
+                                  "checkin": {"id": "reply-1"}}}
+        first = self.client.post("/api/v1/readings", json=body)
+        self.assertEqual(first.status_code, 200, first.text)
+        second = self.client.post("/api/v1/readings", json=body)
+        self.assertEqual(first.json()["id"], second.json()["id"])
+        points = self.measure("pulse")["points"]
+        self.assertEqual(len(points), 1)
+        self.assertEqual(points[0]["scan_evidence"], body["scan_evidence"])
+        self.assertEqual(points[0]["note"], "Resting")
+        changed = {**body, "scan_evidence": {"method": "pos"}}
+        self.assertEqual(self.client.post("/api/v1/readings", json=changed).status_code, 400)
+        oversized = {**body, "capture_id": "too-large", "scan_evidence": {"x": "x" * 16001}}
+        self.assertEqual(self.client.post("/api/v1/readings", json=oversized).status_code, 400)
+
     def measure(self, key: str) -> dict[str, object]:
         measures = self.client.get("/api/v1/readings").json()["measures"]
         self.assertEqual([item["key"] for item in measures],

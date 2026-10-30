@@ -35,7 +35,7 @@ CHUNK = 1 << 20
 SCRYPT = {"n": 1 << 17, "r": 8, "p": 1}
 # Root entries that belong to the deployment, not to account 1's workspace.
 SHARED = {"auth.sqlite3", "oauth_pending.sqlite3", "accounts", "models", "vault", ".account-sockets", ".workspaces",
-          "lost+found"}
+          "lost+found", "deployment.sqlite3", "deployment.sqlite3-journal", "demo-model-cache"}
 
 
 class VaultError(RuntimeError):

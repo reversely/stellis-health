@@ -809,6 +809,20 @@ async def stop_agent_job(agent_id: str, job_id: str):
 
 @api.post("/agents/{agent_id}/ask")
 async def ask_agent(agent_id: str, request: AgentQuestion) -> dict[str, object]:
+    from stellis import safety
+    if (gate := safety.screen(request.question)) is not None:
+        # A gated question gets its fixed reply as Stellis's message; nothing is sent to a model.
+        safety.record(gate.name, "agent")
+        from stellis import runtime_trace
+        with runtime_trace.span("safety_reply", agent_id=agent_id, execution="Stellis safety rule"):
+            job_id = agents.start_job(agent_id, request.notebook_id)
+            runtime_trace.job(job_id)
+            runtime_trace.event("safety_gate", gate=gate.name)
+            user_message = agents.append_message(agent_id, "user", request.question, request.notebook_id, job_id)
+            agent_message = agents.append_message(agent_id, "agent", gate.reply, request.notebook_id, job_id)
+            agents.finish_job(job_id, "succeeded")
+        return {"job_id": job_id, "user_message": user_message, "agent_message": agent_message,
+                "session_id": None, "cited_sources": []}
     try:
         from stellis import chat_attachments
         passages = chat_attachments.passages('agent', agent_id, request.attachment_ids, request.question)
@@ -1867,6 +1881,19 @@ def select_local_model(request: LocalModelSelection) -> dict[str, object]:
         raise HTTPException(status_code=503, detail=str(exc)) from exc
 
 
+class BudgetSwitch(BaseModel):
+    enabled: bool
+
+
+@api.put("/settings/inference/budget", dependencies=[Depends(_operator_only)])
+def switch_ai_budget(request: BudgetSwitch) -> dict[str, object]:
+    from stellis import deployment
+    current = deployment.set_enabled(request.enabled)
+    if current is None:
+        raise HTTPException(status_code=404, detail="This deployment has no AI budget")
+    return current
+
+
 class ModelRouteSelection(BaseModel):
     routes: dict[str, str]
 
@@ -2491,6 +2518,7 @@ def health_timeline(notebook_id: str | None = None, kinds: str | None = None):
 
 
 class ReadingIn(BaseModel):
+    scan_evidence: dict = Field(default_factory=dict)
     notebook_id: str | None = Field(default=None, max_length=80)
     capture_id: str | None = Field(default=None, min_length=1, max_length=80)
     measure: str = Field(max_length=40)
@@ -2514,7 +2542,7 @@ def add_reading(request: ReadingIn):
     return _agent_result(lambda: readings.add(
         request.measure, request.value, request.value2, request.taken_at,
         request.source, request.quality, request.note,
-        notebook_id=request.notebook_id, capture_id=request.capture_id))
+        notebook_id=request.notebook_id, capture_id=request.capture_id, scan_evidence=request.scan_evidence))
 
 
 class PhotoReadingIn(ReadingIn):
@@ -3152,6 +3180,7 @@ def recording_chat(recording_id: str) -> list[dict[str, object]]:
 @api.post("/recordings/{recording_id}/chat")
 def ask_during_recording(recording_id: str, request: RecordingQuestion) -> dict[str, object]:
     try:
+        notebook_chat.check(request.question, "recording")
         return recording_ai.request(recording_id, request.question)
     except LookupError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc

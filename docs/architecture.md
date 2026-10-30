@@ -47,7 +47,7 @@ flowchart LR
 | --- | --- | --- |
 | Add a report, letter or photo | The server reads each page, with OCR for scans and photos. You can correct the text, and corrections stay | Server, Tesseract |
 | Record or upload a visit | The server transcribes it, labels who spoke and writes a summary with links back to the moment in the recording | Server: whisper.cpp and sherpa-onnx for the transcript, a language model for the summary |
-| Read a report explained | Stellis says what each result measures and whether yours is in range, linked to the page it came from | Server, language model |
+| Read a report explained | Stellis says what each result means for you, read together with your other results, and what to ask next, linked to the page it came from | Server, language model |
 | File records | Stellis suggests which notebook a record belongs in (Bloodwork, IVF, Nutrition, Pregnancy and others) and which values to add. Nothing is added until you approve it | Server, language model |
 | Ask a question | The answer cites the pages it used. General medical questions can also use public research | Server, language model, research services |
 | Tick doses, log readings and goals | Saved to your records and shown on My Health and in each notebook | Server |

@@ -6,6 +6,7 @@ import asyncio
 import json
 import os
 from contextlib import nullcontext
+from contextvars import ContextVar
 from urllib.parse import urlsplit
 
 import httpx
@@ -71,8 +72,13 @@ def _reply(payload: object) -> str:
         usage = {"input": usage.get("input_tokens"), "output": usage.get("output_tokens"),
                  "total": usage.get("total_tokens")}
     runtime_trace.report(model=model, usage=usage)
-    token_quota.record(usage)
+    token_quota.record(usage, model)
     return answer
+
+
+# The question and the notebook or report it is about, set by a caller so a stored demo reply can be
+# listed by question once the budget is spent.
+QUESTION: ContextVar[tuple[str, str] | None] = ContextVar("question", default=None)
 
 
 async def turn(prompt: str, session_id: str, *, instructions: str | None = None, response_format: dict | None = None, model_role: str = "agent") -> tuple[str, str]:
@@ -130,7 +136,7 @@ def request_options(role):
     """Reason through clinical source comparisons; keep tool/planning turns bounded."""
     if role in {'review','summary'}:return {'temperature':0.2,'max_tokens':2048,'chat_template_kwargs':{'enable_thinking':False}}
     reasons=role in {'report','answers','research'}
-    return {'temperature':0.2,'max_tokens':8192 if reasons else 4096,'chat_template_kwargs':{'enable_thinking':reasons}}
+    return {'temperature':0.2,'max_tokens':16384 if reasons else 4096,'chat_template_kwargs':{'enable_thinking':reasons}}
 
 
 async def _direct_turn(prompt: str, session_id: str, *, instructions: str | None = None, response_format: dict | None = None, model_role: str = "agent") -> tuple[str, str]:
@@ -160,7 +166,7 @@ async def _direct_turn(prompt: str, session_id: str, *, instructions: str | None
             raise GatewayError(f"{provider} is unavailable. Try again.")
         data = response.json()
         runtime_trace.report(model=data.get("model"), usage=data.get("usage"))
-        token_quota.record(data.get("usage"))
+        token_quota.record(data.get("usage"), data.get("model"))
         choice = data["choices"][0]
         if choice.get("finish_reason") == "length":
             raise GatewayError("Agent reply was too long. Try again.")
@@ -171,4 +177,6 @@ async def _direct_turn(prompt: str, session_id: str, *, instructions: str | None
         raise GatewayError("Agent reply failed. Try again.") from exc
     if not answer:
         raise GatewayError("Agent reply failed. Try again.")
+    if label := QUESTION.get():
+        privacy.index_stored(url, body, *label)
     return answer, session_id

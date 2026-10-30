@@ -22,6 +22,8 @@ const MIN_INTERVALS = 15;
 const AGREEMENT = 2;
 /** The smallest share of power near the peak for a sure breathing rate. */
 const MIN_BREATHING_SHARE = 0.35;
+/** Reject slow boundary peaks supported by fewer than five cycles. */
+const MIN_BREATHING_CYCLES = 5;
 /** The smallest share of accepted intervals for a sure HRV. */
 const MIN_ACCEPTED_SHARE = 0.8;
 const RESAMPLE_HZ = 100;
@@ -245,6 +247,8 @@ function heartRateVariability(beats) {
       differences.push(clean[i] - clean[i - 1]);
     }
   }
+  // RMSSD needs adjacent accepted intervals, not just a count of isolated beats.
+  if (differences.length < MIN_INTERVALS - 1) return null;
   const mean = kept.reduce((sum, ms) => sum + ms, 0) / kept.length;
   const sdnn = Math.sqrt(
       kept.reduce((sum, ms) => sum + (ms - mean) ** 2, 0) / (kept.length - 1));
@@ -276,9 +280,17 @@ function breathingRate(beats, motion) {
   };
   const estimates = [];
   for (const [source, points] of Object.entries(series)) {
+    if (points.length < 4) continue;
+    // Sampling/peak fitting can create highly periodic but tiny modulations.
+    // Concentration alone cannot distinguish those from respiratory evidence.
+    const mean = points.reduce((sum, p) => sum + p.v, 0) / points.length;
+    const residual = detrend(points);
+    const amplitude = Math.sqrt(residual.reduce((sum, v) => sum + v*v, 0) / points.length);
+    const floor = source === 'height' ? Math.abs(mean) * .01 : source === 'interval' ? .005 : .001;
+    if (!(amplitude > Math.max(floor, 1e-8))) continue;
     const found = rhythm(points, BREATHING_RANGE, 0.25, 1.5, 20);
     if (found) {
-      estimates.push({source, ...found});
+      estimates.push({source, duration:points.at(-1).t-points[0].t, ...found});
     }
   }
   if (!estimates.length) {
@@ -299,9 +311,11 @@ function breathingRate(beats, motion) {
   const rate =
       best.group.reduce((sum, item) => sum + item.rate * item.share, 0) /
       best.strength;
+  const duration = Math.min(...best.group.map(item => item.duration));
+  const quality = best.strength / best.group.length;
   return {
-    rate: Math.round(rate),
-    sure: best.group.length >= 2 &&
+    rate: Math.round(rate), duration, quality,
+    sure: duration * rate / 60 >= MIN_BREATHING_CYCLES && best.group.length >= 2 &&
         best.strength / best.group.length >= MIN_BREATHING_SHARE,
     sources: best.group.map((item) => item.source),
   };

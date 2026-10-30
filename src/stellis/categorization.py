@@ -109,7 +109,7 @@ def _score_once(source: str, labels: tuple[str, ...], key: str) -> dict[str, flo
                 response.raise_for_status()
                 data = response.json()
                 runtime_trace.report(model=data.get("model"))
-                token_quota.record(data.get("usage"))
+                token_quota.record(data.get("usage"), data.get("model"))
                 choice = data["choices"][0]
                 top = choice["logprobs"]["top_logprobs"][0]
             else:
@@ -121,7 +121,7 @@ def _score_once(source: str, labels: tuple[str, ...], key: str) -> dict[str, flo
                 response.raise_for_status()
                 data = response.json()
                 runtime_trace.report(model=data.get("model"))
-                token_quota.record(data.get("usage"))
+                token_quota.record(data.get("usage"), data.get("model"))
                 alternatives = data["choices"][0]["logprobs"]["content"][0]["top_logprobs"]
                 top = {item["token"]: item["logprob"] for item in alternatives}
     except (httpx.HTTPError, KeyError, IndexError, TypeError, ValueError) as exc:

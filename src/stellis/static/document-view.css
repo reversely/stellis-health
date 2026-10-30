@@ -435,7 +435,9 @@ section.document-page > .document-actions {
 #document-view .report-citation { position:relative; min-width:24px; min-height:24px; font-size:var(--text-small); border-radius:var(--radius-small); margin-inline:var(--space-1); }
 #document-view .report-citation::before { content:''; position:absolute; inset:-10px; }
 #document-view .report-call-host .coach-call.is-embedded { height:var(--report-call-height,520px); max-height:var(--report-call-height,520px); }
-#document-view .report-answer { display:grid; gap:var(--space-3); }
+#document-view .report-answer { display:grid; gap:var(--space-2); justify-items:start; }
+/* Each point of an answer is its own short message (owner, 2026-10-30). */
+.report-answer > p { margin:0; max-width:min(560px, 92%); padding:var(--space-3) var(--space-4); border-radius:var(--radius-message); background:var(--raised); color:var(--ink); }
 #document-view .report-answer :is(p,ul) { margin:0; font-size:var(--text-body); line-height:1.6; }
 #document-view .report-answer ul { padding-left:var(--space-5); }
 /* Result review is a durable data workflow, outside the conversation window. */
@@ -469,7 +471,7 @@ section.document-page > .document-actions {
 .report-chat-footer>a { display:inline-flex; align-items:center; min-height:var(--control-height); color:var(--muted); font-size:var(--text-body); }
 .report-conversation .report-exchange { display:grid; gap:var(--space-3); padding:var(--space-3) 0 var(--space-5); border:0; }
 .report-conversation .report-user-question { max-width:90%; margin-left:var(--space-5); }
-.report-conversation .report-answer { border-radius:var(--radius-message); background:var(--raised); padding:var(--space-3); }
+.report-conversation .report-answer { display:grid; gap:var(--space-2); justify-items:start; }
 .chat-empty,.report-pending-status { margin:0; color:var(--muted); font-size:var(--text-body); line-height:1.5; }
 .chat-new-messages { align-self:center; flex:none; min-height:var(--control-height); padding:var(--space-2) var(--space-4); background:var(--block-fill); color:var(--block-ink); border:0; border-radius:var(--radius-pill); font:inherit; cursor:pointer; }
 .chat-new-messages[hidden] { display:none; }
@@ -535,8 +537,9 @@ section.document-page > .document-actions {
 .report-found { flex: none; display: grid; gap: var(--space-2); padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--line); }
 .report-found[hidden] { display: none; }
 .report-found h4 { margin: 0; font-size: var(--text-body); font-weight: 600; }
-.report-found-row { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); min-width: 0; }
-.report-found-row > div { min-width: 0; }
+.report-found-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-2) var(--space-3); min-width: 0; }
+/* The text keeps a readable measure; the action moves under it when the panel is narrow. */
+.report-found-row > div { flex: 1 1 14rem; min-width: 0; }
 .report-found-text { margin: 0; font-weight: 600; }
 .report-found-detail { margin: 0; color: var(--muted); overflow-wrap: anywhere; }
 .report-found-row > .coach-button, .report-found-date { flex: none; }
@@ -550,4 +553,4 @@ section.document-page > .document-actions {
 .report-workspace > .report-found { border: 1px solid var(--line); border-radius: var(--radius-panel); background: var(--surface); }
 /* Below the desktop layout the page keeps a gutter; main has none there. */
 @media (max-width: 1000px) { body.document-page #document-view { padding: var(--space-4) var(--space-4) var(--space-12); box-sizing: border-box; } }
-@media (max-width: 760px) { .report-found-row { flex-wrap: wrap; } .report-found-row > div { flex: 1 1 100%; } }
+@media (max-width: 760px) { .report-found-row > div { flex-basis: 100%; } }

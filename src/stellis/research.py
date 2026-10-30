@@ -274,11 +274,22 @@ def pubmed(query: str) -> list[Result]:
 
 
 def tavily(query: str, key: str) -> list[Result]:
-    """Searches the web through Tavily with the account's key."""
+    """Searches the web through Tavily with the account's key.
+
+    On the deployment's own key each search is charged to its AI budget, and none is sent once the
+    budget is spent; the free providers still answer.
+    """
+    from stellis import deployment
+    from stellis import tavily as keys
+    shared = key == keys._host_key()
+    if shared and deployment.exhausted():
+        return []
     body = json.dumps({"query": query, "max_results": RESULTS_PER_PROVIDER,
                        "search_depth": "basic"}).encode()
     payload = json.loads(_http("https://api.tavily.com/search", body, {
         "Content-Type": "application/json", "Authorization": "Bearer " + key}))
+    if shared:
+        deployment.charge(deployment.SEARCH_PRICE)
     return [Result("Tavily", _text(item.get("title")), str(item.get("url")),
                    _text(item.get("content"))[:SNIPPET_CHARS])
             for item in payload.get("results", [])

@@ -10,6 +10,7 @@ from datetime import datetime, timezone
 
 import httpx
 
+from stellis import deployment
 from stellis import agent_runtime, ai, call_tts, categorization, runtime_profile, runtime_trace, storage, recording_preview, processing, model_routes
 from stellis import privacy
 
@@ -47,6 +48,7 @@ def status():
             "inference_provider": runtime_profile.inference_provider(),
             "inference_model": runtime_profile.model_id(), "agent_model": runtime_profile.model_id("agent"), "inference_configured": bool(ai._key()),
             "category_model": categorization._model_id(), "can_switch": can_switch(),
+            "budget": deployment.budget(), "operator": runtime_profile.operator(),
             "routes": [{"role":role,"label":label,"model":runtime_profile.model_id(role),
                         "capability":capability,"editable": role != "agent" or can_switch() or runtime_profile.remote_agents(),
                         "observed": (observed or {}).get("routes",{}).get(role)}

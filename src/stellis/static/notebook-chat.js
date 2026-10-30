@@ -46,12 +46,30 @@ let AnswerPart;
  */
 function answerParts(content, citations) {
   const byNumber = new Map(citations.map((item) => [item.n, item]));
-  return content.split(/\n{2,}/).map(
+  // Each paragraph is its own message bubble. A reply without blank lines separates its points with
+  // single line breaks instead.
+  const blocks = /\n\s*\n/.test(content.trim()) ? content.split(/\n\s*\n/) : content.split(/\s*\n\s*/);
+  return blocks.filter((block) => block.trim()).map(
       (block) => block.split(/(\[\[\d+\]\])/).filter(Boolean).map((part) => {
         const match = part.match(/^\[\[(\d+)\]\]$/);
         const citation = match && byNumber.get(Number(match[1]));
         return citation ? {citation} : {text: part};
       }));
+}
+
+/** Renders the shared answer bubbles with a caller-supplied source link. */
+function answerBody(content, citations, citationLink) {
+  const dom = root.StellisDom;
+  const body = dom.el('div', null, 'nb-answer');
+  for (const parts of answerParts(content, citations)) {
+    const paragraph = dom.el('p');
+    for (const part of parts) {
+      paragraph.append(
+          part.citation ? citationLink(part.citation) : part.text);
+    }
+    body.append(paragraph);
+  }
+  return body;
 }
 
 /**
@@ -401,16 +419,7 @@ class NotebookChat {
    * @return {!Element}
    */
   answerBody(content, citations) {
-    const body = this.dom.el('div', null, 'nb-answer');
-    for (const parts of answerParts(content, citations)) {
-      const paragraph = this.dom.el('p');
-      for (const part of parts) {
-        paragraph.append(
-            part.citation ? this.citationLink(part.citation) : part.text);
-      }
-      body.append(paragraph);
-    }
-    return body;
+    return answerBody(content, citations, citation => this.citationLink(citation));
   }
 
   /**
@@ -741,6 +750,7 @@ class NotebookChat {
         this.input.value = question;
       }
       this.status.textContent = error.message;
+      this.offerStored(error.message);
     } finally {
       live?.stop();
       this.include = null;
@@ -880,6 +890,26 @@ class NotebookChat {
     }
   }
 
+  /**
+   * Once the deployment's AI budget is spent, questions with stored answers in this notebook are offered:
+   * asking one replays its stored reply, which costs nothing (owner, 2026-10-30).
+   * @param {string} message The refusal shown in the status line.
+   */
+  async offerStored(message) {
+    this.stored?.remove();
+    if (!/used its AI credits|allowance is used up/.test(message)) return;
+    const found = await this.dom.api('/demo/stored-answers?scope=' + encodeURIComponent('notebook:' + this.book.name)).catch(() => null);
+    // Answers already in this conversation are not offered again.
+    const answered = new Set([...this.log.querySelectorAll('.nb-msg-user > p')].map(node => node.textContent));
+    const questions = (found?.questions || []).filter(question => !answered.has(question));
+    if (!questions.length || this.stopped) return;
+    this.stored = this.dom.el('div', null, 'nb-stored');
+    this.stored.append(this.dom.el('h3', 'Answers you can still open', 'nb-welcome-title'));
+    const items = questions.map(question => ({icon: 'message-2', title: question, action: {label: 'Open', command: 'ask'}}));
+    this.stored.append(root.StellisChatUI.ideas(items, item => { this.stored.remove(); this.prefill(item.title); this.form.requestSubmit(); }));
+    this.status.after(this.stored);
+  }
+
   stop() {
     this.stopped = true;
     if (this.onBrief) root.removeEventListener('stellis:brief-loaded', this.onBrief);
@@ -914,6 +944,7 @@ const exported = {
   stop: () => current?.stop(),
   prefill: (question) => current?.prefill(question),
   answerParts,
+  answerBody,
   answerMarkdown,
   sourceTarget,
   starterQuestions,

@@ -1,429 +1,235 @@
-/* Camera pulse dialog, opened from the Trends page. While the camera is live
-   the dialog turns dark like a call screen: full screen on phones, camera
-   beside a checks panel on desktop. */
+/* #267 — camera, measurements and context share one stable dialog. */
 .pulse-dialog {
   --chart-series: var(--data-series-light);
-  --pulse-live-bg: var(--media-surface);
-  --pulse-live-ink: var(--media-ink);
-  --pulse-live-muted: var(--media-muted);
+  --field-fill: var(--widget-raised);
   --pulse-pass: var(--media-pass);
-  --pulse-fail: var(--media-caution);
-  width: min(440px, calc(100vw - 24px));
-  max-height: calc(100dvh - 24px);
-  box-sizing: border-box;
-  padding: var(--space-5);
-  border: 1px solid var(--line);
+  width: min(900px, calc(100vw - 48px));
+  max-width: none;
+  max-height: calc(100dvh - 48px);
+  padding: 0;
+  border: 1px solid var(--line-soft);
   border-radius: var(--radius-dialog);
   background: var(--surface);
   color: var(--ink);
   box-shadow: var(--shadow);
+  overflow: hidden;
 }
-html[data-theme='dark'] .pulse-dialog {
+.pulse-dialog[open] { display: flex; flex-direction: column; }
+html[data-theme='dark'] .pulse-dialog:not([data-stage='live']) {
+  --surface: var(--media-surface);
+  --ink: var(--media-ink);
+  --muted: var(--media-muted);
+  --line-soft: color-mix(in srgb, var(--media-ink) 18%, transparent);
   --chart-series: var(--camera-series-dark);
+  --action-fill: var(--media-ink);
+  --action-ink: var(--media-surface);
+  --action-hover: color-mix(in srgb, var(--media-ink) 90%, var(--media-surface));
+  --raised: var(--media-stage);
+  --block-fill: var(--media-ink);
+  --block-ink: var(--media-surface);
+  background: var(--surface);
+  color: var(--ink);
+  backdrop-filter: none;
 }
-.pulse-dialog::backdrop {
-  background: color-mix(in oklch, black 62%, transparent);
-}
+.pulse-dialog::backdrop { background: var(--overlay-media-dim); }
+.pulse-dialog [hidden] { display: none !important; }
 .pulse-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-3);
-  margin-bottom: var(--space-3);
+  gap: var(--space-4);
+  flex: none;
+  padding: var(--space-4) var(--space-6);
+  border-bottom: 1px solid var(--line-soft);
 }
-.pulse-head h2 {
-  margin: 0;
-  font-size: 20px;
-}
+.pulse-head h2 { margin: 0; font: 300 28px/1.2 var(--font-heading); }
 .pulse-body {
   display: grid;
-  gap: var(--space-4);
+  flex: 1 1 auto;
+  gap: var(--space-6);
+  padding: var(--space-6);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  min-height: 0;
+  align-content: start;
+  scrollbar-gutter: stable;
 }
+.pulse-dialog p { margin: 0; }
 .pulse-dialog button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
   min-height: var(--control-height);
-  padding: 0 var(--space-4);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-control);
-  background: var(--surface);
-  color: var(--ink);
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--secondary-line);
+  border-radius: var(--secondary-radius);
+  background: var(--secondary-fill);
+  color: var(--secondary-ink);
   font: inherit;
   cursor: pointer;
+  touch-action: manipulation;
+  transition: transform 120ms cubic-bezier(.22, 1, .36, 1), background 120ms;
 }
+.pulse-dialog button:hover { background: var(--secondary-hover); }
+.pulse-dialog button:active:not(:disabled) { transform: scale(.97); }
 .pulse-dialog .pulse-primary {
-  border-color: var(--accent);
-  background: var(--accent);
-  color: var(--accent-ink);
+  background: var(--action-fill);
+  color: var(--action-ink);
+  border-color: transparent;
+  border-radius: var(--action-radius);
 }
+.pulse-dialog .pulse-primary:hover { background: var(--action-hover); }
 .pulse-dialog button:disabled {
+  background: var(--action-disabled-fill);
+  color: var(--action-disabled-ink);
   cursor: default;
-  color: var(--quiet);
-  background: var(--raised);
-  border-color: var(--line-soft);
 }
-.pulse-dialog .pulse-close {
-  width: 44px;
-  padding: 0;
-  border-color: transparent;
-  background: transparent;
-  color: var(--muted);
-}
-.pulse-dialog :focus-visible {
-  outline: var(--focus-width) solid var(--focus);
-  outline-offset: var(--focus-offset);
-}
-.pulse-tips {
-  display: grid;
-  gap: var(--space-2);
-  margin: 0;
-  padding-left: var(--space-5);
-  font-size: 17px;
-  line-height: 1.45;
-}
-.pulse-note,
-.pulse-status,
-.pulse-label,
-.pulse-message,
-.pulse-usual,
-.pulse-error {
-  margin: 0;
-}
-.pulse-note {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-1) var(--space-3);
-  color: var(--muted);
-  font-size: var(--text-body);
-  line-height: 1.5;
-}
-
-/* Live: the dark call-style screen. */
-.pulse-dialog[data-stage='live'] {
-  width: min(860px, calc(100vw - 48px));
-  padding: var(--space-5);
-  border-color: transparent;
-  background: var(--pulse-live-bg);
-  color: var(--pulse-live-ink);
-}
-.pulse-dialog[data-stage='live'] .pulse-head h2 {
-  font-size: 17px;
-  font-weight: 600;
-}
-.pulse-dialog[data-stage='live'] .pulse-close,
-.pulse-dialog[data-stage='live'] .pulse-panel button {
-  border-color: color-mix(in oklch, var(--pulse-live-ink) 22%, transparent);
-  background: color-mix(in oklch, var(--pulse-live-ink) 10%, transparent);
-  color: var(--pulse-live-ink);
-}
-.pulse-dialog[data-stage='live'] .pulse-close {
-  border-radius: 50%;
-}
-.pulse-dialog[data-stage='live'] .pulse-panel button:disabled {
-  color: var(--pulse-live-muted);
-  opacity: 0.6;
-}
-.pulse-live {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(260px, 1fr);
-  gap: var(--space-6);
-  align-items: stretch;
-}
-.pulse-stage {
-  position: relative;
-  overflow: hidden;
-  aspect-ratio: 3 / 4;
-  max-height: 70dvh;
-  /* A rounded frame, not a pill: the oval guide drawn inside is the only oval. */
-  border-radius: var(--radius-dialog);
-  background: var(--media-stage);
-}
-.pulse-video {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transform: scaleX(-1);
-}
-.pulse-overlay {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-.pulse-shade {
-  fill: var(--overlay-media-dim);
-}
-.pulse-oval {
-  fill: none;
-  stroke: color-mix(in oklch, white 85%, transparent);
-  stroke-width: 2.5;
-  transition: stroke 200ms;
-}
-.pulse-dialog.is-measuring .pulse-oval {
-  stroke: color-mix(in oklch, var(--pulse-pass) 45%, transparent);
-}
-.pulse-ring {
-  fill: none;
-  stroke: var(--pulse-pass);
-  stroke-width: 5;
-  stroke-linecap: round;
-}
-.pulse-panel {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-  min-width: 0;
-  padding-block: var(--space-2);
-}
-/* Progress, status and actions read as one group from the top of the frame. */
-.pulse-panel .pulse-buttons {
-  margin-top: var(--space-2);
-}
-.pulse-status {
-  min-height: 1.2em;
-  color: var(--pulse-live-ink);
-  font-size: 22px;
-  font-weight: 600;
-  line-height: 1.3;
-  overflow-wrap: anywhere;
-  font-variant-numeric: tabular-nums;
-}
-.pulse-steps {
-  display: grid;
-  gap: var(--space-3);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.pulse-step {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  color: var(--pulse-live-muted);
-  font-size: 16px;
-}
-.pulse-step-dot {
-  width: 12px;
-  height: 12px;
+.pulse-dialog .pulse-close { width: 44px; padding: 0; background: transparent; border-color: transparent; color: inherit; }
+.pulse-dialog .pulse-close:hover { background: color-mix(in srgb, currentColor 8%, transparent); }
+.pulse-dialog :focus-visible { outline: var(--focus-width) solid var(--focus); outline-offset: var(--focus-offset); }
+.pulse-note, .pulse-hint { color: var(--muted); font-size: var(--text-body); line-height: 1.5; }
+.pulse-dialog[data-stage='intro'] .pulse-body { padding: var(--space-8); gap: var(--space-5); }
+.pulse-intro-title { font: 300 40px/1.15 var(--font-heading); }
+.pulse-preview { display: grid; grid-template-columns: repeat(3, 1fr); background: var(--widget-fill); color: var(--widget-ink); border-radius: var(--radius-panel); padding: var(--space-6); gap: var(--space-4); }
+.pulse-preview > div { display: flex; align-items: center; gap: var(--space-3); }
+.pulse-preview .icon { width: 24px; height: 24px; flex: none; }
+.pulse-settings, .pulse-evidence, .pulse-checkin { border-top: 1px solid var(--line-soft); }
+.pulse-dialog summary { display: flex; align-items: center; gap: var(--space-2); min-height: var(--control-height); padding-block: var(--space-3); cursor: pointer; font-weight: 500; list-style: none; }
+.pulse-dialog summary::-webkit-details-marker { display: none; }
+.pulse-dialog summary::before { content: '+'; width: 1em; flex: none; text-align: center; }
+.pulse-dialog details[open] > summary::before { content: '−'; }
+.pulse-dialog details[open] > :not(summary) { margin-top: var(--space-4); }
+.pulse-settings .pulse-field { max-width: 320px; }
+.pulse-consent { display: flex; align-items: flex-start; gap: var(--space-3); min-height: 44px; line-height: 1.5; cursor: pointer; }
+.pulse-consent input { flex: none; margin-top: 2px; }
+.pulse-field { display: grid; gap: var(--space-2); min-width: 0; }
+.pulse-field textarea, .pulse-field select {
   box-sizing: border-box;
-  border: 2px solid currentColor;
-  border-radius: 50%;
+  width: 100%;
+  min-height: var(--control-height);
+  padding: var(--space-3);
+  border: 1px solid color-mix(in srgb, var(--widget-ink) 12%, transparent);
+  border-radius: var(--radius-control);
+  background: var(--field-fill);
+  color: var(--widget-ink);
+  font: 400 16px/1.5 var(--font-body);
+  resize: none;
 }
-.pulse-step[data-state='active'] {
-  color: var(--pulse-live-ink);
-  font-weight: 600;
+.pulse-field textarea::placeholder { color: var(--widget-ink); opacity: .7; }
+/* Camera feedback stays in the same place while acquisition changes. */
+.pulse-dialog[data-stage='live'] {
+  --surface: var(--media-surface);
+  --ink: var(--media-ink);
+  --muted: var(--media-muted);
+  --chart-series: var(--media-pass);
+  --line-soft: color-mix(in srgb, var(--media-ink) 18%, transparent);
+  background: var(--surface);
+  color: var(--ink);
 }
-.pulse-step[data-state='active'] .pulse-step-dot {
-  border-color: var(--pulse-pass);
-  animation: pulse-beat 1.2s ease-in-out infinite;
-}
-.pulse-step[data-state='done'] {
-  color: var(--pulse-live-ink);
-}
-.pulse-step[data-state='done'] .pulse-step-dot {
-  border-color: var(--pulse-pass);
-  background: var(--pulse-pass);
-}
-@keyframes pulse-beat {
-  50% {
-    background: var(--pulse-pass);
-  }
+.pulse-live { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: var(--space-6); }
+.pulse-stage { position: relative; overflow: hidden; aspect-ratio: 3 / 4; max-height: 540px; border-radius: var(--radius-panel); background: var(--media-stage); }
+.pulse-video, .pulse-overlay { position: absolute; inset: 0; width: 100%; height: 100%; }
+.pulse-video { object-fit: cover; transform: scaleX(-1); }
+.pulse-shade { fill: var(--overlay-media-dim); }
+.pulse-oval { fill: none; stroke: var(--media-ink); stroke-width: 1.5; opacity: .65; }
+.pulse-ring { display: none; }
+.pulse-panel { display: flex; flex-direction: column; justify-content: center; min-width: 0; gap: var(--space-6); }
+.pulse-guidance { min-height: 104px; }
+.pulse-status { color: var(--ink); font: 300 32px/1.15 var(--font-heading); }
+.pulse-hint { margin-top: var(--space-3) !important; min-height: 3em; }
+.pulse-progress-label { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-2); margin-bottom: var(--space-3); font-variant-numeric: tabular-nums; }
+.pulse-progress-label > :last-child { color: var(--muted); }
+.pulse-progress progress { display: block; width: 100%; height: 6px; border: 0; border-radius: var(--radius-pill); overflow: hidden; background: var(--line-soft); accent-color: var(--media-pass); }
+.pulse-progress progress::-webkit-progress-bar { background: var(--line-soft); }
+.pulse-progress progress::-webkit-progress-value { background: var(--media-pass); }
+.pulse-progress progress::-moz-progress-bar { background: var(--media-pass); }
+.pulse-live-signal { position: relative; border-top: 1px solid var(--line-soft); padding-top: var(--space-4); }
+.pulse-live-signal h3 { font-size: var(--text-body); font-weight: 500; margin: 0; }
+.pulse-wave { display: block; width: 100%; height: 96px; }
+.pulse-live-signal .pulse-wave { margin-block: var(--space-3); }
+.pulse-buttons { display: flex; gap: var(--space-3); }
+.pulse-capture-actions { justify-content: flex-end; flex: none; padding: var(--space-4) var(--space-6); border-top: 1px solid var(--line-soft); }
+.pulse-capture-actions .pulse-voice { margin-right: auto; }
+/* One paper surface holds the measurements with shared value and unit columns. */
+.pulse-review { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: var(--space-8); align-items: start; }
+.pulse-observations, .pulse-journal { display: grid; gap: var(--space-5); min-width: 0; }
+.pulse-metrics { background: var(--widget-fill); color: var(--widget-ink); padding: 0 var(--space-5); border-radius: var(--radius-panel); }
+.pulse-metric { display: grid; grid-template-columns: minmax(0, 1fr) 168px; align-items: center; gap: var(--space-1) var(--space-3); padding-block: var(--space-5); }
+.pulse-metric + .pulse-metric { border-top: 1px solid color-mix(in srgb, var(--widget-ink) 12%, transparent); }
+.pulse-metric h4 { margin: 0; font-size: var(--text-body); line-height: 1.4; font-weight: 500; }
+.pulse-figure { display: grid; grid-template-columns: 64px 96px; gap: var(--space-2); align-items: baseline; }
+.pulse-value { color: var(--widget-ink); font-size: 40px; line-height: 1; letter-spacing: -.03em; font-weight: 500; text-align: right; font-variant-numeric: tabular-nums; }
+.pulse-unit { color: var(--widget-ink); font-size: var(--text-body); }
+.pulse-metric .pulse-note { grid-column: 1/-1; color: var(--widget-ink); margin-top: var(--space-2); }
+.pulse-comparison h3 { font-size: var(--text-body); font-weight: 600; margin: 0 0 var(--space-2); }
+.pulse-comparison p + p { margin-top: var(--space-2); }
+.pulse-context { display: grid; gap: var(--space-5); }
+.pulse-save { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; flex: none; gap: var(--space-3) var(--space-6); border-top: 1px solid var(--line-soft); padding: var(--space-4) var(--space-6); }
+.pulse-save .pulse-error { grid-column: 1/-1; }
+.pulse-save .pulse-error:not(:empty) + .pulse-save-actions { grid-column: 1/-1; }
+.pulse-save-actions { justify-content: flex-end; }
+.pulse-save-actions button { min-width: 144px; }
+.pulse-save > .pulse-consent { min-height: 0; }
+.pulse-signal-layout { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-8); }
+.pulse-signal-info { display: grid; align-content: start; gap: var(--space-5); }
+.pulse-charts { display: grid; gap: var(--space-5); }
+.pulse-chart { margin: 0; min-width: 0; }
+.pulse-chart figcaption { font-weight: 500; margin-bottom: var(--space-3); }
+.pulse-chart canvas { height: 100px; border-bottom: 1px solid var(--line-soft); }
+.pulse-axis { display: flex; justify-content: space-between; gap: var(--space-2); margin-top: var(--space-2); color: var(--muted); font-variant-numeric: tabular-nums; }
+.pulse-facts, .pulse-more { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-3); margin: 0; }
+.pulse-facts dt, .pulse-more dt { color: var(--muted); }
+.pulse-facts dd, .pulse-more dd { margin: 0; overflow-wrap: anywhere; }
+.pulse-more dd { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+.pulse-research { border-top: 1px solid var(--line-soft); }
+.pulse-checkin a { display: inline-flex; align-items: center; min-height: 44px; color: inherit; overflow-wrap: anywhere; }
+.pulse-checkin .pulse-consent { margin-block: var(--space-3); }
+.pulse-sources { max-height: 240px; overflow-y: auto; }
+.pulse-sources:empty, .pulse-reply:empty, .pulse-error:empty { display: none; }
+.pulse-reply { white-space: pre-wrap; overflow-wrap: anywhere; }
+.pulse-reply p + p { margin-top: var(--space-3); }
+.pulse-error { color: var(--failure); }
+.pulse-details { color: var(--muted); overflow-wrap: anywhere; }
+.pulse-dialog .accuracy-note { min-height: var(--control-height); color: inherit; font-size: var(--text-body); text-decoration: underline; text-underline-offset: 3px; }
+.pulse-dialog .accuracy-note .icon { width: 18px; height: 18px; }
+@media (max-width: 700px) {
+  .pulse-dialog { width: 100vw; height: 100dvh; max-height: 100dvh; margin: 0; border: 0; border-radius: 0; }
+  .pulse-head { padding: var(--space-3) var(--space-4); }
+  .pulse-head h2 { font-size: 26px; }
+  .pulse-body, .pulse-dialog[data-stage='intro'] .pulse-body { padding: var(--space-4); padding-bottom: max(var(--space-5), env(safe-area-inset-bottom)); gap: var(--space-5); scrollbar-gutter: auto; }
+  .pulse-intro-title { font-size: 36px; }
+  .pulse-preview { grid-template-columns: 1fr; padding: var(--space-5); }
+  .pulse-review, .pulse-signal-layout { grid-template-columns: 1fr; gap: var(--space-5); }
+  .pulse-observations, .pulse-journal { gap: var(--space-4); }
+  .pulse-metrics { padding-inline: var(--space-4); }
+  .pulse-metric { padding-block: var(--space-4); }
+  .pulse-save { grid-template-columns: 1fr; padding: var(--space-4); padding-bottom: max(var(--space-4), env(safe-area-inset-bottom)); }
+  .pulse-save-actions { display: grid; grid-template-columns: 1fr 1fr; }
+  .pulse-save-actions button { min-width: 0; }
+  .pulse-live { grid-template-columns: 1fr; gap: var(--space-4); }
+  .pulse-stage { height: clamp(260px, 40dvh, 440px); aspect-ratio: auto; }
+  .pulse-panel { gap: var(--space-4); }
+  .pulse-guidance { min-height: 0; }
+  .pulse-status { font-size: 28px; }
+  .pulse-hint { min-height: 1.5em; margin-top: var(--space-2) !important; }
+  .pulse-live-signal { padding-top: var(--space-3); }
+  .pulse-live-signal .pulse-wave { height: 56px; margin-block: var(--space-2); }
+  .pulse-capture-actions { padding: var(--space-3) var(--space-4); padding-bottom: max(var(--space-4), env(safe-area-inset-bottom)); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .pulse-step[data-state='active'] .pulse-step-dot {
-    animation: none;
-  }
+  .pulse-dialog *, .pulse-dialog button:active:not(:disabled) { animation: none !important; transition: none !important; transform: none !important; }
 }
-.pulse-hint {
-  min-height: 1.4em;
-  margin: 0;
-  color: var(--pulse-live-muted);
-  font-size: 16px;
-  line-height: 1.4;
-}
-.pulse-dialog[data-stage='live'] {
-  --chart-series: var(--pulse-pass);
-}
-.pulse-wave {
-  display: block;
-  width: 100%;
-  height: 56px;
-}
-.pulse-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-}
+/* Existing host entry points. */
+.vital-signs-head { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-3); }
+.vital-signs-head h3 { margin: 0; font: 300 24px/1.2 var(--font-heading); }
+.vital-signs-head button { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); min-height: var(--control-height); }
+.vital-signs-head .icon { width: 20px; height: 20px; flex: none; }
 
-/* Result. */
-.pulse-label {
-  color: var(--muted);
-}
-.pulse-figure {
-  display: flex;
-  align-items: baseline;
-  gap: var(--space-compact);
-  margin: 0;
-}
-.pulse-value {
-  font-size: 64px;
-  font-weight: 600;
-  line-height: 1;
-  letter-spacing: -0.02em;
-}
-.pulse-unit {
-  color: var(--muted);
-  font-size: 20px;
-}
-.pulse-more {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: var(--space-2) var(--space-4);
-  margin: var(--space-1) 0 0;
-  font-size: 17px;
-}
-.pulse-more[hidden] {
-  display: none;
-}
-.pulse-more dt {
-  color: var(--muted);
-}
-.pulse-more dd {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: var(--space-2);
-  margin: 0;
-  font-variant-numeric: tabular-nums;
-}
-.pulse-tag {
-  padding: 1px var(--space-2);
-  border-radius: var(--radius-pill);
-  background: var(--raised);
-  color: var(--muted);
-  font-size: 14px;
-}
-.pulse-usual {
-  font-size: 17px;
-}
-.pulse-message {
-  font-size: 17px;
-  line-height: 1.45;
-}
-.pulse-error {
-  color: var(--failure);
-}
-.pulse-details {
-  margin: 0;
-  color: var(--muted);
-  font-size: 13px;
-  overflow-wrap: anywhere;
-  user-select: text;
-}
-.pulse-error:empty {
-  display: none;
-}
-
-/* Phones: the live screen fills the display, like a call. */
-@media (max-width: 640px) {
-  .pulse-dialog[data-stage='live'] {
-    width: 100vw;
-    max-width: 100vw;
-    height: 100dvh;
-    max-height: 100dvh;
-    margin: 0;
-    padding: var(--space-3) var(--space-3) max(var(--space-4), env(safe-area-inset-bottom));
-    border-radius: 0;
-  }
-  .pulse-dialog[data-stage='live'] .pulse-body,
-  .pulse-dialog[data-stage='live'] .pulse-live {
-    height: calc(100% - 56px);
-  }
-  .pulse-live {
-    grid-template-columns: 1fr;
-    grid-template-rows: minmax(0, 1fr) auto;
-    gap: var(--space-4);
-  }
-  .pulse-stage {
-    aspect-ratio: auto;
-    max-height: none;
-    min-height: 0;
-  }
-  .pulse-panel {
-    gap: var(--space-3);
-  }
-  .pulse-status {
-    min-height: 0;
-    font-size: 24px;
-  }
-  .pulse-wave {
-    height: 40px;
-  }
-}
-
-/* One capture action serves the three readings in each group. */
-.vital-signs-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: var(--space-3);
-}
-.vital-signs-head h3 {
-  margin: 0;
-  font: 300 24px/1.2 var(--font-heading);
-}
-.vital-signs-head button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-2);
-  min-height: var(--control-height);
-}
-.vital-signs-head .icon {
-  width: 20px;
-  height: 20px;
-  flex: none;
-}
-
-/* The accuracy link reads at the sentence size beside it, as in the call log. */
-.pulse-dialog .accuracy-note {
-  min-height: var(--control-height);
-  color: var(--ink);
-  font-size: var(--text-body);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-.pulse-dialog .accuracy-note .icon {
-  width: 18px;
-  height: 18px;
-}
-/* Inside the readings list the link is the row's Estimate tag, with a full-size hit area. */
-.pulse-dialog .pulse-more .accuracy-note {
-  position: relative;
-  min-height: 0;
-  gap: var(--space-1);
-  padding: 1px var(--space-2);
-  border-radius: var(--radius-pill);
-  background: var(--raised);
-  color: var(--muted);
-  font-size: 14px;
-  text-decoration: none;
-}
-.pulse-dialog .pulse-more .accuracy-note::before {
-  content: '';
-  position: absolute;
-  inset: -12px -6px;
-}
-.pulse-dialog .pulse-more .accuracy-note .icon {
-  width: 14px;
-  height: 14px;
-}
-.pulse-dialog[data-stage='live'] .accuracy-note {
-  color: var(--pulse-live-ink);
-}
+.pulse-live-signal:not(.has-signal) .pulse-wave-caption { position: absolute; inset: 50% 0 auto; }
+.pulse-comparison-table { width: 100%; border-collapse: collapse; margin-block: var(--space-3); font-variant-numeric: tabular-nums; }
+.pulse-comparison-table th, .pulse-comparison-table td { padding: var(--space-2) var(--space-1); text-align: right; font-size: var(--text-body); }
+.pulse-comparison-table th { font-weight: 500; }
+.pulse-comparison-table th:first-child { text-align: left; padding-left: 0; }
+.pulse-comparison-table thead { color: var(--muted); }
+.pulse-comparison-table tbody tr { border-top: 1px solid var(--line-soft); }

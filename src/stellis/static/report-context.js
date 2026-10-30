@@ -32,7 +32,8 @@ function answer(item, onSource=null) {
  return node;
 }
 const SUMMARY = 'What does this report say?';
-const PAGE_QUESTIONS = [SUMMARY, 'Which results are outside the usual range?', 'What should I ask at my next appointment?'];
+// The questions a caring clinician would want asked next (owner, 2026-10-30).
+const PAGE_QUESTIONS = [SUMMARY, 'Is anything here worth following up?', 'What should I ask at my next appointment?'];
 
 function mount(host, record, initialPage, factsHost = null) {
   const dom = root.StellisDom;
@@ -236,7 +237,7 @@ function mount(host, record, initialPage, factsHost = null) {
     else{selectedIds.clear();selectedIds.add(item.id);}
     const chosen=map.regions.filter(r=>selectedIds.has(r.id));
     region=chosen.length===1?chosen[0]:chosen.length?{id:chosen.map(r=>r.id).join(','),text:chosen.map(r=>r.text).join('\n'),regions:chosen}:null;
-    lastSource=sourceKey();input.value=drafts.get(lastSource)||'';following=true;
+    lastSource=sourceKey();input.value=drafts.get(lastSource)||(old===undefined?input.value:'');following=true;
     selected.textContent=region?.text||'';selected.hidden=ask.hidden=routines.hidden=selection.hidden=!region;
     buttons.forEach((button,id)=>{button.classList.toggle('is-selected',selectedIds.has(id));button.setAttribute('aria-pressed',String(selectedIds.has(id)));});
     if(reportCall&&old!==region?.id){reportCall.close();reportCall=null;explainStatus.textContent='Call ended. A different source is selected.';}
@@ -250,9 +251,11 @@ function mount(host, record, initialPage, factsHost = null) {
   // page until a line is chosen (owner, 2026-10-29: the upload shows the report and summarizes it).
   function selectPage(){
     if(!map)return;
+    // Text typed while the report was still loading belongs to the page.
+    const typed=lastSource?'':input.value;
     if(lastSource)drafts.set(lastSource,input.value);
     selectedIds.clear();region={id:'page',text:record.title};
-    lastSource=sourceKey();input.value=drafts.get(lastSource)||'';following=true;
+    lastSource=sourceKey();input.value=drafts.get(lastSource)||typed;following=true;
     selected.hidden=ask.hidden=routines.hidden=selection.hidden=true;
     buttons.forEach(button=>{button.classList.remove('is-selected');button.setAttribute('aria-pressed','false');});
     context.textContent=`${record.title}, page ${pageSelect.value}`;
@@ -297,8 +300,10 @@ function mount(host, record, initialPage, factsHost = null) {
         // While Stellis writes, three dots hold the answer's place; an error replaces them with the message.
         if(work.error){const status=dom.el('p',work.error,'report-pending-status');status.role='status';turn.append(status);}
         else turn.append(window.StellisChatUI.typing('Reading your report and related records'));
-        if(work.error){const retry=dom.button('Retry reply','coach-button is-quiet');retry.onclick=()=>sendQuestion(work.question);turn.append(retry);}
+        if(work.error&&!/used its AI credits|allowance is used up/.test(work.error)){const retry=dom.button('Retry reply','coach-button is-quiet');retry.onclick=()=>sendQuestion(work.question);turn.append(retry);}
         messages.append(turn);
+        // Once the AI budget is spent, the report's questions with stored answers stay open (owner, 2026-10-30).
+        if(work.stored?.length)messages.append(questionIdeas(work.stored,'Answers you can still open'));
       }
       // Under the report's own summary, the next questions to ask (#258).
       const shown=exchanges.filter(e=>e.map_id===map.id&&e.region_id===region.id);
@@ -309,7 +314,7 @@ function mount(host, record, initialPage, factsHost = null) {
      if(!region)messages.append(dom.el('p','Select a line on the report, such as a result, to ask about it.','chat-empty'));
      else{
       const whole=region.id==='page';
-      messages.append(questionIdeas(whole?PAGE_QUESTIONS:['What does this result mean for me?','Is it in the usual range?','What should I ask my doctor about it?'],whole?'Ask about this report':'Ask about this line'));
+      messages.append(questionIdeas(whole?PAGE_QUESTIONS:['What does this result mean for me?','What could be causing it?','What should I ask my doctor about it?'],whole?'Ask about this report':'Ask about this line'));
      }
     }
     if(auto)requestAnimationFrame(follow);else{messages.scrollTop=top;newMessages.hidden=false;}
@@ -387,7 +392,16 @@ function mount(host, record, initialPage, factsHost = null) {
       const result=await dom.api(`${base}/explanations`,{method:'POST',json:{...anchor,question}});
       if(!workspace.isConnected)return;
       exchanges.push(result);pending.delete(key);renderHistory();
-    }catch(error){pending.set(key,{question,error:error.message});if(workspace.isConnected)renderHistory();}
+    }catch(error){
+      pending.set(key,{question,error:error.message});if(workspace.isConnected)renderHistory();
+      if(/used its AI credits|allowance is used up/.test(error.message)&&region?.id==='page'){
+        const found=await dom.api('/demo/stored-answers?scope='+encodeURIComponent('report:'+record.title)).catch(()=>null);
+        // Answers already on screen are not offered again.
+        const answered=new Set(exchanges.map(item=>item.question));
+        const stored=(found?.questions||[]).filter(item=>item!==question&&!answered.has(item));
+        if(stored.length&&pending.get(key)?.error){pending.set(key,{...pending.get(key),stored});if(workspace.isConnected)renderHistory();}
+      }
+    }
     finally{busy=false;send.disabled=!region||!configured;callButton.disabled=!region||!configured;}
   }
   form.addEventListener('submit',event=>{

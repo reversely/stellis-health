@@ -110,3 +110,28 @@ test('the pulse is the strongest rhythm', () => {
   assert.ok(Math.abs(vitals.pulse(wave).bpm - 58) <= 1);
   assert.equal(vitals.pulse(wave.slice(0, 100)), null);
 });
+
+
+test('isolated accepted intervals do not manufacture zero RMSSD', () => {
+  const beats = [{t: 0}];
+  for (let i = 0; i < 41; i++) beats.push({t: beats.at(-1).t + (i % 2 ? 1.6 : .8)});
+  assert.equal(vitals.heartRateVariability(beats), null);
+});
+
+
+test('a slow respiratory peak needs enough cycles before it is accepted', () => {
+  const {wave, motion} = recording({bpm:72, breaths:6, seconds:45, noise:0.1, sway:5});
+  const result = vitals.breathingRate(vitals.findBeats(wave,72),motion);
+  assert.ok(result && !result.sure);
+  const longer = recording({bpm:72, breaths:6, seconds:65, noise:0.1, sway:5});
+  assert.ok(vitals.breathingRate(vitals.findBeats(longer.wave,72),longer.motion).sure);
+});
+
+
+test('sampling artifacts in an unmodulated pulse do not become breathing', () => {
+  for (const step of [.033,1/30,1/25]) {
+    const wave=Array.from({length:Math.ceil(45/step)},(_,i)=>({t:i*step,v:Math.sin(2*Math.PI*1.2*i*step)}));
+    const result=vitals.breathingRate(vitals.findBeats(wave,72),[]);
+    assert.ok(!result || !result.sure, `false respiratory rhythm at ${1/step} fps`);
+  }
+});

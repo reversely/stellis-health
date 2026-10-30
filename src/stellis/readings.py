@@ -9,6 +9,8 @@ value is compared with their past rather than with population norms.
 
 from __future__ import annotations
 
+import json
+
 import hashlib
 import dataclasses
 import datetime
@@ -105,7 +107,8 @@ def _create_table(conn) -> None:
             created_at TEXT NOT NULL)""")
 
     columns = {row['name'] for row in conn.execute('PRAGMA table_info(readings)')}
-    for name, definition in [('notebook_id','TEXT REFERENCES notebooks(id) ON DELETE SET NULL'),
+    for name, definition in [('scan_evidence',"TEXT NOT NULL DEFAULT '{}'"),
+                             ('notebook_id','TEXT REFERENCES notebooks(id) ON DELETE SET NULL'),
                              ('document_id','TEXT REFERENCES documents(id) ON DELETE SET NULL'),
                              ('capture_id','TEXT')]:
         if name not in columns:
@@ -156,7 +159,7 @@ def add(measure_key: str,
         quality: float | None = None,
         note: str = "", *, notebook_id: str | None = None,
         document_id: str | None = None, capture_id: str | None = None,
-        conn=None) -> dict[str, object]:
+        scan_evidence: dict | None = None, conn=None) -> dict[str, object]:
     """Stores a reading the person logged or the camera measured.
 
     Args:
@@ -179,6 +182,9 @@ def add(measure_key: str,
     Raises:
         ValueError: A field is missing, out of range or malformed.
     """
+    evidence_json = json.dumps(scan_evidence or {}, sort_keys=True, allow_nan=False)
+    if len(evidence_json) > 16000:
+        raise ValueError("Scan evidence is too long")
     notebook_id = notebook_id or None
     document_id = document_id or None
     capture_id = capture_id or None
@@ -205,7 +211,7 @@ def add(measure_key: str,
         with storage.connect() as own:
             own.execute('BEGIN IMMEDIATE')
             return add(measure_key, value, value2, taken_at, source, quality, note, notebook_id=notebook_id,
-                       document_id=document_id, capture_id=capture_id, conn=own)
+                       document_id=document_id, capture_id=capture_id, scan_evidence=scan_evidence, conn=own)
     _create_table(conn)
     if notebook_id and not conn.execute('SELECT id FROM notebooks WHERE id = ? AND archived_at IS NULL',(notebook_id,)).fetchone():
         raise ValueError('Choose an available notebook')
@@ -217,6 +223,8 @@ def add(measure_key: str,
             fields = ('measure', 'value', 'value2', 'document_id', 'notebook_id', 'note', 'source')
             values = (measure.key, value, value2, document_id, notebook_id, note, source)
             changed = tuple(previous[field] for field in fields) != values
+            if previous['scan_evidence'] != evidence_json:
+                raise ValueError('This capture has different scan evidence')
             if changed or (taken_at is not None and previous['taken_at'] != moment):
                 raise ValueError('This capture has already been saved with different values')
             return _stored_point(previous)
@@ -227,6 +235,7 @@ def add(measure_key: str,
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
         (reading_id, measure.key, value, value2, moment,
          source, quality, note, _now(), notebook_id, document_id, capture_id))
+    conn.execute("UPDATE readings SET scan_evidence = ? WHERE id = ?", (evidence_json, reading_id))
     row = conn.execute("SELECT * FROM readings WHERE id = ?",
                        (reading_id,)).fetchone()
     return _stored_point(row)
@@ -248,6 +257,7 @@ def delete(reading_id: str) -> None:
 def _stored_point(row) -> dict[str, object]:
     return {
         "id": row["id"],
+        "scan_evidence": json.loads(row["scan_evidence"]),
         "measure": row["measure"],
         "time": row["taken_at"],
         "value": row["value"],

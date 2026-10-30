@@ -3,7 +3,7 @@ let current;
 let busy = false;
 const draftRoutes = new Map();
 const kindLabels = {report_page: 'Report page', document_ocr: 'Text recognition', agent_request: 'Agent request', onboarding_plan: 'Notebook proposals', agent_chat: 'Agent chat', agent_plan: 'Work planning', agent_review: 'Agent review',
-  answer: 'Transcript question', summary: 'Summary', clean: 'Transcript cleanup', agent: 'To-do extraction', categorization: 'Category scoring'};
+  answer: 'Transcript question', summary: 'Summary', clean: 'Transcript cleanup', agent: 'To-do extraction', categorization: 'Category scoring', safety_reply: 'Safety reply'};
 const stateLabels = {running: 'Running', succeeded: 'Completed', failed: 'Failed', interrupted: 'Interrupted'};
 const eventLabels = {page_started: 'Page started', page_completed: 'Page completed', request_started: 'Request started', sources_selected: 'Sources selected',
   model_requested: 'Model requested', model_replied: 'Model replied', answer_retry: 'Answer format retry',
@@ -69,6 +69,29 @@ function editableRoute(entry, data) {
   else if (input.disabled) row.lastElementChild.append(element('p','Check connections to load installed models.','settings-note'));
   return row;
 }
+// The deployment's shared AI budget: what is spent, and for the owner a switch for its limit (owner, 2026-10-30).
+function budgetRow(data) {
+  const budget = data.budget;
+  if (!budget) return [];
+  const money = value => '$' + value.toFixed(2);
+  const spent = budget.enabled && budget.spent_usd >= budget.limit_usd;
+  const row = element('div', undefined, 'inference-route');
+  row.append(element('strong', 'AI budget'));
+  const details = element('div');
+  details.append(element('div', budget.enabled ? `${money(budget.spent_usd)} of ${money(budget.limit_usd)} spent` : `${money(budget.spent_usd)} spent, no limit`),
+    element('p', spent ? 'Spent. New answers are paused; stored answers can still be opened.'
+      : 'Shared by every account and demo visitor. When it is spent, new answers pause and stored answers stay open.', 'settings-note'));
+  if (data.operator) {
+    const toggle = element('button', budget.enabled ? 'Turn off the limit' : 'Turn on the limit');
+    toggle.type = 'button';
+    toggle.addEventListener('click', () => operate(toggle, $('#inference-check-status'), 'Saving the budget…',
+      async () => { await request('/budget', {method: 'PUT', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({enabled: !budget.enabled})}); return request(); }));
+    const actions = element('div', undefined, 'settings-actions'); actions.append(toggle);
+    details.append(actions);
+  }
+  row.append(details);
+  return [row];
+}
 function render(data) {
   current = data;
   const observed = data.observed;
@@ -82,6 +105,7 @@ function render(data) {
     'Super 120B gives the most grounded answers',
     'settings-note')] : [];
   $('#inference-routes').replaceChildren(
+    ...budgetRow(data),
     ...recommended,
     ...data.routes.map(entry => editableRoute(entry, data)),
     route('Live transcription', data.speech_execution, 'Local Parakeet speech worker',

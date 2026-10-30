@@ -140,6 +140,12 @@ function steps(trace, answer) {
         name = answer?.kind === 'report' ? 'Saved to this line' : 'Saved';
         detail = answer?.kind === 'report' ? 'Follow-up questions reuse the selection' : '';
         break;
+      case 'safety_gate':
+        name = 'Safety rule answered';
+        detail = ({emergency: 'Possible emergency', crisis: 'Crisis', worse_after_change: 'Feeling unwell after a medicine change',
+          medicine_change: 'Changing a medicine', keep_from_doctor: 'Keeping something from a doctor'}[event.gate] || 'Safety rule') +
+          '. A fixed reply; no model was called.';
+        break;
       case 'request_failed': name = 'Request failed'; detail = event.error_code || event.error_type || ''; break;
       case 'request_interrupted': name = 'Request stopped'; break;
       default: name = event.name.replaceAll('_', ' ').replace(/^./, c => c.toUpperCase());
@@ -155,11 +161,13 @@ function render(panel, data) {
   const when = new Date(answer?.created_at || trace.created_at).toLocaleString([], {month: 'long', day: 'numeric', hour: 'numeric', minute: '2-digit'});
   panel.subtitle.textContent = answer ? `${answer.title}, ${when}` : when;
   const tiles = el('div', null, 'trace-tiles');
-  tiles.append(
+  // A safety rule's fixed reply calls no model, so it has no model, tokens or citations to show.
+  if (trace.kind === 'safety_reply') tiles.append(tile('No model', 'A safety rule answered'), tile(seconds(trace.duration_ms || 0), 'Time taken'));
+  else tiles.append(
       tile(trace.model || 'Not reported', trace.model_source === 'reported' ? 'Reported by the runtime' : 'Configured model'),
       tile(trace.execution + (trace.provider ? `, ${trace.provider}` : ''), 'Where the request ran'),
       tile(trace.duration_ms == null ? (trace.state === 'running' ? 'Running' : 'Not recorded') : seconds(trace.duration_ms), tokens(trace.usage)));
-  if (answer?.citations) tiles.append(tile(`${answer.citations.found} of ${answer.citations.total}`, 'Citations point to supplied sources'));
+  if (answer?.citations && trace.kind !== 'safety_reply') tiles.append(tile(`${answer.citations.found} of ${answer.citations.total}`, 'Citations point to supplied sources'));
   const {list, total} = steps(trace, answer);
   const head = el('div', null, 'trace-steps-head');
   head.setAttribute('aria-hidden', 'true');

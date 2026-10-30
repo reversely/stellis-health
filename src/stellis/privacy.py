@@ -48,9 +48,13 @@ class Pseudonyms:
         self.back: dict[str, str] = {}
         self.counts: dict[str, int] = {}
         # Whole names first, then their single words, so "Maya Chen" and a later "Maya" share a person.
-        full = sorted({n.strip() for n in names if len(n.strip()) >= 3}, key=len, reverse=True)
+        # Equal lengths sort by spelling: set order changes per process, and the numbering must not, or
+        # one question hashes differently for every demo visitor and never matches its stored reply.
+        def order(name: str) -> tuple[int, str, str]:
+            return -len(name), name.casefold(), name
+        full = sorted({n.strip() for n in names if len(n.strip()) >= 3}, key=order)
         self.names = full + sorted({w for n in full for w in _WORD.findall(n)
-                                    if len(w) >= 3 and w.casefold() not in _NOT_NAMES}, key=len, reverse=True)
+                                    if len(w) >= 3 and w.casefold() not in _NOT_NAMES}, key=order)
 
     def _token(self, kind: str, value: str) -> str:
         key = kind + ":" + value.casefold()
@@ -301,6 +305,7 @@ class _AsyncBody(httpx.AsyncByteStream):
 # and replaces the cached reply.
 _RETRY_SECONDS = 120
 _served: dict[str, float] = {}
+_indexed: set[str] = set()
 
 
 def _cache_path(request: httpx.Request) -> "Path | None":
@@ -315,10 +320,53 @@ def _cache_path(request: httpx.Request) -> "Path | None":
             return None  # Live conversation stays live.
     except (ValueError, UnicodeDecodeError, AttributeError):
         return None
-    sent = json.dumps(pseudonymize(payload)[0], sort_keys=True).encode()
-    key = hashlib.sha256(request.url.path.encode() + b"\0" + sent).hexdigest()
+    sent = json.dumps(pseudonymize(payload)[0], sort_keys=True)
+    # Record ids are new for every visitor's copy of the demo, so the key numbers them by order instead.
+    for number, value in enumerate(_ids(sent), 1):
+        sent = sent.replace(value, f"[UUID_{number}]")
+    key = hashlib.sha256(request.url.path.encode() + b"\0" + sent.encode()).hexdigest()
+    return _cache_root() / key[:2] / f"{key}.json"
+
+
+_UUID = re.compile(r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
+
+
+def _ids(text: str) -> list[str]:
+    return list(dict.fromkeys(_UUID.findall(text)))
+
+
+def _cache_root() -> "Path":
+    from pathlib import Path
+    from stellis import storage
     shared = os.environ.get("STELLIS_DEMO_CACHE_DIR")
-    return (Path(shared) if shared else Path(storage.base_dir()) / "demo-model-cache") / key[:2] / f"{key}.json"
+    return Path(shared) if shared else Path(storage.base_dir()) / "demo-model-cache"
+
+
+def index_stored(url: str, body: dict, question: str, scope: str) -> None:
+    """Notes which question and record a stored demo reply answers, so it can be offered once the budget is spent."""
+    path = _cache_path(httpx.Request("POST", url, json=body))
+    if path is None or not path.is_file() or path.stem in _indexed:
+        return
+    _indexed.add(path.stem)  # A replay does not add the same answer again.
+    entry = json.dumps({"key": path.stem, "question": question[:300], "scope": scope[:200]})
+    with (_cache_root() / "index.jsonl").open("a") as index:
+        index.write(entry + "\n")
+
+
+def stored_questions(scope: str) -> list[str]:
+    """Questions about one notebook or report that the demo can answer from stored replies, newest first."""
+    index = _cache_root() / "index.jsonl"
+    if not index.is_file():
+        return []
+    seen: dict[str, None] = {}
+    for line in reversed(index.read_text().splitlines()):
+        try:
+            entry = json.loads(line)
+        except ValueError:
+            continue
+        if entry.get("scope") == scope and (_cache_root() / entry["key"][:2] / f"{entry['key']}.json").is_file():
+            seen.setdefault(entry["question"], None)
+    return list(seen)[:8]
 
 
 def replayable(url: str, body: dict) -> bool:
@@ -331,6 +379,19 @@ def replayable(url: str, body: dict) -> bool:
             and time.monotonic() - _served.get(str(path), -_RETRY_SECONDS) >= _RETRY_SECONDS)
 
 
+def _over_budget(request: httpx.Request) -> httpx.Response | None:
+    """Refuses a new hosted model call once the deployment's budget is spent, whichever caller sent it.
+
+    Callers that check the budget first show its message; this catches the ones that do not, so
+    nothing is spent past the limit.
+    """
+    from stellis import deployment
+    if (request.method != "POST" or _local(request.url)
+            or not request.url.path.endswith(("/chat/completions", "/responses")) or not deployment.exhausted()):
+        return None
+    return httpx.Response(429, json={"error": {"message": deployment.MESSAGE}}, request=request)
+
+
 def _cached(path: "Path | None", request: httpx.Request) -> httpx.Response | None:
     if path is None or not path.is_file():
         return None
@@ -339,6 +400,9 @@ def _cached(path: "Path | None", request: httpx.Request) -> httpx.Response | Non
     _served[str(path)] = time.monotonic()
     saved = json.loads(path.read_text())
     body = saved["body"]
+    # A reply that names a record id gets this visitor's id for it.
+    for stored, current in zip(saved.get("ids", []), _ids(request.content.decode("utf-8", "replace"))):
+        body = body.replace(stored, current)
     try:
         # A replayed reply cost nothing, so it carries no usage for the daily allowance to count.
         reply = json.loads(body)
@@ -357,7 +421,8 @@ def _keep(path: "Path | None", response: httpx.Response) -> httpx.Response:
     path.parent.mkdir(parents=True, exist_ok=True)
     temp = path.with_suffix(f".{os.getpid()}.tmp")
     temp.write_text(json.dumps({"status": 200, "type": response.headers.get("content-type", "application/json"),
-                                "body": body.decode("utf-8", "replace")}))
+                                "body": body.decode("utf-8", "replace"),
+                                "ids": _ids(response.request.content.decode("utf-8", "replace"))}))
     temp.replace(path)
     _served[str(path)] = time.monotonic()
     return response
@@ -379,6 +444,8 @@ class Transport(httpx.BaseTransport):
         cache = _cache_path(request)
         if (hit := _cached(cache, request)) is not None:
             return hit
+        if (refused := _over_budget(request)) is not None:
+            return refused
         return _keep(cache, self._send(request))
 
     def _send(self, request: httpx.Request) -> httpx.Response:
@@ -406,6 +473,8 @@ class AsyncTransport(httpx.AsyncBaseTransport):
         cache = _cache_path(request)
         if (hit := _cached(cache, request)) is not None:
             return hit
+        if (refused := _over_budget(request)) is not None:
+            return refused
         return await _akeep(cache, await self._send(request))
 
     async def _send(self, request: httpx.Request) -> httpx.Response:

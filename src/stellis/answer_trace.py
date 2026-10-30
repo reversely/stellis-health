@@ -37,8 +37,10 @@ def _report(conn, trace_id):
         WHERE e.trace_id = ?''', (trace_id,)).fetchone()
     if row is None:
         return None
-    selection = next(region for region in json.loads(row['payload'])['regions'] if region['id'] == row['region_id'])
     title = _title(conn, row['document_id']) or 'Deleted record'
+    # A whole-page question has no line; it is about the page itself.
+    selection = next((region for region in json.loads(row['payload'])['regions'] if region['id'] == row['region_id']),
+                     {'text': title})
     terms = {word.casefold() for word in _WORD.findall(selection['text'])}
     sources = [{'role': 'selected', 'title': title, 'page': row['page'], 'quote': selection['text'][:QUOTE_CHARS],
                 'target': f"/document/{row['document_id']}?page={row['page']}&map={row['map_id']}&region={row['region_id']}"}]
@@ -62,7 +64,9 @@ def _report(conn, trace_id):
         checks.append({'label': f"{related or 'Deleted record'}, text hash", 'status': 'unchanged' if current else 'changed'})
     cited = len(json.loads(row['citations']))
     checks.append({'label': 'Each citation points to a supplied source', 'status': f'{cited} of {cited}'})
-    return {'kind': 'report', 'label': 'Report line explanation', 'title': f"{title}, {selection['text'][:60]}",
+    whole_page = selection['text'] == title
+    return {'kind': 'report', 'label': 'Report explanation' if whole_page else 'Report line explanation',
+            'title': title if whole_page else f"{title}, {selection['text'][:60]}",
             'question': row['question'], 'created_at': row['created_at'], 'sources': sources, 'checks': checks,
             'citations': {'found': cited, 'total': cited}}
 

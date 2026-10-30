@@ -54,7 +54,7 @@
  }
  async function camera(){
   if(!demo)await refresh();
-  if(!demo?.active){window.StellisCameraPulse.open(refresh,measures.find(m=>m.key==='pulse'),{saveReading:json=>window.StellisDom.api('/readings',{method:'POST',json:{...json,notebook_id:notebookId}})});return;}
+  if(!demo?.active){window.StellisCameraPulse.open(refresh,measures.find(m=>m.key==='pulse'),{notebookId,saveReading:json=>window.StellisDom.api('/readings',{method:'POST',json})});return;}
   const pending=[];
   window.StellisCameraPulse.open(async()=>{sessionStorage.setItem(cameraKey(),JSON.stringify([...cameraResults(),...pending]));paintCamera()},null,{showComparison:false,saveReading:async point=>{pending.push(point);return point}});
  }

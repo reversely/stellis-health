@@ -285,6 +285,38 @@ class NotebookChatTest(unittest.TestCase):
         self.assertNotEqual(response.status_code, 200)
         self.assertIn("could not be checked", response.text)
 
+    def test_a_search_that_finds_nothing_answers_without_a_model(self):
+        empty = notebooks.create("Empty")["id"]
+        turn = mock.AsyncMock()
+        found = mock.Mock(results=[], summary=lambda: None)
+        with mock.patch.object(agent_gateway, "turn", turn), \
+                mock.patch("stellis.research.research", mock.AsyncMock(return_value=found)):
+            response = self.client.post(f"/api/v1/notebooks/{empty}/ask",
+                                        json={"question": "When is my next appointment?", "source_ids": [], "research": True})
+        self.assertEqual(response.status_code, 200, response.text)
+        self.assertEqual(response.json()["content"], notebook_chat.NOTHING_FOUND)
+        turn.assert_not_awaited()
+
+    def test_a_question_only_public_references_answer_gets_the_general_brief(self):
+        public = [notebook_chat.Passage("public:1", "Cancer Alternative Therapies", "Safety is not known.",
+                                        "https://medlineplus.gov/x", provider="MedlinePlus")]
+        record = [notebook_chat.Passage("document:a", "Lab", "Ferritin 48", "/document/a")]
+        self.assertTrue(notebook_chat.build_prompt("Which clinics treat cancer?", public, []).startswith(
+            notebook_chat._GENERAL_INSTRUCTIONS))
+        self.assertTrue(notebook_chat.build_prompt("Is my ferritin low?", record + public, []).startswith(
+            notebook_chat._INSTRUCTIONS))
+
+    def test_a_reply_naming_sources_by_number_is_asked_again(self):
+        turn = mock.AsyncMock(side_effect=[("Source 1 discusses depression. [[source:1]]", "s"),
+                                           ("The dose stays at 10 mg. [[source:1]]", "s")])
+        with mock.patch.object(agent_gateway, "turn", turn):
+            response = self.client.post(f"/api/v1/notebooks/{self.book}/ask",
+                                        json={"question": QUESTION, "source_ids": self.checked})
+        self.assertEqual(response.status_code, 200, response.text)
+        self.assertEqual(turn.await_count, 2)
+        self.assertIn("talked about the sources", turn.await_args.args[0])
+        self.assertNotIn("Source 1", response.json()["content"])
+
     def test_unchecked_and_other_notebook_sources_stay_out(self):
         source_ids = [*self.checked, "page:" + self.elsewhere]
         for limit in (notebook_chat.FULL_TEXT_CHARS, 10):

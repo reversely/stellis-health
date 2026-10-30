@@ -32,7 +32,7 @@ def event(name: str, **details) -> None:
     trace_id = _ACTIVE.get()
     if not trace_id:
         return
-    allowed = {"attempt", "source_count", "citation_count", "supplied_count", "cited_count", "error_type", "error_code", "reads", "step_count", "exit_code", "output_limit", "invalid_meta", "timed_out", "abandoned", "provider_error", "page_number", "character_count", "elapsed_ms", "query_count", "blocked_count", "result_count"}
+    allowed = {"attempt", "source_count", "citation_count", "supplied_count", "cited_count", "error_type", "error_code", "reads", "step_count", "exit_code", "output_limit", "invalid_meta", "timed_out", "abandoned", "provider_error", "page_number", "character_count", "elapsed_ms", "query_count", "blocked_count", "result_count", "gate"}
     safe = {key: value for key, value in details.items() if key in allowed
             and isinstance(value, (int, str))}
     with storage.connect() as conn:

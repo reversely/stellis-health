@@ -4,6 +4,7 @@ from __future__ import annotations
 import json
 import os
 import re
+from pathlib import Path
 from stellis import storage
 
 ROLES = {
@@ -24,7 +25,9 @@ ROLES = {
 def path():
     from stellis import runtime_profile
     profile = "local" if runtime_profile.local_inference() else runtime_profile.selected() if runtime_profile.selected() in {"cloud", "direct"} else "legacy"
-    return storage.base_dir() / f"model-routes-{profile}.json"
+    # On shared keys the owner's choice applies to every account, demo guests included (owner, 2026-10-30).
+    shared = runtime_profile.shared_provider_keys() and os.environ.get("STELLIS_AUTH_DB_DIR")
+    return (Path(os.environ["STELLIS_AUTH_DB_DIR"]) if shared else storage.base_dir()) / f"model-routes-{profile}.json"
 
 
 def choices():

@@ -1,6 +1,6 @@
 """Demo-only upload, review and one-action reset routes."""
 import asyncio
-from fastapi import APIRouter, File, HTTPException, Request, UploadFile
+from fastapi import APIRouter, File, HTTPException, Query, Request, UploadFile
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 from stellis import demo_patient, storage
@@ -39,6 +39,13 @@ def files():
     followups = [{'name': path.name, 'url': '/static/maya/' + path.relative_to(demo_patient.STATIC).as_posix(), 'type': 'application/pdf'}
                  for path in sorted((demo_patient.STATIC / 'followups').glob('*.pdf'))]
     return {'years': years, 'followups': followups}
+
+
+@router.get('/stored-answers')
+def stored_answers(scope: str = Query(max_length=220)):
+    """Questions about one notebook or report the demo can still answer from stored replies."""
+    from stellis import privacy
+    return {'questions': privacy.stored_questions(scope)}
 
 
 @router.get('/story-date')

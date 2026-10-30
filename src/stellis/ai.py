@@ -542,7 +542,7 @@ def _request_impl(messages: list[dict[str, str]], max_tokens: int, metadata: dic
         data = response.json()
         runtime_trace.report(model=data.get("model"))
         usage = data.get("usage") or {}
-        token_quota.record(usage)
+        token_quota.record(usage, data.get("model"))
         for field in ("prompt_tokens", "completion_tokens", "total_tokens"):
             metadata["usage"][field] = metadata["usage"].get(field, 0) + int(usage.get(field) or 0)
         if data.get("id"):
