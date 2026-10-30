@@ -2731,15 +2731,18 @@ async function showVocabulary(section = null) {
  * flashes between them (owner, 2026-10-28). A page that takes longer than 400 ms is shown as it builds.
  */
 async function route() {
-  if (!document.startViewTransition || 'routing' in document.documentElement.dataset) return renderRoute();
-  let rendered;
-  const transition = document.startViewTransition(() => (rendered = renderRoute()));
-  const slow = setTimeout(() => transition.skipTransition(), 400);
-  // A skipped transition rejects its promises; the page itself is already shown, so that is not an error.
-  transition.ready.catch(() => {});
-  transition.finished.finally(() => clearTimeout(slow)).catch(() => {});
-  await transition.updateCallbackDone.catch(() => {});
-  return rendered;
+  // A page that takes a moment shows the page skeleton (html[data-routing]) instead of the last page
+  // frozen behind it (owner, 2026-10-30: "a flickering ghost of a different page, and NO loaders").
+  // A quick page never shows it.
+  const root = document.documentElement;
+  if ('routing' in root.dataset) return renderRoute();
+  const slow = setTimeout(() => { root.dataset.routing = ''; }, 100);
+  try {
+    return await renderRoute();
+  } finally {
+    clearTimeout(slow);
+    delete root.dataset.routing;
+  }
 }
 async function renderRoute() {
   await modulesReady;
@@ -5116,7 +5119,7 @@ function showDateFormatExample() {
   const inFiveDays = new Date(Date.now() + 5 * 86400000);
   const inTwoWeeks = new Date(Date.now() + 14 * 86400000);
   document.querySelector('#date-format-example').textContent =
-    `Example: ${[tomorrow, inFiveDays, inTwoWeeks].map(date => formatListDate(date.toISOString(), {format:getDateFormat()})).join(' · ')}`;
+    `Example: ${[tomorrow, inFiveDays, inTwoWeeks].map(date => formatListDate(date.toISOString(), {format:getDateFormat()})).join(', ')}`;
 }
 document.querySelector('#date-format-select').addEventListener('change', event => {
   window.StellisListDate.setDateFormat(event.target.value); showDateFormatExample();

@@ -45,7 +45,7 @@ def _context(record, day, books):
             ahead=reproductive.predicted_periods(day.isoformat(),1)
             if ahead:
                 number=(trackers.date(ahead[0]['start'])-day).days
-                caption='Next period in';detail=('day' if number==1 else 'days')+' · around '+label(ahead[0]['start'])
+                caption='Next period in';detail=('day' if number==1 else 'days')+', around '+label(ahead[0]['start'])
             else:
                 number=label(start);caption='Last period';detail=''
         end=None;total=None

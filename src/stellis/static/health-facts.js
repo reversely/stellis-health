@@ -101,7 +101,7 @@ class FactsPanel {
     this.acceptAll.hidden = suggested.length < 2;
     this.acceptedTitle.hidden = !accepted.length;
     this.find.textContent = 'Find more with AI';
-    this.count.textContent = `${suggested.length} to approve · ${accepted.length} saved`;
+    this.count.textContent = `${suggested.length} to approve, ${accepted.length} saved`;
     // A report with no results says so once, without a row of zero counts.
     this.count.hidden = !suggested.length && !accepted.length;
     if (this.compact) this.acceptAll.hidden = !suggested.length;

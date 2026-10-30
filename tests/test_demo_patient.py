@@ -78,7 +78,8 @@ def test_years_fill_empty_demo_only_after_approval_and_clear_preserves_real(clie
         result=upload(client,year);assert result.status_code==200,result.text
         review=result.json();assert review['documents']
         assert not review['filed']
-        assert all(record['record_date'] is None for record in review['documents'])
+        # A record's one clear labelled date is saved without a confirm (owner, 2026-10-30).
+        assert all(record['record_date'] for record in review['documents'])
         assert review['biometrics']['readings'] > 300
         assert client.post(f'/api/v1/demo/years/{year}/sort').status_code==422
         dates=confirm(client,year,review);assert dates.status_code==200,dates.text

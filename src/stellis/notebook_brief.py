@@ -19,7 +19,7 @@ def _key(name, unit):
 
 
 def levels(notebook_id: str) -> list[dict]:
-    """Numeric lab and vital facts in this notebook, each with matching points from other notebooks."""
+    """Numeric lab and vital facts: this notebook's tests (has_own) and those only other notebooks hold."""
     names = {book['id']: book['name'] for book in notebooks.list_notebooks()}
     own_documents = {source['id'].partition(':')[2] for source in notebook_sources.list_sources(notebook_id)
                      if source['id'].startswith('document:')}
@@ -48,10 +48,9 @@ def levels(notebook_id: str) -> list[dict]:
         entry['points'].append(point)
     result = []
     for key, entry in series.items():
-        if not entry['has_own']:
-            continue
+        # Tests found only in other notebooks come too, marked, for the All notebooks view.
         points = sorted(entry['points'], key=lambda point: point['date'])
-        mine = [point for point in points if point['own']]
+        mine = [point for point in points if point['own']] or points
         lows = [point['low'] for point in points if point['low'] is not None]
         highs = [point['high'] for point in points if point['high'] is not None]
         # The most common interval stands for "most reports"; each point keeps its own.
@@ -65,6 +64,7 @@ def levels(notebook_id: str) -> list[dict]:
             'reference': {'low': common_low, 'high': common_high,
                           'shared': len(set(lows)) <= 1 and len(set(highs)) <= 1},
             'other_notebooks': sorted({p['notebook'] for p in points if not p['own'] and p['notebook']}),
+            'has_own': entry['has_own'],
         })
     # Newest first; names A to Z within a date.
     return sorted(sorted(result, key=lambda level: level['name'].casefold()),

@@ -141,4 +141,4 @@ def label() -> str:
     from stellis import storage
     if storage.in_demo():
         return agent_execution()
-    return ("Local inference" if local_inference() else "Cloud inference") + " · " + agent_execution()
+    return ("Local inference" if local_inference() else "Cloud inference") + ", " + agent_execution()

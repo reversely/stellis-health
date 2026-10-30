@@ -118,7 +118,7 @@ test('document helpers describe the file and link to a PDF page', () => {
   };
   const photo = {id: 'p', media_type: 'image/png', page_count: 1};
 
-  assert.equal(describe(pdf), 'PDF · 3 pages · 2026-04-02');
+  assert.equal(describe(pdf), 'PDF, 3 pages, 2026-04-02');
   assert.equal(describe(photo), 'Image');
   assert.equal(fileUrl(pdf, 2), '/api/v1/documents/d%201/file#page=2');
   assert.equal(fileUrl(photo, 2), '/api/v1/documents/p/file');

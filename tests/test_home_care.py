@@ -35,7 +35,7 @@ def test_only_the_latest_recent_period_is_a_cycle_day_context():
  periods=[c for c in home_care.view()['contexts'] if c['kind']=='period']
  # #232: no "Day N of cycle"; outside a period, the next period predicted from the averages of past cycles (gaps 280 and 60 days).
  assert [(c['caption'],c['number'],c['since']) for c in periods]==[('Next period in',110,60)]
- assert periods[0]['detail'].startswith('days · around ')
+ assert periods[0]['detail'].startswith('days, around ')
  assert not [c for c in home_care.view((day-dt.timedelta(days=-40)).isoformat())['contexts'] if c['kind']=='period']
 
 

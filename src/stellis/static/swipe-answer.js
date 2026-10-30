@@ -1,8 +1,8 @@
 /**
  * @fileoverview One swipe-to-answer control for every incoming Stellis call (onboarding and Home).
  *
- * The whole track is the grip: a drag from anywhere on it moves the handle, and passing 60% of the
- * way answers. A tap or click anywhere on the track also answers, and so do Enter and Space on the
+ * The whole track is the grip: a drag from anywhere on it moves the handle. Reaching the end of the
+ * rail answers at once; letting go past 60% of the way also answers. A tap or click anywhere on the track also answers, and so do Enter and Space on the
  * handle, so pointer, touch and keyboard paths stay equivalent.
  */
 (function(root) {
@@ -45,7 +45,14 @@ function create({label = 'Answer the call', hint = 'Swipe to answer', onAnswer})
     if (origin === null) return;
     const x = event.clientX - origin;
     if (Math.abs(x) > 6) dragged = true;
-    if (dragged) place(x);
+    if (!dragged) return;
+    place(x);
+    // Reaching the end of the rail answers at once, without waiting for the finger or button to lift.
+    if (offset >= room() - 1) {
+      origin = null;
+      track.classList.remove('is-dragging');
+      answer();
+    }
   });
   track.addEventListener('pointerup', () => {
     if (origin === null) return;

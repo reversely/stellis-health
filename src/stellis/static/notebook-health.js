@@ -221,8 +221,12 @@ function chart(level, points, treatments, onSelect, selected) {
     const start = Math.min(...times) - DAY * 15, end = Math.max(...times) + DAY * 15;
     const ref = level.reference;
     const values = points.flatMap(p => [p.value, p.value2]).filter(v => v != null);
-    const yMax = Math.max(...values, ref.low ?? -Infinity) * 1.1;
-    const ticks = niceTicks(Math.min(0, ...values), yMax);
+    // The axis fits the values and the nearest range limit, so a band below 120 doesn't fill a chart
+    // of values between 122 and 131 (owner, 2026-10-30: "a crazy hardcoded 90% red chart").
+    const lo = Math.min(...values, ref.low ?? Infinity), hi = Math.max(...values, ref.low ?? -Infinity);
+    const pad = Math.max((hi - lo) * 0.25, Math.abs(hi) * 0.05, 1);
+    const yMax = hi + pad;
+    const ticks = niceTicks(Math.max(0, lo - pad), yMax);
     const yTop = ticks.at(-1), yBottom = ticks[0];
     const x = t => left + (t - start) / (end - start) * (W - left - right);
     const y = v => top + (yTop - v) / (yTop - yBottom) * (H - top - bottom);
@@ -295,7 +299,7 @@ function chart(level, points, treatments, onSelect, selected) {
 
 /** Levels: a card per measure, a range switch, and the selected measure's chart and facts. */
 function levels(host, data) {
-  if (!data.levels.length) return;
+  if (!data.levels.some(level => level.has_own !== false)) return;
   const all = data.levels.flatMap(level => level.points.map(point => point.date)).sort();
   const firstYear = all[0].slice(0, 4), lastYear = all.at(-1).slice(0, 4);
   const yearAgo = new Date(parse(data.today).getTime() - 365 * DAY).toISOString().slice(0, 10);
@@ -336,7 +340,11 @@ function levels(host, data) {
     for (const button of rangeButtons) button.setAttribute('aria-pressed', String(button.dataset.range === range));
     for (const button of scopeButtons) button.setAttribute('aria-pressed', String(button.dataset.scope === scope));
     cards.replaceChildren();
+    // This notebook shows its own tests; All notebooks adds the tests only other notebooks hold.
+    const shown = data.levels.filter(level => scope === 'all' || level.has_own !== false);
+    if (!shown.includes(data.levels[chosen])) chosen = data.levels.indexOf(shown[0]);
     data.levels.forEach((level, index) => {
+      if (!shown.includes(level)) return;
       const latest = level.latest;
       const card = dom().button(null, 'brief-level-card');
       card.setAttribute('aria-pressed', String(index === chosen));
@@ -346,6 +354,8 @@ function levels(host, data) {
       value.append(el('strong', `${amount(latest.value)}${latest.value2 != null ? '/' + amount(latest.value2) : ''}`), el('span', level.unit, 'brief-level-unit'));
       if (latest.status) value.append(el('span', latest.status.label, `status-block ${latest.status.tone === 'ok' ? 'is-ok' : 'is-alert'}`));
       card.append(top, value, spark(visible(level)));
+      // Each card names the report its value came from; the chart's panel links to that page.
+      if (latest.title) card.append(el('span', latest.title, 'brief-level-source'));
       card.addEventListener('click', () => { chosen = index; pointIndex = null; paint(); });
       cards.append(card);
     });

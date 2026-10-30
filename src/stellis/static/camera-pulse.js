@@ -1228,7 +1228,7 @@ class PulseDialog {
     const last = points.slice(-150);
     const waveDuration = last.length > 1 ? (last.at(-1).t-last[0].t).toFixed(1) : '0';
     const signal = chart('Pulse waveform', `Last ${waveDuration} seconds of the accepted signal with relative amplitude`, [`−${waveDuration} s`, 'Time', '0 s']);
-    const spectrum = chart('Frequency spectrum', `Relative signal power from 40 to 180 beats per minute with an accepted pulse of ${summary.bpm} beats per minute`, ['40', 'Pulse · bpm', '180']);
+    const spectrum = chart('Frequency spectrum', `Relative signal power from 40 to 180 beats per minute with an accepted pulse of ${summary.bpm} beats per minute`, ['40', 'Pulse, bpm', '180']);
     const facts = dom.el('dl', null, 'pulse-facts');
     for (const [label, value] of [
       ['Usable signal', `${Math.round(summary.duration || 0)} seconds`],
@@ -1237,7 +1237,7 @@ class PulseDialog {
       ['Beat intervals', summary.hrv ? `${summary.hrv.intervals} accepted` : 'Too few reliable intervals'],
       ['RMSSD', summary.hrv ? `${summary.hrv.rmssd} ms` : 'Unavailable'],
       ['SDNN', summary.hrv ? `${summary.hrv.sdnn} ms` : 'Unavailable'],
-      ['Method', summary.method === 'facephys' ? 'FacePhys · LiteRT WASM' : 'POS comparison'],
+      ['Method', summary.method === 'facephys' ? 'FacePhys, LiteRT WASM' : 'POS comparison'],
       ['Processing', 'On this device'],
       ...(summary.runtimeMs ? [['Model frame', `${summary.runtimeMs.toFixed(1)} ms`]] : []),
       ['Frames with advice', `${summary.conditions?.advisedFrames || 0} of ${summary.conditions?.totalFrames || 0}`],

@@ -57,7 +57,7 @@
         host.append(camera);
         // One real camera test on 23 Oct 2026, shown as Trends showed it; the same capture also records breathing rate and HRV.
         host.append(rows(node, [
-          ['Pulse and breathing rate', '70 bpm · 14 breaths/min', 'Camera reading, 23 Oct 2026'],
+          ['Pulse and breathing rate', '70 bpm, 14 breaths/min', 'Camera reading, 23 Oct 2026'],
           ...named(data).slice(0, 1).map(measure => {const last = measure.points.at(-1);return [measure.label, `${number(last.value)}${last.value2 != null ? '/' + number(last.value2) : ''} ${measure.unit}`, recordFor(data, last)?.title || day(last.time)];}),
         ]));
       } else if (id === 'improve') {

@@ -5,7 +5,7 @@ Unrecognised layouts remain available to the existing model-assisted review.
 """
 import re
 
-VERSION = 2  # Revisit earlier empty literal-extraction receipts after parser changes.
+VERSION = 3  # Revisit earlier empty literal-extraction receipts after parser changes.
 
 # Units are deliberately narrow: accepting a label never implies a unit conversion.
 TESTS = (
@@ -20,6 +20,8 @@ TESTS = (
     ('Pulse', r'(?:pulse|heart rate)', r'bpm'),
     ('Blood pressure', r'(?:blood pressure|BP)', r'mmHg'),
 )
+_PROSE = re.compile(r"^(?:continue|start|stop|give|take|reduce|increase|decrease|patient|administer|use|repeat|return|resume|hold)\b"
+                    r"|\b(?:from|to|has|have|was|were|is|are|increased|decreased|rose|fell|using|containing|daily|nightly|tablet|tablets|and)\b", re.I)
 VALUE = r'\d+(?:\.\d+)?(?:\s*/\s*\d+(?:\.\d+)?)?'
 
 
@@ -66,9 +68,14 @@ def proposals(record, day):
             name = ' '.join(match['label'].rstrip().removesuffix(':').split())
             if readings.match_measure(name) is not None:
                 continue  # Known schemas above retain their unit validation.
+            # An instruction or a sentence is not a result name: "Continue the same 300 mg",
+            # "Start ferrous sulfate 300 mg", "Ferritin increased from 13 ug/L".
+            if not match['label'].rstrip().endswith(':') and (_PROSE.search(name) or len(name.split()) > 4):
+                continue
             # Plain words are not units. Accept percent, ratios, exponents or common standalone units.
             units = match['unit']
-            if not any(c in units for c in '/%^') and units.casefold() not in {'fl','pg','kg','g','mg','ml','l','bpm','mmhg','iu','u','ms','cm','mm','kpa'}:
+            # Bare dose units (mg, IU, g, mL) belong to medicine instructions, not to results.
+            if not any(c in units for c in '/%^') and units.casefold() not in {'fl','pg','kg','bpm','mmhg','ms','cm','mm','kpa'}:
                 continue
             found.append(dict(kind='lab_result',name=name,value=match['value'],unit=units,
                               date=dated['date'] or day,page=page['number'],quote=' '.join(match.group().split())))

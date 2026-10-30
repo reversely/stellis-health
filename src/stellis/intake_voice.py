@@ -158,12 +158,21 @@ class Engine:
     def __init__(self, folder: Path) -> None:
         import sherpa_onnx
 
+        # Parakeet TDT, when the live transcription models are installed beside the call models, hears
+        # short answers far better than Moonshine base ("good how are you" came out as a threat).
+        parakeet = folder.parent / "live-asr" / "sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8"
         asr = folder / "sherpa-onnx-moonshine-base-en-int8"
-        self.recognizer = sherpa_onnx.OfflineRecognizer.from_moonshine(
-            preprocessor=str(asr / "preprocess.onnx"), encoder=str(asr / "encode.int8.onnx"),
-            uncached_decoder=str(asr / "uncached_decode.int8.onnx"),
-            cached_decoder=str(asr / "cached_decode.int8.onnx"), tokens=str(asr / "tokens.txt"),
-            num_threads=THREADS)
+        if (parakeet / "encoder.int8.onnx").exists():
+            self.recognizer = sherpa_onnx.OfflineRecognizer.from_transducer(
+                encoder=str(parakeet / "encoder.int8.onnx"), decoder=str(parakeet / "decoder.int8.onnx"),
+                joiner=str(parakeet / "joiner.int8.onnx"), tokens=str(parakeet / "tokens.txt"),
+                model_type="nemo_transducer", num_threads=THREADS)
+        else:
+            self.recognizer = sherpa_onnx.OfflineRecognizer.from_moonshine(
+                preprocessor=str(asr / "preprocess.onnx"), encoder=str(asr / "encode.int8.onnx"),
+                uncached_decoder=str(asr / "uncached_decode.int8.onnx"),
+                cached_decoder=str(asr / "cached_decode.int8.onnx"), tokens=str(asr / "tokens.txt"),
+                num_threads=THREADS)
         voice = folder / "kitten-nano-en-v0_2-fp16"
         self.tts = sherpa_onnx.OfflineTts(sherpa_onnx.OfflineTtsConfig(
             model=sherpa_onnx.OfflineTtsModelConfig(

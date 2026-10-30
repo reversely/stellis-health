@@ -21,9 +21,23 @@ function tokens(usage) {
   return [input != null ? `${count(input)} tokens in` : '', output != null ? `${count(output)} out` : ''].filter(Boolean).join(', ');
 }
 
-function tile(value, caption) {
+/**
+ * A model ID as people read it: "nvidia/nemotron-3-super-120b-a12b" becomes "Nemotron 3 Super 120B".
+ * @param {?string} id
+ * @return {?string}
+ */
+function modelName(id) {
+  if (!id) return id;
+  const base = id.split('/').pop().replace(/[-_]a\d+b$/i, '');
+  return base.split(/[-_]/).map(part => /^\d+(\.\d+)?b$/i.test(part) ? part.toUpperCase() : /^nvidia$/i.test(part) ? 'NVIDIA'
+    : part.charAt(0).toUpperCase() + part.slice(1)).join(' ').replace(/(\d) (\d)/g, '$1.$2');
+}
+
+function tile(value, caption, title) {
   const node = el('div', null, 'trace-tile');
-  node.append(el('strong', value), el('span', caption));
+  const strong = el('strong', value);
+  if (title && title !== value) strong.title = title;
+  node.append(strong, el('span', caption));
   return node;
 }
 
@@ -164,7 +178,7 @@ function render(panel, data) {
   // A safety rule's fixed reply calls no model, so it has no model, tokens or citations to show.
   if (trace.kind === 'safety_reply') tiles.append(tile('No model', 'A safety rule answered'), tile(seconds(trace.duration_ms || 0), 'Time taken'));
   else tiles.append(
-      tile(trace.model || 'Not reported', trace.model_source === 'reported' ? 'Reported by the runtime' : 'Configured model'),
+      tile(modelName(trace.model) || 'Not reported', trace.model_source === 'reported' ? 'Reported by the runtime' : 'Configured model', trace.model),
       tile(trace.execution + (trace.provider ? `, ${trace.provider}` : ''), 'Where the request ran'),
       tile(trace.duration_ms == null ? (trace.state === 'running' ? 'Running' : 'Not recorded') : seconds(trace.duration_ms), tokens(trace.usage)));
   if (answer?.citations && trace.kind !== 'safety_reply') tiles.append(tile(`${answer.citations.found} of ${answer.citations.total}`, 'Citations point to supplied sources'));

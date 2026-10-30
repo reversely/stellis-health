@@ -61,7 +61,8 @@ def test_levels_group_by_name_and_unit_and_mark_other_notebooks():
     fact(elsewhere, 'hCG', '1200', 'IU/L', '2025-03-01', 'hCG 1200 IU/L')
     fact(now, 'Comment', 'normal', '', '2026-06-15', 'Comment normal')
     levels = notebook_brief.levels(blood)
-    assert [level['name'] for level in levels] == ['Ferritin']
+    # Tests only other notebooks hold come too, marked, for the All notebooks view.
+    assert [(level['name'], level['has_own']) for level in levels] == [('Ferritin', True), ('hCG', False)]
     ferritin = levels[0]
     assert [p['value'] for p in ferritin['points']] == [9, 42, 13]
     assert [p['own'] for p in ferritin['points']] == [False, True, True]

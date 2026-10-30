@@ -837,7 +837,7 @@ class NotebookChat {
     const counts = [dom.plural(this.sources.length, 'source')];
     const levels = (brief?.levels || []).filter((level) => level.latest?.status);
     if (levels.length) counts.push(dom.plural(levels.length, 'result') + ' tracked');
-    head.append(dom.el('p', counts.join(' · '), 'nb-welcome-meta'));
+    head.append(dom.el('p', counts.join(', '), 'nb-welcome-meta'));
     if (this.book.description) head.append(dom.el('p', this.book.description, 'nb-welcome-about'));
     this.intro.replaceChildren(head);
 

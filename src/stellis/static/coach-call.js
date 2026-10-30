@@ -375,7 +375,7 @@ function open({kind, chat, onAction=defaultAction, agenda = [], source=null, hos
           dom.el('p', text));
       if (turn != null) item.dataset[selector] = String(turn);
       // The check-in's first line is written from records, not by the model.
-      if (role === 'agent' && kind === 'morning' && !log.querySelector('.is-agent')) {
+      if (role === 'agent' && kind === 'morning' && agenda.length && !log.querySelector('.is-agent')) {
         item.append(dom.el('span', 'Written from your goals and records', 'coach-call-source'));
       }
       if (!existing) log.append(item);

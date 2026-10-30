@@ -366,7 +366,7 @@ function mount(host,options={}) {
     if(inPeriod)return root.StellisHealthDates.createFigure({value:day,unit:'Period day',context:'',caption:'Started '+formatDateLabel(latest.start),ariaLabel:`Period day ${day}, started ${formatDateLabel(latest.start)}`});
     if(summary.estimatedNextStart&&summary.estimatedNextStart>today){
       const until=daysBetween(summary.estimatedNextStart,today);
-      return root.StellisHealthDates.createFigure({value:until,unit:'Next period in',context:until===1?'day':'days',caption:'Around '+formatDateLabel(summary.estimatedNextStart),ariaLabel:`Next period in ${until} ${until===1?'day':'days'} · around ${formatDateLabel(summary.estimatedNextStart)}`});
+      return root.StellisHealthDates.createFigure({value:until,unit:'Next period in',context:until===1?'day':'days',caption:'Around '+formatDateLabel(summary.estimatedNextStart),ariaLabel:`Next period in ${until} ${until===1?'day':'days'}, around ${formatDateLabel(summary.estimatedNextStart)}`});
     }
     return heading('Last period','Started '+formatDateLabel(latest.start));
   }

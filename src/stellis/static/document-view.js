@@ -19,7 +19,7 @@ function fileUrl(record, page = null) {
 }
 
 /**
- * Describes a document in one line, such as "PDF · 3 pages · 2026-04-02".
+ * Describes a document in one line, such as "PDF, 3 pages, 2026-04-02".
  * @param {{media_type: string, page_count: number,
  *     record_date: ?string}} record
  * @return {string}
@@ -31,7 +31,7 @@ function describe(record) {
   if (record.record_date) {
     parts.push(record.record_date);
   }
-  return parts.join(' · ');
+  return parts.join(', ');
 }
 
 /**

@@ -90,9 +90,9 @@
   // across history, verifiable execution, new evidence, controlled update, useful follow-through.
   const SHORT = [
     {path: '/', target: '.home-results', pillar: 'chart', title: 'Five years of results',
-      text: "Maya's ferritin has dropped low more than once, and each result sits in a different report. These 70 synthetic records are already filed in Maya's account."},
+      text: "Five years of Maya's care, 70 synthetic records, each result in a different report. Stellis reads them together."},
     {path: '/notebook/{anemia}', target: '.chat-idea-action[data-idea*="changed since"]', pillar: 'understand', wait: true,
-      title: "Reasoning across Maya's history", text: 'This question needs every dated ferritin result brought together and explained. Nemotron on Nebius Token Factory reads her Anemia Management records and answers with a source for each value.'},
+      title: "Reasoning across Maya's history", text: 'This question needs every dated ferritin result brought together and explained. Nemotron on Nebius Token Factory reads Maya\'s Anemia Management records and answers with a source for each value.'},
     {path: '/notebook/{anemia}', target: '.nb-msg-actions .trace-link', pillar: 'understand', wait: true, patience: 180000,
       title: 'How Stellis answered', text: 'Every answer keeps a log of how it was made. A first answer can take a minute or two while the model reads five years of reports.'},
     {target: 'dialog.answer-trace .trace-tiles', pillar: 'understand', title: 'What ran, on what',
@@ -106,11 +106,16 @@
     {target: ['.health-capture .upload-examples .coach-button', 'March 2032'], pillar: 'understand', until: '.report-paper',
       title: 'Iron studies, March 2032', text: 'Choosing the file uploads it, and Stellis reads and summarizes the report.'},
     {path: '/document/{added}', target: ['.report-found .coach-button', 'Add to Measurements'], pillar: 'chart', wait: true,
-      title: 'A proposed update', text: 'Stellis proposes each result with its date and the row it came from, including ferritin 52 ug/L on March 24, 2032. Nothing joins her history until she approves it.'},
+      title: 'A proposed update', text: 'Stellis proposes each result with its date and the row it came from, including ferritin 52 ug/L on March 24, 2032. Nothing joins Maya\'s history until Maya approves it.'},
     {path: '/', target: '.home-results', pillar: 'chart', title: 'One history',
       text: "The approved result joins the same history: ferritin now ends at 52, with December's 48 and every earlier value kept."},
     {path: '/document/{added}', target: ['.report-idea', 'next appointment'], pillar: 'understand', wait: true, patience: 180000,
-      title: "Ready for Maya's appointment", text: "Stellis drafts questions for Maya's clinician from five years of results, each with its source, so Maya does not have to assemble them."},
+      title: "Ready for Maya's appointment", text: "Ask what to raise at the next visit. Stellis answers from five years of results, each with its source."},
+    // The answer itself is its own step, so the tour never ends on a question still being written.
+    {path: '/document/{added}', target: '.report-conversation .report-exchange:not(.is-pending):last-child', pillar: 'understand', patience: 180000,
+      title: 'Questions for the visit', text: "Questions for Maya's clinician, each linked to the report it came from, so Maya does not have to assemble them."},
+    {path: '/trends', target: ['button', 'Log vital signs'], pillar: 'monitor', wait: true, title: 'Vital signs',
+      text: 'Pulse and breathing from 30 seconds of camera video that stays on your device'},
     {kind: 'end', title: 'Your records', pillar: null},
   ];
   const STEPS = (() => { try { return sessionStorage.getItem(TRACK_KEY) === 'short' ? SHORT : LONG; } catch { return LONG; } })();

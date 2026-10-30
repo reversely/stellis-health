@@ -64,7 +64,8 @@ class HomeFocusTest(unittest.TestCase):
         self.assertGreater(waiting, 0)
         items = [item for item in home_focus.items(TODAY) if item['kind'] == 'confirm']
         self.assertEqual(len(items), 1)
-        self.assertEqual(items[0]['title'], f"I found {waiting} {'result' if waiting == 1 else 'results'} and 2 dates to confirm")
+        # Each record's one labelled date is saved on its own, so only the results wait.
+        self.assertEqual(items[0]['title'], f"I found {waiting} {'result' if waiting == 1 else 'results'} to confirm")
         self.assertTrue(items[0]['detail'].startswith('In 2 records: '))
         newest = documents.list_all()[0]['id']
         self.assertEqual(items[0]['action']['href'], '/document/' + newest)

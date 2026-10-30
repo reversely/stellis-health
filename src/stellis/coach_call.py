@@ -278,13 +278,18 @@ def agenda(today: str, overview: dict[str, object]) -> list[dict[str, object]]:
             dose = f"{record['dose_amount']:g} {record['dose_unit']} of {record['name']}"
             doses.append({"key": f"dose:{record['id']}", "icon": "pill", "title": f"Take {dose} today",
                           "label": label, "say": f"{dose} is due today."})
-    plans = []
+    plans, booked = [], []
     for event in care_events.list_all():
         when = datetime.datetime.fromisoformat(event["starts_at"]).date()
         if event["status"] == "planned" and day <= when <= horizon:
             plans.append({"key": f"plan:{event['id']}", "icon": "message-2",
                           "title": f"{event['title']}, no date booked", "label": "Visit plan",
                           "say": f"{event['title']} is planned for {when:%B}, with no date booked."})
+        elif event["status"] == "scheduled" and day < when <= horizon:
+            booked.append((when, {"key": f"visit:{event['id']}", "icon": "calendar",
+                                  "title": f"{event['title']}, {_day_text(when)}", "label": "Appointment",
+                                  "say": f"Your next appointment is {event['title']} on {_day_text(when)}."}))
+    booked = [item for _, item in sorted(booked, key=lambda pair: pair[0])][:1]
     progress = [{"key": f"goal:{goal['id']}", "icon": "target",
                  "title": f"{goal['title']}, {goal['this_week']} of {goal['times_per_week']} this week",
                  "label": "Goal",
@@ -294,13 +299,13 @@ def agenda(today: str, overview: dict[str, object]) -> list[dict[str, object]]:
     for fact in health_facts.accepted():
         if not fact.get('measurement'):
             continue
-        if (fact['kind']=='lab_result' and fact.get('range_status',{} ) and fact['range_status']['tone']=='alert'
-                and day-datetime.timedelta(days=14)<=datetime.date.fromisoformat(fact['date'])<=day):
+        # A result saved in the last two weeks is worth a word, flagged or not.
+        if (fact['kind']=='lab_result' and day-datetime.timedelta(days=14)<=datetime.date.fromisoformat(fact['date'])<=day):
             results.append({'key':'fact:'+fact['id'],'icon':'activity',
                 'title':f"Review {fact['name'].lower()} {fact['value']} {fact['unit']}",
                 'label':fact['document_title'],'target':fact['target'],
                 'say':f"You saved a {fact['name'].lower()} result of {fact['value']} {fact['unit']} from {_day_text(datetime.date.fromisoformat(fact['date']))}."})
-    ordered = doses + results[:2] + [item for _, item in sorted(dated, key=lambda pair: pair[0])] + plans + progress
+    ordered = doses + results[:2] + booked + [item for _, item in sorted(dated, key=lambda pair: pair[0])] + plans + progress
     return ordered[:MAX_AGENDA]
 
 

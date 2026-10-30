@@ -128,5 +128,5 @@ def test_demo_labels_do_not_claim_managed_agent_execution(tmp_path, profile, lab
 
 def test_direct_profile_label_does_not_claim_nemoclaw():
     with patch.dict(os.environ, {'STELLIS_RUNTIME_PROFILE':'direct'}, clear=True):
-        assert runtime_profile.label() == 'Cloud inference · Application inference with Token Factory'
+        assert runtime_profile.label() == 'Cloud inference, Application inference with Token Factory'
         assert 'NemoClaw' not in runtime_profile.label()

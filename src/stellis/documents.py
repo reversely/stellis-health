@@ -232,6 +232,13 @@ def _record(conn, row) -> dict[str, object]:
     } for page in pages]
     from stellis import document_dates
     record["date_suggestion"] = document_dates.suggest(record["pages"])
+    # One labelled date that outranks the rest is the record's date: saving it takes no confirm
+    # (owner: no date confirms for a clear date). Conflicting dates still ask.
+    suggestion = record["date_suggestion"]
+    if not record.get("record_date") and suggestion["status"] == "suggested" and suggestion["date"]:
+        conn.execute("UPDATE documents SET record_date = ? WHERE id = ? AND record_date IS NULL",
+                     (suggestion["date"], row["id"]))
+        record["record_date"] = suggestion["date"]
     from stellis import document_naming
     record["naming"] = document_naming.status(conn, row)
     return record

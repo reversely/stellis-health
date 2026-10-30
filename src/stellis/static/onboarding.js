@@ -421,8 +421,8 @@
     summary.textContent=group.description||'';summary.hidden=!group.description;
     function metaText(){
       const groupName=(state.health_catalogue?.collections||[]).find(entry=>entry.collection_id===group.collection_id)?.display_name;
-      if(group.goal&&!sameText(group.goal,group.notebook_name))return 'Goal · '+group.goal;
-      if(group.reason&&!sameText(group.reason,group.notebook_name))return 'From your answers · '+group.reason;
+      if(group.goal&&!sameText(group.goal,group.notebook_name))return 'Goal, '+group.goal;
+      if(group.reason&&!sameText(group.reason,group.notebook_name))return 'From your answers, '+group.reason;
       return groupName&&!sameText(groupName,group.notebook_name)?`In the ${groupName} group`:'Add a goal';
     }
     function updateSummary(){detailsSummary.firstChild.textContent=metaText();}
