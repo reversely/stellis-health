@@ -4,3 +4,6 @@
 .notebook-team-row>a{gap: var(--space-2)}.notebook-activity-head>svg,.notebook-activity-head>img{flex:none}
 .notebook-activity details summary{min-height: var(--control-height);display:list-item;align-content:center;cursor:pointer}.notebook-activity details a{display:inline-flex;align-items:center;min-height: var(--control-height)}.notebook-activity details ul{padding-left: var(--space-6)}
 .comparison-evidence{margin: var(--space-3) 0;padding: var(--space-3) var(--space-4);border-left:2px solid var(--line);line-height:1.5}.comparison-evidence a{display:flex;align-items:center;min-height: var(--control-height)}
+
+/* All six notebook tabs fit on one line beside the tour panel; none hides behind a scroll. */
+.notebook-view .view-tabs button { min-width: 0; padding-inline: var(--space-4); }

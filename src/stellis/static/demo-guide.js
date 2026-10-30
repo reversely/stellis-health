@@ -109,10 +109,13 @@
       title: 'A proposed update', text: 'Stellis proposes each result with its date and the row it came from, including ferritin 52 ug/L on March 24, 2032. Nothing joins Maya\'s history until Maya approves it.'},
     {path: '/', target: '.home-results', pillar: 'chart', title: 'One history',
       text: "The approved result joins the same history: ferritin now ends at 52, with December's 48 and every earlier value kept."},
-    {path: '/document/{added}', target: ['.report-idea', 'next appointment'], pillar: 'understand', wait: true, patience: 180000,
+    // The question is pressed, then the step holds until its answer is written, so the next card
+    // never describes an answer still loading.
+    {path: '/document/{added}', target: ['.report-idea', 'next appointment'], pillar: 'understand', patience: 180000,
+      until: ['.report-conversation article.report-exchange:not(.is-pending)', 'next appointment'],
       title: "Ready for Maya's appointment", text: "Ask what to raise at the next visit. Stellis answers from five years of results, each with its source."},
     // The answer itself is its own step, so the tour never ends on a question still being written.
-    {path: '/document/{added}', target: '.report-conversation .report-exchange:not(.is-pending):last-child', pillar: 'understand', patience: 180000,
+    {path: '/document/{added}', target: ['.report-conversation article.report-exchange:not(.is-pending)', 'next appointment'], pillar: 'understand', patience: 180000,
       title: 'Questions for the visit', text: "Questions for Maya's clinician, each linked to the report it came from, so Maya does not have to assemble them."},
     {path: '/trends', target: ['button', 'Log vital signs'], pillar: 'monitor', wait: true, title: 'Vital signs',
       text: 'Pulse and breathing from 30 seconds of camera video that stays on your device'},
