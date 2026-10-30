@@ -14,7 +14,7 @@ jobs:
       - name: Health endpoint answers over HTTPS
         run: |
           for attempt in 1 2 3; do
-            curl -fsS --max-time 20 https://204-12-180-88.sslip.io/api/health && exit 0
+            curl -fsS --max-time 20 https://health.stellisagents.com/api/health && exit 0
             sleep 30
           done
           exit 1

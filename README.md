@@ -4,7 +4,7 @@
 
 Stellis is an open-source, privacy-first AI agent for your health records. Add your lab reports, letters and visit recordings, and Stellis helps you understand, log, monitor and chart your health over time.
 
-Try it at <https://204-12-180-88.sslip.io>. **Try the demo** there walks through a fictional patient's five years of records, in a short or a full tour.
+Try it at <https://health.stellisagents.com>. **Try the demo** there walks through a fictional patient's five years of records, in a short or a full tour.
 
 <p align="center"><img src="docs/gallery/02-meet-stellis.png" alt="Stellis Health: a privacy-focused AI agent for your health records, with four parts: Understand, Log, Monitor and Chart" width="720"></p>
 
