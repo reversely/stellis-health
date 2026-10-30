@@ -139,21 +139,12 @@ def request_options(role):
     return {'temperature':0.2,'max_tokens':16384 if reasons else 4096,'chat_template_kwargs':{'enable_thinking':reasons}}
 
 
-async def _direct_turn(prompt: str, session_id: str, *, instructions: str | None = None, response_format: dict | None = None, model_role: str = "agent") -> tuple[str, str]:
-    """Run a legacy direct or demo completion without a managed agent sandbox.
+class _CutOff(Exception):
+    """The model stopped at its token limit."""
 
-    The prompt already carries the agent's instructions, memories and numbered sources,
-    so the caller's citation checks and retries apply unchanged.
-    """
-    from stellis import ai
-    key = ai._key()
-    provider = "Local inference" if runtime_profile.local_inference() else "Token Factory"
-    if not key:
-        raise GatewayError("Add a Nebius API key first")
-    body = {"model": runtime_profile.model_id(model_role), "messages": ([{"role":"system","content":instructions}] if instructions else []) + [{"role": "user", "content": prompt}],
-            **request_options(model_role)}
-    if response_format:body["response_format"]=response_format
-    url = runtime_profile.inference_url() + "/chat/completions"
+
+async def _complete(url: str, key: str, body: dict, provider: str) -> str:
+    """One chat completion's text, or GatewayError; _CutOff when it stopped at its token limit."""
     if (message := token_quota.exceeded()) and not privacy.replayable(url, body):
         raise GatewayError(message)
     try:
@@ -169,7 +160,7 @@ async def _direct_turn(prompt: str, session_id: str, *, instructions: str | None
         token_quota.record(data.get("usage"), data.get("model"))
         choice = data["choices"][0]
         if choice.get("finish_reason") == "length":
-            raise GatewayError("Agent reply was too long. Try again.")
+            raise _CutOff
         answer = (choice["message"]["content"] or "").strip()
     except (TimeoutError, httpx.TimeoutException) as exc:
         raise GatewayError("Agent reply timed out. Try again.") from exc
@@ -177,6 +168,35 @@ async def _direct_turn(prompt: str, session_id: str, *, instructions: str | None
         raise GatewayError("Agent reply failed. Try again.") from exc
     if not answer:
         raise GatewayError("Agent reply failed. Try again.")
+    return answer
+
+
+async def _direct_turn(prompt: str, session_id: str, *, instructions: str | None = None, response_format: dict | None = None, model_role: str = "agent") -> tuple[str, str]:
+    """Run a legacy direct or demo completion without a managed agent sandbox.
+
+    The prompt already carries the agent's instructions, memories and numbered sources,
+    so the caller's citation checks and retries apply unchanged.
+    """
+    from stellis import ai
+    key = ai._key()
+    provider = "Local inference" if runtime_profile.local_inference() else "Token Factory"
+    if not key:
+        raise GatewayError("Add a Nebius API key first")
+    body = {"model": runtime_profile.model_id(model_role), "messages": ([{"role":"system","content":instructions}] if instructions else []) + [{"role": "user", "content": prompt}],
+            **request_options(model_role)}
+    if response_format:body["response_format"]=response_format
+    url = runtime_profile.inference_url() + "/chat/completions"
+    try:
+        answer = await _complete(url, key, body, provider)
+    except _CutOff:
+        # Reasoning can use up the whole reply on a long history (demo, 2026-10-30): one more try answers
+        # without it, rather than showing the person an error.
+        if not body.get("chat_template_kwargs", {}).get("enable_thinking"):
+            raise GatewayError("Agent reply was too long. Try again.") from None
+        try:
+            answer = await _complete(url, key, {**body, "max_tokens": 4096, "chat_template_kwargs": {"enable_thinking": False}}, provider)
+        except _CutOff:
+            raise GatewayError("Agent reply was too long. Try again.") from None
     if label := QUESTION.get():
         privacy.index_stored(url, body, *label)
     return answer, session_id

@@ -397,9 +397,12 @@ def _cached(path: "Path | None", request: httpx.Request) -> httpx.Response | Non
         return None
     if time.monotonic() - _served.get(str(path), -_RETRY_SECONDS) < _RETRY_SECONDS:
         return None  # A retry: the caller could not use the reply it was given.
-    _served[str(path)] = time.monotonic()
     saved = json.loads(path.read_text())
     body = saved["body"]
+    # Stored before cut-off replies were refused (2026-10-30): asked again, and replaced when it answers.
+    if _cut_off(body.encode()):
+        return None
+    _served[str(path)] = time.monotonic()
     # A reply that names a record id gets this visitor's id for it.
     for stored, current in zip(saved.get("ids", []), _ids(request.content.decode("utf-8", "replace"))):
         body = body.replace(stored, current)
@@ -414,10 +417,24 @@ def _cached(path: "Path | None", request: httpx.Request) -> httpx.Response | Non
                           content=body.encode(), request=request)
 
 
+def _cut_off(body: bytes) -> bool:
+    """Whether a reply stopped at its token limit: an error to its caller, so never one to replay."""
+    text = body.decode("utf-8", "replace")
+    try:
+        reply = json.loads(text)
+    except ValueError:
+        # A streamed reply: its last choice event carries the reason.
+        return '"finish_reason":"length"' in text.replace(" ", "")
+    return isinstance(reply, dict) and any(isinstance(choice, dict) and choice.get("finish_reason") == "length"
+                                           for choice in reply.get("choices") or [])
+
+
 def _keep(path: "Path | None", response: httpx.Response) -> httpx.Response:
     if path is None or response.status_code != 200:
         return response
     body = response.read()
+    if _cut_off(body):
+        return response
     path.parent.mkdir(parents=True, exist_ok=True)
     temp = path.with_suffix(f".{os.getpid()}.tmp")
     temp.write_text(json.dumps({"status": 200, "type": response.headers.get("content-type", "application/json"),

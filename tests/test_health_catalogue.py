@@ -186,3 +186,47 @@ class CatalogueTest(unittest.TestCase):
             self.assertEqual(notebooks.list_notebooks(),[])
             fresh=self.selected()
             with self.assertRaises(LookupError): notebook_sources.link(fresh['id'],'page:'+note['id'])
+
+
+class SetupFilingTest(unittest.TestCase):
+    """Setup files records by what they are, even when the call named none of their areas (#273)."""
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.env = patch.dict(os.environ, {'STELLIS_DATA_DIR':self.temp.name,'STELLIS_AUTH_MODE':'open'})
+        self.env.start()
+
+    def tearDown(self):
+        self.env.stop(); self.temp.cleanup()
+
+    def records(self, *titles):
+        from stellis import sorting
+        items = [sorting.Item('document', str(n), title, '2026-10-01') for n, title in enumerate(titles, 1)]
+        return patch.object(sorting, 'unsorted', return_value=items)
+
+    def test_titles_file_records_without_any_answers(self):
+        titles = ('Tissue Transglutaminase Ab Panel Results', 'Allergy Testing Results', 'Urinalysis Report',
+                  'Lab Result Report', 'Routine Chemistry and Hematology Profile')
+        with self.records(*titles):
+            result = catalogue.recommend()
+        filed = {i['title']: g['notebook_name'] for g in result['groups'] for i in g['items']}
+        self.assertEqual(filed, {titles[0]: 'Digestive Health', titles[1]: 'Allergy Management', titles[2]: 'Kidney Care',
+                                 titles[3]: 'Bloodwork', titles[4]: 'Bloodwork'})
+        self.assertEqual(result['unsorted'], [])
+
+    def test_stellis_files_what_no_title_names(self):
+        from stellis import agent_gateway
+        reply = '{"groups": [{"family": "Blood Health", "notebook": "Bloodwork", "reason": "Blood results", "items": [1]}]}'
+        with self.records('Allergy Testing Results', 'Results from March'), \
+                patch.object(agent_gateway, 'turn', return_value=(reply, 's')) as turn:
+            result = asyncio.run(intake.propose_notebooks())
+        filed = {i['title']: g['notebook_name'] for g in result['groups'] for i in g['items']}
+        self.assertEqual(filed, {'Allergy Testing Results': 'Allergy Management', 'Results from March': 'Bloodwork'})
+        self.assertIn('Results from March', turn.call_args.args[0])
+        self.assertNotIn('Allergy Testing Results', turn.call_args.args[0].split('"records"')[1])
+
+    def test_records_stay_not_filed_when_stellis_is_unavailable(self):
+        from stellis import agent_gateway
+        with self.records('Results from March'), \
+                patch.object(agent_gateway, 'turn', side_effect=agent_gateway.GatewayError('down')):
+            result = asyncio.run(intake.propose_notebooks())
+        self.assertEqual([i['title'] for i in result['unsorted']], ['Results from March'])

@@ -463,10 +463,19 @@ a.coach-button {
 }
 .coach-remind-row {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: var(--space-2);
   color: var(--ink);
   font-weight: 400;
+}
+/* In a narrow column (the goal Stellis fills in beside a call) the time moves under its label, whole. */
+.coach-remind-row label {
+  white-space: nowrap;
+}
+.coach-remind-row input[type='time'] {
+  min-width: 0;
+  max-width: 100%;
 }
 .coach-remind-row input[type='checkbox'] {
   width: 18px;

@@ -169,6 +169,15 @@ def test_tracking_and_settings_stay_in_their_workspace(client):
     assert [r['id'] for r in reproductive.list_records()['records']]==[real_period['id']]
 
 
+def test_signing_in_or_out_ends_the_example_session(client):
+    """A leftover example cookie blocked the next account's setup with a 403."""
+    client.post('/api/v1/demo/enter').raise_for_status()
+    assert client.get('/api/v1/onboarding').status_code==403
+    client.post('/api/v1/auth/logout').raise_for_status()
+    assert client.cookies.get(demo_patient.COOKIE) is None
+    assert client.get('/api/v1/onboarding').status_code==200
+
+
 def test_demo_inference_retains_configured_provider_without_managed_tools(tmp_path,monkeypatch):
     from stellis import agent_gateway,ai,runtime_profile
     monkeypatch.setenv('STELLIS_DATA_DIR',str(tmp_path))

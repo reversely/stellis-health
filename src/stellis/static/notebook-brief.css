@@ -179,3 +179,11 @@ html[data-theme='dark'] #notebook-health, html[data-theme='dark'] .notebook-leve
 #notebook-panel:has(.notebook-levels:not(:empty)) #notebook-brief-empty { display: none; }
 .brief-today, .brief-coming-text p, .brief-coming-source, .brief-level-source, .brief-facts-list a, .brief-level-legend { font-size: var(--text-body); line-height: 1.5; }
 .brief-level-controls { display: flex; flex-wrap: wrap; gap: var(--space-2); justify-content: flex-end; }
+
+/* A level's chart under a chat answer about change over time: each point opens its report. */
+.brief-chart-hit { fill: transparent; cursor: pointer; }
+.brief-chart-tip, .brief-chart-tip-text { pointer-events: none; }
+.nb-trend { display: block; width: 100%; margin: var(--space-3) 0 0; min-width: 0; }
+.nb-trend .brief-chart { grid-area: auto; width: 100%; }
+.nb-trend figcaption { margin-top: var(--space-2); }
+.nb-trend figcaption { color: var(--muted); font-size: 13px; line-height: 1.4; }

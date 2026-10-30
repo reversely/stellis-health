@@ -59,8 +59,8 @@ class ProviderPolicyTest(unittest.TestCase):
                 self.assertIn("searches Tavily directly when a key is available", page)
                 self.assertIn("otherwise searches MedlinePlus and PubMed", page)
                 self.assertNotIn("tvly-private-test", page)
-            with mock.patch.dict(os.environ, {"STELLIS_RESEARCH_PROVIDERS": ""}):
-                self.assertIn("searches MedlinePlus and PubMed first", client.get("/privacy").text)
+            with mock.patch.dict(os.environ, {"STELLIS_RESEARCH_PROVIDERS": "public"}):
+                self.assertIn("Stellis searches MedlinePlus and PubMed.", client.get("/privacy").text)
 
 
 class CleanTest(unittest.TestCase):
@@ -119,7 +119,7 @@ class ResearchTest(unittest.IsolatedAsyncioTestCase):
         self.identity.start()
         self.addCleanup(self.identity.stop)
 
-    async def run_research(self, planned, network, key="tvly-test"):
+    async def run_research(self, planned, network, key=None):
         with mock.patch.object(research, "plan", mock.AsyncMock(return_value=planned)), \
              mock.patch.object(research, "_http", network), \
              mock.patch("stellis.tavily.available_key", return_value=key):
@@ -138,19 +138,18 @@ class ResearchTest(unittest.IsolatedAsyncioTestCase):
         # The MedlinePlus retry with one key word is listed as its own sent query.
         self.assertEqual([q["text"] for q in findings.queries], ["ferritin iron stores", "ferritin"])
 
-    async def test_public_sources_answer_first_and_tavily_fills_only_a_thin_result(self):
+    async def test_tavily_is_the_default_source_when_a_key_is_available(self):
+        network = Network()
+        findings = await self.run_research([{"topic": "ferritin", "terms": ["iron stores"]}], network, key="tvly-test")
+        self.assertEqual(network.queries, [("Tavily", "ferritin iron stores")])
+        self.assertEqual(findings.queries[0]["providers"], ["Tavily"])
+
+    async def test_without_a_key_public_sources_answer_alone(self):
         network = Network()
         findings = await self.run_research([{"topic": "ferritin", "terms": ["iron stores"]}], network)
         self.assertEqual([name for name, _ in network.queries], ["wsearch.nlm.nih.gov", "eutils.ncbi.nlm.nih.gov"])
         self.assertEqual(findings.queries[0]["providers"], ["MedlinePlus", "PubMed"])
-        self.assertEqual([r.provider for r in findings.results], ["MedlinePlus", "PubMed"])
         self.assertEqual(findings.results[0].title, "Iron Deficiency Anemia")
-
-        thin = Network(EMPTY_MEDLINE)
-        with mock.patch.object(research, "pubmed", return_value=[]):
-            findings = await self.run_research([{"topic": "ferritin"}], thin)
-        self.assertEqual(findings.queries[0]["providers"], ["MedlinePlus", "PubMed", "Tavily"])
-        self.assertIn(("Tavily", "ferritin"), thin.queries)
 
     async def test_tavily_only_skips_public_providers_and_broader_retry(self):
         network = Network()
@@ -172,7 +171,7 @@ class ResearchTest(unittest.IsolatedAsyncioTestCase):
     async def test_tavily_only_failure_does_not_send_to_another_provider(self):
         with mock.patch.dict(os.environ, {"STELLIS_RESEARCH_PROVIDERS": "tavily"}), \
              mock.patch.object(research, "_http", side_effect=OSError("offline")) as network:
-            findings = await self.run_research([{"topic": "ferritin iron"}], network)
+            findings = await self.run_research([{"topic": "ferritin iron"}], network, key="tvly-test")
         self.assertEqual(network.call_count, 1)
         self.assertEqual(findings.queries[0]["providers"], ["Tavily"])
         self.assertEqual(findings.results, [])
@@ -218,8 +217,7 @@ class ResearchTest(unittest.IsolatedAsyncioTestCase):
             return network(url, data, headers)
 
         findings = await self.run_research([{"topic": "ferritin"}], flaky)
-        # PubMed alone is thin, so Tavily fills in.
-        self.assertEqual([r.provider for r in findings.results], ["PubMed", "Tavily"])
+        self.assertEqual([r.provider for r in findings.results], ["PubMed"])
 
     async def test_the_planner_sees_record_excerpts_for_context(self):
         turn = mock.AsyncMock(return_value=('{"queries": []}', "session"))

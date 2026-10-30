@@ -1580,7 +1580,14 @@
         "bloodwork",
         "anemia management",
         "low iron",
-        "low ferritin"
+        "low ferritin",
+        "chemistry",
+        "complete blood count",
+        "cbc",
+        "metabolic panel",
+        "lab result",
+        "lab results",
+        "laboratory"
       ],
       "supported_features": [
         "sources",
@@ -1829,7 +1836,11 @@
         "ibs",
         "crohn",
         "colitis",
-        "reflux"
+        "reflux",
+        "celiac",
+        "coeliac",
+        "gluten",
+        "transglutaminase"
       ],
       "supported_features": [
         "sources",
@@ -2257,7 +2268,9 @@
         "renal",
         "bladder",
         "urinary",
-        "dialysis"
+        "dialysis",
+        "urinalysis",
+        "urine"
       ],
       "supported_features": [
         "sources",

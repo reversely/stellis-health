@@ -11,9 +11,9 @@
   const SMALL_KEY = 'stellis-demo-small';
   // The context slide opens the demo once, before any step names Maya (owner, 2026-10-28).
   const MET_KEY = 'stellis-demo-met';
-  // The short tour (owner, 2026-10-29): Maya's five years already filed, one question, one source, one
-  // new report that changes her history, one follow-through.
-  const TRACK_KEY = 'stellis-demo-track', ANEMIA_KEY = 'stellis-demo-anemia';
+  // One tour (owner, 2026-10-30: one click, not a short and a full one): Maya's five years already filed,
+  // one question, one source, one new report that changes her history, one call, one follow-through.
+  const ANEMIA_KEY = 'stellis-demo-anemia';
 
   // Maya's 16 by 16 portrait, the same pixels as the film's.
   const MAYA_ROWS = ['................', '.....HHHHHH.....', '...HHHHHHHHHH...', '..HHHhhHHHHHHH..', '..HHHHHFFFFHHH..',
@@ -30,65 +30,15 @@
   const PILLARS = [['understand', 'Understand'], ['log', 'Log'], ['chart', 'Chart'], ['monitor', 'Monitor']];
 
   /**
-   * The walk, on the app's real routes (owner, 2026-10-28): the visitor presses the real Add, Upload
-   * Record, example file, Approve, Sort and File controls, with Maya's files offered as example files. `path` may name
-   * {added}, the record the visitor uploaded. `target` is a selector, or [selector, text] for the first
-   * match containing that text. A `wait` step moves on when the visitor presses the target; an `until`
-   * step moves on once that selector appears. On those steps › presses the control for the visitor
-   * (owner, 2026-10-28), so the demo never loses its place; elsewhere it moves on.
-   * `receipt` lists what the server did with the uploaded file.
+   * The walk, on the app's real routes, one point per beat (owner review, 2026-10-30): personal problem,
+   * reasoning across history, verifiable execution, new evidence, controlled update, a call that acts,
+   * useful follow-through. `path` may name {added}, the record the visitor uploaded, or {anemia}.
+   * `target` is a selector, or [selector, text] for the first match containing that text. A `wait` step
+   * moves on when the visitor presses the target; an `until` step moves on once that selector appears.
+   * On those steps › presses the control for the visitor (owner, 2026-10-28); on a `say` step › types
+   * the sentence into the target and sends it. `receipt` lists what the server did with the uploaded file.
    */
-  const LONG = [
-    {path: '/', target: '#global-add', pillar: 'understand', wait: true, title: 'Lab report',
-      text: 'Stellis reads every result on a lab report you add'},
-    {target: ['.health-capture .coach-button', 'Upload Record'], pillar: 'understand', wait: true, title: 'Upload',
-      text: 'Reports and recordings both go in here'},
-    // The upload opens the report itself, so the step ends when the report appears, not at the press.
-    {target: ['.health-capture .upload-examples .coach-button', 'Blood test'], pillar: 'understand', until: '.report-paper',
-      title: 'Blood test, January 2027',
-      text: 'Choosing the file uploads it and opens the report'},
-    {path: '/document/{added}', target: '.report-found', pillar: 'understand', receipt: true, title: 'Report summary',
-      text: 'Stellis summarizes the report and lists the date and 6 results it found'},
-    {path: '/document/{added}', target: ['.report-region.has-fact', 'Ferritin'], pillar: 'understand', wait: true,
-      title: 'Ferritin',
-      text: "Low iron stores, caught while Maya's hemoglobin is still normal"},
-    {path: '/document/{added}', target: ['.report-idea', 'mean'], pillar: 'understand', wait: true, title: 'Question',
-      text: "Stellis explains the result from Maya's records"},
-    {path: '/document/{added}', target: '.report-explanation .trace-link', pillar: 'understand', wait: true, patience: 180000,
-      title: 'Sources',
-      text: 'Each fact in the answer links to the page it came from'},
-    {target: 'dialog.answer-trace .trace-body', pillar: 'understand', title: 'Answer trace',
-      text: 'The records and public sources Stellis read for this answer'},
-    {path: '/records', target: ['.upload-examples .coach-button', 'All of'], pillar: 'chart',
-      until: '.records-review .coach-button.is-primary', title: 'All records',
-      text: "All 70 of Maya's records from 2027 to 2031 go in at once"},
-    {target: '.records-review .coach-button.is-primary', pillar: 'chart', until: ['.records-review h3', 'Saved'],
-      title: 'Review',
-      text: 'Stellis lists the dates and results it found before anything is saved'},
-    {target: '.records-sort', pillar: 'chart', until: '.records-file-all:not([hidden])', hideBefore: 'demo-before-sort', title: 'Notebooks',
-      text: 'Stellis groups the records by area of care such as Bloodwork or Pregnancy'},
-    {target: '.records-file-all', pillar: 'chart', until: ['.records-status', 'Filed in'], title: 'Filing',
-      text: 'Each record goes into its notebook and can be moved later'},
-    {path: '/', target: '.home-results', pillar: 'chart', title: 'Latest results',
-      text: 'The newest value for each test and its change since the one before'},
-    {path: '/', target: '#global-add', pillar: 'log', wait: true, title: 'Visit recording',
-      text: 'Stellis transcribes a visit and writes up what was decided'},
-    {target: ['.health-capture .coach-button', 'Upload Record'], pillar: 'log', wait: true, title: 'Upload',
-      text: 'Recordings go in the same way as reports'},
-    {target: ['.health-capture .upload-examples .coach-button', 'Visit recording'], pillar: 'log', wait: true,
-      title: 'Visit recording, February 2027',
-      text: "A 35-second call with Maya's GP about iron tablets"},
-    {target: '#enhanced-notes-panel', pillar: 'understand', title: 'Summary',
-      text: 'What was decided and what happens next beside the full transcript'},
-    {path: '/trends', target: 'iframe[title="Measurements"]', pillar: 'chart', title: 'Measurements',
-      text: 'One chart per test across five years with a source for each point'},
-    {path: '/trends', target: ['button', 'Log vital signs'], pillar: 'monitor', wait: true, title: 'Vital signs',
-      text: 'Pulse and breathing from 30 seconds of camera video that stays on your device'},
-    {kind: 'end', title: 'Your records', pillar: null},
-  ];
-  // The short tour argues one point per beat (owner review, 2026-10-30): personal problem, reasoning
-  // across history, verifiable execution, new evidence, controlled update, useful follow-through.
-  const SHORT = [
+  const STEPS = [
     {path: '/', target: '.home-results', pillar: 'chart', title: 'Five years of results',
       text: "Five years of Maya's care, 70 synthetic records, each result in a different report. Stellis reads them together."},
     {path: '/notebook/{anemia}', target: '.chat-idea-action[data-idea*="changed since"]', pillar: 'understand', wait: true,
@@ -103,7 +53,7 @@
       text: "The cited result on the lab's own page, so the answer can be checked line by line."},
     {path: '/', target: '#global-add', opens: 'upload', notebook: ANEMIA_KEY, pillar: 'understand', wait: true, title: 'New evidence',
       text: "A March 2032 blood test from outside the 70 records in Maya's account. The next steps show how it enters that history."},
-    {target: ['.health-capture .upload-examples .coach-button', 'March 2032'], pillar: 'understand', until: '.report-paper',
+    {target: ['.health-capture .upload-examples .coach-button', 'March 2032'], pillar: 'understand', until: '.report-paper', waits: 'Uploading and reading the report',
       title: 'Iron studies, March 2032', text: 'Choosing the file uploads it, and Stellis reads and summarizes the report.'},
     {path: '/document/{added}', target: ['.report-found .coach-button', 'Add to Measurements'], pillar: 'chart', wait: true,
       title: 'A proposed update', text: 'Stellis proposes each result with its date and the row it came from, including ferritin 52 ug/L on March 24, 2032. Nothing joins Maya\'s history until Maya approves it.'},
@@ -111,32 +61,36 @@
       text: "The approved result joins the same history: ferritin now ends at 52, with December's 48 and every earlier value kept."},
     // The question is pressed, then the step holds until its answer is written, so the next card
     // never describes an answer still loading.
-    {path: '/document/{added}', target: ['.report-idea', 'next appointment'], pillar: 'understand', patience: 180000,
+    {path: '/document/{added}', target: ['.report-idea', 'next appointment'], pillar: 'understand', patience: 180000, waits: 'Stellis is writing the answer',
       until: ['.report-conversation article.report-exchange:not(.is-pending)', 'next appointment'],
       title: "Ready for Maya's appointment", text: "Ask what to raise at the next visit. Stellis answers from five years of results, each with its source."},
     // The answer itself is its own step, so the tour never ends on a question still being written.
     {path: '/document/{added}', target: ['.report-conversation article.report-exchange:not(.is-pending)', 'next appointment'], pillar: 'understand', patience: 180000,
       title: 'Questions for the visit', text: "Questions for Maya's clinician, each linked to the report it came from, so Maya does not have to assemble them."},
+    // The call (owner, 2026-10-30): the visitor asks Stellis by voice or text, and confirms on screen.
+    {path: '/', target: '#dashboard-call', pillar: 'log', wait: true, title: 'Call Stellis',
+      text: 'Stellis takes calls. Talk or type, and Stellis acts on the page while you confirm each change.'},
+    {target: '.coach-call-foot input', say: 'Add a goal to walk 30 minutes three times a week', pillar: 'log',
+      until: ['#home-goal-draft button', 'Add goal'], patience: 60000, waits: 'Stellis is filling in the goal', title: 'Ask for a goal',
+      text: 'Say or type: “Add a goal to walk 30 minutes three times a week.” Stellis fills in the goal form.'},
+    {target: ['#home-goal-draft button', 'Add goal'], pillar: 'log', wait: true, title: 'Add the goal',
+      text: 'Nothing is saved until you check the form and add it.'},
+    {target: '.coach-call-foot input', say: 'I walked for 30 minutes this morning', pillar: 'log',
+      until: ['button', 'Log selected'], patience: 60000, waits: 'Stellis is putting the entry on screen', title: 'Log a walk',
+      text: 'Say or type: “I walked for 30 minutes this morning.” Stellis puts the entry on screen with its date.'},
+    {target: ['button', 'Log selected'], pillar: 'log', wait: true, title: 'Confirm the entry',
+      text: 'The walk counts toward the goal once you log it.'},
     {path: '/trends', target: ['button', 'Log vital signs'], pillar: 'monitor', wait: true, title: 'Vital signs',
       text: 'Pulse and breathing from 30 seconds of camera video that stays on your device'},
     {kind: 'end', title: 'Your records', pillar: null},
   ];
-  const STEPS = (() => { try { return sessionStorage.getItem(TRACK_KEY) === 'short' ? SHORT : LONG; } catch { return LONG; } })();
 
   // Maya's files, offered as example files in the real Add form and on the Records page.
   async function offerExamples() {
     const response = await fetch('/api/v1/demo/files').catch(() => null);
     if (!response || !response.ok || !window.StellisRecordUpload) return;
-    const listing = await response.json();
-    const all = Object.values(listing.years).flat();
-    const one = name => all.filter(file => file.name.startsWith(name));
-    const reports = all.filter(file => file.type === 'application/pdf');
-    const followups = listing.followups || [];
-    if (STEPS === SHORT) window.StellisRecordUpload.examples.splice(0, Infinity, {label: 'Iron studies, March 2032', files: followups.filter(file => file.name.startsWith('D071_'))});
-    else window.StellisRecordUpload.examples.splice(0, Infinity,
-      {label: 'Blood test, January 2027', files: one('D002_')},
-      {label: 'Visit recording, February 2027', files: all.filter(file => file.type === 'audio/mpeg')},
-      {label: `All of Maya's records, 2027 to 2031 (${reports.length})`, files: reports});
+    const followups = (await response.json()).followups || [];
+    window.StellisRecordUpload.examples.splice(0, Infinity, {label: 'Iron studies, March 2032', files: followups.filter(file => file.name.startsWith('D071_'))});
     window.dispatchEvent(new Event('stellis-upload-examples'));
   }
   const remember = (key, value) => { try { sessionStorage.setItem(key, value); } catch {} };
@@ -282,12 +236,6 @@
       for (const part of split && !split.contains(node) ? split.querySelectorAll('button, summary') : [other]) part.classList.add('demo-quiet');
     }
   }
-  // A control a later step introduces stays out of sight until that step (owner, 2026-10-28: Sort into
-  // notebooks showed before the tour reached it).
-  // The page's policy allows no inline <style>, so each such step names a class demo-guide.css defines.
-  function hideLater(index) {
-    for (const step of STEPS) if (step.hideBefore) root.classList.toggle(step.hideBefore, STEPS.indexOf(step) > index);
-  }
   /** Whether the visitor can see the control now: its top inside the window and not under the tour panel. */
   function inView(node) {
     const box = node.getBoundingClientRect(), panel = layer.getBoundingClientRect();
@@ -326,8 +274,11 @@
         forward.disabled = true; forward.setAttribute('aria-busy', 'true');
         // A control still on its way (an answer being written) is waited for, not skipped.
         const control = (step.wait || step.until) && (find(step.target) || await waitFor(step.target, step.patience));
+        // A say step's own sentence stays usable if the answer never comes.
+        if (step.say) setTimeout(() => { forward.disabled = false; forward.removeAttribute('aria-busy'); }, 60000);
         if (stepIndex() !== index) return;
         if (!control) { go(index + 1); return; }
+        if (step.say) { control.value = step.say; control.form?.requestSubmit(); return; }
         control.click();
         // A press › made itself moves the tour on, even when the page redrew the control as it was pressed.
         if (step.wait && stepIndex() === index) { setStep(index + 1); setTimeout(() => { if (stepIndex() === index + 1) go(index + 1); }, 600); }
@@ -410,17 +361,16 @@
     const words = el('div'); words.append(said, pillars);
     // One left edge for the whole slide: Maya's portrait is the slide's one image, so no avatar column.
     stellis.append(words);
-    const what = el('p', "Maya is fictional. You'll add Maya's records the way you would add yours, and see what Stellis does with them.", 'demo-context-what');
+    const what = el('p', "Maya is fictional. Her five years of records are already in Stellis. You'll ask about them, add one new report and call Stellis.", 'demo-context-what');
     const start = el('button', 'Start the tour', 'coach-button is-primary'); start.type = 'button';
-    const quick = el('button', 'Short tour', 'coach-button is-quiet'); quick.type = 'button';
     const explore = el('button', 'Explore on my own', 'coach-button is-quiet'); explore.type = 'button';
-    const done = tour => { try { sessionStorage.setItem(MET_KEY, '1'); } catch {} slide.remove(); dock(true); if (!tour) setSmall(true); go(stepIndex()); };
-    start.onclick = () => done(true); explore.onclick = () => done(false);
-    quick.onclick = async () => {
-      quick.disabled = true; quick.setAttribute('aria-busy', 'true');
-      try { await startShort(); } catch (error) { quick.disabled = false; quick.removeAttribute('aria-busy'); what.textContent = error.message; }
+    const begin = async (button, tour) => {
+      for (const other of [start, explore]) other.disabled = true;
+      button.setAttribute('aria-busy', 'true');
+      try { await startTour(tour, slide); } catch (error) { for (const other of [start, explore]) other.disabled = false; button.removeAttribute('aria-busy'); what.textContent = error.message; }
     };
-    const row = el('div', null, 'demo-context-actions'); row.append(start, quick, explore);
+    start.onclick = () => begin(start, true); explore.onclick = () => begin(explore, false);
+    const row = el('div', null, 'demo-context-actions'); row.append(start, explore);
     inner.append(mayaPortrait(), title, lines, stellis, what, row);
     slide.append(inner);
     dock(false);
@@ -430,24 +380,67 @@
   }
 
   /**
-   * The short tour starts from Maya's five years already filed (the snapshot), with her clock moved to
-   * April 2032 so the March 2032 report it adds is part of her history, then reloads into its steps.
+   * Maya's records as they now stand in her account, oldest first, scrolling past under their years and
+   * coming to rest on the newest. Read from the account, so it shows what was added, not a script.
+   * Resolves when the list has come to rest.
    */
-  async function startShort() {
-    const call = async (path, options) => { const response = await fetch(path, options); if (!response.ok) throw new Error((await response.json().catch(() => ({}))).detail || 'The short tour could not start. Try again.'); return response.json(); };
+  function filing(slide, documents, books) {
+    const names = new Map(books.map(book => [book.id, book.name]));
+    const dated = documents.filter(doc => doc.record_date).sort((a, b) => a.record_date.localeCompare(b.record_date));
+    if (!dated.length) return Promise.resolve();
+    const years = [...new Set(dated.map(doc => doc.record_date.slice(0, 4)))];
+    const panel = el('section', null, 'demo-filing'); panel.setAttribute('role', 'status');
+    panel.append(el('h1', "Adding Maya's five years of records"),
+      el('p', `${dated.length} records, ${years[0]} to ${years[years.length - 1]}, filed in ${books.length} notebooks`, 'demo-context-lede'));
+    // Seventy rows are for the eye; the sentence above says what they are.
+    const view = el('div', null, 'demo-filing-view'); view.setAttribute('aria-hidden', 'true');
+    const list = el('ol', null, 'demo-filing-list');
+    let year = '';
+    for (const doc of dated) {
+      if (doc.record_date.slice(0, 4) !== year) { year = doc.record_date.slice(0, 4); list.append(el('li', year, 'demo-filing-year')); }
+      const row = el('li', null, 'demo-filing-row');
+      const day = new Date(`${doc.record_date}T12:00:00`).toLocaleDateString([], {month: 'short', day: 'numeric'});
+      const where = (doc.notebook_ids || []).map(id => names.get(id)).filter(Boolean).join(', ');
+      row.append(el('time', day), el('span', doc.title, 'demo-filing-title'), el('span', where, 'demo-filing-book'));
+      list.append(row);
+    }
+    view.append(list); panel.append(view);
+    const inner = slide.querySelector('.demo-context-inner');
+    inner.hidden = true; slide.append(panel);
+    const travel = list.scrollHeight - view.clientHeight;
+    const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // A long scroll that eases in and settles on the newest record; held still under reduced motion.
+    const done = still || travel <= 0
+      ? new Promise(resolve => { list.style.transform = `translateY(${-Math.max(0, travel)}px)`; setTimeout(resolve, 1200); })
+      : list.animate([{transform: 'translateY(0)'}, {transform: `translateY(${-travel}px)`}],
+          {duration: 5200, easing: 'cubic-bezier(0.65, 0, 0.35, 1)', fill: 'forwards'}).finished.then(() => new Promise(r => setTimeout(r, 500)));
+    return done;
+  }
+
+  /**
+   * The tour starts from Maya's five years already filed (the snapshot), with her clock moved to April
+   * 2032 so the March 2032 report it adds is part of her history, then reloads into its first step, or
+   * folded to a pill for a visitor exploring on their own.
+   */
+  async function startTour(tour = true, slide = null) {
+    const call = async (path, options) => { const response = await fetch(path, options); if (!response.ok) throw new Error((await response.json().catch(() => ({}))).detail || 'The demo could not start. Try again.'); return response.json(); };
     await call('/api/v1/demo/seed', {method: 'POST'});
     await call('/api/v1/demo/story-date', {method: 'PUT', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({date: '2032-04-01'})});
-    const anemia = (await call('/api/v1/notebooks')).notebooks.find(book => /anemia/i.test(book.name));
+    const books = (await call('/api/v1/notebooks')).notebooks;
+    const anemia = books.find(book => /anemia/i.test(book.name));
+    // The records now in Maya's account pass by before the tour opens (owner, 2026-10-30).
+    // Without the list the tour still opens.
+    if (slide) await call('/api/v1/documents').then(documents => filing(slide, documents, books)).catch(() => {});
     try {
-      sessionStorage.setItem(TRACK_KEY, 'short'); sessionStorage.setItem(MET_KEY, '1'); sessionStorage.setItem(STEP_KEY, '0');
+      sessionStorage.setItem(MET_KEY, '1'); sessionStorage.setItem(STEP_KEY, '0');
       if (anemia) sessionStorage.setItem(ANEMIA_KEY, anemia.id);
-      sessionStorage.removeItem(SMALL_KEY);
+      if (tour) sessionStorage.removeItem(SMALL_KEY); else sessionStorage.setItem(SMALL_KEY, '1');
     } catch {}
     location.assign('/');
   }
 
   async function leaveDemo(next = '/auth') {
-    try { sessionStorage.removeItem(STEP_KEY); sessionStorage.removeItem(TRACK_KEY); } catch {}
+    try { sessionStorage.removeItem(STEP_KEY); } catch {}
     await fetch('/api/v1/account', {method: 'DELETE', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({confirm: 'DELETE'})}).catch(() => {});
     location.assign(typeof next === 'string' ? next : '/auth');
   }
@@ -481,6 +474,22 @@
   /** While the visitor looks around on their own, the tour waits as a pill; Resume picks it up again. */
   function pause(index) { pill(index, true); }
 
+  /**
+   * A line on the card saying what the step waits for, with the seconds so far, until `done()` is true or
+   * the tour moves on (owner, 2026-10-30: loading must be transparent). Returns a function that removes it.
+   */
+  function waitLine(index, label, done) {
+    const started = Date.now();
+    let line = null;
+    const stop = () => { clearInterval(tick); line?.remove(); };
+    const tick = setInterval(() => {
+      if (stepIndex() !== index || done()) { stop(); return; }
+      if (!line) { line = el('p', null, 'demo-wait'); line.setAttribute('role', 'status'); card.querySelector('.demo-text')?.after(line); }
+      line.textContent = `${label} · ${Math.round((Date.now() - started) / 1000)}s`;
+    }, 1000);
+    return stop;
+  }
+
   let shown = null, reached = -1;
   async function go(index) {
     setStep(index);
@@ -503,8 +512,13 @@
     if (step.kind === 'end') { mark(null); endCard(); return; }
     stepCard(index, step);
     mark(null);
-    hideLater(index);
+    // A step whose control is still on its way says what it is waiting for and for how long (owner,
+    // 2026-10-30: loading must be transparent), from the first second, until the control appears.
+    // A step drawn again after its press (its control gone while the result is made) keeps its own words.
+    const stopLoading = waitLine(index, step.waits || (step.patience ? 'Stellis is writing the answer' : 'Loading the page'),
+      () => find(step.target) || (step.until && find(step.until)));
     const node = await waitFor(step.target, step.patience);
+    stopLoading();
     // The visitor may have moved on while this step waited; its card is not drawn again.
     if (stepIndex() !== index) return;
     // A step whose control never appears still offers › rather than stopping the tour.
@@ -557,6 +571,15 @@
         if (inView(marked)) card.querySelector('.demo-show')?.remove();
       }
     }, 500);
+    if (step.until && step.waits) {
+      const begin = event => {
+        if (stepIndex() !== index) { document.removeEventListener('click', begin, true); document.removeEventListener('submit', begin, true); return; }
+        if (event.type === 'click' ? !hits(step.target, event.target) : !event.target.matches?.('.coach-call-foot')) return;
+        document.removeEventListener('click', begin, true); document.removeEventListener('submit', begin, true);
+        waitLine(index, step.waits, () => !!find(step.until));
+      };
+      document.addEventListener('click', begin, true); document.addEventListener('submit', begin, true);
+    }
     if (step.until) {
       const watch = setInterval(() => {
         if (stepIndex() !== index) { clearInterval(watch); return; }

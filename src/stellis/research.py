@@ -2,8 +2,9 @@
 
 The model proposes search fields; code builds each query from them, removes
 anything that could identify the person, and checks the query again just
-before a client sends it. Public medical sources answer first by default; a
-deployment may select Tavily alone. Results come back as passages an answer
+before a client sends it. Tavily is the research source whenever a key is
+available; MedlinePlus and PubMed answer only without one, or when a deployment
+selects public sources. Results come back as passages an answer
 may cite beside the person's own records, together with the exact queries that left.
 """
 
@@ -23,8 +24,6 @@ MAX_QUERIES = 2
 MAX_TERMS = 6
 MAX_QUERY_CHARS = 100
 RESULTS_PER_PROVIDER = 3
-# In the default route Tavily fills results below this threshold.
-PUBLIC_ENOUGH = 2
 SNIPPET_CHARS = 700
 TIMEOUT_SECONDS = 8
 
@@ -339,8 +338,8 @@ async def plan(question: str, texts: list[str] = ()) -> list[dict[str, object]]:
 
 
 def tavily_only() -> bool:
-    """Whether the deployment requests Tavily instead of public-source-first search."""
-    return os.environ.get("STELLIS_RESEARCH_PROVIDERS", "").strip().casefold() == "tavily"
+    """Whether research goes to Tavily (the default) rather than MedlinePlus and PubMed."""
+    return os.environ.get("STELLIS_RESEARCH_PROVIDERS", "").strip().casefold() != "public"
 
 
 async def research(question: str, texts: list[str], on_send=None) -> Findings:
@@ -390,13 +389,6 @@ async def research(question: str, texts: list[str], on_send=None) -> Findings:
                 break
             except (OSError, ValueError, ElementTree.ParseError):
                 continue
-        if not exclusive and providers and key and len(found) < PUBLIC_ENOUGH:
-            providers.append("Tavily")
-            announce(query, list(providers))
-            try:
-                found += await asyncio.to_thread(_send, tavily, query, identity, key)
-            except (OSError, ValueError):
-                pass
         if not providers:
             continue
         fresh = [item for item in found if item.url not in seen]

@@ -2735,6 +2735,8 @@ async function route() {
   // frozen behind it (owner, 2026-10-30: "a flickering ghost of a different page, and NO loaders").
   // A quick page never shows it.
   const root = document.documentElement;
+  const status = document.querySelector('#route-label');
+  if (status) status.textContent = routeLabel();
   if ('routing' in root.dataset) return renderRoute();
   const slow = setTimeout(() => { root.dataset.routing = ''; }, 100);
   try {
@@ -2743,6 +2745,16 @@ async function route() {
     clearTimeout(slow);
     delete root.dataset.routing;
   }
+}
+/** What the page being opened is called: the link that leads there (not the brand), or the kind of page. */
+function routeLabel() {
+  const path = location.pathname;
+  const link = [...document.querySelectorAll('a[href]:not(.brand)')].find(a => a.pathname === path && a.textContent.trim());
+  const kinds = [[/^\/notebook\//, 'the notebook'], [/^\/document\//, 'the report'], [/^\/conversation\//, 'the recording'],
+    [/^\/page\//, 'the note'], [/^\/trends$/, 'Measurements'], [/^\/records$/, 'Records'], [/^\/chat/, 'Ask Stellis'],
+    [/^\/timeline$/, 'Timeline'], [/^\/settings$/, 'Settings'], [/^\/todos$/, 'To-dos'], [/^\/summary$/, 'Summary'], [/^\/$/, 'My Health']];
+  const name = link?.textContent.replace(/\s+/g, ' ').trim().slice(0, 60) || kinds.find(([pattern]) => pattern.test(path))?.[1] || 'the page';
+  return `Opening ${name}`;
 }
 async function renderRoute() {
   await modulesReady;

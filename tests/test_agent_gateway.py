@@ -1,4 +1,5 @@
 """Cloud configuration and response validation without contacting a substitute service."""
+import asyncio
 import os
 import tempfile
 import unittest
@@ -50,6 +51,34 @@ class GatewayTests(unittest.TestCase):
                 self.assertEqual(provider._saved_key() if provider is ai else provider.saved_key(),
                                  "test-key-1234567890abcdef")
                 self.assertFalse(provider.remove_key()["configured"])
+
+
+class CutOffTests(unittest.TestCase):
+    def run_turn(self, replies):
+        calls = []
+
+        async def complete(url, key, body, provider):
+            calls.append(body)
+            reply = replies.pop(0)
+            if isinstance(reply, Exception):
+                raise reply
+            return reply
+
+        with patch("stellis.ai._key", return_value="key"), patch.object(agent_gateway, "_complete", complete):
+            try:
+                return asyncio.run(agent_gateway._direct_turn("Question", "s", model_role="report")), calls
+            except agent_gateway.GatewayError as error:
+                return error, calls
+
+    def test_a_reasoning_reply_cut_off_is_asked_again_without_reasoning(self):
+        result, calls = self.run_turn([agent_gateway._CutOff(), "Answer"])
+        self.assertEqual(result, ("Answer", "s"))
+        self.assertEqual([body["chat_template_kwargs"]["enable_thinking"] for body in calls], [True, False])
+
+    def test_a_second_cut_off_is_the_usual_error(self):
+        result, calls = self.run_turn([agent_gateway._CutOff(), agent_gateway._CutOff()])
+        self.assertIsInstance(result, agent_gateway.GatewayError)
+        self.assertEqual(len(calls), 2)
 
 
 class ProfileTests(unittest.TestCase):

@@ -5,6 +5,13 @@
 .has-active-call .home-context-ring { max-width: 160px; }
 .has-active-call .home-care-aside { grid-column: 1 / -1; grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .has-active-call .home-care-calendar { grid-column: 1 / -1; }
+/* Beside a call (and the demo tour) My Health can be left a narrow column: its cards stack rather than
+   squeeze, so titles keep their words and the toolbar keeps its buttons (owner report, 2026-10-30). */
+.has-active-call .home-care-content { container-type: inline-size; }
+@container (max-width: 680px) {
+  .home-care-board, .home-care-aside { grid-template-columns: minmax(0, 1fr); }
+  .home-care-toolbar { flex-wrap: wrap; }
+}
 .home-care-week { grid-template-columns: repeat(7, minmax(44px, 1fr)); gap: 0; overflow-x: auto; }
 .home-goal-draft { margin-top: var(--space-5); padding-top: var(--space-4); border-top: 1px solid var(--line); }
 .coach-call-log > li > p, .coach-call-heard, .coach-call-source p, .coach-call-source blockquote { font-size: var(--text-body); }
@@ -22,7 +29,10 @@
 .call-history-log li { padding: var(--space-3); border-radius: var(--radius-message); background: var(--raised); color: var(--ink); }
 .call-history-log li.is-person { margin-left: var(--space-7); background: var(--block-fill); color: var(--block-ink); }
 .call-history-log p { font-size: var(--text-body); line-height: 1.5; margin-bottom: 0; }
-@media (max-width: 1200px) {
+/* The call stacks above My Health when the page, not the window, is narrow: the docked demo tour takes
+   340px of a wide window (owner report, 2026-10-30: the call covered the goal form at 1280px). */
+:has(> .home-care-layout) { container: home-layout / inline-size; }
+@container home-layout (max-width: 900px) {
  .home-care-layout.has-active-call { display: flex; flex-direction: column; }
  .home-call-workspace { order: -1; position: static; width: 100%; }
  .home-care-content { width: 100%; min-width: 0; }

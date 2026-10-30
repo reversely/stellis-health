@@ -158,7 +158,7 @@ def recommend():
     goal_of = lambda hits: next((q for p,q,e in hits if q in measurable), '')
     for sentence, template_id in onboarding_profile.goal_templates(saved_goals):
         evidence.append((3, sentence, {'kind':'intake','id':'notes','quote':sentence}, template_id))
-    # Titles alone never activate notebooks; records can support a goal's association.
+    # The answers propose notebooks first; records the answers don't place propose theirs below.
     groups = []
     books = notebooks.list_notebooks()
     from stellis import collections
@@ -219,7 +219,85 @@ def recommend():
                        'goal':goal_of(hits), 'items':[],
                        'kind':'objective' if hits[0][0] == 3 else 'condition',
                        'named_by_person':False,'problem':'','priority':hits[0][0]})
+    # A record the answers don't place files by what it says it is (owner, 2026-10-30: "it's literally in
+    # the name"): its title first, then its first page; the longest term wins and, on a tie, the specific
+    # notebook over its family's general one. It joins that notebook's group or proposes the notebook.
+    placed = {(i['kind'],i['id']) for g in groups for i in g['items']}
+    by_template = {g['template_id']:g for g in groups}
+    for item in items:
+        if (item.kind,item.id) in placed:
+            continue
+        best = None
+        for rank, text in ((2, item.title), (1, item.excerpt)):
+            for entry in configuration()['templates']:
+                found = [c for c in entry['clinical_concepts'] if _matches(text, c)]
+                if found:
+                    score = (rank, max(map(len, found)), entry['template_id'] not in general)
+                    if best is None or score > best[0]:
+                        best = (score, entry)
+            if best:
+                break
+        if not best:
+            continue
+        entry = best[1]
+        group = by_template.get(entry['template_id'])
+        if group is None:
+            existing = next((b for b in books if canonical_id(b.get('template_id')) == entry['template_id']),None)
+            parent = parents.get(existing['collection_id']) if existing else None
+            group = {'template_id':entry['template_id'],'collection_id':(parent.get('taxonomy_id') or parent['id']) if parent else entry['collection_id'],
+                     'collection_name':parent['name'] if parent else collection(entry['collection_id'])['display_name'],
+                     'notebook_name':existing['name'] if existing else entry['display_name'],
+                     'notebook_id':existing['id'] if existing else None,
+                     'reason':item.title, 'evidence':[{'kind':item.kind,'id':item.id,'quote':item.title}],
+                     'goal':'', 'items':[], 'kind':'record',
+                     'named_by_person':False,'problem':'','priority':1}
+            groups.append(group)
+            by_template[entry['template_id']] = group
+        group['items'].append(item.public())
     groups.sort(key=lambda g:-g['priority'])
     groups = groups[:8]
     used = {(i['kind'],i['id']) for g in groups for i in g['items']}
     return {'groups':groups,'unsorted':[i.public() for i in items if (i.kind,i.id) not in used], 'question':'','reply':''}
+
+
+async def file_unsorted(result):
+    """Files the records ``recommend`` left over with Stellis's sorting model, as Records does.
+
+    Setup should file every record it can by itself (owner, 2026-10-30: "This should be automatic ...
+    using inference too for filing"). Each record joins a proposed notebook or proposes a catalogue
+    one. When the model is unavailable or unreadable the records stay under Not filed.
+    """
+    from stellis import agent_gateway, sorting
+    left = {(i['kind'], i['id']) for i in result['unsorted']}
+    items = [i for i in sorting.unsorted() if (i.kind, i.id) in left]
+    if not items:
+        return result
+    groups = result['groups']
+    books = notebooks.list_notebooks()
+    names = [f"{g['notebook_name']} ({g['collection_name']})" for g in groups]
+    names += [str(b['name']) for b in books if str(b['name']).casefold() not in {g['notebook_name'].casefold() for g in groups}]
+    families = [{'family': c['display_name'], 'usual_notebooks': [t['display_name'] for t in family_templates(c['collection_id'])]}
+                for c in configuration()['collections']]
+    prompt = sorting.build_prompt(items, names, families)
+    ids = {str(b['name']).casefold(): str(b['id']) for b in books}
+    try:
+        reply, _ = await agent_gateway.turn(prompt, 'sorting')
+        filed = sorting.place(sorting.parse_groups(reply, items, ids))
+    except (agent_gateway.GatewayError, sorting.SortingError):
+        return result
+    for proposal in filed:
+        name = proposal['notebook_name'].casefold()
+        group = next((g for g in groups if g['notebook_name'].casefold() == name
+                      or (proposal.get('template_id') and g['template_id'] == proposal['template_id'])), None)
+        if group is None:
+            if len(groups) >= 8:
+                continue
+            group = {'template_id': proposal.get('template_id'), 'collection_id': proposal['collection_id'],
+                     'collection_name': proposal['collection_name'], 'notebook_name': proposal['notebook_name'],
+                     'notebook_id': proposal['notebook_id'], 'reason': proposal['reason'],
+                     'evidence': [{'kind': i['kind'], 'id': i['id'], 'quote': i['title']} for i in proposal['items'][:3]],
+                     'goal': '', 'items': [], 'kind': 'record', 'named_by_person': False, 'problem': '', 'priority': 1}
+            groups.append(group)
+        group['items'].extend(proposal['items'])
+    used = {(i['kind'], i['id']) for g in groups for i in g['items']}
+    return {**result, 'groups': groups, 'unsorted': [i for i in result['unsorted'] if (i['kind'], i['id']) not in used]}

@@ -5,9 +5,9 @@ from datetime import date, datetime
 import re
 
 _MONTH = r'(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)'
-_DATE = rf'(?:\d{{4}}[-/]\d{{1,2}}[-/]\d{{1,2}}|\d{{1,2}}[/-]\d{{1,2}}[/-]\d{{4}}|\d{{1,2}}\s+{_MONTH}\s+\d{{4}}|{_MONTH}\s+\d{{1,2}},?\s+\d{{4}})'
+_DATE = rf'(?:\d{{4}}[-/]\d{{1,2}}[-/]\d{{1,2}}|\d{{1,2}}[/-]\d{{1,2}}[/-]\d{{4}}|\d{{1,2}}(?:\s+|[/-]){_MONTH}(?:\s+|[/-])\d{{4}}|{_MONTH}\s+\d{{1,2}},?\s+\d{{4}})'
 _LABELS = (
-    (0, 'encounter', r'clinical\s+date|encounter\s+date|date\s+of\s+(?:service|visit|examination|exam|encounter)|(?:visit|exam(?:ination)?)\s+date'),
+    (0, 'encounter', r'clinical\s+date|encounter\s+date|admission\s+date|date\s+of\s+(?:service|visit|examination|exam|encounter)|(?:visit|exam(?:ination)?)\s+date'),
     (1, 'procedure', r'procedure\s+date|date\s+of\s+procedure'),
     (2, 'specimen', r'(?:date\s+)?collected|collection\s+date|specimen\s+date|date\s+of\s+collection'),
     (3, 'report', r'report\s+date|date\s+(?:reported|of\s+report)'),
@@ -33,9 +33,11 @@ def _dates(raw: str) -> list[str]:
             except ValueError:
                 pass
         return candidates
+    # Lab printouts write 16/Nov/2023 and 16-Nov-2023 as well as 16 Nov 2023.
+    raw = re.sub(r'(?<=\d)[/-](?=[A-Za-z])|(?<=[A-Za-z])[/-](?=\d)', ' ', raw.replace(',', ''))
     for pattern in ('%d %B %Y', '%d %b %Y', '%B %d %Y', '%b %d %Y'):
         try:
-            return [datetime.strptime(raw.replace(',', ''), pattern).date().isoformat()]
+            return [datetime.strptime(raw, pattern).date().isoformat()]
         except ValueError:
             pass
     return []

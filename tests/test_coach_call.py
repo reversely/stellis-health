@@ -263,6 +263,27 @@ class CoachCallTest(unittest.IsolatedAsyncioTestCase):
         results = [m["content"] for m in model.sent[-1][0] if m["role"] == "tool"]
         self.assertTrue(all(result.startswith("Not") for result in results), results)
 
+    async def test_a_results_question_is_answered_from_the_reports(self):
+        # Owner, 2026-10-30 (#270): the call refused "help me understand my most recent results".
+        await self.start("call", "10:00")
+        model = Model(["Your ferritin of 14 is low, so your iron stores are low."])
+        with mock.patch.object(coach_call.call_records, "answer",
+                               mock.AsyncMock(return_value="Ferritin 14 ug/L is low: low iron stores.")) as read:
+            pieces = await self.turn("Can you help me understand my most recent results for a blood report?", model)
+
+        read.assert_awaited_once()
+        self.assertEqual(" ".join(pieces), "Your ferritin of 14 is low, so your iron stores are low.")
+        tool = [m["content"] for m in model.sent[0][0] if m["role"] == "tool"]
+        self.assertEqual(tool, ["Ferritin 14 ug/L is low: low iron stores."])
+
+    async def test_a_sentence_naming_a_tool_is_not_spoken(self):
+        await self.start("call", "10:00")
+        model = Model(["We need to call ask_records with the question. ", "Anything else?"])
+
+        pieces = await self.turn("How is my walking going?", model)
+
+        self.assertEqual(pieces, ["Anything else?"])
+
     async def test_a_long_call_wraps_up_then_ends(self):
         await self.start("call", "10:00")
         for n in range(coach_call.MAX_ANSWERS):

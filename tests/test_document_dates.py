@@ -47,3 +47,12 @@ def test_ocr_revisions_refresh_suggestions_but_keep_confirmed_date():
         assert record['record_date']=='2025-01-06'
         with pytest.raises(ValueError):
             documents.update(record['id'],record_date='2025-02-30')
+
+
+def test_lab_printout_month_abbreviation_dates():
+    # The owner's urinalysis printout (#270): day/abbreviated month/year, label above a table.
+    text = ('Admission Date: 16/Nov/2023\nLab #: 26-23-320-0137\nCollected: 16/Nov/2023 16:06\n'
+            'Received: 16/Nov/2023 16:15\nGlucose; Urine Negative <5.5 mmol/L 16/Nov/2023 17:22')
+    result = document_dates.suggest(pages(text))
+    assert (result['status'], result['date']) == ('suggested', '2023-11-16')
+    assert document_dates.suggest(pages('Collected: 3-Feb-2024 09:10'))['date'] == '2024-02-03'

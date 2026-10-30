@@ -126,6 +126,19 @@ function starterQuestions(brief, sources) {
 }
 
 /** The chat, its Sources panel and its source viewer for one notebook. */
+/**
+ * Whether an answer is about change over time: the question asks how something changed or went, or the
+ * answer itself walks through three or more dated results.
+ * @param {string|undefined} question
+ * @param {string} answer
+ * @return {boolean}
+ */
+function asksTrend(question, answer) {
+  if (/\b(trends?|chang\w*|over time|over the years|history|rise|rising|risen|fall\w*|drop\w*|improv\w*|progress\w*|went|gone|going)\b/i.test(question || '')) return true;
+  const dates = String(answer).match(/\b(19|20)\d{2}[-\u2010\u2011]\d{2}[-\u2010\u2011]\d{2}\b|\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.? \d{1,2},? \d{4}\b/g) || [];
+  return dates.length >= 3;
+}
+
 class NotebookChat {
   /**
    * @param {!Element} host
@@ -610,14 +623,26 @@ class NotebookChat {
     if (trace) actions.append(trace);
     actions.append(this.saveButton(item.content, citations));
     node.append(actions);
-    // Follow-ups from data: a chart for a level the answer names, and other notebooks to include.
+    // Follow-ups from data: a chart for a level the answer names, and other notebooks to include. A
+    // question about change over time gets the chart itself under the answer, drawn from the notebook's
+    // own results, each point opening its report (owner, 2026-10-30); otherwise a button opens it.
     const follow = dom.el('div', null, 'nb-follow');
-    const level = root.StellisNotebookHealth?.levelNamed?.(item.content);
-    if (level) {
-      const chart = dom.button(`Open the ${level.toLowerCase()} chart`, 'nb-follow-chip');
+    const health = root.StellisNotebookHealth;
+    const question = this.lastQuestion;
+    const embed = () => {
+      const level = health?.levelNamed?.(item.content);
+      const figure = level && asksTrend(question, item.content) ? health.trend?.(level) : null;
+      if (figure) { node.querySelector('.nb-follow-chart')?.remove(); actions.before(figure); }
+      return {level, figure};
+    };
+    const {level, figure} = embed();
+    if (level && !figure) {
+      const chart = dom.button(`Open the ${level.toLowerCase()} chart`, 'nb-follow-chip nb-follow-chart');
       chart.addEventListener('click', () => root.StellisNotebookHealth.showLevel(level));
       follow.append(chart);
     }
+    // History drawn before the notebook's Brief loaded gets its charts once the Brief is there.
+    if (!level) root.addEventListener('stellis:brief-loaded', () => { if (node.isConnected && !node.querySelector('.nb-trend')) embed(); }, {once: true});
     // One button for the notebooks the line above names, not one per notebook.
     if (unread.length) {
       const again = dom.button(unread.length === 1 ? `Include ${unread[0].name} and ask again` : `Include all ${unread.length} and ask again`, 'nb-follow-chip');

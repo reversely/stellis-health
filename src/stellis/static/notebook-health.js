@@ -210,8 +210,11 @@ function niceTicks(min, max, count = 4) {
   return ticks;
 }
 
-/** The selected measure over time, with its reference band and treatment periods. */
-function chart(level, points, treatments, onSelect, selected) {
+/**
+ * The selected measure over time, with its reference band and treatment periods. With `linked`, a point
+ * is chosen by hovering it, its tip names its report, and pressing it opens that report.
+ */
+function chart(level, points, treatments, onSelect, selected, {linked = false} = {}) {
   const box = el('div', null, 'brief-chart');
   const width = Math.max(320, box.clientWidth || 720);
   const draw = (pixels) => {
@@ -274,14 +277,25 @@ function chart(level, points, treatments, onSelect, selected) {
     points.forEach((point, i) => {
       const dot = svg('circle', {cx: x(times[i]), cy: y(point.value), r: i === selected ? 7 : 4.5,
         class: `brief-chart-point${point.own ? '' : ' is-other'}${i === selected ? ' is-selected' : ''}`});
+      if (linked) {
+        // A wider ring around each point is what the pointer finds; it opens the point's report.
+        const hit = svg('circle', {cx: x(times[i]), cy: y(point.value), r: 14, class: 'brief-chart-hit'});
+        hit.addEventListener('pointerenter', () => { if (i !== selected) onSelect(i); });
+        hit.addEventListener('click', () => openReport(point));
+        graphic.append(dot, hit);
+        return;
+      }
       dot.addEventListener('click', () => onSelect(i));
       graphic.append(dot);
     });
     const chosen = points[selected];
     if (chosen) {
-      const text = `${amount(chosen.value)}${chosen.value2 != null ? '/' + amount(chosen.value2) : ''} ${level.unit}, ${long(chosen.date)}`;
+      let text = `${amount(chosen.value)}${chosen.value2 != null ? '/' + amount(chosen.value2) : ''} ${level.unit}, ${long(chosen.date)}${linked && chosen.title ? ' · ' + chosen.title : ''}`;
+      // The tip fits inside the plot: a report title too long for it is shortened.
+      const fits = Math.floor((W - left - right - 20) / 7.2);
+      if (text.length > fits) text = text.slice(0, fits - 1).trimEnd() + '…';
       const tipWidth = text.length * 7.2 + 20;
-      const tx = Math.min(W - right - tipWidth, Math.max(left, x(times[selected]) - tipWidth / 2));
+      const tx = Math.max(left, Math.min(W - right - tipWidth, x(times[selected]) - tipWidth / 2));
       const ty = Math.max(top, y(chosen.value) - 44);
       graphic.append(svg('rect', {x: tx, y: ty, width: tipWidth, height: 28, rx: 6, class: 'brief-chart-tip'}));
       const label = svg('text', {x: tx + tipWidth / 2, y: ty + 19, class: 'brief-chart-tip-text', 'text-anchor': 'middle'});
@@ -425,12 +439,51 @@ function otherFacts(host, facts) {
 let latestMount = 0;
 // Level names of the notebook on screen, for chat follow-ups.
 let levelNames = [];
+// The brief on screen, for charts in this notebook's chat.
+let shownBrief = null;
 
 /** The longest level name a text mentions as a word, or null. */
 function levelNamed(text) {
   const lower = String(text).toLowerCase();
   return [...levelNames].sort((a, b) => b.length - a.length).find(name =>
       new RegExp(`\\b${name.toLowerCase().replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`).test(lower)) || null;
+}
+
+/** Opens the report a result came from, at its page. */
+function openReport(point) {
+  if (!point.target) return;
+  if (root.StellisNavigate) root.StellisNavigate(point.target); else location.assign(point.target);
+}
+
+/**
+ * A chart of one of this notebook's levels for its chat (owner, 2026-10-30: trends drawn, not listed,
+ * each point linked to its report), or null when the notebook has fewer than two of its results.
+ * Hover or the arrow keys choose a result; a click or Enter opens its report.
+ */
+function trend(name) {
+  const level = shownBrief?.levels.find(item => item.name === name);
+  const points = level ? level.points.filter(point => point.own) : [];
+  if (points.length < 2) return null;
+  const figure = el('figure', null, 'nb-trend');
+  let selected = points.length - 1;
+  const paint = () => {
+    const graph = chart(level, points, shownBrief.treatments, index => { selected = index; paint(); }, selected, {linked: true});
+    graph.tabIndex = 0;
+    graph.setAttribute('aria-label', `${level.name} chart, ${points.length} results. Arrow keys move between results; Enter opens the report.`);
+    graph.addEventListener('keydown', event => {
+      if (event.key === 'Enter') { event.preventDefault(); openReport(points[selected]); return; }
+      const next = {ArrowLeft: selected - 1, ArrowRight: selected + 1, Home: 0, End: points.length - 1}[event.key];
+      if (next == null) return;
+      event.preventDefault();
+      selected = Math.max(0, Math.min(points.length - 1, next));
+      paint();
+      figure.querySelector('.brief-chart')?.focus();
+    });
+    const caption = el('figcaption', `${level.name}, ${level.unit}: ${points.length} results from this notebook's reports. Each point opens its report.`);
+    figure.replaceChildren(graph, caption);
+  };
+  paint();
+  return figure;
 }
 
 /** Opens the Brief tab with one level's chart selected. */
@@ -473,8 +526,9 @@ async function mount(host, notebookId) {
     otherFacts(levelHost, context.facts);
   }
   levelNames = brief.levels.map(level => level.name);
+  shownBrief = brief;
   root.dispatchEvent(new Event('stellis:brief-loaded'));
 }
 
-root.StellisNotebookHealth = {mount, levelNamed, showLevel};
+root.StellisNotebookHealth = {mount, levelNamed, showLevel, trend};
 })(window);

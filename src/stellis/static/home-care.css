@@ -77,7 +77,7 @@
 .home-dose-name { display:flex; flex-wrap:wrap; align-items:center; gap:var(--space-2); }
 .home-dose-name strong { flex:1 0 100%; }
 .home-dose-amount { display:block; color:var(--widget-muted); }
-.home-context-title { display:flex; flex-wrap:wrap; align-items:center; gap:var(--space-2); overflow-wrap:anywhere; }
+.home-context-title { display:flex; flex-wrap:wrap; align-items:center; gap:var(--space-2); overflow-wrap:break-word; }
 .home-context-title .home-source-hint .icon { width:18px; height:18px; }
 /* The button is a 44px target; the visible pill is drawn inside it. */
 .home-dose-pill { position:relative; display:inline-grid; place-items:center; width:44px; height:44px; min-height:0; min-width:0; padding:0; border:0; border-radius:var(--radius-pill); background:transparent; color:var(--data-series); cursor:pointer; }

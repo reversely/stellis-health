@@ -3226,21 +3226,45 @@ html body #app-header:has(.header-account-controls):has(#capture-header-controls
 
 /* A page load holds everything but the sidebar's surface until app.js has routed (index.html sets
    data-routing): the sidebar's links wait too, so My Health never shows selected on another page. */
-html[data-routing] main > :not(.home-rail), html[data-routing] .home-rail > * { visibility: hidden; }
+html[data-routing] main > :not(.home-rail, .route-status), html[data-routing] .home-rail > * { visibility: hidden; }
+/* What is loading, in words, where the page's heading will be (owner, 2026-10-30: "loading needs to be
+   comprehensively transparent in transitions"). Hidden once the page is drawn. */
+.route-status { display: none; }
+html[data-routing] .route-status:has(#route-label:not(:empty)) { display: flex; align-items: center; gap: 14px; position: relative; min-height: 38px; font: 400 28px/38px var(--font-heading); color: var(--muted); }
+/* Stellis waits beside the words, hopping in the theme's ink (owner, 2026-10-30: an endless skeleton
+   alone "is a bit lonely"). It squashes as it lands; reduced motion keeps it standing. */
+.route-stellis { flex: none; width: 32px; height: 32px; fill: var(--ink); transform-origin: 50% 100%; animation: route-stellis-hop 900ms cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+@keyframes route-stellis-hop {
+  0%, 100% { transform: translateY(0) scale(1, 1); }
+  12% { transform: translateY(0) scale(1.1, .88); }
+  45% { transform: translateY(-9px) scale(.94, 1.06); }
+  78% { transform: translateY(0) scale(1.08, .9); }
+  88% { transform: translateY(0) scale(1, 1); }
+}
+/* <main> is a grid whose first column is the sidebar: the words and the skeleton take the content column,
+   where the page's own heading will be (until 2026-10-30 the skeleton drew inside the sidebar). */
+html[data-routing] main::before, html[data-routing] .route-status { grid-column: -2 / -1; grid-row: 1; align-self: start; margin-inline: 72px; margin-top: 40px; }
+@media (max-width: 760px) {
+  html[data-routing] main::before { align-self: stretch; margin-inline: 0; margin-top: var(--space-5); }
+  html[data-routing] .route-status:has(#route-label:not(:empty)) { position: absolute; inset: var(--space-5) var(--space-4) auto; margin: 0; font-size: 22px; gap: 10px; }
+  /* Only the words shorten, so the hop is never clipped. */
+  #route-label { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .route-stellis { width: 26px; height: 26px; }
+}
 /* While it routes, a skeleton of a page stands where the content will be: a heading, a line and two
    cards, drawn by one mask so it takes the theme's ink (owner, 2026-10-29: loading should look like the
    page arriving, not like a broken one). It shows at once: in-app pages set data-routing only after
    100ms, and a full page load keeps the last page up until this paints. */
 html[data-routing] main::before {
-  content: ''; display: block; height: 360px; margin-bottom: -360px; opacity: 0;
-  background: color-mix(in oklch, var(--ink) 9%, transparent);
+  content: ''; display: block; height: 360px; opacity: 0;
+  background: color-mix(in oklch, var(--ink) 13%, transparent);
   -webkit-mask: var(--page-skeleton) top left / 100% 360px no-repeat; mask: var(--page-skeleton) top left / 100% 360px no-repeat;
   animation: page-loading-in 150ms ease-out forwards, page-skeleton-pulse 1.2s 150ms ease-in-out infinite alternate;
 }
-:root { --page-skeleton: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='42%25' height='38' rx='10'/%3E%3Crect y='56' width='26%25' height='14' rx='7'/%3E%3Crect y='102' width='100%25' height='118' rx='18'/%3E%3Crect y='238' width='100%25' height='118' rx='18'/%3E%3C/svg%3E"); }
+:root { --page-skeleton: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Crect y='56' width='26%25' height='14' rx='7'/%3E%3Crect y='102' width='100%25' height='118' rx='18'/%3E%3Crect y='238' width='100%25' height='118' rx='18'/%3E%3C/svg%3E"); }
 @keyframes page-loading-in { to { opacity: 1; } }
 @keyframes page-skeleton-pulse { from { opacity: 1; } to { opacity: .55; } }
-@media (prefers-reduced-motion: reduce) { html[data-routing] main::before { animation: page-loading-in 150ms forwards; } }
+@media (prefers-reduced-motion: reduce) { html[data-routing] main::before { animation: page-loading-in 150ms forwards; } .route-stellis { animation: none; } }
 
 /* Log out is small and outline only in every header, rail and theme (owner, 2026-10-27). */
 html body #app-header .header-account-controls #logout-button {

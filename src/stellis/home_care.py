@@ -50,6 +50,9 @@ def _context(record, day, books):
                 number=label(start);caption='Last period';detail=''
         end=None;total=None
     elif number<0 or (end and end<day.isoformat()):return None
+    # A treatment phase nobody closed (an embryo transfer in 2029, seen in 2032 as "Day 869") stops
+    # counting after the same three months as a period.
+    elif kind=='treatment' and not end and number>PERIOD_CONTEXT_DAYS:return None
     title=books.get(record.get('notebook_id'),record.get('name') or trackers.KINDS[kind].label)
     return {'id':record['id'],'kind':kind,'title':title,'name':record.get('name',title),'number':number,'caption':caption,'detail':detail,'total':total,'start':start,'end':end,'notebook_id':record.get('notebook_id'),'source':_source(record),'since':since,'progress':min(1,max(0,number/total)) if total else None,'derived':info.get('derived',[])}
 

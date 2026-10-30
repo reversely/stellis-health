@@ -59,6 +59,38 @@ class DemoModelCacheTest(unittest.TestCase):
         transport.inner = inner
         return transport, inner
 
+    def test_a_reply_cut_off_at_its_token_limit_is_never_replayed(self) -> None:
+        transport, inner = self.transport()
+        body = {"model": "m", "messages": [{"role": "user", "content": "What should I ask at my next appointment?"}]}
+        cut = [True]
+
+        def reply(request: httpx.Request) -> httpx.Response:
+            inner.calls += 1
+            reason = "length" if cut[0] else "stop"
+            return httpx.Response(200, json={"choices": [{"message": {"content": f"reply {inner.calls}"},
+                                                          "finish_reason": reason}]}, request=request)
+
+        inner.handle_request = reply
+        with storage.demo_workspace(self.demo):
+            _ask(transport, body)
+            cut[0] = False
+            privacy._served.clear()  # Another visitor, after the retry window.
+            second = _ask(transport, body)
+            privacy._served.clear()
+            third = _ask(transport, body)
+        self.assertEqual((second, third, inner.calls), ("reply 2", "reply 2", 2))
+
+    def test_a_cut_off_reply_stored_earlier_is_asked_again(self) -> None:
+        transport, inner = self.transport()
+        body = {"model": "m", "messages": [{"role": "user", "content": "Date this report"}]}
+        with storage.demo_workspace(self.demo):
+            path = privacy._cache_path(httpx.Request("POST", URL, json=body))
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(json.dumps({"status": 200, "type": "application/json", "ids": [], "body": json.dumps(
+                {"choices": [{"message": {"content": "cut"}, "finish_reason": "length"}]})}))
+            self.assertEqual(_ask(transport, body), "reply 1")
+        self.assertEqual(inner.calls, 1)
+
     def test_demo_request_is_answered_once_then_replayed(self) -> None:
         transport, inner = self.transport()
         body = {"model": "m", "messages": [{"role": "user", "content": "Date this report"}]}

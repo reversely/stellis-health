@@ -111,6 +111,9 @@ class HomeFocusTest(unittest.TestCase):
         self.assertFalse(home_focus.has_history())
         self.assertEqual([idea['action'].get('command') or idea['action']['href'] for idea in ideas],
                          ['upload', '/onboarding', 'camera', 'example'])
+        # The example workspace blocks setup, so it offers neither setup nor another example.
+        self.assertEqual([idea['action'].get('command') or idea['action']['href']
+                          for idea in home_focus.starting_ideas(in_example=True)], ['upload', 'camera'])
         notebooks.create('Blood Health')
         self.assertNotIn('/onboarding', [idea['action'].get('href') for idea in home_focus.starting_ideas()])
         # Inside the example workspace there is nothing more to try.

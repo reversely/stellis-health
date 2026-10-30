@@ -194,9 +194,12 @@ class LoginCredentials(BaseModel):
 
 
 def _session_response(token: str, username: str) -> JSONResponse:
+    from stellis import demo_patient
     response = JSONResponse({"username": username, "onboarding_required": auth.needs_onboarding(auth.current_account_id(token))})
     response.set_cookie(auth.COOKIE_NAME, token, max_age=auth.SESSION_DAYS * 86400,
                         httponly=True, samesite="lax", secure=auth.secure_cookies(), path="/")
+    # An example session left open before signing in would otherwise block the account's own setup.
+    response.delete_cookie(demo_patient.COOKIE, path="/")
     response.headers["Cache-Control"] = "no-store"
     return response
 
@@ -404,9 +407,11 @@ def account_delete(request: Request, deletion: AccountDeletion) -> JSONResponse:
 
 @app.post("/api/v1/auth/logout")
 def auth_logout(request: Request) -> JSONResponse:
+    from stellis import demo_patient
     auth.revoke(request.cookies.get(auth.COOKIE_NAME))
     response = JSONResponse({"logged_out": True})
     response.delete_cookie(auth.COOKIE_NAME, path="/")
+    response.delete_cookie(demo_patient.COOKIE, path="/")
     response.headers["Cache-Control"] = "no-store"
     return response
 
@@ -965,10 +970,10 @@ def privacy_page() -> HTMLResponse:
     """Public policy follows the research route and confirmed retention settings."""
     from stellis import research
     page = (_STATIC / "privacy.html").read_text()
-    if research.tavily_only():
+    if not research.tavily_only():
         page = page.replace(
-            "Stellis searches MedlinePlus and PubMed first and uses Tavily when a key is available and they return too few results.",
-            "Stellis searches Tavily directly when a key is available and otherwise searches MedlinePlus and PubMed.")
+            "Stellis searches Tavily directly when a key is available and otherwise searches MedlinePlus and PubMed.",
+            "Stellis searches MedlinePlus and PubMed.")
     if os.environ.get("STELLIS_TOKEN_FACTORY_ZDR") == "confirmed":
         page = page.replace('data-zdr="off"', 'data-zdr="on"', 1)
     return HTMLResponse(page)

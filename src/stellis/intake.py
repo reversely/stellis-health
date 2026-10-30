@@ -657,11 +657,11 @@ async def update_notes() -> dict[str, object]:
 
 
 async def propose_notebooks(request: str = "", layout: list[dict] | None = None) -> dict[str, object]:
-    """Recommends registered templates from the reviewed intake notes."""
+    """Recommends registered templates from the reviewed intake notes, filing every record it can."""
     from stellis import health_catalogue
     if request or layout is not None:
         raise ValueError("Choose notebooks from the catalogue or edit the intake notes")
-    return health_catalogue.recommend()
+    return await health_catalogue.file_unsorted(health_catalogue.recommend())
 
 
 async def run_text_turn(text: str) -> dict[str, object]:

@@ -74,6 +74,13 @@ html[data-theme='dark'] :is(.home-heading .invert-button, .home-heading .call-la
   margin: 0;
   font: 400 16px/1.5 var(--font-body);
 }
+/* What the step is waiting for and for how long, under its sentence; the seconds keep their width. */
+.demo-wait {
+  margin: 0;
+  font: 600 14px/1.4 var(--font-body);
+  font-variant-numeric: tabular-nums;
+  opacity: .8;
+}
 
 .demo-card-head {
   display: flex;
@@ -249,3 +256,21 @@ html.demo-arriving .demo-context { visibility: visible; }
 html.demo-before-sort :is(.records-actions, #records-unsorted-title, .records-list) { display: none; }
 /* ‹ and › stay in view when a step's details make the panel scroll (a receipt on a phone's sheet). */
 .demo-card .demo-actions { position: sticky; bottom: 0; padding-block: var(--space-2); background: var(--paper-surface); }
+
+/* Maya's records passing by as the demo starts (owner, 2026-10-30): the slide's paper and type, a window
+   of rows that fades at both edges, dates in a fixed column so titles line up. */
+.demo-filing { display: grid; gap: var(--space-4); width: min(720px, 100%); }
+.demo-filing h1 { margin: 0; }
+.demo-filing-view { height: 336px; overflow: hidden; -webkit-mask-image: linear-gradient(transparent, var(--paper-ink) 18%, var(--paper-ink) 82%, transparent); mask-image: linear-gradient(transparent, var(--paper-ink) 18%, var(--paper-ink) 82%, transparent); }
+/* Padding the size of each fade, so the oldest year starts and the newest record ends in full view. */
+.demo-filing-list { margin: 0; padding: 48px 0 64px; list-style: none; will-change: transform; }
+.demo-filing-year { padding: var(--space-4) 0 var(--space-1); font: 400 24px/1.2 var(--font-heading); color: var(--paper-ink); }
+.demo-filing-row { display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; gap: var(--space-3); align-items: baseline; padding: var(--space-2) 0; border-top: 1px solid var(--paper-line); font: 400 16px/1.4 var(--font-body); }
+.demo-filing-row time { color: var(--paper-muted); font-variant-numeric: tabular-nums; }
+.demo-filing-title { color: var(--paper-ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.demo-filing-book { color: var(--paper-muted); font-size: 14px; white-space: nowrap; }
+@media (max-width: 640px) {
+  .demo-filing-view { height: 300px; }
+  .demo-filing-row { grid-template-columns: 56px minmax(0, 1fr); row-gap: 0; }
+  .demo-filing-book { grid-column: 2; font-size: 13px; }
+}

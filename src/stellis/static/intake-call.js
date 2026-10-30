@@ -61,8 +61,11 @@ function start(
     }, Math.max(0, ms));
     timers.add(id);
   };
+  // The panel takes typing before the socket connects; what arrives early is sent once it opens.
+  const early = [];
   const send = (data) => {
     if (socket.readyState === WebSocket.OPEN) socket.send(JSON.stringify(data));
+    else if (socket.readyState === WebSocket.CONNECTING) early.push(data);
   };
 
   async function listen() {
@@ -202,6 +205,7 @@ function start(
   };
   socket.onopen = () => {
     send({type:'speaker', on:speakerEnabled && useMic});
+    for (const data of early.splice(0)) send(data);
   };
   socket.onclose = (event) => {
     // 4401: the session ended or the records locked; sign in again and come back.

@@ -29,6 +29,12 @@ def test_new_care_context_does_not_leave_an_old_open_phase_primary():
  medicine=trackers.save('medicine',{'name':'New medicine','dose_amount':10,'dose_unit':'mg','schedule_type':'daily','start':(day-dt.timedelta(days=5)).isoformat(),'notebook_id':new})
  assert home_care.view()['active']['id']==medicine['id']
 
+def test_an_open_treatment_phase_stops_counting_after_three_months():
+ day=dt.date.today()
+ recent=trackers.save('treatment',{'name':'Recent','phase':'Stimulation','start':(day-dt.timedelta(days=89)).isoformat()})
+ trackers.save('treatment',{'name':'Old','phase':'Embryo transfer','start':(day-dt.timedelta(days=868)).isoformat()})
+ assert [c['id'] for c in home_care.view()['contexts']]==[recent['id']]
+
 def test_only_the_latest_recent_period_is_a_cycle_day_context():
  day=dt.date.today()
  for back in (400,120,60):trackers.save('period',{'start':(day-dt.timedelta(days=back)).isoformat(),'end':(day-dt.timedelta(days=back-4)).isoformat(),'flow':'Moderate'})

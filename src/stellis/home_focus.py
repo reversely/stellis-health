@@ -217,14 +217,14 @@ def starting_ideas(in_example: bool = False) -> list[dict]:
     """First steps for an account with no records yet, each chosen from what is still missing.
 
     An idea with a ``command`` runs in the page (open the upload dialog, the camera, the example
-    records); the rest are links. The example offer is left out inside the example workspace.
+    records); the rest are links. The example offer and setup are left out inside the example workspace.
     """
     from stellis import notebooks
     ideas = [{"kind": "start", "category": "understand", "icon": "upload", "title": "Add a lab report, letter or prescription",
               "detail": "I’ll read each result, file it in a notebook and show the line it came from.",
               "action": {"label": "Add a record", "command": "upload"}}]
     books = [book for book in notebooks.list_notebooks() if not book.get("archived_at")]
-    if not books:
+    if not books and not in_example:
         ideas.append({"kind": "start", "category": "improve", "icon": "notebook", "title": "Tell me what you want to keep track of",
                       "detail": "A short call, and I’ll set up notebooks for your conditions, care and goals.",
                       "action": {"label": "Start setup", "href": "/onboarding"}})
