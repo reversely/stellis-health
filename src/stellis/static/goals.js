@@ -354,27 +354,8 @@ function create(host, notifications = null) {
 
   function paint() {
     const parts = [];
-    if (morningDue && root.StellisCoachCall && (!new URLSearchParams(location.search).get('day') || new URLSearchParams(location.search).get('day')===localDay())) {
-      parts.push(root.StellisCoachCall.incoming({
-        answer: () => call('morning', false),
-        chat: () => call('morning', true),
-        snooze: () => {
-          morningDue = false;
-          paint();
-          dom.api('/coach/morning', {method: 'POST', json: {day: localDay(), answer: 'snoozed', now: localTime()}})
-              .catch(() => {});
-        },
-        decline: () => {
-          morningDue = false;
-          paint();
-          dom.api('/coach/morning', {
-               method: 'POST',
-               json: {day: localDay(), answer: 'declined'},
-             })
-              .catch(() => {});
-        },
-      }, {time: morning.rang, agenda: morning.agenda, snoozeMinutes: morning.snooze_minutes}));
-    }
+    // No "Stellis is calling" card (owner, 2026-10-30: "NO stellis is calling"): the heading's one call
+    // button reads Daily check-in while the check-in is due and starts it.
     for (const reminder of data.reminders) parts.push(banner(reminder));
     if (notifications) notifications.replaceChildren(...parts.splice(0));
     // My Health's heading already offers Call Stellis and the daily check-in; this part starts at its vital signs.

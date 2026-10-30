@@ -35,7 +35,7 @@
   100% { opacity: 0; scale: 1.25; }
 }
 /* The answer swipe spans the card; the quieter choices sit on one row beneath it. */
-.coach-incoming-actions > .swipe-answer { flex: 0 1 260px; height: 48px; }
+.coach-incoming-actions > .swipe-answer { flex: 0 0 240px; height: 48px; }
 .coach-incoming-actions > .swipe-answer .swipe-answer-handle { width: 40px; height: 40px; min-height: 40px; }
 .coach-incoming-text {
   display: grid;

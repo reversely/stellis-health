@@ -36,16 +36,16 @@
 .home-care-content a { color:inherit; text-underline-offset:3px; overflow-wrap:anywhere; }
 .home-care-week button { display:flex; flex-direction:column; gap:var(--space-1); align-items:center; justify-content:center; }
 /* The column fits the 64px face, so it never overlaps the heading (#258). */
-#dashboard-notifications .coach-incoming { padding:var(--space-5) var(--space-6); grid-template-columns:64px minmax(0,1fr); align-items:start; gap:var(--space-3) var(--space-5); }
-#dashboard-notifications .coach-incoming-face { width:64px; height:64px; }
+#dashboard-notifications .coach-incoming { padding:var(--space-4) var(--space-5); grid-template-columns:56px minmax(0,1fr) auto; align-items:center; gap:var(--space-3) var(--space-5); }
+#dashboard-notifications .coach-incoming-face { width:56px; height:56px; }
 #dashboard-notifications .coach-incoming-face svg { width:48px; height:48px; }
-#dashboard-notifications .coach-incoming h2 { font-size:24px; }
-.coach-incoming-details { grid-column:2; }
+#dashboard-notifications .coach-incoming h2 { font-size:22px; }
+.coach-incoming-details { grid-column:2 / -1; }
 .coach-incoming-details>summary { min-height:var(--control-height); cursor:pointer; }
-@media(max-width:760px) { #dashboard-notifications .coach-incoming { grid-template-columns:64px minmax(0,1fr); padding:var(--space-4); gap:var(--space-3) var(--space-4); } #dashboard-notifications :is(.coach-incoming-actions, .coach-incoming-details) { grid-column:1/-1; } }
+@media(max-width:760px) { #dashboard-notifications .coach-incoming { grid-template-columns:48px minmax(0,1fr); padding:var(--space-4); gap:var(--space-3) var(--space-4); } #dashboard-notifications :is(.coach-incoming-actions, .coach-incoming-details) { grid-column:1/-1; } }
 .home-care-toolbar>.coach-button { border:1px solid var(--widget-line); background:var(--widget-fill); color:var(--widget-ink); }
 /* The compact Home card shrinks the avatar with its face, so it cannot overlap the heading. */
-#dashboard-notifications .coach-incoming-face > :not(.coach-incoming-ring) { width: 48px; height: 48px; }
+#dashboard-notifications .coach-incoming-face > :not(.coach-incoming-ring) { width: 40px; height: 40px; }
 /* Every action on the care board is an outlined button, never bare text beside the content. */
 .home-care-content :is(.home-care-toolbar, .home-care-heading, .home-context, .home-context-actions, .home-care-camera) > .coach-button.is-quiet,
 .home-context-actions > a.coach-button {

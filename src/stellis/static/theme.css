@@ -2790,12 +2790,6 @@ body.recording-page .recording-actions #start-recording {
   }
 }
 
-/* Incoming-call actions invert against the filled notification surface. */
-.coach-incoming {
-  --action-fill: var(--accent-ink);
-  --action-ink: var(--accent);
-  --action-hover: color-mix(in oklch, var(--accent-ink) 90%, var(--accent));
-}
 
 /* Dark actions use white pills; secondary surfaces retain their translucency. */
 html[data-theme='dark'] {
