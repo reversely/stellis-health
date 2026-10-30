@@ -215,6 +215,12 @@ class BargeInTest(IntakeTestCase):
         self.call.barged_in = True
         self.assertTrue(self.call._is_answer("Wait, appointments too.", 2.0, 2.0))
 
+    def test_a_reply_that_reuses_the_greetings_words_after_it_ends_is_an_answer(self):
+        # Owner, 2026-10-30: "good how are you" after "How are you doing today?" got no reply.
+        self.call.speaking = "Good morning, it's Stellis with your check-in. How are you doing today?"
+        self.assertFalse(self.call._is_answer("Good, how are you?", 1.3, 0.0))
+        self.assertTrue(self.call._is_answer("Good, how are you?", 1.3, 0.0, echo_possible=False))
+
     def test_text_too_fast_to_be_speech_is_not_an_answer(self):
         self.assertFalse(self.call._is_answer("one two three four five six seven", 0.6, 0.0))
         self.assertTrue(self.call._is_answer("one two three four five six seven", 2.5, 0.0))

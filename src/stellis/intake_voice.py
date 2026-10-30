@@ -76,6 +76,8 @@ REPLY_TIMEOUT_S = 90
 MAX_QUEUED_ANSWERS = 2
 # An answer that repeats this share of the agent's word pairs, in order, is its own echo.
 ECHO_OVERLAP = 0.6
+# Speech starting within this long of Stellis's audio ending can still be its echo (room reverb, latency).
+ECHO_TAIL_S = 0.6
 # Speech recognition invents words for noise and for the agent's voice from
 # the speakers. Text faster than this, in words a second, is invented.
 MAX_WORDS_PER_S = 6
@@ -488,8 +490,11 @@ class Call:
             return
         stt_done = time.perf_counter()
         await asyncio.to_thread(debug_data.save_answer_audio, segment, SAMPLE_RATE, text)
-        if not self._is_answer(text, seconds, overlap):
-            if not self._busy() and overlap < MAX_OVERLAP_S and not is_echo(text, self.speaking):
+        # Only speech that overlaps Stellis's audio, or starts as it ends, can be its echo: "Good, how are
+        # you?" after "How are you doing today?" shares its words but is the person answering.
+        echo_possible = overlap > 0 or started_at < self.played_until + ECHO_TAIL_S
+        if not self._is_answer(text, seconds, overlap, echo_possible):
+            if not self._busy() and overlap < MAX_OVERLAP_S and not (echo_possible and is_echo(text, self.speaking)):
                 await self.send_json({'type':'error', 'message':'Please repeat your answer or type it below'})
             # A dropped answer always returns the call to listening; it never stays on transcribing.
             if not self._busy():
@@ -504,7 +509,7 @@ class Call:
         self.answer_ended = ended_at
         await self._answer(text, {"speech_end": ended_at, "stt_done": stt_done}, follow_on)
 
-    def _is_answer(self, text: str, seconds: float, overlap: float) -> bool:
+    def _is_answer(self, text: str, seconds: float, overlap: float, echo_possible: bool = True) -> bool:
         """Whether recognised speech is the person's answer.
 
         Drops the agent's own echo, text too fast to be speech, and speech
@@ -512,7 +517,7 @@ class Call:
         it: recognition turned noise or the agent's voice into those words.
         """
         words = len(text.split())
-        if len(text) < 2 or is_echo(text, self.speaking) or words / max(seconds, 0.1) > MAX_WORDS_PER_S:
+        if len(text) < 2 or (echo_possible and is_echo(text, self.speaking)) or words / max(seconds, 0.1) > MAX_WORDS_PER_S:
             return False
         return self.barged_in or overlap < MAX_OVERLAP_S
 

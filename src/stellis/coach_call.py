@@ -305,6 +305,16 @@ def agenda(today: str, overview: dict[str, object]) -> list[dict[str, object]]:
                 'title':f"Review {fact['name'].lower()} {fact['value']} {fact['unit']}",
                 'label':fact['document_title'],'target':fact['target'],
                 'say':f"You saved a {fact['name'].lower()} result of {fact['value']} {fact['unit']} from {_day_text(datetime.date.fromisoformat(fact['date']))}."})
+    if not results:
+        # With nothing new, the check-in still opens on something from the records: the latest result.
+        saved = sorted((f for f in health_facts.accepted() if f.get('measurement') and f['kind'] == 'lab_result'
+                        and f['date'] <= today), key=lambda f: f['date'])
+        if saved:
+            fact = saved[-1]
+            results.append({'key': 'fact:' + fact['id'], 'icon': 'activity',
+                            'title': f"Latest {fact['name']}, {fact['value']} {fact['unit']}", 'label': fact['document_title'],
+                            'target': fact['target'],
+                            'say': f"Your latest saved result is {fact['name']} at {fact['value']} {fact['unit']}, from {_day_text(datetime.date.fromisoformat(fact['date']))}."})
     ordered = doses + results[:2] + booked + [item for _, item in sorted(dated, key=lambda pair: pair[0])] + plans + progress
     return ordered[:MAX_AGENDA]
 
