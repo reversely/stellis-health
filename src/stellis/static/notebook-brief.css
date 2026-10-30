@@ -100,6 +100,7 @@ html[data-theme='dark'] #notebook-health, html[data-theme='dark'] .notebook-leve
 .brief-chart-grid { stroke: var(--line-soft); }
 .brief-chart-label { fill: var(--muted); font-size: 12px; }
 .brief-chart-line { fill: none; stroke: var(--data-series); stroke-width: 2; }
+.brief-chart-line.is-gap { stroke-dasharray: 4 6; }
 .brief-chart-point { fill: var(--data-series); stroke: var(--surface); stroke-width: 2; cursor: pointer; }
 .brief-chart-point.is-other { fill: var(--surface); stroke: var(--data-series); }
 .brief-chart-point.is-selected { stroke-width: 3; }

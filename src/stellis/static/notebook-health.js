@@ -260,19 +260,26 @@ function chart(level, points, treatments, onSelect, selected, {linked = false} =
     const spanYears = (end - start) / (365 * DAY);
     for (let year = new Date(start).getFullYear(); year <= new Date(end).getFullYear(); year++) {
       for (let month = 0; month < 12; month += spanYears > 1.5 ? 12 : 3) {
-        const t = new Date(year, month, 1).getTime();
+        let t = new Date(year, month, 1).getTime(), anchor = 'middle';
+        // The first year's results can start after 1 January; its label then sits at the chart's start.
+        if (t < start && spanYears > 1.5 && year === new Date(start).getFullYear()
+            && x(new Date(year + 1, 0, 1).getTime()) - left > 48) { t = start; anchor = 'start'; }
         if (t < start || t > end) continue;
-        const label = svg('text', {x: x(t), y: H - 12, class: 'brief-chart-label', 'text-anchor': 'middle'});
+        const label = svg('text', {x: anchor === 'start' ? left : x(t), y: H - 12, class: 'brief-chart-label', 'text-anchor': anchor});
         label.textContent = spanYears > 1.5 ? String(year) : new Date(t).toLocaleDateString([], {month: 'short', year: '2-digit'});
         graphic.append(label);
       }
     }
-    // Lines join results within a year of each other; longer gaps stay open.
-    let path = '';
+    // Lines join results within a year of each other; a longer gap is a dashed line, so it reads as
+    // time without results rather than a break in the chart.
+    let path = '', gaps = '';
     points.forEach((point, i) => {
+      const at = `${x(times[i]).toFixed(1)} ${y(point.value).toFixed(1)}`;
       const gap = i && times[i] - times[i - 1] > 365 * DAY;
-      path += `${!i || gap ? 'M' : 'L'}${x(times[i]).toFixed(1)} ${y(point.value).toFixed(1)} `;
+      if (gap) gaps += `M${x(times[i - 1]).toFixed(1)} ${y(points[i - 1].value).toFixed(1)} L${at} `;
+      path += `${!i || gap ? 'M' : 'L'}${at} `;
     });
+    if (gaps) graphic.append(svg('path', {d: gaps, class: 'brief-chart-line is-gap'}));
     graphic.append(svg('path', {d: path, class: 'brief-chart-line'}));
     points.forEach((point, i) => {
       const dot = svg('circle', {cx: x(times[i]), cy: y(point.value), r: i === selected ? 7 : 4.5,
@@ -462,8 +469,10 @@ function openReport(point) {
  */
 function trend(name) {
   const level = shownBrief?.levels.find(item => item.name === name);
-  const points = level ? level.points.filter(point => point.own) : [];
-  if (points.length < 2) return null;
+  // Every result of the level, as the Brief draws it: results filed in other notebooks show as open
+  // points, so years held elsewhere are not a blank gap in the chart (owner, 2026-10-30).
+  const points = level ? level.points : [];
+  if (points.filter(point => point.own).length < 2) return null;
   const figure = el('figure', null, 'nb-trend');
   let selected = points.length - 1;
   const paint = () => {
@@ -479,7 +488,9 @@ function trend(name) {
       paint();
       figure.querySelector('.brief-chart')?.focus();
     });
-    const caption = el('figcaption', `${level.name}, ${level.unit}: ${points.length} results from this notebook's reports. Each point opens its report.`);
+    const own = points.filter(point => point.own).length, other = points.length - own;
+    const caption = el('figcaption', `${level.name}, ${level.unit}: ${own} results from this notebook` +
+        (other ? `, ${other} from other notebooks as open points` : '') + '. Each point opens its report.');
     figure.replaceChildren(graph, caption);
   };
   paint();

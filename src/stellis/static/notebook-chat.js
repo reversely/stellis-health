@@ -46,6 +46,9 @@ let AnswerPart;
  */
 function answerParts(content, citations) {
   const byNumber = new Map(citations.map((item) => [item.n, item]));
+  // Punctuation the model put after a marker goes before it, as footnotes sit, so no gap opens between
+  // the chip and its full stop ("course 6 ." in a demo answer, owner 2026-10-30).
+  content = content.replace(/[ \t]*((?:\[\[\d+\]\][ \t]*)+?)[ \t]*([.,;:!?])(?=\s|$)/g, (_, markers, mark) => `${mark} ${markers.trim()}`);
   // Each paragraph is its own message bubble. A reply without blank lines separates its points with
   // single line breaks instead.
   const blocks = /\n\s*\n/.test(content.trim()) ? content.split(/\n\s*\n/) : content.split(/\s*\n\s*/);

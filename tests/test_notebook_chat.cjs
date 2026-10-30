@@ -38,6 +38,15 @@ test('answerParts splits paragraphs and keeps unknown markers as text', () => {
   ]);
 });
 
+test('answerParts puts a full stop after a marker before it', () => {
+  // A demo answer read "after the iron course 6 ." (owner, 2026-10-30).
+  const parts = answerParts('After the iron course [[1]]. Then [[1]] [[2]] , next.', [VISIT, LABS]);
+
+  assert.deepEqual(parts, [
+    [{text: 'After the iron course. '}, {citation: VISIT}, {text: ' Then, '}, {citation: VISIT}, {text: ' '}, {citation: LABS}, {text: ' next.'}],
+  ]);
+});
+
 test('answerMarkdown numbers the text and links each source', () => {
   const markdown = answerMarkdown('Dose. [[1]] LDL. [[2]]', [VISIT, LABS]);
 
