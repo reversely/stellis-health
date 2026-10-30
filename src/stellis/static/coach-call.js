@@ -353,9 +353,20 @@ function open({kind, chat, onAction=defaultAction, agenda = [], source=null, hos
     if (panel.dataset.state === 'ending' && !['ended','lost'].includes(key)) return;
     panel.dataset.state = key;
     status.textContent = STATUS[key];
+    showThinking(key === 'thinking');
     if (next) next.disabled = !stepReady || !['listening','typing','hearing'].includes(key);
     doneSpeaking.hidden = chat || mute.hidden || key !== 'hearing';
     recovery.hidden = !failure.textContent && retry.hidden && doneSpeaking.hidden;
+  }
+
+  // Three moving dots where Stellis's reply will appear, so a long wait shows something alive (owner, #270).
+  let thinking = null;
+  function showThinking(on) {
+    if (!on) { thinking?.remove(); thinking = null; return; }
+    thinking ||= dom.el('li', null, 'is-agent coach-call-thinking');
+    thinking.replaceChildren(dom.el('span', 'Stellis', 'coach-call-said'), root.StellisChatUI.typing('Stellis is thinking'));
+    log.append(thinking);
+    callBody.scrollTop = callBody.scrollHeight;
   }
 
   /** Adds a line to the chat log; pieces of one reply join one bubble. */
@@ -380,11 +391,14 @@ function open({kind, chat, onAction=defaultAction, agenda = [], source=null, hos
       }
       if (!existing) log.append(item);
     }
+    if (role === 'agent') showThinking(false);
+    else if (thinking) log.append(thinking);
     callBody.scrollTop = callBody.scrollHeight;
   }
 
   function addAction(text) {
     log.append(dom.el('li', text, 'is-action'));
+    if (thinking) log.append(thinking);
     callBody.scrollTop = callBody.scrollHeight;
   }
 
@@ -396,6 +410,7 @@ function open({kind, chat, onAction=defaultAction, agenda = [], source=null, hos
     why.append(dom.el('strong','Ready to log'),dom.el('p','Review the entries below. Nothing has been saved.'),dom.el('blockquote',message.evidence));
     const review = dom.el('li', null, 'is-review');
     log.append(why, review);
+    if (thinking) log.append(thinking);
     root.StellisTrackerLog.review(review, {
       proposals: message.proposals, sharedEvidence:message.evidence, day: message.day, title: `Confirm for ${message.day_text}`,
       onSaved:async receipt=>{review.remove();if(!log.querySelector('.is-review'))panel.classList.remove('is-reviewing');addAction(`Logged ${receipt.saved} ${receipt.saved === 1 ? 'entry' : 'entries'} for ${message.day_text}`);if(sessionId){try{await dom.api(`/coach/calls/${sessionId}/receipts`,{method:'POST',json:{batch_id:receipt.batch_id}});coverageBatches.set(receipt.batch_id,message.proposals);for(const p of message.proposals)cover(p.item.startsWith('tracker:')?'dose:'+p.item.slice(8):p.item);}catch(e){addAction('Entries saved. Call receipt: '+e.message);}}onAction({action:'logged',receipt});},

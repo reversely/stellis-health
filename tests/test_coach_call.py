@@ -81,6 +81,20 @@ class CoachCallTest(unittest.IsolatedAsyncioTestCase):
                          "For Thursday, October 22, it's Stellis. What can I help you with?")
         self.assertTrue(coach_call.morning_due(TODAY, "09:00"))
 
+    async def test_a_demo_call_opens_on_todays_topics(self):
+        # Owner, 2026-10-30 (#270): the demo call reads as an ongoing conversation, with the check-in card.
+        goals.create(WALK)
+        goals.create(METFORMIN)
+        with mock.patch.object(coach_call.storage, "in_demo", return_value=True):
+            opening = await self.start("call", "19:30")
+            actions = coach_call.opening_actions()
+
+        self.assertEqual(opening, "For Thursday, October 22, it's Stellis. Walk 30 minutes, 0 of 4 this week. "
+                                  "Take 500 mg of metformin, 0 of 7 this week. "
+                                  "Shall we go through these, or is there something else on your mind?")
+        self.assertEqual(actions[0]["action"], "agenda")
+        self.assertEqual(coach_call.opening_actions(), [])
+
     async def test_native_appointment_is_included_without_an_external_calendar_setup_pitch(self):
         care_events.add('Review blood results',TODAY+'T09:30:00+00:00','scheduled')
         care_events.add('Repeat tests',TODAY+'T11:00:00+00:00','planned')

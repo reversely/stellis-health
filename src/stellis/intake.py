@@ -13,6 +13,7 @@ import asyncio
 import json
 import re
 import threading
+import sys
 import time
 from collections.abc import AsyncIterator
 from datetime import datetime, timezone
@@ -453,6 +454,7 @@ async def _stream_tokens(messages: list[dict[str, object]],
             async with client.stream("POST", runtime_profile.inference_url() + "/chat/completions",
                                      headers=headers, json=body) as response:
                 if response.status_code != 200:
+                    _log_failure(f"status {response.status_code}")
                     raise IntakeError("The intake agent is unavailable. Try again.")
                 async for line in response.aiter_lines():
                     if not line.startswith("data:"):
@@ -482,6 +484,7 @@ async def _stream_tokens(messages: list[dict[str, object]],
                             call["name"] += function.get("name") or ""
                             call["arguments"] += function.get("arguments") or ""
     except (httpx.HTTPError, ValueError) as exc:
+        _log_failure(repr(exc))
         raise IntakeError("The intake agent is unavailable. Try again.") from exc
     runtime_trace.event("provider_stream_completed",elapsed_ms=round((time.perf_counter()-started)*1000))
     for index in sorted(calls):
@@ -494,8 +497,30 @@ async def _stream_tokens(messages: list[dict[str, object]],
                "arguments": arguments if isinstance(arguments, dict) else {}}
 
 
+def _log_failure(cause: str) -> None:
+    # The person sees only "unavailable"; the server log keeps why (#270: a demo call failed with no trace).
+    print(f"call inference failed: {cause}", file=sys.stderr, flush=True)
+
+
 async def stream_tokens(messages,tools=None):
-    """Trace each real streamed inference request, including token and delta timings."""
+    """Trace each real streamed inference request, including token and delta timings.
+
+    A request that fails before its first piece is sent once more: the person has heard nothing yet.
+    """
+    yielded=False
+    try:
+        async for piece in _traced_stream(messages,tools):
+            yielded=True
+            yield piece
+    except IntakeError as error:
+        if yielded or 'ended before' in str(error):
+            raise
+        runtime_trace.event("call_inference_retry")
+        async for piece in _traced_stream(messages,tools):
+            yield piece
+
+
+async def _traced_stream(messages,tools=None):
     from contextlib import aclosing
     # The producer owns its trace context. Consumers can pause or close an async
     # generator from another task while speech is still playing.

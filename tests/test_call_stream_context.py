@@ -43,3 +43,25 @@ def test_provider_error_is_propagated_and_trace_finishes(monkeypatch):
    async for piece in intake.stream_tokens([]):pass
  asyncio.run(run())
  assert runtime_trace.recent()[0]['state']=='failed'
+
+def test_a_stream_that_fails_before_speaking_is_sent_once_more(monkeypatch):
+ # #270: a demo call showed "Stellis is unavailable" after one failed request.
+ sent=[]
+ async def source(*args):
+  sent.append(1)
+  if len(sent)==1:raise intake.IntakeError('Provider unavailable')
+  yield 'Here it is.'
+ monkeypatch.setattr(intake,'_stream_tokens',source)
+ async def run():return [piece async for piece in intake.stream_tokens([])]
+ assert asyncio.run(run())==['Here it is.'] and len(sent)==2
+
+def test_a_stream_that_fails_after_speaking_is_not_repeated(monkeypatch):
+ sent=[]
+ async def source(*args):
+  sent.append(1)
+  yield 'First.'
+  raise intake.IntakeError('Provider unavailable')
+ monkeypatch.setattr(intake,'_stream_tokens',source)
+ async def run():return [piece async for piece in intake.stream_tokens([])]
+ with pytest.raises(intake.IntakeError):asyncio.run(run())
+ assert len(sent)==1

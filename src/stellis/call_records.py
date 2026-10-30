@@ -39,7 +39,11 @@ def about_records(text: str) -> bool:
 
 
 def _sources() -> list[dict[str, object]]:
-    reports = [item for item in documents.list_all() if item["status"] == "ready"][:RECENT_REPORTS]
+    # Newest by the report's own date: an undated upload sorts by its upload time otherwise, which put a
+    # 2024 sample ahead of Maya's 2031 panels in the demo (#270).
+    ready = [item for item in documents.list_all() if item["status"] == "ready"]
+    dated = sorted((item for item in ready if item["record_date"]), key=lambda item: item["record_date"], reverse=True)
+    reports = (dated + [item for item in ready if not item["record_date"]])[:RECENT_REPORTS]
     return [{"id": "document:" + str(item["id"]),
              "title": f"{item['title']}, {item['record_date'] or 'date not on the report'}"} for item in reports]
 
@@ -56,11 +60,13 @@ async def answer(question: str) -> str:
     if sum(len(item.text) for item in passages) > notebook_chat.FULL_TEXT_CHARS:
         passages = notebook_chat.rank(passages, question)
     prompt = notebook_chat.build_prompt(question, passages, [])
-    reply, _ = await agent_gateway.turn(prompt, "call-records", model_role="answers")
+    # The summary role answers without reasoning: on the answers role Nano spent 2,700 reasoning tokens
+    # and 86 seconds on a three-sentence reply while the call showed Thinking (#270).
+    reply, _ = await agent_gateway.turn(prompt, "call-records", model_role="report")
     try:
         text, _ = notebook_chat.cite(reply.strip(), passages)
     except notebook_chat.ChatError:
         reply, _ = await agent_gateway.turn(
-            prompt + notebook_chat._CITATION_RETRY.format(count=len(passages)), "call-records", model_role="answers")
+            prompt + notebook_chat._CITATION_RETRY.format(count=len(passages)), "call-records", model_role="report")
         text, _ = notebook_chat.cite(reply.strip(), passages)
     return " ".join(_CITATION.sub("", text).split())

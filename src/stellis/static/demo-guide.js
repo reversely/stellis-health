@@ -264,6 +264,9 @@
    * Back and Next as ‹ and ›: the arrows every carousel uses. On a step that asks for a press, › presses
    * the control itself and waits for the step to move on, so nothing is skipped.
    */
+  // The step whose action › already ran: a second › there moves on, so a slow or failed reply never
+  // holds the tour (owner, 2026-10-30, #270: "impossible to move past the tour once one issue blocks").
+  let ranStep = -1;
   function buttons(index, {next = true} = {}) {
     const row = el('div', null, 'demo-actions');
     if (index > 0) { const back = symbol('chevron-left', 'Back'); back.onclick = () => go(index - 1); row.append(back); }
@@ -271,19 +274,19 @@
       const forward = symbol('chevron-right', 'Next', 'demo-icon is-primary');
       forward.onclick = async () => {
         const step = STEPS[index];
+        if (ranStep === index) { go(index + 1); return; }
+        ranStep = index;
         forward.disabled = true; forward.setAttribute('aria-busy', 'true');
+        // Usable again within seconds, whatever the step is waiting for.
+        setTimeout(() => { forward.disabled = false; forward.removeAttribute('aria-busy'); }, 8000);
         // A control still on its way (an answer being written) is waited for, not skipped.
         const control = (step.wait || step.until) && (find(step.target) || await waitFor(step.target, step.patience));
-        // A say step's own sentence stays usable if the answer never comes.
-        if (step.say) setTimeout(() => { forward.disabled = false; forward.removeAttribute('aria-busy'); }, 60000);
         if (stepIndex() !== index) return;
         if (!control) { go(index + 1); return; }
         if (step.say) { control.value = step.say; control.form?.requestSubmit(); return; }
         control.click();
         // A press › made itself moves the tour on, even when the page redrew the control as it was pressed.
         if (step.wait && stepIndex() === index) { setStep(index + 1); setTimeout(() => { if (stepIndex() === index + 1) go(index + 1); }, 600); }
-        // A press that changes nothing (a server that refuses, say) leaves › usable again.
-        setTimeout(() => { forward.disabled = false; forward.removeAttribute('aria-busy'); }, 8000);
       };
       row.append(forward);
     }
@@ -492,6 +495,7 @@
 
   let shown = null, reached = -1;
   async function go(index) {
+    if (ranStep !== index) ranStep = -1;
     setStep(index);
     const step = STEPS[index];
     const path = route(step);

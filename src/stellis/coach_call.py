@@ -346,6 +346,11 @@ def summary(kind: str, context: dict[str, object]) -> str:
     historical=context["today"]!=(datetime.datetime.now(datetime.timezone.utc)+datetime.timedelta(minutes=context.get("utc_offset",0))).date().isoformat()
     greeting=("For "+context["day"]) if historical else "Good morning" if hour < 12 else "Good afternoon" if hour < 18 else "Good evening"
     if kind != "morning":
+        # The demo call opens on today's check-in topics, so it reads as an ongoing conversation rather
+        # than an empty "how can I help" (owner, 2026-10-30, #270).
+        topics = [item["say"] for item in context.get("agenda", [])[:2]] if storage.in_demo() else []
+        if topics:
+            return " ".join([f"{greeting}, it's Stellis.", *topics, "Shall we go through these, or is there something else on your mind?"])
         return f"{greeting}, it's Stellis. What can I help you with?"
     lines = [f"{greeting}, it's Stellis with your check-in."]
     appointments = context["appointments"]
@@ -408,7 +413,8 @@ def opening() -> str:
 def opening_actions() -> list[dict]:
     """Every entry point receives the actual call agenda over its scoped socket."""
     state = load()
-    return [{'action':'agenda','items':state['context'].get('agenda',[])}] if state['kind']=='morning' else []
+    shown = state['kind'] == 'morning' or storage.in_demo()
+    return [{'action':'agenda','items':state['context'].get('agenda',[])}] if shown else []
 
 
 def add_person_turn(text: str) -> str:
