@@ -1,29 +1,30 @@
 /* Coach calls: the morning check-in's incoming call card on Home, and the
-   call panel docked over the page (coach-call.js). */
+   call panel docked over the page (coach-call.js). The card is one quiet row on the page's surface, so
+   it never outweighs Maya's results (owner, 2026-10-30: "way too prominent"); the swipe stays dark. */
 
 .coach-incoming {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
-  gap: var(--space-4) var(--space-7);
-  margin-bottom: var(--space-7);
-  padding: var(--space-7) var(--space-8);
-  border-radius: var(--radius-dialog);
-  background: var(--accent);
-  color: var(--accent-ink);
-  box-shadow: var(--shadow);
+  gap: var(--space-3) var(--space-5);
+  margin-bottom: var(--space-5);
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-panel);
+  background: var(--widget-fill);
+  color: var(--widget-ink);
 }
 .coach-incoming-face {
   position: relative;
   display: grid;
   place-items: center;
-  width: 104px;
-  height: 104px;
+  width: 56px;
+  height: 56px;
 }
 .coach-incoming-ring {
   position: absolute;
   inset: 0;
-  border: 2px solid var(--accent-ink);
+  border: 2px solid currentColor;
   border-radius: 50%;
   opacity: 0.35;
   /* The ring pulses while Stellis is calling (restored; #116 dropped it). */
@@ -34,7 +35,8 @@
   100% { opacity: 0; scale: 1.25; }
 }
 /* The answer swipe spans the card; the quieter choices sit on one row beneath it. */
-.coach-incoming-actions > .swipe-answer { flex: 1 1 100%; max-width: 440px; }
+.coach-incoming-actions > .swipe-answer { flex: 0 1 260px; height: 48px; }
+.coach-incoming-actions > .swipe-answer .swipe-answer-handle { width: 40px; height: 40px; min-height: 40px; }
 .coach-incoming-text {
   display: grid;
   gap: var(--space-1);
@@ -48,10 +50,11 @@
 }
 .coach-incoming h2 {
   margin: 0;
-  font: 300 36px/1.1 var(--font-heading);
+  font: 400 22px/1.2 var(--font-heading);
   letter-spacing: -0.02em;
 }
 .coach-incoming-hint {
+  display: none;
   margin: 0;
   color: inherit;
   font-size: 16px;
@@ -61,22 +64,23 @@
 .coach-incoming-actions {
   display: flex;
   flex-wrap: wrap;
-  grid-column: 2;
+  align-items: center;
+  justify-content: flex-end;
   gap: var(--space-2);
 }
 .coach-incoming .coach-button {
-  border-color: color-mix(in oklch, var(--accent-ink) 50%, transparent);
+  border-color: var(--line);
   background: transparent;
-  color: var(--accent-ink);
+  color: var(--widget-ink);
 }
 .coach-incoming .coach-button.is-primary {
-  border-color: var(--accent-ink);
-  background: var(--accent-ink);
-  color: var(--accent);
+  border-color: var(--block-fill);
+  background: var(--block-fill);
+  color: var(--block-ink);
 }
 .coach-incoming .coach-button.is-quiet {
   border-color: transparent;
-  color: var(--accent-ink);
+  color: var(--muted);
   opacity: 0.85;
 }
 .coach-call-start {
@@ -256,16 +260,18 @@
 
 @media (max-width: 760px) {
   .coach-incoming {
-    gap: var(--space-4);
-    padding: var(--space-5);
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--space-3);
+    padding: var(--space-4);
   }
   .coach-incoming-face {
-    width: 80px;
-    height: 80px;
+    width: 48px;
+    height: 48px;
   }
   .coach-incoming h2 {
-    font-size: 28px;
+    font-size: 20px;
   }
+  .coach-incoming-actions > .swipe-answer { flex: 1 1 100%; }
   .coach-incoming-actions {
     grid-column: 1 / -1;
     justify-content: stretch;
@@ -365,11 +371,11 @@ html[data-theme] .coach-call[data-kind='tour'] {
 .coach-call[data-guide='maya'].is-minimised .coach-call-ended { display: none; }
 
 /* What a check-in covers: on the incoming card (a filled block) and as a checklist in the call. */
-.coach-incoming-agenda { grid-column: 1 / -1; display: grid; gap: var(--space-2); padding-top: var(--space-4); border-top: 1px solid color-mix(in oklch, var(--accent-ink) 25%, transparent); }
+.coach-incoming-agenda { grid-column: 1 / -1; display: grid; gap: var(--space-2); padding-top: var(--space-4); border-top: 1px solid var(--line); }
 .coach-incoming-agenda h3 { margin: 0; font-size: 13px; font-weight: 650; opacity: .85; }
 .coach-incoming-agenda ul, .coach-agenda ul { display: grid; margin: 0; padding: 0; list-style: none; }
 .coach-incoming-agenda li { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: var(--space-3); padding: var(--space-2) 0; }
-.coach-incoming-agenda li + li { border-top: 1px solid color-mix(in oklch, var(--accent-ink) 18%, transparent); }
+.coach-incoming-agenda li + li { border-top: 1px solid var(--line); }
 .coach-agenda-icon { display: grid; place-items: center; width: 32px; height: 32px; border-radius: var(--radius-control); background: color-mix(in oklch, currentColor 12%, transparent); }
 .coach-agenda-icon .icon { width: 18px; height: 18px; }
 .coach-agenda-title { font-size: 15px; overflow-wrap: anywhere; }

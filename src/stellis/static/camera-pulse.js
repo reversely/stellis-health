@@ -11,7 +11,9 @@ const HRV_MIN_QUALITY = 0.6;
 /** Milliseconds of good signal a reading needs. */
 const GOOD_MS = 45000;
 /** The longest attempt before the capture gives up. */
-const MAX_MS = 90000;
+const MAX_MS = 60000;
+/** How much more good signal an unsure pulse gets before it finishes anyway. */
+const UNSURE_GRACE_MS = 10000;
 /** The reading comes from this final stretch of good signal. */
 const WINDOW_MS = 20000;
 /** Good signal that still gives a reading when the attempt runs out. */
@@ -381,12 +383,14 @@ class CaptureState {
         issue && event.now - this.issueSince >= HINT_MS ? HINTS[issue] : '';
     if (this.goodMs >= this.targetMs) {
       const summary = this.summary();
+      // A pulse that isn't sure yet gets a little longer, then finishes as a lower-quality reading,
+      // never an endless "Finishing your scan" (owner, 2026-10-30: "an infinite loop").
       if (summary.bpm != null &&
-          summary.sure) {
+          (summary.sure || this.goodMs >= this.targetMs + UNSURE_GRACE_MS)) {
         return this.finish(reading(summary, this.recording, this.motion));
       }
     }
-    if (event.now - this.start >= MAX_MS) {
+    if (event.now - this.start >= Math.max(MAX_MS, this.targetMs + 15000)) {
       return this.finish(this.lastResult());
     }
     return {stage, hint, goodMs: this.goodMs, done: false, result: null};
@@ -886,7 +890,7 @@ class PulseDialog {
       this.sampler = setInterval(() => this.sampleLight(), SAMPLE_MS);
       this.watchdog = setTimeout(() => this.startTimedOut(), FIRST_RESULT_MS);
       // The capture must settle even when the reader stops emitting events.
-      this.deadline = setTimeout(() => this.captureTimedOut(), MAX_MS);
+      this.deadline = setTimeout(() => this.captureTimedOut(), Math.max(MAX_MS, this.captureMs + 15000));
     } catch (error) {
       this.stop();
       if (error && error.name === 'TimeoutError') {
