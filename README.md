@@ -59,7 +59,6 @@ Stellis uses NVIDIA Nemotron models as they are, with no fine-tuning, served by 
 | --- | --- |
 | Answers, research, reading reports, care review | Nemotron Super 120B |
 | Naming documents and quick text tasks | Nemotron 3.5 Lightning |
-| Running fully local (`local` version) | Nemotron Nano through Ollama |
 
 ## Run it
 
@@ -88,22 +87,6 @@ uv run --locked --with pytest python -m pytest -q tests
 npm ci
 node --test tests/*.cjs
 ```
-
-## Versions
-
-Stellis runs three ways, chosen by `STELLIS_RUNTIME_PROFILE`:
-
-| Version | Where agents run | Models | Start |
-| --- | --- | --- | --- |
-| `direct`, the live site | On the Stellis server | Nebius Token Factory | `STELLIS_RUNTIME_PROFILE=direct uv run --locked stellis serve` |
-| `cloud` | OpenClaw in a NemoClaw sandbox on Nebius | Nebius Token Factory | `uv run --locked stellis launch cloud` |
-| `local` | OpenClaw in a NemoClaw sandbox on your own GPU machine | Ollama on that machine | `uv run --locked stellis launch local` |
-
-`cloud` and `local` read their settings from `.private/cloud.env` or `.private/local.env` (or a file given with `--env-file`); start from `deploy/profiles/cloud.env.example` or `local.env.example`. Each checks its settings before starting and names anything missing.
-
-## Releases
-
-Publishing a release deploys the live site. `.github/workflows/deploy.yml` runs the tests, then the server builds the release with the demo revision named in `DEMO_REVISION`, starts it, and checks that the site serves it. If the new version does not start, the server puts the previous one back.
 
 ## Accuracy
 
