@@ -151,6 +151,11 @@
 :root .home-heading .call-launch:focus-visible { outline: var(--focus-width) solid var(--focus); outline-offset: var(--focus-offset); }
 .call-launch-handle { position: relative; display: grid; flex: none; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--call-ink); color: var(--call-start-ink); }
 .call-launch-handle .icon { width: 20px; height: 20px; }
+/* The handle slides along the pill (app.js); the page still scrolls up and down from it. */
+:root .home-heading .call-launch { touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+.call-launch-handle { z-index: 1; transition: translate 260ms var(--ease-enter, cubic-bezier(.22, 1, .36, 1)); }
+.call-launch.is-sliding .call-launch-handle { transition: none; }
+@media (prefers-reduced-motion: reduce) { .call-launch-handle { transition: none; } }
 .call-launch-handle::after { content: ''; position: absolute; inset: -4px; border: 2px solid var(--call-ink); border-radius: 50%; opacity: 0; animation: call-launch-ring 2.4s var(--ease-enter, ease-out) infinite; }
 @keyframes call-launch-ring { 0% { opacity: .55; transform: scale(.9); } 70%, 100% { opacity: 0; transform: scale(1.25); } }
 @media (prefers-reduced-motion: reduce) { .call-launch-handle::after { animation: none; } }
@@ -201,5 +206,18 @@ html[data-theme='dark'] .call-launch-handle::after { border-color: var(--call-su
 :root .home-heading .call-launch-handle { width: 40px; height: 40px; }
 :root .home-heading .split-button { align-items: stretch; }
 :root .home-heading .split-button > .invert-button { border-radius: var(--radius-pill) 0 0 var(--radius-pill); border-right-width: 0; padding-inline: var(--space-5) var(--space-4); }
-:root .home-heading .record-more > summary { display: grid; place-items: center; width: 48px; border-radius: 0 var(--radius-pill) var(--radius-pill) 0; border-style: solid; border-width: 1px; border-left-color: color-mix(in oklch, currentColor 28%, transparent); }
+:root .home-heading .record-more > summary { display: grid; place-items: center; width: 48px; border-radius: 0 var(--radius-pill) var(--radius-pill) 0; border-style: solid; border-width: 1px; border-color: transparent; border-left-color: color-mix(in oklch, currentColor 28%, transparent); }
+/* The menu half matches the Record half's fill and edge, so the two read as one pill (owner, 2026-10-31:
+   the menu half drew a light outline the Record half did not). */
+:root .home-heading .split-button > .invert-button { border-color: transparent; }
+/* On a phone the heading's actions stay on one row, a size smaller (owner, 2026-10-31). */
+@container home-main (max-width: 640px) {
+  .home-heading > .dashboard-add { flex-wrap: nowrap; gap: var(--space-2); }
+  :root .home-heading :is(.call-launch, .split-button > .invert-button, .record-more > summary) { height: 44px; min-height: 44px; font-size: 15px; }
+  :root .home-heading .call-launch { gap: var(--space-2); padding: 4px var(--space-4) 4px 4px; }
+  :root .home-heading .call-launch-handle { width: 36px; height: 36px; }
+  :root .home-heading .split-button > .invert-button { gap: var(--space-2); padding-inline: var(--space-4) var(--space-3); }
+  :root .home-heading .record-more > summary { width: 40px; }
+  :root .home-heading .library-more > summary { width: 44px; height: 44px; min-height: 44px; }
+}
 :root .home-heading .library-more > summary { display: grid; place-items: center; width: 48px; padding: 0; border-radius: 50%; }

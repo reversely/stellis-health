@@ -1,7 +1,8 @@
 /* Chat composer, send and typing (#225). Paper roles from the #223 component contract. */
 .chat-composer.chat-composer { display: flex; align-items: flex-end; gap: var(--space-2); padding: var(--space-2) var(--space-2) var(--space-2) var(--space-4); border: 1px solid color-mix(in oklch, var(--widget-ink) 10%, transparent); border-radius: var(--radius-composer); background: var(--composer-fill, var(--widget-fill)); color: var(--widget-ink); }
 .chat-composer.chat-composer:focus-within { outline: var(--focus-width) solid var(--focus); outline-offset: var(--focus-offset); }
-.chat-composer .chat-composer-input.chat-composer-input { flex: 1; min-width: 0; min-height: 28px; max-height: 160px; margin: 0; padding: var(--space-2) 0; border: 0; border-radius: 0; background: transparent; color: var(--widget-ink); font: inherit; font-size: var(--text-body); line-height: 1.5; resize: none; box-shadow: none; outline: none; }
+/* The field is as tall as the send button, so one line of text sits level with it, never clipped. */
+.chat-composer .chat-composer-input.chat-composer-input { flex: 1; box-sizing: border-box; min-width: 0; min-height: var(--control-height); max-height: 160px; margin: 0; padding: calc((var(--control-height) - 1.5em) / 2) 0; border: 0; border-radius: 0; background: transparent; color: var(--widget-ink); font: inherit; font-size: var(--text-body); line-height: 1.5; resize: none; box-shadow: none; outline: none; }
 .chat-composer .chat-composer-input::placeholder { color: var(--widget-muted); }
 .chat-composer button.chat-send.chat-send { display: inline-grid; place-items: center; flex: none; width: var(--control-height); height: var(--control-height); min-width: var(--control-height); min-height: var(--control-height); padding: 0; border: 0; border-radius: var(--radius-pill); background: var(--brand-mauve); color: var(--paper-action-ink); }
 .chat-composer button.chat-send.chat-send:hover:enabled { background: var(--paper-action-hover); }

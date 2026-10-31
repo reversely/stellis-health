@@ -166,6 +166,19 @@
   const fit = () => root.style.setProperty('--demo-sheet', sheet.matches && layer.isConnected && !layer.hidden ? `${layer.offsetHeight}px` : '0px');
   new ResizeObserver(fit).observe(layer);
   sheet.addEventListener('change', fit);
+  // On a phone the sheet steps out of the way (owner, 2026-10-31: "it's blocking the view"): while a step
+  // runs or the visitor scrolls the page it folds to one row, the step's title and ›; the next step, or a
+  // tap on that row, brings the words back.
+  const phone = matchMedia('(max-width: 760px)');
+  const peek = on => card.classList.toggle('is-peek', on && phone.matches && !card.classList.contains('is-pill'));
+  // A step that follows the press › just made arrives folded, so what the press started stays in view, and
+  // opens after a few seconds unless the visitor is scrolling through it.
+  let arrivedFolded = false, scrolled = false, unfold = 0;
+  // Only the visitor's own scrolling counts; the tour's own scrollIntoView and page changes do not.
+  for (const type of ['touchmove', 'wheel']) addEventListener(type, event => { if (!layer.contains(event.target)) { scrolled = true; peek(true); } }, {passive: true, capture: true});
+  card.addEventListener('click', event => {
+    if (card.classList.contains('is-peek') && !event.target.closest('button')) peek(false);
+  });
   function dock(on) {
     root.classList.toggle('has-demo-panel', on);
     if (on && !layer.isConnected) document.body.append(layer);
@@ -276,6 +289,7 @@
         const step = STEPS[index];
         if (ranStep === index) { go(index + 1); return; }
         ranStep = index;
+        peek(true);
         forward.disabled = true; forward.setAttribute('aria-busy', 'true');
         // Usable again within seconds, whatever the step is waiting for.
         setTimeout(() => { forward.disabled = false; forward.removeAttribute('aria-busy'); }, 8000);
@@ -283,6 +297,7 @@
         const control = (step.wait || step.until) && (find(step.target) || await waitFor(step.target, step.patience));
         if (stepIndex() !== index) return;
         if (!control) { go(index + 1); return; }
+        arrivedFolded = true;
         if (step.say) { control.value = step.say; control.form?.requestSubmit(); return; }
         control.click();
         // A press › made itself moves the tour on, even when the page redrew the control as it was pressed.
@@ -311,6 +326,7 @@
    */
   function pill(index, paused) {
     mark(null);
+    arrivedFolded = false;
     card.classList.add('is-pill');
     root.classList.add('demo-is-small');
     card.replaceChildren();
@@ -323,11 +339,14 @@
 
   function stepCard(index, step) {
     card.replaceChildren();
-    card.classList.remove('is-pill');
+    card.classList.remove('is-pill', 'is-peek');
     root.classList.remove('demo-is-small');
     const head = el('div', null, 'demo-card-head');
     head.append(avatar(), el('span', `${index + 1}/${STEPS.length - 1}`, 'demo-count'), windowControls(index));
     card.append(roadmap(step.pillar), head, el('h2', step.title), el('p', step.text, 'demo-text'), buttons(index));
+    clearTimeout(unfold); scrolled = false;
+    if (arrivedFolded) { peek(true); unfold = setTimeout(() => { if (!scrolled && stepIndex() === index) peek(false); }, 4000); }
+    arrivedFolded = false;
   }
 
   function endCard() {

@@ -690,7 +690,8 @@ input::placeholder, textarea::placeholder { color: var(--quiet); }
 #conversation-categories-dialog #retry-categorization { margin-top: var(--space-2); }
 @media (max-width: 420px) { #conversation-categories-dialog #conversation-category-list { grid-template-columns: 1fr; } }
 .more-menu { position: relative; flex: 0 0 auto; }
-.more-menu summary { display: grid; place-items: center; width: 42px; height: 42px; border: 1px solid var(--line); border-radius: var(--radius-control); background: var(--raised); color: var(--ink); font-size: 25px; line-height: 1; cursor: pointer; list-style: none; }
+/* ⋯ is a circle wherever it opens a menu, as on My Health (owner, 2026-10-31); a wider summary is a pill. */
+.more-menu summary { display: grid; place-items: center; width: 42px; height: 42px; border: 1px solid var(--line); border-radius: var(--radius-pill); background: var(--raised); color: var(--ink); font-size: 25px; line-height: 1; cursor: pointer; list-style: none; }
 .more-menu summary::-webkit-details-marker { display: none; }
 .more-menu summary:hover, .more-menu[open] summary { border-color: var(--accent); }
 .more-menu-items { position: absolute; right: 0; top: calc(100% + 6px); z-index: 6; display: grid; gap: 2px; width: min(260px, calc(100vw - 40px)); padding: var(--space-compact); border: 1px solid var(--line); border-radius: var(--radius-panel); background: var(--surface); box-shadow: var(--shadow); }
@@ -1090,12 +1091,7 @@ html[data-theme='dark'] body::before { display: none; }
   body:is(:has(#list-view:not([hidden])), .agent-chat-page, .notebook-page, .timeline-page, .records-page, .summary-page, .trends-page, .document-page, .settings-page, .todos-page, .note-page) header { backdrop-filter: none; }
   body.recording-page header { background: var(--rail-surface); backdrop-filter: none; }
   body:is(:has(#list-view:not([hidden])), .agent-chat-page, .notebook-page, .timeline-page, .records-page, .summary-page, .trends-page, .document-page, .settings-page, .todos-page, .note-page) header .brand, body.recording-page header .brand { color: var(--rail-ink); }
-  body:is(:has(#list-view:not([hidden])), .agent-chat-page, .notebook-page, .timeline-page, .records-page, .summary-page, .trends-page, .document-page, .settings-page, .todos-page, .note-page) header #logout-button, body.recording-page header #logout-button {
-    border-color: #605465;
-    background: var(--rail-control);
-    color: var(--rail-ink);
-  }
-  body:is(:has(#list-view:not([hidden])), .agent-chat-page, .notebook-page, .timeline-page, .records-page, .summary-page, .trends-page, .document-page, .settings-page, .todos-page, .note-page) header :is(#theme-toggle, #setup-theme), body.recording-page header :is(#theme-toggle, #setup-theme) { color: var(--rail-ink); }
+  body:is(:has(#list-view:not([hidden])), .agent-chat-page, .notebook-page, .timeline-page, .records-page, .summary-page, .trends-page, .document-page, .settings-page, .todos-page, .note-page) header :is(#theme-toggle, #setup-theme, #logout-button), body.recording-page header :is(#theme-toggle, #setup-theme, #logout-button) { color: var(--rail-ink); }
   body:is(:has(#list-view:not([hidden])), .agent-chat-page, .notebook-page, .timeline-page, .records-page, .summary-page, .trends-page, .document-page, .settings-page, .todos-page, .note-page) main, body.recording-page main {
     grid-column: 1 / -1;
     grid-row: 2;
@@ -1282,8 +1278,7 @@ html[data-theme='dark'] body::before { display: none; }
     border: 0;
   }
   body:is(:has(#list-view:not([hidden])), .agent-chat-page, .notebook-page, .timeline-page, .records-page, .summary-page, .trends-page, .document-page, .settings-page, .todos-page, .note-page) header .brand, body.recording-page header .brand { color: var(--rail-ink); }
-  body:is(:has(#list-view:not([hidden])), .agent-chat-page, .notebook-page, .timeline-page, .records-page, .summary-page, .trends-page, .document-page, .settings-page, .todos-page, .note-page) header #logout-button, body.recording-page header #logout-button { background: var(--rail-control); color: var(--rail-ink); border-color: #605465; }
-  body:is(:has(#list-view:not([hidden])), .agent-chat-page, .notebook-page, .timeline-page, .records-page, .summary-page, .trends-page, .document-page, .settings-page, .todos-page, .note-page) header :is(#theme-toggle, #setup-theme), body.recording-page header :is(#theme-toggle, #setup-theme) { color: var(--rail-ink); }
+  body:is(:has(#list-view:not([hidden])), .agent-chat-page, .notebook-page, .timeline-page, .records-page, .summary-page, .trends-page, .document-page, .settings-page, .todos-page, .note-page) header :is(#theme-toggle, #setup-theme, #logout-button), body.recording-page header :is(#theme-toggle, #setup-theme, #logout-button) { color: var(--rail-ink); }
   body:is(:has(#list-view:not([hidden])), .agent-chat-page, .notebook-page, .timeline-page, .records-page, .summary-page, .trends-page, .document-page, .settings-page, .todos-page, .note-page) main, body.recording-page main { max-width: none; padding: 0; }
   body:is(:has(#list-view:not([hidden])), .agent-chat-page, .notebook-page, .timeline-page, .records-page, .summary-page, .trends-page, .document-page, .settings-page, .todos-page, .note-page) .heading {
     display: grid;
@@ -1606,7 +1601,7 @@ a.rail-name:hover { text-decoration: underline; }
 .notebook-card-head > .icon { width: 22px; height: 22px; opacity: .8; }
 .notebook-card h3 { margin: 0; font: 300 23px/1.15 var(--font-heading); overflow-wrap: anywhere; text-wrap: balance; }
 .notebook-plus {
-  display: grid; place-items: center; width: 36px; height: 36px; padding: 0; border: 1px solid color-mix(in srgb, var(--notebook-ink) 28%, transparent); border-radius: var(--radius-pill); position: relative;
+  display: grid; place-items: center; box-sizing: border-box; width: 36px; height: 36px; min-width: 0; min-height: 0; aspect-ratio: 1; padding: 0; border: 1px solid color-mix(in srgb, var(--notebook-ink) 28%, transparent); border-radius: var(--radius-pill); position: relative;
   background: transparent; color: inherit; cursor: pointer;
   transition-property: background-color, scale; transition-duration: 150ms; transition-timing-function: ease-out;
 }
@@ -3188,27 +3183,32 @@ html[data-theme] :is(button, input, select, textarea):disabled .icon { opacity: 
 
 #notebooks-drawer .settings-link:hover { background: var(--paper-action-hover); }
 
-/* #222: account controls above the brand, with the full rail width between. */
+/* The brand is the header's only line, with the theme switch and Log out as two icons at its right
+   (owner, 2026-10-31; #222 had them on a row above the brand). */
 html body #app-header:has(.header-account-controls) {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  grid-template-rows: auto auto;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: auto;
+  align-items: center;
   align-content: center;
   gap: var(--space-2);
-  height: 128px;
-  padding-block: var(--space-3);
+  height: 72px;
+  padding-block: 0;
   box-sizing: border-box;
 }
 #app-header .header-account-controls {
-  /* #222 order: Log out at the left edge, the theme switch at the right. The switch keeps its corner
-     when Log out is hidden (no sign-in), instead of sliding to the left. */
-  display: flex; align-items: center; justify-content: space-between; gap: var(--space-2);
-  width: 100%; grid-column: 1; grid-row: 1;
+  display: flex; align-items: center; gap: 0; grid-column: 2; grid-row: 1; margin-right: calc(-1 * var(--space-2));
 }
-#app-header .brand { grid-column: 1; grid-row: 2; justify-self: start; }
+#app-header .brand { grid-column: 1; grid-row: 1; justify-self: start; min-width: 0; }
 #app-header .header-side { display: contents; }
-#app-header .header-account-controls #logout-button { margin: 0; }
-#app-header .header-account-controls #theme-toggle { margin-left: auto; }
+#app-header .header-account-controls #logout-button { order: 1; margin: 0; }
+/* The sidebar is too narrow for the brand and both icons on one line, so there they sit on a row above it,
+   at the right. */
+@media (min-width: 1001px) {
+  html body #app-header:has(.header-account-controls) { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto; height: 128px; }
+  #app-header .header-account-controls { grid-column: 1; justify-self: end; }
+  #app-header .brand { grid-row: 2; }
+}
 html body #app-header:has(.header-account-controls):has(#capture-header-controls:not([hidden])) {
   height: auto; min-height: 180px; grid-template-rows: auto auto auto;
 }
@@ -3244,12 +3244,14 @@ html[data-routing] .route-status:has(#route-label:not(:empty)) { display: flex; 
 /* <main> is a grid whose first column is the sidebar: the words and the skeleton take the content column,
    where the page's own heading will be (until 2026-10-30 the skeleton drew inside the sidebar). */
 html[data-routing] main::before, html[data-routing] .route-status { grid-column: -2 / -1; grid-row: 1; align-self: start; margin-inline: 72px; margin-top: 40px; }
+/* On a phone Stellis is centred, with the words in italics on their own line below, ending in an
+   ellipsis while it loads (owner, 2026-10-31); the skeleton starts under them. */
 @media (max-width: 760px) {
-  html[data-routing] main::before { align-self: stretch; margin-inline: 0; margin-top: var(--space-5); }
-  html[data-routing] .route-status:has(#route-label:not(:empty)) { position: absolute; inset: var(--space-5) var(--space-4) auto; margin: 0; font-size: 22px; gap: 10px; }
-  /* Only the words shorten, so the hop is never clipped. */
-  #route-label { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .route-stellis { width: 26px; height: 26px; }
+  html[data-routing] main::before { align-self: stretch; margin-inline: 0; margin-top: 136px; }
+  html[data-routing] .route-status:has(#route-label:not(:empty)) { position: absolute; inset: var(--space-6) var(--space-4) auto; flex-direction: column; justify-content: center; margin: 0; font-size: 20px; font-style: italic; line-height: 28px; text-align: center; gap: var(--space-3); }
+  #route-label { max-width: 100%; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #route-label::after { content: '…'; }
+  .route-stellis { width: 32px; height: 32px; }
 }
 /* While it routes, a skeleton of a page stands where the content will be: a heading, a line and two
    cards, drawn by one mask so it takes the theme's ink (owner, 2026-10-29: loading should look like the
@@ -3266,23 +3268,14 @@ html[data-routing] main::before {
 @keyframes page-skeleton-pulse { from { opacity: 1; } to { opacity: .55; } }
 @media (prefers-reduced-motion: reduce) { html[data-routing] main::before { animation: page-loading-in 150ms forwards; } .route-stellis { animation: none; } }
 
-/* Log out is small and outline only in every header, rail and theme (owner, 2026-10-27). */
+/* Log out is an icon beside the theme switch, the same size and ink (owner, 2026-10-31). */
 html body #app-header .header-account-controls #logout-button {
-  min-height: 32px;
-  padding: 0 var(--space-3);
-  border: 1px solid color-mix(in srgb, currentColor 28%, transparent);
-  border-radius: var(--radius-pill);
-  background: transparent;
-  color: inherit;
-  font-size: var(--text-small);
-  font-weight: 500;
-  opacity: .85;
+  display: grid; place-items: center; width: 44px; height: 44px; min-height: 44px; padding: 0;
+  border: 0; border-radius: var(--radius-panel); background: transparent; color: inherit;
 }
-html body #app-header .header-account-controls #logout-button:hover,
-html body #app-header .header-account-controls #logout-button:focus-visible { opacity: 1; border-color: currentColor; }
-/* The visible outline is 32px; an invisible margin keeps a 44px tap target. */
-html body #app-header .header-account-controls #logout-button { position: relative; }
-html body #app-header .header-account-controls #logout-button::after { content: ''; position: absolute; inset: -6px; }
+html body #app-header .header-account-controls #logout-button[hidden] { display: none; }
+html body #app-header .header-account-controls #logout-button .icon { width: 22px; height: 22px; }
+@media (hover: hover) and (pointer: fine) { html body #app-header .header-account-controls #logout-button:hover { color: var(--ink); } }
 /* Settings show one tab's sections at a time (settings-tabs.js). */
 .settings-tabs { margin: 0 0 var(--space-5); }
 #settings-view > .settings-section.settings-off { display: none; }

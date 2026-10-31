@@ -40,7 +40,7 @@
   .demo-card h2 { margin: 4px 0 2px; font-size: 22px; }
   .demo-card .demo-actions { margin-top: var(--space-2); }
   .demo-card .demo-icon { width: 36px; height: 36px; }
-  .demo-card.is-pill { display: flex; align-items: center; gap: var(--space-2); padding: var(--space-2) var(--space-4); }
+  .demo-card.is-pill { display: flex; flex-wrap: nowrap; align-items: center; gap: var(--space-2); padding: var(--space-2) var(--space-4); }
   .demo-card.is-pill .demo-count { margin-right: auto; }
 }
 @media (min-width: 1001px) and (max-width: 1179px) { .demo-guide { --demo-left: var(--rail-width); } }
@@ -129,13 +129,29 @@ html[data-theme='dark'] :is(.home-heading .invert-button, .home-heading .call-la
 
 .demo-card-head { display: flex; align-items: center; }
 .demo-window { display: flex; gap: var(--space-1); margin-left: auto; }
-.demo-icon { display: grid; place-items: center; width: 40px; height: 40px; padding: 0; border: 1px solid var(--paper-line); border-radius: 50%; background: transparent; color: var(--paper-ink); cursor: pointer; }
+/* Round: the app's 44px button minimum would stretch it into an oval (owner, 2026-10-31). */
+.demo-icon { display: grid; flex: none; place-items: center; box-sizing: border-box; width: 40px; height: 40px; min-width: 0; min-height: 0; aspect-ratio: 1; padding: 0; border: 1px solid var(--paper-line); border-radius: 50%; background: transparent; color: var(--paper-ink); cursor: pointer; }
 .demo-icon .icon { width: 18px; height: 18px; }
 .demo-icon.is-primary { border-color: var(--paper-action-fill); background: var(--paper-action-fill); color: var(--paper-action-ink); }
 @media (hover: hover) and (pointer: fine) { .demo-icon:not(.is-primary):hover { background: var(--guide-dim); } }
 .demo-icon:focus-visible { outline: var(--focus-width) solid var(--focus); outline-offset: var(--focus-offset); }
 .demo-end-close { margin-left: auto; }
-@media (max-width: 640px) { .demo-card h2 { font-size: 24px; } }
+/* Folded to one row while a step runs or the page scrolls (demo-guide.js): who, the step's title, ›. */
+@media (max-width: 760px) {
+  .demo-card.is-peek { display: flex; align-items: center; gap: var(--space-2); padding: var(--space-2) var(--space-4); cursor: pointer; }
+  .demo-card.is-peek > :not(.demo-card-head, h2, .demo-actions) { display: none; }
+  .demo-card.is-peek .demo-card-head { flex: none; margin: 0; }
+  .demo-card.is-peek .demo-card-head > :not(:first-child, .demo-count) { display: none; }
+  .demo-card.is-peek h2 { flex: 1; min-width: 0; margin: 0; font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .demo-card.is-peek .demo-actions { position: static; flex: none; margin: 0; padding: 0; }
+  .demo-card.is-peek .demo-actions > :not(.is-primary) { display: none; }
+}
+/* On a phone the tour is a short sheet over the page, a size down from the sidebar (owner, 2026-10-31). */
+@media (max-width: 640px) {
+  .demo-card h2 { margin: 2px 0; font-size: 20px; }
+  .demo-text { font-size: 15px; line-height: 1.45; }
+  .demo-wait { font-size: 13px; }
+}
 
 /* The context slide that opens the demo, in the film's look (#258): who Maya is before any screen names
    her. Full screen over the app, light paper, her pixel portrait, the narration's words. */
@@ -191,6 +207,13 @@ html[data-theme='dark'].has-demo-panel dialog:modal::backdrop { backdrop-filter:
 @media (max-width: 1179px) {
   html.has-demo-panel dialog:modal { inset-block-end: calc(var(--demo-sheet) + var(--demo-bottom)); max-height: calc(100dvh - var(--demo-sheet) - var(--demo-bottom) - 16px); }
   html.has-demo-panel dialog:modal::backdrop { inset-block-end: calc(var(--demo-sheet) + var(--demo-bottom)); }
+}
+/* How Stellis answered reaches down to the bottom bar, with the tour inside its box, so nothing of the
+   page shows between them and the tour stays inside the dialog: a phone browser can clip a fixed panel to
+   the scrolling dialog that holds it (owner, 2026-10-31: the log ended mid-screen over the notebook). */
+@media (max-width: 1179px) {
+  html.has-demo-panel .answer-trace:modal { inset-block: 0 var(--demo-bottom); height: auto; max-height: none; padding-bottom: calc(var(--demo-sheet) + var(--space-5)); }
+  html.has-demo-panel .answer-trace:modal::backdrop { inset-block-end: var(--demo-bottom); }
 }
 
 

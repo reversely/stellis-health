@@ -408,3 +408,8 @@ html[data-theme] .coach-call[data-kind='tour'] {
 /* While the docked tour is open the page keeps room below its content, so a highlighted target can
    always scroll above the panel; a short page (no empty sections) would otherwise leave it underneath. */
 body:has(.coach-call[data-kind='tour']) main { padding-bottom: min(600px, 62vh) !important; }
+/* While the call connects, dots count up after the word, so it reads as getting ready, not as waiting for
+   the person to speak (owner, 2026-10-31). Reduced motion keeps all three still. */
+.coach-call[data-state='connecting'] .coach-call-status::after { content: '...'; display: inline-block; overflow: hidden; vertical-align: bottom; width: 0; animation: call-connecting-dots 1.2s steps(4, jump-none) infinite; }
+@keyframes call-connecting-dots { to { width: 1.1em; } }
+@media (prefers-reduced-motion: reduce) { .coach-call[data-state='connecting'] .coach-call-status::after { width: auto; animation: none; } }

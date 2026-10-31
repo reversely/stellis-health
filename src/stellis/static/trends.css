@@ -517,6 +517,11 @@ p.trend-status:not([class*='is-']) {
  #notebook-view>.view-tabs button .icon { display:block; flex:none; }
 }
 .measurement-actions .coach-button { background:var(--secondary-fill); color:var(--secondary-ink); border:1px solid var(--secondary-line); border-radius:var(--action-radius); }
-@media(max-width:760px) { .notebook-hero-actions>.invert-button { padding-inline:var(--space-3); } }
+/* On a phone New note, Record and ⋯ share one row, a size smaller (owner, 2026-10-31: ⋯ was left alone). */
+@media(max-width:760px) {
+ .notebook-hero-actions { flex-wrap:nowrap; gap:var(--space-2); }
+ .notebook-hero-actions>.invert-button { flex:none; min-height:44px; height:44px; gap:var(--space-2); padding-inline:var(--space-3); font-size:15px; white-space:nowrap; }
+ .notebook-hero-actions>.more-menu>summary { width:44px; height:44px; }
+}
 .measurement-actions > button { display:inline-flex; align-items:center; gap:var(--space-2); min-height:var(--control-height); padding:0 var(--space-4); font-size:var(--text-body); font-weight:600; }
 .measurement-actions > button .icon { width:18px; height:18px; flex:none; }

@@ -5178,6 +5178,33 @@ window.StellisNavigate=async path=>{await window.StellisAppReady;if(location.pat
 
 // My Health's heading has one call control; adding goes through + Add, the library and the goals form (#231).
 document.getElementById('dashboard-call').addEventListener('click', event => window.StellisCoachCall?.open({kind:event.currentTarget.dataset.kind||'call', chat:false}));
+// Call Stellis's handle slides like an incoming call's, so a swipe along the pill calls as a tap does
+// (owner, 2026-10-31: "Call swiping doesn't work"). Short of 60% of the way it slides back.
+(function swipeToCall(button) {
+  const handle = button.querySelector('.call-launch-handle');
+  let origin = null, offset = 0, moved = false, quietUntil = 0;
+  const room = () => Math.max(0, button.clientWidth - handle.offsetWidth - 8);
+  const place = x => { offset = Math.max(0, Math.min(room(), x)); handle.style.translate = offset ? `${offset}px 0` : ''; };
+  button.addEventListener('pointerdown', event => { if (event.button > 0) return; origin = event.clientX; moved = false; button.setPointerCapture(event.pointerId); });
+  button.addEventListener('pointermove', event => {
+    if (origin === null) return;
+    if (Math.abs(event.clientX - origin) > 6) moved = true;
+    if (moved) { button.classList.add('is-sliding'); place(event.clientX - origin); }
+  });
+  const release = cancelled => {
+    if (origin === null) return;
+    origin = null; button.classList.remove('is-sliding');
+    const far = moved && !cancelled && offset >= room() * .6;
+    place(0);
+    if (!moved) return;
+    quietUntil = Date.now() + 500;
+    if (far) window.StellisCoachCall?.open({kind:button.dataset.kind||'call', chat:false});
+  };
+  button.addEventListener('pointerup', () => release(false));
+  button.addEventListener('pointercancel', () => release(true));
+  // A slide is not also a tap.
+  button.addEventListener('click', event => { if (Date.now() < quietUntil) event.stopImmediatePropagation(); }, true);
+})(document.getElementById('dashboard-call'));
 
 function healthHistoryViews(view, active) {
   const nav = document.createElement('nav'); nav.className = 'dashboard-history-links';

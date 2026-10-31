@@ -37,7 +37,19 @@ body:has(> .chat-window-launcher:not([hidden])) main { padding-bottom: calc(var(
 @media (max-width:1000px) { body:has(> .chat-window-launcher:not([hidden])) main { padding-bottom: calc(88px + var(--control-height) + var(--space-6) + env(safe-area-inset-bottom)); } }
 
 @media (max-width:760px) {
- #document-view .document-head > .chat-window-launcher { position:static; grid-column:1 / -1; justify-self:start; box-shadow:none; }
+ /* Ask Stellis and the report's ⋯ share one row under the title (owner, 2026-10-31: ⋯ was left alone on
+    its own line). */
+ #document-view .document-head { display:flex; flex-wrap:wrap; align-items:center; gap:var(--space-2); }
+ #document-view .document-head > * { flex:1 0 100%; order:3; }
+ #document-view .document-head > :is(.document-title, .document-meta) { order:0; }
+ #document-view .document-head > .chat-window-launcher { position:static; flex:none; order:1; box-shadow:none; }
+ #document-view .document-head > .document-actions { flex:none; order:2; }
 }
 /* On a phone a moved chat and an expanded one both cover the screen, so only Expand is offered. */
 @media (max-width:760px) { .chat-window-controls .chat-window-control[aria-label='Open chat window'] { display:none; } }
+/* A page's own chat (Ask Stellis) already fills a phone screen, so a head with no title, only minimize and
+   expand, is an empty bar there and is left out (owner, 2026-10-31: chats should look natural). */
+@media (max-width:760px) { .stellis-chat-window[data-chat-mode='docked'] .chat-window-head:not(:has(:is(h2,h3))) { display:none; } }
+/* A chat's own ⋯ sits with minimize and expand at the right of its head, not beside the title. */
+.chat-window-head > .more-menu { margin-left:auto; }
+.chat-window-head > .more-menu ~ .chat-window-controls { margin-left:0; }

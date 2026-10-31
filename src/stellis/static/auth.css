@@ -154,7 +154,7 @@ html:root .auth-demo button.auth-secondary {
 }
 html:root .auth-demo button.auth-secondary:disabled { opacity: .55; cursor: progress; }
 @media (hover: hover) { html:root .auth-demo button.auth-secondary:hover:not(:disabled) { background: color-mix(in oklch, currentColor 8%, transparent); border-color: color-mix(in oklch, currentColor 28%, transparent); } }
-.auth-demo .auth-hint { margin: 0; text-align: center; }
+.auth-demo .auth-hint { margin: 0; text-align: center; text-wrap: balance; }
 
 /* #258: the tabs already name the mode, so the heading under them is for screen readers only; the
    card shows once its mode is set, so nothing moves as the page loads. */

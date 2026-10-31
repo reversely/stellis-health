@@ -430,7 +430,9 @@ function open({kind, chat, onAction=defaultAction, agenda = [], source=null, hos
             timer.textContent = `${Math.floor(seconds / 60)}:${
                 String(seconds % 60).padStart(2, '0')}`;
           }, 1000);
-        setStatus(message.voice && !chat ? 'listening' : 'typing');
+        // A voice call says Connecting until Stellis's opening plays, so nobody thinks it waits for them to
+        // speak while it gets ready (owner, 2026-10-31); the server sends listening after the opening.
+        if (!message.voice || chat) setStatus('typing');
         if (!message.voice) mute.hidden = sound.hidden = true;
         input.focus({preventScroll: true});
         break;
@@ -449,6 +451,7 @@ function open({kind, chat, onAction=defaultAction, agenda = [], source=null, hos
       case 'caption':
         if (message.text) {
           if (message.audio) setStatus('speaking');
+          else if (panel.dataset.state === 'connecting') setStatus(chat || mute.hidden ? 'typing' : 'listening');
           if (kind !== 'tour' || !stepNarration.textContent || !message.text.endsWith(stepNarration.textContent)) addLine('agent', message.text, message.turn);
         }
         break;
