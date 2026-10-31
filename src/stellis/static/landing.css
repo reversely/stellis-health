@@ -297,3 +297,18 @@ html body.auth-page .landing-scene-area .landing-scene-name { display: flex; mar
   .landing-scene-area { padding: var(--space-2) var(--space-3); }
   .landing-scene-area li { font-size: 12px; }
 }
+
+/* A phone keeps the whole opening above the browser's own bars (owner, 2026-10-31: "still tight"): a
+   smaller headline and lede, a shorter Try the demo, and a scene that takes what height is left of the
+   smallest viewport, so the notebooks are never under the toolbar. iOS never enlarges the text itself. */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+@media (max-width: 640px) {
+  .landing-hero { min-height: 0; padding-top: var(--space-3); padding-bottom: var(--space-8); gap: var(--space-4); }
+  .landing-hero::after { height: var(--space-8); }
+  .landing-intro { gap: var(--space-3); }
+  .landing-intro h1 { font-size: 30px; line-height: 1.12; }
+  .landing-lede { font-size: 16px; line-height: 1.5; }
+  .landing-demo { min-height: 48px; font-size: 16px; }
+  .landing-actions .auth-hint { font-size: 13px; }
+  .landing-scene { height: clamp(200px, calc(100svh - 470px), 300px); }
+}

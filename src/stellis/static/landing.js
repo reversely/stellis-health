@@ -156,15 +156,18 @@
       requestAnimationFrame(run);
     });
     const place = (node, x, y, scale = 1, opacity = 1) => { node.style.transform = `translate(${x}px, ${y}px) scale(${scale})`; node.style.opacity = String(opacity); };
-    // The pile keeps as many 30px rows as fit above Stellis: five on a wide screen, fewer in the shorter
+    // The pile keeps as many rows as fit above Stellis: five on a wide screen, fewer in the shorter
     // scene of a narrow one, where five reached down over Stellis (owner, 2026-10-30).
-    const S = 64, CLOUD = Math.max(2, Math.min(5, Math.floor((board.offsetTop - S - 6 - 36) / 30) + 1));
+    // On a phone the cards are wide for the scene, so overlapping rows hid each other's names (owner,
+    // 2026-10-31: "still tight"); there each row is a whole card's height apart.
+    const S = 64, ROW = scene.clientWidth < 560 ? 44 : 30;
+    const CLOUD = Math.max(1, Math.min(5, Math.floor((board.offsetTop - S - 6 - 36) / ROW) + 1));
     let x = 0;
     // The cloud: the next few reports in a loose fanned pile across the top, one row each, each drifting
     // slightly. A report taken from the pile frees its row for the next one.
     const cloud = [];
     const slot = (k, cw) => { const W = scene.clientWidth, jitter = [-0.18, 0.12, -0.05, 0.2, -0.12][k % CLOUD];
-      return [Math.max(0, Math.min(W - cw, (W - cw) / 2 + jitter * W)), (k % CLOUD) * 30]; };
+      return [Math.max(0, Math.min(W - cw, (W - cw) / 2 + jitter * W)), (k % CLOUD) * ROW]; };
     function spawn(i, k) {
       const [title, kind] = DOCS[i];
       const card = document.createElement('div'); card.className = 'landing-scene-card is-floating';
