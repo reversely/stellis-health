@@ -317,7 +317,8 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   .landing-demo { min-height: 44px; padding-inline: var(--space-6); font-size: 16px; }
   .landing-actions .auth-hint { font-size: 13px; text-align: left; }
   .landing-signin { min-height: 36px; padding-inline: var(--space-4); font-size: 14px; }
-  .landing-scene { height: 340px; }
+  /* Two records in the sky above Stellis and the notebooks: the opening fits one screen. */
+  .landing-scene { height: 272px; }
   /* A notebook's records wrap onto a second line rather than ending in an ellipsis, and the page's fade
      starts below the notebooks. */
   .landing-scene-area { padding: var(--space-3) 10px; }
@@ -326,3 +327,13 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   .landing-scene-area li .icon { margin-top: 1px; }
   .landing-hero::after { height: var(--space-10); }
 }
+/* On the narrowest phones the two records in the sky and the notebook names are a size smaller, so they
+   never meet or lose letters; the notebooks' records wrap to more lines, so the scene is a little taller to
+   keep Stellis's hops clear of the sky. Below 340px the second record sits a card lower. */
+@media (max-width: 380px) {
+  .landing-scene-card { gap: 6px; padding-inline: 10px; font-size: 12px; }
+  .landing-scene { height: 292px; }
+  html body.auth-page .landing-scene-area .landing-scene-name { font-size: 12px; }
+  .landing-scene-area { padding-inline: var(--space-2); }
+}
+@media (max-width: 340px) { .landing-scene { height: 330px; } }

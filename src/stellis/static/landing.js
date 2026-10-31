@@ -158,18 +158,17 @@
     const place = (node, x, y, scale = 1, opacity = 1) => { node.style.transform = `translate(${x}px, ${y}px) scale(${scale})`; node.style.opacity = String(opacity); };
     // The pile keeps as many rows as fit above Stellis: five on a wide screen, fewer in the shorter
     // scene of a narrow one, where five reached down over Stellis (owner, 2026-10-30).
-    // On a phone the cards are wide for the scene, so overlapping rows hid each other's names; there each
-    // row is a whole card's height apart.
-    const S = 64, ROW = scene.clientWidth < 560 ? 44 : 30;
-    // On a phone the rows also end above the record Stellis carries (about 40px over its head), so it
-    // never passes over one.
-    const CLOUD = ROW === 30 ? Math.max(2, Math.min(5, Math.floor((board.offsetTop - S - 6 - 36) / ROW) + 1))
-      : Math.max(1, Math.min(4, Math.floor((board.offsetTop - S - 6 - 2 * 40 + 4) / ROW) + 1));
+    // A phone shows two records in the sky, so the opening fits one screen (owner, 2026-10-31).
+    const S = 64, ROW = 30, PHONE = scene.clientWidth < 560;
+    const CLOUD = PHONE ? 2 : Math.max(2, Math.min(5, Math.floor((board.offsetTop - S - 6 - 36) / ROW) + 1));
     let x = 0;
     // The cloud: the next few reports in a loose fanned pile across the top, one row each, each drifting
     // slightly. A report taken from the pile frees its row for the next one.
     const cloud = [];
+    // On a phone the two share the top row, one at each side, slightly staggered, clear of Stellis's hops;
+    // the narrowest phones put the second a card lower.
     const slot = (k, cw) => { const W = scene.clientWidth, jitter = [-0.18, 0.12, -0.05, 0.2, -0.12][k % CLOUD];
+      if (PHONE) return k % 2 ? [W - cw, W < 280 ? 40 : 6] : [0, 0];
       return [Math.max(0, Math.min(W - cw, (W - cw) / 2 + jitter * W)), (k % CLOUD) * ROW]; };
     function spawn(i, k) {
       const [title, kind] = DOCS[i];
