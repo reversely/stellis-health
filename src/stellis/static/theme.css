@@ -241,10 +241,11 @@ header {
   font: 400 28px/1 var(--font-heading);
   letter-spacing: -.045em;
 }
-/* The v2 mark is an alpha mask, so it takes the wordmark colour: one colour, light or dark. */
+/* The mark is Stellis's sprite as an alpha mask, so it takes the wordmark colour: one colour, light or dark.
+   Its 7 cells stay whole pixels at multiples of 7 px. */
 .brand-mark {
-  width: 24px;
-  height: 25px;
+  width: 21px;
+  height: 21px;
   flex: none;
   background: currentColor;
   -webkit-mask: url("/static/logo-mark.png") center / contain no-repeat;

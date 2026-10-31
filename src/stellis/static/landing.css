@@ -40,7 +40,8 @@
 
 /* "helps you ___ your health": one pill the size of its longest word; each pillar slides up into it in
    its own colour, as in the film, so the sentence around it never moves. */
-.landing-slot { display: inline-block; position: relative; width: 6.2em; height: 1.5em; overflow: hidden; vertical-align: -0.38em; border-radius: var(--radius-pill); background: var(--slot, var(--pillar-understand-colour)); transition: background-color 300ms var(--landing-ease); }
+/* Wide enough for the longest word in any font the phone draws it with (owner, 2026-10-31: the pill cut words). */
+.landing-slot { display: inline-block; position: relative; width: 7.2em; height: 1.5em; overflow: hidden; vertical-align: -0.38em; border-radius: var(--radius-pill); background: var(--slot, var(--pillar-understand-colour)); transition: background-color 300ms var(--landing-ease); }
 .landing-slot-word { position: absolute; inset: 0; display: grid; place-items: center; color: var(--pillar-ink); font-weight: 650; transition: translate 300ms cubic-bezier(0.77, 0, 0.175, 1); }
 .landing-slot-word.is-leaving { translate: 0 -100%; }
 .landing-slot-word.is-coming { translate: 0 100%; transition: none; }
@@ -298,17 +299,30 @@ html body.auth-page .landing-scene-area .landing-scene-name { display: flex; mar
   .landing-scene-area li { font-size: 12px; }
 }
 
-/* A phone keeps the whole opening above the browser's own bars (owner, 2026-10-31: "still tight"): a
-   smaller headline and lede, a shorter Try the demo, and a scene that takes what height is left of the
-   smallest viewport, so the notebooks are never under the toolbar. iOS never enlarges the text itself. */
+/* A phone gives the page room on every side (owner, 2026-10-31: "What I wanted was more margin … On every
+   side"): 28px at the left and right of the header, opening and sections, and more space between the
+   opening's parts. The scene keeps its full height, so the records never come down over Stellis or the
+   notebooks. iOS never enlarges the text itself. */
 html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 @media (max-width: 640px) {
-  .landing-hero { min-height: 0; padding-top: var(--space-3); padding-bottom: var(--space-8); gap: var(--space-4); }
-  .landing-hero::after { height: var(--space-8); }
-  .landing-intro { gap: var(--space-3); }
-  .landing-intro h1 { font-size: 30px; line-height: 1.12; }
-  .landing-lede { font-size: 16px; line-height: 1.5; }
-  .landing-demo { min-height: 48px; font-size: 16px; }
-  .landing-actions .auth-hint { font-size: 13px; }
-  .landing-scene { height: clamp(200px, calc(100svh - 470px), 300px); }
+  html body.auth-page header { padding-inline: 32px; }
+  .landing-hero, .landing-section, .landing-section.is-reversed, .landing-arch { padding-inline: 32px; }
+  .landing-hero { padding-top: var(--space-7); padding-bottom: var(--space-12); gap: var(--space-8); }
+  .landing-intro { gap: var(--space-5); }
+  .landing-intro h1 { font-size: 30px; line-height: 1.15; }
+  .landing-lede { font-size: 16px; line-height: 1.6; }
+  /* Buttons a size smaller: Try the demo fits its words instead of spanning the page. */
+  .landing-actions { margin-top: var(--space-3); }
+  .landing-actions .auth-demo { justify-items: start; }
+  .landing-demo { min-height: 44px; padding-inline: var(--space-6); font-size: 16px; }
+  .landing-actions .auth-hint { font-size: 13px; text-align: left; }
+  .landing-signin { min-height: 36px; padding-inline: var(--space-4); font-size: 14px; }
+  .landing-scene { height: 340px; }
+  /* A notebook's records wrap onto a second line rather than ending in an ellipsis, and the page's fade
+     starts below the notebooks. */
+  .landing-scene-area { padding: var(--space-3) 10px; }
+  .landing-scene-area li { align-items: start; }
+  .landing-scene-area li span { white-space: normal; overflow-wrap: anywhere; }
+  .landing-scene-area li .icon { margin-top: 1px; }
+  .landing-hero::after { height: var(--space-10); }
 }
